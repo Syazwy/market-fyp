@@ -1,0 +1,286 @@
+[33mcommit 8ba0af30ace981817c2f8abc3d3b6fd782746cc8[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/afiq[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mafiq[m[33m)[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 20:05:46 2023 +0800
+
+    Create test.html
+
+[33mcommit d26aa4b14069ec476050b08439d18ec0c0244614[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 19:43:45 2023 +0800
+
+    deleted files
+
+[33mcommit 14698323d97eec49f82c3af592fe49411835c39b[m
+Merge: 69a312f d349fdd
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 19:42:35 2023 +0800
+
+    added files
+
+[33mcommit 69a312f8214f0ef644288d125cf1c03728a39157[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 19:40:21 2023 +0800
+
+    deleted files
+
+[33mcommit d349fddb8f7a9141b817e3bfa7e9d72c89f7ea03[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 19:35:09 2023 +0800
+
+    Delete test.md
+
+[33mcommit 83b2a07d6b795832ed3a38e9217d85c3eda2b21a[m
+Merge: 4275a00 ffe1b60
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 19:34:13 2023 +0800
+
+    Merge branch 'syazwy'
+
+[33mcommit ffe1b6000a779efdaacad723b83f20e4248c2712[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 19:33:07 2023 +0800
+
+    Create test.md
+
+[33mcommit cfdb3676af08bdd2b25c90d3c9e2448be2c0a66b[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 19:31:53 2023 +0800
+
+    created home
+
+[33mcommit 4275a00625a80e4d0706151ab048a6e505200722[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 18:21:29 2023 +0800
+
+    added files
+
+[33mcommit 0dd08045279219101c7f18c98ab497e8b6aefe1b[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 18:19:20 2023 +0800
+
+    Create admin.html
+
+[33mcommit a88d60c12abe62da49bc86dfc80cb7b40acae3b6[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 18:17:17 2023 +0800
+
+    added files
+
+[33mcommit c7acd7be78366385f0991965c0b750de914211a6[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 18:16:18 2023 +0800
+
+    changed files
+
+[33mcommit 5fca0c63b7783c7f2a83e7b45218d1db2d5f8a17[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 18:15:20 2023 +0800
+
+    Delete test.md
+
+[33mcommit fa8f3f11af6313c784afdd751592e829b6980561[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 18:14:54 2023 +0800
+
+    Create test.md
+
+[33mcommit e4dce7cb2eb37eb1e6f8f6c01051d2104fd3535e[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 17:39:55 2023 +0800
+
+    moved files
+
+[33mcommit 7f0bbe93131125ec889c52d749bbff72fb263426[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 17:39:07 2023 +0800
+
+    Create register.html
+
+[33mcommit 9151ec7c38f5ed0a3fc6370473c0267b4f44f5ca[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 17:39:06 2023 +0800
+
+    Create login.html
+
+[33mcommit d3f22cce8621030d48dfabe6603801ea665a6094[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 17:39:04 2023 +0800
+
+    Delete index.html
+
+[33mcommit e291623b55f1791f795ebc28fc3c930c5939ccd9[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Mon Aug 14 17:39:02 2023 +0800
+
+    Create index.html
+
+[33mcommit e4096bbfdf06f6a234aa0f25ffee6b1173b8132a[m
+Author: 21ftt1753 <21ftt1753@student.pb.edu.bn>
+Date:   Sun Aug 13 22:56:01 2023 +0800
+
+    item_lists.html was created
+    
+    it's not even done yet but im progressing through the week
+
+[33mcommit 4d4f8df61b097968ca0e6203b8564f3a85b91e35[m
+Author: 21ftt1753 <21ftt1753@student.pb.edu.bn>
+Date:   Sun Aug 13 22:55:43 2023 +0800
+
+    profilereport_page.html was created
+    
+    it's not even done yet but im progressing through the week
+
+[33mcommit 759f060f8d17c682b099ed98ecf7780c7915ca0b[m
+Author: 21ftt1753 <21ftt1753@student.pb.edu.bn>
+Date:   Sun Aug 13 22:55:20 2023 +0800
+
+    item_lists & profilereport_page deleted
+    
+    both of files are not in html form
+
+[33mcommit 4f949372a739efbbc68fb9694c809a4aa3985053[m
+Author: 21ftt1753 <21ftt1753@student.pb.edu.bn>
+Date:   Sun Aug 13 22:54:20 2023 +0800
+
+    delete sells_page
+    
+    it is not in html form
+
+[33mcommit 8d3df86a8ea8c1036953940e8fe4dcc568336895[m
+Author: 21ftt1753 <21ftt1753@student.pb.edu.bn>
+Date:   Sun Aug 13 22:53:58 2023 +0800
+
+    sells_page.html was created
+    
+    it's not even done yet but im progressing through the week
+
+[33mcommit b6a2ed952ab7311cde1f17d0c43488e03a481e5d[m
+Author: 21ftt1753 <21ftt1753@student.pb.edu.bn>
+Date:   Sun Aug 13 22:35:48 2023 +0800
+
+    items_list was added
+    
+    still in progress but will do more
+
+[33mcommit 7d054c4b004b2659e1b876caa845f3367d2d180c[m
+Author: 21ftt1753 <21ftt1753@student.pb.edu.bn>
+Date:   Sun Aug 13 22:35:34 2023 +0800
+
+    profilereport_page
+    
+    still in progress but will do more
+
+[33mcommit e7493f53942a324d3e849aec481c6ef14ef47c0a[m
+Author: 21ftt1753 <21ftt1753@student.pb.edu.bn>
+Date:   Sun Aug 13 22:35:21 2023 +0800
+
+    added sells page
+    
+    still in progress but will do more
+
+[33mcommit 99b69c3b714b152f7d5299a1d400253a2e4c2996[m
+Author: Swy <99056994+Syazwy@users.noreply.github.com>
+Date:   Tue Aug 8 20:15:37 2023 +0800
+
+    Update README.md
+
+[33mcommit 5bba7a82394f24be8bb294b7354946e4ad465c5e[m
+Author: Swy <99056994+Syazwy@users.noreply.github.com>
+Date:   Tue Aug 8 20:15:18 2023 +0800
+
+    Update README.md
+
+[33mcommit 9b70e718bebad425c102e5d23e50f4e0a3f01955[m
+Merge: 81f99fe ecc547b
+Author: Wajdi El-Imtiyaz <21ftt1294@student.pb.edu.bn>
+Date:   Tue Aug 8 20:11:05 2023 +0800
+
+    Merge branch 'wajdi'
+
+[33mcommit ecc547b558d0f9dedce3527c29095970d90f179f[m
+Author: Wajdi El-Imtiyaz <21ftt1294@student.pb.edu.bn>
+Date:   Tue Aug 8 20:10:29 2023 +0800
+
+    Update README.md
+
+[33mcommit 81f99fe5d3142445d1c73952ab80e856130cac3e[m
+Merge: 51a2f8c 2b94d3b
+Author: Wajdi El-Imtiyaz <21ftt1294@student.pb.edu.bn>
+Date:   Tue Aug 8 20:08:10 2023 +0800
+
+    Merge branch 'wajdi'
+
+[33mcommit 51a2f8c215a73901d25d3b110b14cd3bec1c3153[m
+Author: Wajdi <98890848+WajdiEl-Imtiyaz@users.noreply.github.com>
+Date:   Tue Aug 8 20:06:14 2023 +0800
+
+    Update README.md
+
+[33mcommit 2b94d3b38d6be5680fb7de38c04f7768a6fc53c1[m
+Author: Wajdi <98890848+WajdiEl-Imtiyaz@users.noreply.github.com>
+Date:   Tue Aug 8 20:05:48 2023 +0800
+
+    Update README.md
+
+[33mcommit c148df589e5ba1c33d06df1e3304c35d6bf15323[m
+Merge: ed83d78 a71f1a0
+Author: Wajdi El-Imtiyaz <21ftt1294@student.pb.edu.bn>
+Date:   Tue Aug 8 19:52:14 2023 +0800
+
+    Merge branch 'main' of https://github.com/Syazwy/Market
+
+[33mcommit ed83d783b18c4212ce981c2fb69cc0022838417d[m
+Merge: f16225c 4bdd365
+Author: Wajdi El-Imtiyaz <21ftt1294@student.pb.edu.bn>
+Date:   Tue Aug 8 19:52:01 2023 +0800
+
+    Merge branch 'wajdi'
+
+[33mcommit f16225c3d444878ec617ec8db6d22b4654daa752[m
+Author: Wajdi El-Imtiyaz <21ftt1294@student.pb.edu.bn>
+Date:   Tue Aug 8 19:51:32 2023 +0800
+
+    Update README.md
+
+[33mcommit a71f1a00cf6ff5a7f07f79f6012b649c082c24bd[m
+Author: Swy <99056994+Syazwy@users.noreply.github.com>
+Date:   Tue Aug 8 19:50:59 2023 +0800
+
+    Update README.md
+
+[33mcommit 4bdd3655c8138f94045ba806d7e4ac7b66ba53ae[m
+Author: Wajdi El-Imtiyaz <21ftt1294@student.pb.edu.bn>
+Date:   Tue Aug 8 19:49:46 2023 +0800
+
+    test commit
+
+[33mcommit d0fb903ef1df23b6d6421e1a029bd8ed354097c9[m
+Author: Wajdi El-Imtiyaz <21ftt1294@student.pb.edu.bn>
+Date:   Tue Aug 8 19:44:07 2023 +0800
+
+    test commit
+
+[33mcommit 3d272030d11d8f700ed1381d6f4ce83eb635081d[m
+Author: Swy <99056994+Syazwy@users.noreply.github.com>
+Date:   Tue Aug 8 19:27:33 2023 +0800
+
+    Update README.md
+
+[33mcommit f0429ff707913afa8652979dbddd59ce5cc0f01f[m
+Author: Syazwy <21FTT1292@student.pb.edu.bn>
+Date:   Tue Aug 8 19:26:04 2023 +0800
+
+    Update README.md
+
+[33mcommit 7b4f03acd691dc0c63d1e2a93b8f493ee8fce38d[m
+Author: 21ftt1752 <21ftt1752@student.pb.edu.bn>
+Date:   Tue Aug 8 18:57:26 2023 +0800
+
+    Update README.md
+
+[33mcommit 584def03eea88e67a58f14b3af0ef18188f3b737[m
+Merge: f576a54 59aba5a
+Author: Swy <99056994+Syazwy@users.noreply.github.com>
+Date:   Tue Aug 8 18:47:05 2023 +0800
+
+    Merge pull request #2 from Syaz
