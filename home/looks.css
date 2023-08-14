@@ -57,3 +57,45 @@ body {
   nav li a:hover {
     background-color: #555;
   }
+
+  .product-container {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+  
+  .product-info {
+    flex: 1;
+    padding: 0 20px;
+  }
+  
+  .product-info h1 {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .product-info p {
+    margin: 10px 0;
+  }
+  
+  .price {
+    font-weight: bold;
+  }
+  
+  .buy-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .buy-button:hover {
+    background-color: #0056b3;
+  }
+
+  #itemImages {
+    width: 400px;
+  }
