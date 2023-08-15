@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Info</title>
+    <link rel="stylesheet" href="ProductInfo.css">
+</head>
+<body>
+
+    <header>
+        <nav>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+    
+      <main>
+    
+        <h1>Market</h1>
+    
+        <section id="home">
+          <h1>Product Name</h1>
+        </section>
+    
+        <div>
+          <label for="category">Filter by Category:</label>
+          <select id="category" onchange="filterProducts()">
+            <option value="all">All</option>
+            <option value="electronics">Electronics</option>
+            <option value="clothing">Clothing</option>
+            <option value="furniture">Furniture</option>
+          </select>
+        </div>
+
+        <div class="product-container">
+            <div><img id="itemImages" src="../images/rolex.jpg" alt="Yacht-Master 42">
+            </div>
+            <br>
+            <div class="product-info">
+              <h1>Yacht-Master 42</h1>
+              <br>
+              <p><b>Description:</b></p>
+              <p>Luxury meets precision in this exceptional Rolex Submariner watch. With its timeless design, stainless steel elegance, 
+                and automatic movement, it's more than just an accessory, it's a statement of refined taste. From formal occasions to adventurous pursuits,
+                 this Submariner is the epitome of versatility. Immaculately maintained and ready to adorn a new wrist, it's a chance to own a symbol of enduring 
+                 style and craftsmanship. Inquire now to make this remarkable Rolex Submariner yours.</p>
+              <br>
+              <p class="price"> Price: $599.99</p>
+              <br>
+              <button class="buy-button">Buy Now</button>
+            </div>
+          </div>
+    
+          
+          <br>
+
+        <section id="about">
+          <h2>About Us</h2>
+          <p>This is the about section of the website template.</p>
+        </section>
+    
+        <section id="services">
+          <h2>Our Services</h2>
+          <p>This is the services section of the website template.</p>
+        </section>
+    
+        <section id="contact">
+          <h2>Contact Us</h2>
+          <p>This is the contact section of the website template.</p>
+        </section>
+      </main>
+    
+      <footer>
+        <p>&copy; 2023 Your Company. All rights reserved.</p>
+      </footer>
+    
+</body>
+</html>
