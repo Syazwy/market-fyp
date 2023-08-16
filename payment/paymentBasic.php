@@ -14,11 +14,11 @@
 </div>
 
 <div class="icon-left">
-    <img src="../MarketLogo.png" alt="Left Icon" style="height: 80px">
+    <img src="../image/MarketLogo.png" alt="Left Icon" style="height: 80px">
 </div>
 
 <div class="icon-right">
-        <img src="../User.png" alt="Right Icon" style="height: 60px;">
+        <img src="../image/User.png" alt="Right Icon" style="height: 60px;">
     </div>
 <div class="button-container mb-10">
     <input type="button" name="Categories" class="button" value="Categories" />
@@ -32,7 +32,7 @@
    
 <div style="width:400px">
 <a href="javascript:history.back()"  class="left d-flex align-items-start mb-10 ms-5 back-button">
-    <img src="../Left.png" alt="Left Icon" style="height: 30px"> 
+    <img src="../image/Left.png" alt="Left Icon" style="height: 30px"> 
     <h3 class="ms-4">Order Request</h3>
 </a>
 </div>
@@ -40,13 +40,13 @@
 <br>
 <div class="payment-container d-flex align-items-center mb-10 ms-5 justify-content-between">
     <div class="d-flex align-items-center">
-        <img src="../MarketLogo.png" alt="Left Icon" style="height: 80px">
+        <img src="../image/MarketLogo.png" alt="Left Icon" style="height: 80px">
         <div class="ms-3">
             <h4 class="d-flex align-items-center">Safer deals when paying via BIBD</h4>
             <p>Payment is only released to the other seller after you receive your order as listed</p>
         </div>
     </div>
-    <img src="../Right.png" alt="Right Icon" style="height: 20px;">
+    <img src="../image/Right.png" alt="Right Icon" style="height: 20px;">
 </div>
 
 <br>
@@ -107,7 +107,7 @@
         </div>
     
     <div class="text-center">
-    <a href="https://www.sandbox.paypal.com/" id="placeOrderButton" class="btn btn-primary" disabled>Place Order</a>
+    <a href="paypal.php" id="placeOrderButton" class="btn btn-primary" disabled>Place Order</a>
     </div>
     <br>
     <p>By tapping on Place order, you accept the terms of service from <span style="color: #00A307;">Market</span> and the payments provider.</p>
