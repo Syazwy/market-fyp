@@ -83,12 +83,13 @@
               <br>
               <p class="price"> Price: $599.99</p>
               <br>
-              <button class="buy-button">Buy Now</button>
+              <button type="button" class="buy-button">Buy Now</button>
             </div>
     
           
           <br>
 
+          <div>
         <section id="about">
           <h2>About Us</h2>
           <p>This is the about section of the website template.</p>
@@ -103,6 +104,7 @@
           <h2>Contact Us</h2>
           <p>This is the contact section of the website template.</p>
         </section>
+    </div>
       </main>
     
       <footer>
