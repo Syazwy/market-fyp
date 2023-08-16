@@ -5,35 +5,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< Updated upstream
-    <title>Sells page</title>
-    <link rel="stylesheet" href="looks.css">
-    <style>
-      /* Add your CSS styles here */
-      .uploaded-image {
-          max-width: 200px;
-          margin: 10px;
-      }
-=======
     <title>SELLS PAGE</title>
     <link rel="stylesheet" href="../looks.css">
     <style>
->>>>>>> Stashed changes
       .uploadbox{
         border: 1px solid black;
         border-radius: 10px;
       }
-<<<<<<< Updated upstream
   </style>
-    
-=======
-          /* Add your CSS styles here */
-      .uploaded-image {
-        max-width: 200px;
-        margin: 10px;
-      }
-      </style>
->>>>>>> Stashed changes
+      
 </head>
 <body>
 
@@ -60,28 +40,18 @@
     <div>
       <label for="category">Select Item Category:</label>
       <select id="category" onchange="filterProducts()">
-<<<<<<< Updated upstream
         <option value="null"> </option>
         <option value="property"> <img src="../icons/map.png"> Property</option>
         <option value="vehicles"> <img src="../icons/car.png"> Vehicles</option>
         <option value="electronics"> <img src="../icons/microchip.png"> Electronics</option>
         <option value="clothing"> <img src="../icons/fashion.png">Clothing</option>
         <option value="furniture"> <img src="../icons/furnitures.png"> Furniture</option>
-=======
-        <option value=""></option>
-        <option value="property"> Property</option>
-        <option value="vehicles">Vehicles</option>
-        <option value="electronics">Electronics</option>
-        <option value="clothing">Clothing</option>
-        <option value="furniture">Furniture</option>
->>>>>>> Stashed changes
       </select>
     </div>
     <div id="products-list">
   
     </div>
 
-<<<<<<< Updated upstream
     
 
 <form action="/upload" method="post" enctype="multipart/form-data">
@@ -98,48 +68,6 @@
     <!-- Uploaded images will be displayed here --> 
 </div>
 <!-- <h2>Upload up to 6 Photos</h2> -->
-=======
-    <!-- <h2>Upload a File</h2>
-<form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload">
-
-    add up to 6 photos
-</form> -->
-
-<!-- <br>
-<div id="uploadbox">
-<form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="file" name="fileToUpload" id="fileToUpload" multiple accept="image/*">
-    <input type="submit" value="Upload">
-</form>
-<h4>Upload up to 6 Photos</h4>
-</div>
-<script>
-    const fileInput = document.getElementById("fileToUpload");
-    fileInput.addEventListener("change", checkFileCount);
-
-    function checkFileCount() {
-        const maxFiles = 6;
-        if (fileInput.files.length > maxFiles) {
-            alert(`You can only upload up to ${maxFiles} photos.`);
-            fileInput.value = ""; // Clear the input
-        }
-    }
-</script> -->
-
-<h2>Upload up to 6 Photos</h2>
-<form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="file" name="fileToUpload" id="fileToUpload" multiple accept="image/*">
-    <input type="submit" value="Upload">
-</form>
-
-<div class="uploadbox">
-<div id="imagePreview" >
-    <!-- Uploaded images will be displayed here -->
-</div>
-</div>
->>>>>>> Stashed changes
 
 <script>
     const fileInput = document.getElementById("fileToUpload");
@@ -173,7 +101,6 @@
             reader.readAsDataURL(file);
 
             imagePreview.appendChild(img);
-<<<<<<< Updated upstream
             
         }
     }
@@ -184,11 +111,3 @@
 <script src="script.js"></script>
 </html>
 
-=======
-        }
-    }
-</script>
-
-</body>
-</html>
->>>>>>> Stashed changes
