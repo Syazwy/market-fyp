@@ -14,11 +14,11 @@
 </div>
 
 <div class="icon-left">
-    <img src="../MarketLogo.png" alt="Left Icon" style="height: 80px">
+    <img src="../image/MarketLogo.png" alt="Left Icon" style="height: 80px">
 </div>
 
 <div class="icon-right">
-        <img src="../User.png" alt="Right Icon" style="height: 60px;">
+        <img src="../image/User.png" alt="Right Icon" style="height: 60px;">
     </div>
 <div class="button-container mb-10">
     <input type="button" name="Categories" class="button" value="Categories" />
@@ -31,7 +31,7 @@
    <br>
    <div style="width:400px">
 <a href="javascript:history.back()"  class="left d-flex align-items-start mb-10 ms-5 back-button">
-    <img src="../Left.png" alt="Left Icon" style="height: 30px"> 
+    <img src="../image/Left.png" alt="Left Icon" style="height: 30px"> 
     <h3 class="ms-4">Order Request</h3>
 </a>
 </div>
@@ -44,7 +44,7 @@
             <p>Payment is only released to the other seller after you receive your order as listed</p>
         </div>
     </div>
-    <img src="../Right.png" alt="Right Icon" style="height: 20px;">
+    <img src="../image/Right.png" alt="Right Icon" style="height: 20px;">
 </div>
 
 <br>

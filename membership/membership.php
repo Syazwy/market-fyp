@@ -29,10 +29,10 @@
 </div>
 
     <div class="icon-left">
-        <img src="../MarketLogo.png" alt="Left Icon" style="height: 80px">
+        <img src="../image/MarketLogo.png" alt="Left Icon" style="height: 80px">
     </div>
     <div class="icon-right">
-        <img src="../User.png" alt="Right Icon" style="height: 60px">
+        <img src="../image/User.png" alt="Right Icon" style="height: 60px">
     </div>
     <div class="button-container">
         <input type="button" name="Categories" class="button" value="Categories" />
