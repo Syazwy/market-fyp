@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Info</title>
-    <link rel="stylesheet" href="ProductInfo.css">
     <link rel="stylesheet" href="bootstrap-5.0.2-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="ProductInfo.css">
+    
 </head>
 <body>
 
@@ -25,7 +26,7 @@
         <h1>Market</h1>
     
         <section id="home">
-          <h1>Product Name</h1>
+          <h1>Yacht-Master 42</h1>
         </section>
     
         <div>
@@ -42,7 +43,7 @@
             
 
 
-              <div id="carouselExampleIndicators" class="carousel slide w-50" data-bs-ride="carousel">
+              <div id="carouselExampleIndicators" class="carousel slide w-100" data-bs-ride="carousel">
                 <div class="carousel-indicators">
                   <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                   <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -50,13 +51,13 @@
                 </div>
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src="images/Rolex1.jpg" class="d-block w-100" alt="Rolex1">
+                    <img  src="images/Rolex1.jpg" class="d-block w-100 " alt="Rolex1">
                   </div>
                   <div class="carousel-item">
-                    <img src="images/Rolex2.jpg" class="d-block w-100" alt="Rolex2">
+                    <img  src="images/Rolex2.jpg" class="d-block w-100" alt="Rolex2">
                   </div>
                   <div class="carousel-item">
-                    <img src="images/Rolex3.webp" class="d-block w-100" alt="Rolex3">
+                    <img  src="images/Rolex3.webp" class="d-block w-100" alt="Rolex3">
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -69,10 +70,9 @@
                 </button>
               </div>
 
+          </div>
 
-            
-            <br>
-            <div class="product-info">
+          <div class="product-info description">
               <h1>Yacht-Master 42</h1>
               <br>
               <p><b>Description:</b></p>
@@ -85,7 +85,6 @@
               <br>
               <button class="buy-button">Buy Now</button>
             </div>
-          </div>
     
           
           <br>
@@ -109,6 +108,6 @@
       <footer>
         <p>&copy; 2023 Your Company. All rights reserved.</p>
       </footer>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+      <script src="bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
