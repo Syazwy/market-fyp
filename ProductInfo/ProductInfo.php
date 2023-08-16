@@ -13,6 +13,7 @@
     <header>
         <nav>
           <ul>
+            <img id="pPictures" src="images/logo.png">
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
@@ -51,27 +52,30 @@
                 </div>
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img  src="images/Rolex1.jpg" class="d-block w-100 " alt="Rolex1">
+                    <img  src="images/Rolex1.jpg" class="d-block w-50 itemM" alt="Rolex1">
                   </div>
                   <div class="carousel-item">
-                    <img  src="images/Rolex2.jpg" class="d-block w-100" alt="Rolex2">
+                    <img  src="images/Rolex2.jpg" class="d-block w-50 itemM" alt="Rolex2">
                   </div>
                   <div class="carousel-item">
-                    <img  src="images/Rolex3.webp" class="d-block w-100" alt="Rolex3">
+                    <img  src="images/Rolex3.webp" class="d-block w-50 itemM" alt="Rolex3">
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
+                  <span class="">Previous</span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
+                  <span class="">Next</span>
                 </button>
               </div>
 
           </div>
 
+          <br>
+
+        <div id="secondhalf">
           <div class="product-info description">
               <h1>Yacht-Master 42</h1>
               <br>
@@ -84,12 +88,25 @@
               <p class="price"> Price: $599.99</p>
               <br>
               <button type="button" class="buy-button">Buy Now</button>
+              <button type="button" class="chat-button">Chat Now</button>
+            </div>
+
+            <div class="proInfo">
+
+              <img width="50px " src="images/pb.png">
+              <p>Username</p>
+              <br>
+              <p>Location</p>
+
+
+
             </div>
     
-          
+        </div>
+
           <br>
 
-          <div>
+      <div id="footer1">
         <section id="about">
           <h2>About Us</h2>
           <p>This is the about section of the website template.</p>
@@ -104,7 +121,8 @@
           <h2>Contact Us</h2>
           <p>This is the contact section of the website template.</p>
         </section>
-    </div>
+      </div>
+
       </main>
     
       <footer>

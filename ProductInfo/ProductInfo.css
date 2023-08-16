@@ -1,4 +1,4 @@
-body {
+ body {
     font-family: Arial, sans-serif;
   }
   
@@ -37,12 +37,12 @@ body {
     padding: 0;
   }
   
-  /* Style the navigation bar */
+
   nav {
-    background-color: #333;
+    background-color: #ffffff;
   }
   
-  /* Style the navigation links */
+
   nav li {
     display: inline-block;
     margin: 0 10px;
@@ -50,20 +50,34 @@ body {
   
   nav li a {
     display: block;
-    color: #fff;
+    color: #000000;
     text-decoration: none;
     padding: 10px;
   }
   
   nav li a:hover {
-    background-color: #555;
+    background-color: #ffb9b9;
   }
 
-  .product-container {
+  /* .product-container {
     display: flex;
     align-items: center;
     padding: 20px;
     border: 1px solid #ccc;
+    margin: auto;
+    background-color: #c0c0c0;
+    
+  } */
+
+  .product-container {
+    background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        margin: auto;
+        text-align: center;
+        width: 1200px;
+        background-color: #e4e4e4;
   }
   
   .product-info {
@@ -71,7 +85,7 @@ body {
     padding: 0 20px;
     align-items: center;
     padding: 20px;
-    border: 2px solid #000000;
+   
   }
   
   .product-info h1 {
@@ -89,14 +103,29 @@ body {
   
   .buy-button {
     background-color: #f7527b;
-    color: #ff0000;
+    color: #ffffff;
     border: none;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    border-radius: 50px 50px 50px 50px;
+  }
+
+  .chat-button {
+    background-color: #f7527b;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px 50px 50px 50px;
   }
   
   .buy-button:hover {
+    background-color: #c90505;
+  }
+
+  .chat-button:hover {
     background-color: #c90505;
   }
 
@@ -105,11 +134,58 @@ body {
   }
 
   .description {
-    border: 1px solid #555 ;
-    width: 400px;
+    background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        margin: auto;
+        text-align: left;
+        width: 900px;
+        background-color: #ffffff;
+    
+        margin: auto;
+  }
+
+  .proInfo{
+    background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        text-align: left;
+        width: 400px;
+        background-color: #ffe6e6;
+        margin: 50px ;
   }
 
   .itemM {
-    size: 200px;
-    align-items: center;
+
+    margin: auto;
+  }
+
+  #services{
+    margin: auto;
+  }
+
+  /* #contact{
+    position: absolute;
+    right: 0;
+  } */
+
+  #footer1{
+    display: flex;
+    
+    width: 100%;
+  }
+
+  #services{
+    margin: 0 400px;
+  }
+
+  #secondhalf{
+    
+    display: flex;
+
+  }
+  #pPictures{
+    width: 100px;
   }
