@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   wajdi
+  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
@@ -52,88 +52,42 @@
 
 </head>
 <body>
-
-<button id="openForm">Register</button>
+<center>
 
 <!-- REGISTERATION FORM -->
 
-<div id="registrationForm" class="popup">
+
     <div class="popup-content">
 
-        <span id="closeForm" class="close">&times;</span>
-        <h3>Create Account</h3>
+        <span id="closeLogin" class="close">&times;</span>
+        <h3>Login Form</h3>
 
         <br>
-        <form action="#" style="border: 1px solid black;border-radius: 5px;padding: 15px;">
+        <form action="#">
 
-            <!-- <div class="form-floating mb-3">
-
-                <input type="text" id="firstName" name="firstName" required  class="form-control" placeholder="password"><br><br>
-                <label class="label" for="firstName">First Name:</label>
-                <br>
-
-
-                <input type="text" id="lastName" name="lastName" required class="form-control" placeholder="name@example.com"><br><br>
-                <label class="label" for="lastName">Last Name:</label>
-                <br>
-
-
-                <input type="email" id="email" name="email" required class="form-control" placeholder="name@example.com"><br><br>
-                <label class="label" for="email">Email:</label>
-                <br>
-
-
-                <input type="password" id="password" name="password" required  class="form-control" placeholder="password"><br><br>
-                <label class="label" for="password">Password:</label>
-                <br>
-
-
-                <input type="password" id="confirm_password" name="confirm_password" required  class="form-control" placeholder="password"><br><br>
-                <label class="label" for="confirm_password">Confirm Password:</label>
-                
-            </div> -->
-
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="firstName" placeholder="First Name" required>
-                <label for="firstName">First Name</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="lastName" placeholder="Last Name" required>
-                <label for="lastName">Last Name</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
-                <label for="floatingInput">Email address</label>
-            </div>
-
-            <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
-                <label for="floatingPassword">Password</label>
-            </div>
-
-            <br>
-
-            <div class="form-floating">
-                <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" required>
-                <label for="confirm_password">Confirm Password</label>
-            </div>
-
-            <br>
-
-            <input type="submit" value="Create" style="background-color: rgb(255, 83, 83);width: 100%;border-radius: 10px; padding: 5px;">
-                  
-        </form>
-
-            <br>
-
-            <p>Already have an account? <a href="#" id="switchToLogin" style="color: rgb(255, 83, 83);">Log in</a></p>
-
-    </div>
+<div class="form-floating mb-3">
+    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+    <label for="floatingInput">Email address</label>
 </div>
 
-<script>
+<div class="form-floating">
+    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+    <label for="floatingPassword">Password</label>
+    <br><p ><a href="#" id="" style="color: rgb(255, 83, 83);"> Forgot password? </a></p>
+</div>
+
+<input type="submit" value="Log In" style="background-color: rgb(255, 83, 83);width: 100%;border-radius: 10px; padding: 5px;">
+</form>
+
+<br>
+    </div>
+
+
+</center>
+</body>
+</html>
+
+<!-- <script>
     document.getElementById("registrationForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -167,44 +121,9 @@
     });
 });
 
-</script>
+</script> -->
 
-<!-- -------------------------------------------------------- -->
-<!-- LOGIN FORM-->
-
-<div id="loginForm" class="popup">
-    <div class="popup-content">
-
-        <span id="closeLogin" class="close">&times;</span>
-        <h3>Login Form</h3>
-
-        <br>
-        <form action="#">
-
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                <label for="floatingInput">Email address</label>
-            </div>
-
-            <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
-                <label for="floatingPassword">Password</label>
-                <br><p ><a href="#" id="" style="color: rgb(255, 83, 83);"> Forgot password? </a></p>
-            </div>
-
-            <input type="submit" value="Log In" style="background-color: rgb(255, 83, 83);width: 100%;border-radius: 10px; padding: 5px;">
-        </form>
-
-        <br>
-        <p>Don't have an account yet? <a href="#" id="switchToRegistration" style="color: rgb(255, 83, 83);">Create Account</a></p>
-        
-    </div>
-</div>
-
-<!-- ----------------------------------------------------------------------------- -->
-<!-- SCRIPT FOR THE CODES -->
-
-<script>
+<!-- <script>
     const registrationForm = document.getElementById("registrationForm");
     const loginForm = document.getElementById("loginForm");
 
@@ -302,10 +221,8 @@
 //     console.log('Server is running on port 3000');
 // });
 
-</script>
+</script> -->
 
-</body>
-</html>
 
 </body>
 </html>
