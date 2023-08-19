@@ -42,27 +42,37 @@
         </div>
     </center>
     <script>
-        function validateForm() {
-            var name = document.getElementById("name").value;
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-            var email = document.getElementById("email").value;
-            var confirmPassword = document.getElementById("confirmPassword").value;
+ 
+   
 
-            if (name === "" || username === "" || password === "" || email === "" || confirmPassword === "") {
-                alert("All fields are required");
-                return false;
-            }
+    function validateForm() {
+        var name = document.getElementById("name").value;
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var email = document.getElementById("email").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
 
-            if (password !== confirmPassword) {
-                alert("Passwords do not match");
-                return false;
-            }
-
-            return true;
+        if (name === "" || username === "" || password === "" || email === "" || confirmPassword === "") {
+            alert("All fields are required");
+            return false;
         }
-    </script>
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return false;
+        }
+
+    
+       
+        localStorage.setItem("email", email);
+
+        return true;
+    }
+</script>
+
 <?php
+
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
@@ -76,13 +86,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Connection Failed : ' . $conn->connect_error);
     }
 
+    $emailExistsQuery = "SELECT COUNT(*) as count FROM account WHERE email = ?";
+    $emailExistsStmt = $conn->prepare($emailExistsQuery);
+    $emailExistsStmt->bind_param("s", $email);
+    $emailExistsStmt->execute();
+    $result = $emailExistsStmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row['count'] > 0) {
+        echo "<br><center><h3>Email already exists in the database.</h3></center>";
+        $emailExistsStmt->close();
+        $conn->close();
+        exit();
+    }
+
+    $emailExistsStmt->close();
+
     $currentDateTime = new DateTime();
     $date = $currentDateTime->format('Y-m-d');
 
     $stmt = $conn->prepare("INSERT INTO account(name, username, email, password, date) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $name, $username, $email, $password, $date);
     
-
     if ($stmt->execute()) {
         
         header("Location: verification.php"); 
@@ -95,6 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->close();
 }
 ?>
+
     
 </body>
 </html>

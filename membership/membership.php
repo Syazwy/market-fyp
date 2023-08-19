@@ -26,7 +26,6 @@
         </div>
     </div>
 </div>
-
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -35,14 +34,15 @@
 
     if (previousPageURL && previousPageURL.endsWith("email.php")) {
         var modalElement = document.getElementById('exampleModalCenter');
-        modalElement.style.display = 'block'; // Show the modal by changing its style
+        modalElement.style.display = 'block'; 
 
         modalElement.addEventListener('click', function (event) {
             if (event.target === modalElement) {
-                modalElement.style.display = 'none'; // Hide the modal when clicking outside the modal content
+                modalElement.style.display = 'none'; 
             }
         });
     }
+
 </script>
 
   

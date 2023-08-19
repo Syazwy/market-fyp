@@ -107,7 +107,7 @@
         </div>
     
     <div class="text-center">
-    <a href="paypal.php" id="placeOrderButton" class="btn btn-primary" disabled>Place Order</a>
+    <button id="placeOrderButton" onclick="placeorder()" class="btn btn-primary" disabled>Place Order</button>
     </div>
     <br>
     <p>By tapping on Place order, you accept the terms of service from <span style="color: #00A307;">Market</span> and the payments provider.</p>
@@ -162,7 +162,10 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+function placeorder(){
 
+window.location.href = 'ordercompleted.php?data=' + localStorage.getItem('email');
+}
 
 </script>
 
