@@ -5,10 +5,46 @@
 <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MEMBERSHIP</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 
 </head>
+
 <body>
+  
+<div class="modal fade show" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="height:300px;width:450px" >
+            <div class="modal-header" style="border:none">
+              <br>
+            </div><center>
+            <div class="modal-body"  style="border:1px solid black; width: 300px; height:200px">
+                
+                    <img id="tick" src="../image/check.png" style="height: 60px" alt="check">
+                    <h2>verified!</h2>
+                
+            </div></center>
+        </div>
+    </div>
+</div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    var previousPageURL = document.referrer;
+
+    if (previousPageURL && previousPageURL.endsWith("email.php")) {
+        var modalElement = document.getElementById('exampleModalCenter');
+        modalElement.style.display = 'block'; // Show the modal by changing its style
+
+        modalElement.addEventListener('click', function (event) {
+            if (event.target === modalElement) {
+                modalElement.style.display = 'none'; // Hide the modal when clicking outside the modal content
+            }
+        });
+    }
+</script>
+
   
 <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog">

@@ -1,3 +1,14 @@
+       .modal{
+        border-radius: 10px;
+       }
+
+       .modal-body{
+        
+        border-radius: 10px;
+       }
+       #tick{
+        margin-top: 20px;
+       }
        .current-plan-container {
         background-color: #ffffff;
         padding: 20px;
