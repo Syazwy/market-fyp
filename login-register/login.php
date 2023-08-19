@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: verification.php"); 
             exit();
         } else {
-            echo "Incorrect email or password";
+            echo "<br><h3>Incorrect email or password</h3>";
             exit();
         }
 
