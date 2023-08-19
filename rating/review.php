@@ -1,170 +1,183 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MEMBERSHIP</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link rel="stylesheet" href="review.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Reviews</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="review.css">
+
 </head>
 <body>
+<center>
+<div class="container mt-5 custom-container">
+
+  <h1>Seller Reviews</h1>
   
-<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-  
-</div>
-
-<div class="icon-left">
-    <img src="../image/MarketLogo.png" alt="Left Icon" style="height: 80px">
-</div>
-
-<div class="icon-right">
-        <img src="../image/User.png" alt="Right Icon" style="height: 60px;">
-    </div>
-<div class="button-container mb-10">
-    <input type="button" name="Categories" class="button" value="Categories" />
-    <input type="button" name="Register" class="button" value="Register" />
-    <input type="button" name="Login" class="button" value="Login" />
-    <input type="button" name="Sell" class="button" value="Sell" />
-</div>
-    
-<br>
-   <br>
-   
-<div style="width:400px">
-<a href="javascript:history.back()"  class="left d-flex align-items-start mb-10 ms-5 back-button">
-    <img src="../image/Left.png" alt="Left Icon" style="height: 30px"> 
-    <h3 class="ms-4">Order Request</h3>
-</a>
-</div>
-
-<br>
-<div class="payment-container d-flex align-items-center mb-10 ms-5 justify-content-between">
-    <div class="d-flex align-items-center">
-        <img src="../image/MarketLogo.png" alt="Left Icon" style="height: 80px">
-        <div class="ms-3">
-            <h4 class="d-flex align-items-center">Safer deals when paying via BIBD</h4>
-            <p>Payment is only released to the other seller after you receive your order as listed</p>
-        </div>
-    </div>
-    <img src="../image/Right.png" alt="Right Icon" style="height: 20px;">
-</div>
-
-<br>
-
-<div class="payment-container d-flex flex-column align-items-start mb-10 ms-5">
-    <h4>Payment</h4>
-    <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off" disabled>
-    <label class="btn btn-outline-secondary" for="btn-check-2-outlined">Mastercard</label>
-
-    <input type="radio" class="btn-check" name="options-base" id="option7" autocomplete="off" disabled>
-    <label class="btn" for="option7">Add credit / debit card</label>
-    
-    <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off">
-    <label class="btn btn-outline-primary" for="btn-check-outlined">Paypal</label> 
-    <input type="radio" class="btn-check" name="options-base" id="option7" autocomplete="off" disabled>
-    <label class="btn" for="option7">Pay using PayPal directly to user</label>
-    
-    <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off" disabled>
-    <label class="btn btn-outline-secondary" for="btn-check-2-outlined">Cash</label>
-    <input type="radio" class="btn-check" name="options-base" id="option7" autocomplete="off" disabled>
-    <label class="btn" for="option7">Pay using cash in person</label> 
-</div>
-<div class="payment-container order-summary container" style="width: 500px">
-    <h4>Order Summary</h4>
-    <h5>Basic Market Membership</h5>
-    <table class="table borderless">
-    
-        <tbody>
-            <tr>
-                <td>Subscription</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>BND$ <b>0</b></td>
-            </tr>
-           
-            <tr>
-                <td>Application fee</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>BND$ <b>2</b></td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <th colspan="3" class="text-right">Total</th>
-              <td></td>
-                <td><b>BND$ 2</b></td>
-            </tr>
-        </tfoot>
-    </table>
-
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Enter Promo Code">
+  <div class="row">
+    <div class="col-md-12">
         
-            <input type="button" class="btn btn-primary align-self-start" value="Apply" id="applyButton">
-        </div>
-    
-    <div class="text-center">
-    <a href="paypal.php" id="placeOrderButton" class="btn btn-primary" disabled>Place Order</a>
-    </div>
-    <br>
-    <p>By tapping on Place order, you accept the terms of service from <span style="color: #00A307;">Market</span> and the payments provider.</p>
+      <button class="btn mb-3" id="addReviewBtn" data-toggle="modal" data-target="#addReviewModal" style="border:1px solid black">Add New Review</button>
+      
+      <div id="reviewContainer" >
 </div>
 
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="paymentModalLabel">Choose Payment Method</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Please select a payment method before placing your order.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
     </div>
+  </div>
 </div>
 
+<div class="modal fade" id="addReviewModal" tabindex="-1" role="dialog" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addReviewModalLabel">Add New Review</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+  <form id="reviewForm" method="POST" action="review.php">
+    <div class="form-group">
+      <label for="username">User Name</label>
+      <input type="text" class="form-control" id="username" name="username"  autocomplete="off" required>
+    </div>
+    <div class="form-group">
+      <label for="content">Content</label> 
+      <textarea class="form-control" id="content"name="content" rows="3" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="rating">Rating</label>
+      <select class="form-control" name="rating" id="rating" required>
+        <option value="1">1 Star</option>
+        <option value="2">2 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="5">5 Stars</option>
+      </select>
+    </div>
+  </form>
+</div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="submitReviewBtn">Submit Review</button>
+      </div>
+    </div>
+  </div>
+</div>
+</center>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-   
-    var paypalCheckbox = document.getElementById("btn-check-outlined");
-    var placeOrderButton = document.getElementById("placeOrderButton");
-    var paymentModal = new bootstrap.Modal(document.getElementById("paymentModal"));
 
+
+function addReview(username, content, rating) {
+    const starIcons = Array.from({ length: 5 }, (_, i) => {
+        return `<span class="fa fa-star ${i < rating ? 'checked' : ''}"></span>`;
+    }).join('');
+
+    const newReview = `
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">${username}</h5>
+                <p class="card-text">${content}</p>
+                <div class="rating">${starIcons}</div>
+            </div>
+        </div>`;
+    
+    document.getElementById("reviewContainer").innerHTML += newReview;
+}
+
+  document.getElementById("submitReviewBtn").addEventListener("click", function() {
+    const username = document.getElementById("username").value;
+    const content = document.getElementById("content").value;
+    const rating = parseInt(document.getElementById("rating").value);
+    
+
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("content", content);
+    formData.append("rating", rating);
+t
+    fetch("review.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
   
-    placeOrderButton.addEventListener("click", function(event) {
-    
-        if (!paypalCheckbox.checked) {
-            event.preventDefault(); 
-            paymentModal.show();
-        }
+        console.log(data);
+        
+  
+        document.getElementById("reviewForm").reset();
+        $('#addReviewModal').modal('hide');
+    })
+    .catch(error => {
+  
+        console.error("Error:", error);
     });
 
-    
-    paypalCheckbox.addEventListener("change", function() {
-    
-        placeOrderButton.disabled = !paypalCheckbox.checked;
+addReview(username, content, rating);
+window.location.href = "review.php";
 
-       
-        if (paypalCheckbox.checked) {
-            paymentModal.hide();
-        }
-    });
 });
 
 
-
 </script>
+
+<?php
+$conn = new mysqli('localhost', 'root', '', 'market');
+
+if ($conn->connect_error) {
+    die('Connection Failed : '.$conn->connect_error);
+}
+
+if (isset($_POST['username']) && isset($_POST['content']) && isset($_POST['rating'])) {
+    $username = $_POST['username'];
+    $content = $_POST['content'];
+    $rating = $_POST['rating'];
+
+    $currentDateTime = new DateTime();
+    $timedate = $currentDateTime->format('Y-m-d H:i:s');
+
+    $stmt = $conn->prepare("INSERT INTO reviews(username, content, rating, time) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $username, $content, $rating, $timedate);
+    $stmt->execute();
+
+    $stmt->close();
+} else {
+    $result = $conn->query("SELECT * FROM reviews ORDER BY time DESC");
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $reviewDate = date('Y-m-d', strtotime($row['time']));
+        
+            echo '<center><div class="card mb-4">
+                      <div class="card-body">
+                          <h5 class="card-title">' . $row['username'] . '</h5>
+                          <p class="card-text">' . $row['content'] . '</p>
+                          <div class="rating">';
+        
+            for ($i = 1; $i <= 5; $i++) {
+                echo '<span class="fa fa-star ' . ($i <= $row['rating'] ? 'checked' : '') . '"></span>';
+            }
+        
+            echo '</div>
+                  <p class="time">Posted on ' . $reviewDate . '</p></div></div></center>';
+        }
+    
+        $result->close();
+    } else {
+        echo '<center><p>No reviews available.</p></center>';
+    }
+}
+    $conn->close();
+    ?>
+
 
 </body>
 </html>
