@@ -1,0 +1,117 @@
+<script src="script.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELLS PAGE</title>
+    <link rel="stylesheet" href="../looks.css">
+    <style>
+      .uploadbox{
+        border: 1px solid black;
+        border-radius: 10px;
+      }
+      .uploaded-image {
+            max-width: 200px;
+            margin: 10px;
+        }
+  </style>
+      
+</head>
+<body>
+
+  <img src="../icons/MarketLogo.png" alt="" class="uploaded-image">
+
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+
+    <section id="home">
+      <h1>List Your Item</h1>
+    </section>
+
+    <div>
+      <label for="category">Select Item Category:</label>
+      <select id="category" onchange="filterProducts()">
+        <option value="null"> </option>
+        <option value="property"> <img src="../icons/map.png"> Property</option>
+        <option value="vehicles"> <img src="../icons/car.png"> Vehicles</option>
+        <option value="electronics"> <img src="../icons/microchip.png"> Electronics</option>
+        <option value="clothing"> <img src="../icons/fashion.png">Clothing</option>
+        <option value="furniture"> <img src="../icons/furnitures.png"> Furniture</option>
+      </select>
+    </div>
+    <div id="products-list">
+  
+    </div>
+
+    
+
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="fileToUpload" id="fileToUpload" multiple accept="image/*">
+    <!-- <input type="submit" value="Upload"> -->
+</form>
+
+<br>
+
+<div id="imagePreview" class="uploadbox">
+  <br>
+  <center><img src="../icons/add-image.png" style="height: 150px;width: 150px;">
+  <h2>Upload up to 6 Photos</h2></center>
+    <!-- Uploaded images will be displayed here --> 
+</div>
+<!-- <h2>Upload up to 6 Photos</h2> -->
+
+<script>
+    const fileInput = document.getElementById("fileToUpload");
+    const imagePreview = document.getElementById("imagePreview");
+
+    fileInput.addEventListener("change", handleFileSelect);
+
+    function handleFileSelect() {
+        imagePreview.innerHTML = ""; // Clear the previous preview
+
+        const maxFiles = 6;
+        const files = fileInput.files;
+
+        for (let i = 0; i < files.length; i++) {
+            if (i >= maxFiles) {
+                alert(`You can only upload up to ${maxFiles} photos.`);
+                break;
+            }
+
+            const file = files[i];
+            const img = document.createElement("img");
+            img.classList.add("uploaded-image");
+            img.file = file;
+
+            const reader = new FileReader();
+            reader.onload = (function(aImg) {
+                return function(e) {
+                    aImg.src = e.target.result;
+                };
+            })(img);
+            reader.readAsDataURL(file);
+
+            imagePreview.appendChild(img);
+            
+        }
+    }
+</script>
+  
+
+</body>
+<script src="script.js"></script>
+</html>
+
