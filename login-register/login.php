@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         if ($num === 1) {
-            header("Location: verification.php"); 
+            header("Location:index.html"); 
             exit();
         } else {
             echo "<br><center> <h3>Incorrect email or password</h3></center>";
