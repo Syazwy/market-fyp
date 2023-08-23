@@ -23,6 +23,13 @@
       height: 550px;
 
      }
+     
+     #home{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+     }
 
   </style>
       
@@ -39,8 +46,9 @@
 
 
     <section id="home">
-      <h3>List Your Item</h3>
+      <h1>List Your Item</h1>
     </section>
+    <br>  
     <div class="container">
 
 <br>
