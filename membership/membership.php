@@ -44,7 +44,6 @@
     }
 
 </script>
-
   
 <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -174,7 +173,7 @@ confirmSubscriptionButton.addEventListener('click', function () {
 confirmSubscriptionButton.addEventListener('click', function () {
     const selectedPlan = currentPlanElement.getAttribute('data-selected-plan');
     
-    if (selectedPlan ) { // Exclude 'Basic' from redirection
+    if (selectedPlan ) { 
         currentPlanElement.textContent = selectedPlan;
         
         const planUrl = document.querySelector('.membership-box.active').getAttribute('data-url');
