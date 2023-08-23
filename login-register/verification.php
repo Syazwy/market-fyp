@@ -7,7 +7,7 @@
     <style>
 
 body {
-            font-family: Arial, sans-serif; /* Change this line to the font you prefer */
+            font-family: Arial, sans-serif; 
         }
         .container{
             border: 1px solid black;

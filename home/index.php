@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+session_start();
+?>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -18,7 +22,7 @@
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Sell</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#" >Sell</a></li>
     </ul>
   </div>
 
@@ -30,8 +34,8 @@
     <ul class="dropdown-menu">
       <li><a class="dropdown-item" href="#">Your Listings</a></li>
       <li><a class="dropdown-item" href="#">My purchases</a></li>
-      <li><a class="dropdown-item" href="#">Membership</a></li>
-      <li><a class="dropdown-item" href="#">Log out</a></li>
+      <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
+      <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
     </ul>
   </div>
   </div>
@@ -45,80 +49,7 @@
     <div>
       <h4>What would you like to find?</h4>
     </div>
-
-    <!-- <div class="card" style="width: 18rem;">
-      <a href="">
-        <img src="../image/property.png" alt="">
-      </a>
-    </div>
-
-    <div class="card" style="width: 18rem;">
-      <a href="">
-        <img src="../image/vehicle.png" alt="">
-      </a>
-    </div>
-
-    <div class="card" style="width: 18rem;">
-      <a href="">
-        <img src="../image/furniture.png" alt="">
-      </a>
-    </div>
-
-    <div class="card" style="width: 18rem;">
-      <a href="">
-        <img src="../image/electronic.png" alt="">
-      </a>
-    </div>
-
-    <div class="card" style="width: 18rem;">
-      <a href="">
-        <img src="../image/fashion.png" alt="">
-      </a>
-    </div> -->
-
-    <!-- <div class="row">
-      <div class="col-md-4">
-        <div class="card" style="width: 18rem;">
-          <a href="">
-            <img src="../image/property.png" alt="">
-          </a>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card" style="width: 18rem;">
-          <a href="">
-            <img src="../image/vehicle.png" alt="">
-          </a>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card" style="width: 18rem;">
-          <a href="">
-            <img src="../image/furniture.png" alt="">
-          </a>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card" style="width: 18rem;">
-          <a href="">
-            <img src="../image/electronic.png" alt="">
-          </a>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card" style="width: 18rem;">
-          <a href="">
-            <img src="../image/fashion.png" alt="">
-          </a>
-        </div>
-      </div>
-    </div> -->
-
-    <div class="row row-cols-1 row-cols-md-5 g-4">
+  <div class="row row-cols-1 row-cols-md-5 g-4">
       <div class="col">
         <div class="card">
           <a href="">
@@ -155,33 +86,11 @@
         </div>
       </div>
     </div>
-
-    <!-- <a href="">
-      <img src="../image/property.png" class="img-thumbnail" alt="...">
-      <div class="text">Property</div>
-    </a>
-
-    <a href="">
-      <img src="../image/vehicle.png" class="img-thumbnail" alt="...">
-    </a>
-
-    <a href="">
-      <img src="../image/furniture.png" class="img-thumbnail" alt="...">
-    </a>
-
-    <a href="">
-      <img src="../image/electronic.png" class="img-thumbnail" alt="...">
-    </a>
-
-    <a href="">
-      <img src="../image/fashion.png" class="img-thumbnail" alt="...">
-    </a> -->
-
-    <div class="container">
+  <div class="container">
       <div class="row">
         <div class="col-sm">
           <div class="card" style="width: 18rem;">
-            <img src="../image/iphone.jpg" class="card-img-top" alt="...">
+            <img src="../image/iphone.png" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">Iphone 12</h5>
               <p class="card-text">Price: $1000</p>
@@ -191,7 +100,7 @@
         </div>
         <div class="col-sm">
           <div class="card" style="width: 18rem;">
-            <img src="../image/iphone.jpg" class="card-img-top" alt="...">
+            <img src="../image/iphone.png" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">Iphone 12</h5>
               <p class="card-text">Price: $1000</p>
@@ -201,7 +110,7 @@
         </div>
         <div class="col-sm">
           <div class="card" style="width: 18rem;">
-            <img src="../image/iphone.jpg" class="card-img-top" alt="...">
+            <img src="../image/iphone.png" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">Iphone 12</h5>
               <p class="card-text">Price: $1000</p>

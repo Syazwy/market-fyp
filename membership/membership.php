@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <link rel="stylesheet" href="membership.css">
+<link rel="stylesheet" href="../home/index.css">
 <head>
 <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,23 +64,35 @@
     </div>
 </div>
 
-    <div class="icon-left">
-        <img src="../image/MarketLogo.png" alt="Left Icon" style="height: 80px">
-    </div>
-    <div class="icon-right">
-        <img src="../image/User.png" alt="Right Icon" style="height: 60px">
-    </div>
-    <div class="button-container">
-        <input type="button" name="Categories" class="button" value="Categories" />
-        <input type="button" name="Register" class="button" value="Register" />
-        <input type="button" name="Login" class="button" value="Login" />
-        <input type="button" name="Sell" class="button" value="Sell" />
-    </div>
-    <div class="input-center">
-        <input type="text" name="searchbar" class="search-bar" placeholder="Search for anything and everything" />
-        <input type="button" name="Search" class="button" value="Search" />
-    </div>
-    <br>
+<nav class="navbar navbar-expand-lg bg-transparent">
+  <div class="container">
+    <a class="navbar-brand" href="../home/index.php">
+      <img src="../image/logo.png" width="80" height="80">
+    </a>
+  
+  <div class="collapse navbar-collapse justify-content-center">
+    <ul class="nav nav-pills">
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Sell</a></li>
+    </ul>
+  </div>
+
+  <div class="dropdown">
+    <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
+      <img src="../image/profile.png" width="50" height="50" class="profile">
+    </a>
+
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="#">Your Listings</a></li>
+      <li><a class="dropdown-item" href="#">My purchases</a></li>
+      <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
+      <li><a class="dropdown-item" href="../home/index-guest.php">Log out</a></li>
+    </ul>
+  </div>
+  </div>
+</nav>
+
     <center>
     <div class="current-plan-container">
         <h3>Current Plan</h3>
@@ -132,7 +145,7 @@
             </ul>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
 
