@@ -1,7 +1,12 @@
 <?php
-  $conn = mysqli_connect("localhost", "root", "", "market");
+  require 'connection.php';
+
   if(isset($_POST["submit"])){
     $name = $_POST["name"];
+    $price = $_POST["price"];
+    $description = $_POST["description"];
+    $location = $_POST["location"];
+    
     if($_FILES['image']["error"] === 4){
       echo
       "<script> alert('image does not exist'); <script>"
@@ -24,21 +29,21 @@
       ;
     }else{
       $newImageName = uniqid();
-      $newIamgeName .= '.' . $imageExtension;
+      $newImageName .= '.' . $imageExtension;
 
-      move_uploaded_file($tmpName, 'img/'. $newImageName);
-      $quary = "INSERT INTO tb_upload VALUES ('', '$name', '$newImageName')";
-      mysql_query($conn, $query);
+      move_uploaded_file($tmpName, 'upload/'. $newImageName);
+      $query = "INSERT INTO itemslisting VALUES ('', '$name', '$price' , '$description', '$location', '$newImageName')";
+      mysqli_query($conn, $query);
       echo
       "<script> alert('Successfully Added');
-      document.location.href = 'data.php;
+      document.location.href = 'data.php';
       </script>";
     
     }
   }
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,22 +131,22 @@
   </select>
 
   <div class="mb-3">
-    <label for="Name" class="form-label">Name</label>
-    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" class="form-control"  name="name" id="name" placeholder="">
   </div>
   <div class="mb-3">
-    <label for="Price" class="form-label">Price</label>
-    <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="">
+    <label for="price" class="form-label">Price</label>
+    <input type="number" class="form-control" name="price" id="price" placeholder="">
   </div>
   <div class="mb-3">
-    <label for="Description" class="form-label">Description</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    <label for="description" class="form-label">Description</label>
+    <textarea class="form-control" name="description" id="description" rows="3"></textarea>
   </div>
   <div class="mb-3">
-    <label for="Location" class="form-label">Location</label>
-    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+    <label for="location" class="form-label">Location</label>
+    <input type="text" class="form-control"  name="location" id="location" placeholder="">
   </div>
-  <button type="submit"  style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;">Create</button>
+  <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;">Create</button>
 </div>
 
 </form>

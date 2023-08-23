@@ -11,6 +11,7 @@
     <table border = 1 cellspacing = 0 cellpadding = 10>
         <tr>
             <td>#</td>
+            <td>Category</td>
             <td>Name</td>
             <td>Price</td>
             <td>Description</td>
@@ -29,6 +30,7 @@
 
         <tr>
             <td><?php echo $i++; ?></td>
+            <td><?php echo $row["category"]; ?></td>
             <td><?php echo $row["name"]; ?></td>
             <td><?php echo $row["price"]; ?></td>
             <td><?php echo $row["description"]; ?></td>
