@@ -1,3 +1,44 @@
+<?php
+  $conn = mysqli_connect("localhost", "root", "", "market");
+  if(isset($_POST["submit"])){
+    $name = $_POST["name"];
+    if($_FILES['image']["error"] === 4){
+      echo
+      "<script> alert('image does not exist'); <script>"
+      ;
+    }else{
+      $fileName = $_FILES ["image"]["name"];
+      $fileSize = $_FILES ["image"]["size"];
+      $tmpName = $_FILES ["image"]["tmp_name"];
+
+      $validImageExtension = ['jpg', 'jpeg', 'png'];
+      $imageExtension = explode('.', $fileName);
+      $imageExtension = strtolower(end($imageExtension));
+      if(!in_array($imageExtension, $validImageExtension)){
+        echo
+      "<script> alert('Invalid Image Extension'); <script>"
+      ;
+      }else if($fileSize > 1000000){
+      echo
+      "<script> alert('Image Size is too large'); <script>"
+      ;
+    }else{
+      $newImageName = uniqid();
+      $newIamgeName .= '.' . $imageExtension;
+
+      move_uploaded_file($tmpName, 'img/'. $newImageName);
+      $quary = "INSERT INTO tb_upload VALUES ('', '$name', '$newImageName')";
+      mysql_query($conn, $query);
+      echo
+      "<script> alert('Successfully Added');
+      document.location.href = 'data.php;
+      </script>";
+    
+    }
+  }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,8 +97,8 @@
 <div id="imagePreview" class="subcontainer" style="background: #FFEAEA; width: 550px;">
 
   
-
-  <form action="url" enctype="multipart/form-data">
+<form action=""  method="post" enctype="multipart/form-data" autocomplete="off">
+  
     <div class="input-images"> <center>
       <h2>Upload up to 6 Photos</h2></center>
     </div>
@@ -100,9 +141,11 @@
     <label for="Location" class="form-label">Location</label>
     <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
   </div>
-  <button type="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;">Create</button>
+  <button type="submit"  style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;">Create</button>
 </div>
+
 </form>
+<a href="data.php">Data</a>
 <!-- <h2>Upload up to 6 Photos</h2> -->
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
