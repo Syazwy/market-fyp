@@ -59,6 +59,7 @@
      }
 
      .subcontainer {
+
       margin: auto;
       border-radius: 10px;
       padding: 10px;
@@ -79,14 +80,18 @@
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     
+    <br>
     <section id="home">
-      <h1>List Your Item</h1>
+      <h1>List Your Item</h1> 
     </section>
-
-    <div class="container">
-    <form action="" method= "post" autocomplete="off" enctype="multipart/form-data">
-    <label for="image">Image : </label>
+    <br>
+    <div class="container" >
+   
+   <div class="subcontainer" style="background: #FFEAEA; width: 550px;">
+   <form action="" method= "post" autocomplete="off" enctype="multipart/form-data">
+     <label for="image">Image : </label>
         <input type="file" name="image" id = "image" accept=".jpg, .jpeg, .png"> <br> <br>
+   </div>
 
     <div class="subcontainer">
     <label>Select Item Category </label>
@@ -119,7 +124,7 @@
 
         
 
-        <button type="submit" name="submit">Submit</button>
+        <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;">Submit </button>
         </div>
 
     </form>
