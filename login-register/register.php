@@ -1,55 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
+    session_start();
 
-session_start();
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['name'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $email = $_POST['email'];
-    
-    $conn = new mysqli('localhost', 'root', '', 'market');
-
-    if ($conn->connect_error) {
-        die('Connection Failed : ' . $conn->connect_error);
+    // Function to generate a random verification code
+    function generateVerificationCode() {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $code = '';
+        for ($i = 0; $i < 10; $i++) {
+            $code .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $code;
     }
 
-    $emailExistsQuery = "SELECT COUNT(*) as count FROM account WHERE email = ?";
-    $emailExistsStmt = $conn->prepare($emailExistsQuery);
-    $emailExistsStmt->bind_param("s", $email);
-    $emailExistsStmt->execute();
-    $result = $emailExistsStmt->get_result();
-    $row = $result->fetch_assoc();
-
-    if ($row['count'] > 0) {
-        echo "<br><center><h3>Email already exists.</h3></center>";
-        $emailExistsStmt->close();
-        $conn->close();
-        exit();
-    }
-
-    $emailExistsStmt->close();
-
-    $currentDateTime = new DateTime();
-    $date = $currentDateTime->format('Y-m-d');
-
-    $stmt = $conn->prepare("INSERT INTO account(name, username, email, password, date) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $name, $username, $email, $password, $date);
-    
-    if ($stmt->execute()) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $name = $_POST['name'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $email = $_POST['email'];
         
-        header("Location: verification.php"); 
-        exit();
-    } else {
-        echo "Error: " . $stmt->error;
-    }
+        $conn = new mysqli('localhost', 'root', '', 'market');
 
-    $stmt->close();
-    $conn->close();
-}
-?>
+        if ($conn->connect_error) {
+            die('Connection Failed : ' . $conn->connect_error);
+        }
+
+        $emailExistsQuery = "SELECT COUNT(*) as count FROM account WHERE email = ?";
+        $emailExistsStmt = $conn->prepare($emailExistsQuery);
+        $emailExistsStmt->bind_param("s", $email);
+        $emailExistsStmt->execute();
+        $result = $emailExistsStmt->get_result();
+        $row = $result->fetch_assoc();
+
+        if ($row['count'] > 0) {
+            echo "<br><center><h3>Email already exists.</h3></center>";
+            $emailExistsStmt->close();
+            $conn->close();
+            exit();
+        }
+
+        $emailExistsStmt->close();
+
+        $currentDateTime = new DateTime();
+        $date = $currentDateTime->format('Y-m-d');
+
+        $stmt = $conn->prepare("INSERT INTO account(name, username, email, password, date) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $name, $username, $email, $password, $date);
+        
+        if ($stmt->execute()) {
+            // Generate a verification code
+            $verificationCode = generateVerificationCode();
+
+            // Store the verification code in the database along with user info
+            // Implement your database INSERT code here
+
+            // Send verification email
+            $verificationLink = "https://yourwebsite.com/verify.php?code=" . $verificationCode;
+            $subject = "Email Verification";
+            $message = "Click the following link to verify your email: " . $verificationLink;
+            $headers = "From: your@email.com";
+            mail($email, $subject, $message, $headers);
+
+            header("Location: verification.php"); // Redirect to a page indicating that verification email is sent
+            exit();
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+
+        $stmt->close();
+        $conn->close();
+    }
+    ?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
