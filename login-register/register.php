@@ -1,82 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <?php
-    session_start();
-
-    // Function to generate a random verification code
-    function generateVerificationCode() {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $code = '';
-        for ($i = 0; $i < 10; $i++) {
-            $code .= $characters[rand(0, strlen($characters) - 1)];
-        }
-        return $code;
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $name = $_POST['name'];
+    //Import PHPMailer classes into the global namespace
+    //These must be at the top of your script, not inside a function
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
+ 
+    //Load Composer's autoloader
+    require 'vendor/autoload.php';
+ 
+    if (isset($_POST["register"]))
+    {
+        $name = $_POST["name"];
         $username = $_POST['username'];
-        $password = $_POST['password'];
-        $email = $_POST['email'];
-        
-        $conn = new mysqli('localhost', 'root', '', 'market');
+        $email = $_POST["email"];
+        $password = $_POST["password"];
+ 
+        //Instantiation and passing `true` enables exceptions
+        $mail = new PHPMailer(true);
+ 
+        try {
+            //Enable verbose debug output
+            $mail->SMTPDebug = 0;//SMTP::DEBUG_SERVER;
+ 
+            //Send using SMTP
+            $mail->isSMTP();
+ 
+            //Set the SMTP server to send through
+            $mail->Host = 'smtp.gmail.com';
+ 
+            //Enable SMTP authentication
+            $mail->SMTPAuth = true;
+ 
+            //SMTP username
+            $mail->Username = 'market51bn@gmail.com';
+ 
+            //SMTP password
+            $mail->Password = 'sdykqxqgfejnncuk';
+ 
+            //Enable TLS encryption;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+ 
+            //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+            $mail->Port = 587;
+ 
+            //Recipients
+            $mail->setFrom('admin.market@gmail.com', 'admin.market');
+ 
+            //Add a recipient
+            $mail->addAddress($email, $name);
+ 
+            //Set email format to HTML
+            $mail->isHTML(true);
+ 
+            $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+ 
+            $mail->Subject = 'Email verification';
+            $mail->Body    = '<p>Your verification code is: <b style="font-size: 30px;">' . $verification_code . '</b></p>';
+ 
+            $mail->send();
+            // echo 'Message has been sent';
+ 
+            $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
+ 
+            // connect with database
+            $conn = mysqli_connect("localhost", "root", "", "market");
 
-        if ($conn->connect_error) {
-            die('Connection Failed : ' . $conn->connect_error);
-        }
-
-        $emailExistsQuery = "SELECT COUNT(*) as count FROM account WHERE email = ?";
-        $emailExistsStmt = $conn->prepare($emailExistsQuery);
-        $emailExistsStmt->bind_param("s", $email);
-        $emailExistsStmt->execute();
-        $result = $emailExistsStmt->get_result();
-        $row = $result->fetch_assoc();
-
-        if ($row['count'] > 0) {
-            echo "<br><center><h3>Email already exists.</h3></center>";
-            $emailExistsStmt->close();
-            $conn->close();
+            $currentDateTime = new DateTime();
+            $date = $currentDateTime->format('Y-m-d');
+            // insert in account table
+            $sql = "INSERT INTO account(name, username, email, password, date, verification_code, email_verified_at) VALUES ('" . $name . "','" . $username . "', '" . $email . "', '" . $encrypted_password . "','" . $date . "', '" . $verification_code . "', NULL)";
+            mysqli_query($conn, $sql);
+ 
+            header("Location: emailverification.php?email=" . $email);
             exit();
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
-
-        $emailExistsStmt->close();
-
-        $currentDateTime = new DateTime();
-        $date = $currentDateTime->format('Y-m-d');
-
-        $stmt = $conn->prepare("INSERT INTO account(name, username, email, password, date) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $name, $username, $email, $password, $date);
-        
-        if ($stmt->execute()) {
-            // Generate a verification code
-            $verificationCode = generateVerificationCode();
-
-            // Store the verification code in the database along with user info
-            // Implement your database INSERT code here
-
-            // Send verification email
-            $verificationLink = "https://yourwebsite.com/verify.php?code=" . $verificationCode;
-            $subject = "Email Verification";
-            $message = "Click the following link to verify your email: " . $verificationLink;
-            $headers = "From: your@email.com";
-            mail($email, $subject, $message, $headers);
-
-            header("Location: verification.php"); // Redirect to a page indicating that verification email is sent
-            exit();
-        } else {
-            echo "Error: " . $stmt->error;
-        }
-
-        $stmt->close();
-        $conn->close();
     }
-    ?>
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
     <link rel="stylesheet" href="login-register.css">
     <link rel="stylesheet" href="../home/index.css">
-    <title>Register</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body>
@@ -179,14 +190,14 @@
         </div>
       </div>
 
-    <center>
+<center>
     <div class="popup-overlay">
         <div class="popup-content" style="padding:40px;">
         <a href="../home/index-guest.php" class="d-grid gap-2 d-md-flex justify-content-md-end" style="color: inherit; 
   text-decoration: none;"><h2>x</h2></a>
             <h3>Create Account    </h3>
             <br>
-            <form action="register.php" method="post" onsubmit="return validateForm();" style="border: 1px solid black; border-radius: 5px; padding: 15px;">
+            <form method="post" onsubmit="return validateForm();" style="border: 1px solid black; border-radius: 5px; padding: 15px;">
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
                     <label for="name"> Name</label>
@@ -209,13 +220,14 @@
                     <label for="confirmPassword">Confirm Password</label>
                 </div>
                 <br>
-                <button type="submit" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 5px;">Create</button>
+                <input type="submit" name="register" value="register" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 5px;"></input>
             </form>
             <br>
         </div>
         </div>
     </center>
-    <script>
+</body>
+<script>
  
    
 
@@ -243,5 +255,5 @@
         return true;
     }
 </script>
-</body>
 </html>
+

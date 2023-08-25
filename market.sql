@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 21, 2023 at 04:57 PM
+-- Generation Time: Aug 25, 2023 at 05:38 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -32,21 +32,23 @@ CREATE TABLE `account` (
   `name` varchar(50) NOT NULL,
   `username` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(1000) NOT NULL,
   `membership` varchar(20) NOT NULL,
-  `date` date NOT NULL
+  `date` date NOT NULL,
+  `verification_code` varchar(1000) NOT NULL,
+  `email_verified_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `account`
 --
 
-INSERT INTO `account` (`id`, `name`, `username`, `email`, `password`, `membership`, `date`) VALUES
-(25, 'muin', 'streck', 'muin@123', '123', '', '2023-08-19'),
-(30, 'wajid', 'puffballer', 'wajid@123', '123', '', '2023-08-19'),
-(33, 'afiwq', 'af1q', 'afiq@123', '123', 'basic', '2023-08-19'),
-(34, 'heh', 'heh', 'heh@123', '123', 'basic', '2023-08-19'),
-(35, 'af1q aiman', 'af1qaiman', 'afiq@124', '1753', 'basic', '2023-08-20');
+INSERT INTO `account` (`id`, `name`, `username`, `email`, `password`, `membership`, `date`, `verification_code`, `email_verified_at`) VALUES
+(25, 'muin', 'streck', 'muin@123', '123', '', '2023-08-19', '', '0000-00-00 00:00:00'),
+(30, 'wajid', 'puffballer', 'wajid@123', '123', '', '2023-08-19', '', '0000-00-00 00:00:00'),
+(46, 'wajid', '', '21ftt1294@student.pb.edu.bn', '$2y$10$w7bQS0oz91PbdkuNK8/YOOrNCE7TnFEKePgJhlrJ1s2', '', '0000-00-00', '241562', '2023-08-25 22:25:13'),
+(49, 'moyen', '', 'abdulmuinudin28@gmail.com', '$2y$10$YJjZoFRau.sY.HfuV8w15O/TkWrEEW5unkh66rGXceLwsai24KMHe', '', '0000-00-00', '171548', '2023-08-25 22:49:09'),
+(65, 'muin', 'moyen', 'abdulmuinudin28@gmail.com', '$2y$10$TLKCcdaeFHBMPiMGy.g/R.zEnbBichtXwya/cKnqWCbKJ4k7btnvi', '', '2023-08-25', '172354', '2023-08-25 23:36:13');
 
 -- --------------------------------------------------------
 
@@ -95,7 +97,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `reviews`
