@@ -9,7 +9,13 @@
     use PHPMailer\PHPMailer\Exception;
  
     //Load Composer's autoloader
-    require 'vendor/autoload.php';
+    // require 'vendor/autoload.php';
+    // use PHPMailer\PHPMailer\PHPMailer;
+    // use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
  
     if (isset($_POST["register"]))
     {
