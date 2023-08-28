@@ -13,7 +13,6 @@
  
     if (isset($_POST["register"]))
     {
-        $name = $_POST["name"];
         $username = $_POST['username'];
         $email = $_POST["email"];
         $password = $_POST["password"];
@@ -50,7 +49,7 @@
             $mail->setFrom('admin.market@gmail.com', 'admin.market');
  
             //Add a recipient
-            $mail->addAddress($email, $name);
+            $mail->addAddress($email);
  
             //Set email format to HTML
             $mail->isHTML(true);
@@ -71,7 +70,7 @@
             $currentDateTime = new DateTime();
             $date = $currentDateTime->format('Y-m-d');
             // insert in account table
-            $sql = "INSERT INTO account(name, username, email, password, date, verification_code, email_verified_at) VALUES ('" . $name . "','" . $username . "', '" . $email . "', '" . $encrypted_password . "','" . $date . "', '" . $verification_code . "', NULL)";
+            $sql = "INSERT INTO account(username, email, password, date, verification_code, email_verified_at) VALUES ('" . $username . "', '" . $email . "', '" . $encrypted_password . "','" . $date . "', '" . $verification_code . "', NULL)";
             mysqli_query($conn, $sql);
  
             header("Location: emailverification.php?email=" . $email);
@@ -199,10 +198,6 @@
             <br>
             <form method="post" onsubmit="return validateForm();" style="border: 1px solid black; border-radius: 5px; padding: 15px;">
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
-                    <label for="name"> Name</label>
-                </div>
-                <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
                     <label for="username">Username</label>
                 </div>
@@ -232,13 +227,12 @@
    
 
     function validateForm() {
-        var name = document.getElementById("name").value;
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
         var email = document.getElementById("email").value;
         var confirmPassword = document.getElementById("confirmPassword").value;
 
-        if (name === "" || username === "" || password === "" || email === "" || confirmPassword === "") {
+        if (username === "" || password === "" || email === "" || confirmPassword === "") {
             alert("All fields are required");
             return false;
         }
@@ -248,7 +242,24 @@
             return false;
         }
 
-    
+        if (password === confirmPassword) {
+            if (password.length < 8) {
+                alert("Password must be at least 8 characters");
+                return false;
+            }
+            if (password.search(/[a-z]/i) < 0) {
+                alert("Password must contain at least one letter");
+                return false;
+            }
+            if (password.search(/[0-9]/) < 0) {
+                alert("Password must contain at least one digit");
+                return false;
+            }
+            // if (password.search(/[!@#$%^&*]/) < 0) {
+            //     alert("Password must contain at least one special character");
+            //     return false;
+            // }
+        }
        
         localStorage.setItem("email", email);
 
