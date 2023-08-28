@@ -8,11 +8,6 @@
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
  
-    //Load Composer's autoloader
-    // require 'vendor/autoload.php';
-    // use PHPMailer\PHPMailer\PHPMailer;
-    // use PHPMailer\PHPMailer\Exception;
-
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
@@ -66,7 +61,7 @@ require 'PHPMailer/src/SMTP.php';
             $mail->Body    = '<p>Your verification code is: <b style="font-size: 30px;">' . $verification_code . '</b></p>';
  
             $mail->send();
-            // echo 'Message has been sent';
+            // echo 'Message has been sent'; 
  
             $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
  
@@ -76,7 +71,7 @@ require 'PHPMailer/src/SMTP.php';
             $currentDateTime = new DateTime();
             $date = $currentDateTime->format('Y-m-d');
             // insert in account table
-            $sql = "INSERT INTO account(username, email, password, date, verification_code, email_verified_at) VALUES ('" . $username . "', '" . $email . "', '" . $encrypted_password . "','" . $date . "', '" . $verification_code . "', NULL)";
+            $sql = "INSERT INTO account(username, email, password,membership, date, verification_code, email_verified_at) VALUES ('" . $username . "', '" . $email . "', '" . $encrypted_password . "', '" . "basic" . "','" . $date . "', '" . $verification_code . "', NULL)";
             mysqli_query($conn, $sql);
  
             header("Location: emailverification.php?email=" . $email);
@@ -248,19 +243,19 @@ require 'PHPMailer/src/SMTP.php';
             return false;
         }
 
-        if (password === confirmPassword) {
-            if (password.length < 8) {
-                alert("Password must be at least 8 characters");
-                return false;
-            }
-            if (password.search(/[a-z]/i) < 0) {
-                alert("Password must contain at least one letter");
-                return false;
-            }
-            if (password.search(/[0-9]/) < 0) {
-                alert("Password must contain at least one digit");
-                return false;
-            }
+        // if (password === confirmPassword) {
+        //     if (password.length < 8) {
+        //         alert("Password must be at least 8 characters");
+        //         return false;
+        //     }
+        //     if (password.search(/[a-z]/i) < 0) {
+        //         alert("Password must contain at least one letter");
+        //         return false;
+        //     }
+        //     if (password.search(/[0-9]/) < 0) {
+        //         alert("Password must contain at least one digit");
+        //         return false;
+        //     }
             // if (password.search(/[!@#$%^&*]/) < 0) {
             //     alert("Password must contain at least one special character");
             //     return false;

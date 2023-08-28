@@ -9,11 +9,12 @@
   align-items: center;
   justify-content: center;
   z-index: 1000; 
-  border-radius: 15px;
+  
 }
 
 
 .popup-content {
+  
   background-color: white;
   box-shadow: 5px;
   border-radius: 15px;
@@ -21,6 +22,7 @@
   height: 660px;
   width: 560px;
 }
+
 .close {
       position: absolute;
       top: 10px;
