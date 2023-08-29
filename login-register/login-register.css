@@ -8,19 +8,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; 
-  
+  z-index: 1000;  
 }
 
 
 .popup-content {
-  
   background-color: white;
   box-shadow: 5px;
   border-radius: 15px;
   padding: 15px;
-  height: 660px;
-  width: 560px;
+  height: 580px;
+  width: 520px;
 }
 
 .close {
@@ -43,7 +41,6 @@
   left: 0;
   width: 500px;
   height: 500px;
-  /* background-color: rgba(0, 0, 0, 0.5); */
   justify-content: center;
   align-items: center;
  

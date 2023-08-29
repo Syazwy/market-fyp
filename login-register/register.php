@@ -1,86 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
     
-<?php
-    //Import PHPMailer classes into the global namespace
-    //These must be at the top of your script, not inside a function
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP;
-    use PHPMailer\PHPMailer\Exception;
- 
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
- 
-    if (isset($_POST["register"]))
-    {
-        $username = $_POST['username'];
-        $email = $_POST["email"];
-        $password = $_POST["password"];
- 
-        //Instantiation and passing `true` enables exceptions
-        $mail = new PHPMailer(true);
- 
-        try {
-            //Enable verbose debug output
-            $mail->SMTPDebug = 0;//SMTP::DEBUG_SERVER;
- 
-            //Send using SMTP
-            $mail->isSMTP();
- 
-            //Set the SMTP server to send through
-            $mail->Host = 'smtp.gmail.com';
- 
-            //Enable SMTP authentication
-            $mail->SMTPAuth = true;
- 
-            //SMTP username
-            $mail->Username = 'market51bn@gmail.com';
- 
-            //SMTP password
-            $mail->Password = 'sdykqxqgfejnncuk';
- 
-            //Enable TLS encryption;
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
- 
-            //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-            $mail->Port = 587;
- 
-            //Recipients
-            $mail->setFrom('admin.market@gmail.com', 'admin.market');
- 
-            //Add a recipient
-            $mail->addAddress($email);
- 
-            //Set email format to HTML
-            $mail->isHTML(true);
- 
-            $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
- 
-            $mail->Subject = 'Email verification';
-            $mail->Body    = '<p>Your verification code is: <b style="font-size: 30px;">' . $verification_code . '</b></p>';
- 
-            $mail->send();
-            // echo 'Message has been sent'; 
- 
-            $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
- 
-            // connect with database
-            $conn = mysqli_connect("localhost", "root", "", "market");
-
-            $currentDateTime = new DateTime();
-            $date = $currentDateTime->format('Y-m-d');
-            // insert in account table
-            $sql = "INSERT INTO account(username, email, password,membership, date, verification_code, email_verified_at) VALUES ('" . $username . "', '" . $email . "', '" . $encrypted_password . "', '" . "basic" . "','" . $date . "', '" . $verification_code . "', NULL)";
-            mysqli_query($conn, $sql);
- 
-            header("Location: emailverification.php?email=" . $email);
-            exit();
-        } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-        }
-    }
-?>
 
 <head>
     <meta charset="UTF-8">
@@ -91,7 +11,7 @@ require 'PHPMailer/src/SMTP.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-transparent">
+ <nav class="navbar navbar-expand-lg bg-transparent">
   <div class="container">
     <a class="navbar-brand" href="#">
       <img src="../image/logo.png" width="80" height="80">
@@ -107,16 +27,15 @@ require 'PHPMailer/src/SMTP.php';
     </div>
   </div>
 </nav>
-
     <div class="search">
         <input class="searchbar" type="text" placeholder="Search for anything and everything" style="padding-left: 20px;">
         <button type="button" class="btn btn-primary">Search</button>
     </div>
-
+   
     <div>
       <h4>What would you like to find?</h4>
-    </div>
-
+    </div> 
+    
     <div class="row row-cols-1 row-cols-md-5 g-4">
       <div class="col">
         <div class="card">
@@ -154,8 +73,7 @@ require 'PHPMailer/src/SMTP.php';
         </div>
       </div>
     </div>
-
-
+   
     <div class="container">
       <div class="row">
         <div class="col-sm">
@@ -188,8 +106,8 @@ require 'PHPMailer/src/SMTP.php';
             </div>
           </div>
         </div>
-      </div>
-
+      </div> 
+  
 <center>
     <div class="popup-overlay">
         <div class="popup-content" style="padding:40px;">
@@ -197,7 +115,7 @@ require 'PHPMailer/src/SMTP.php';
   text-decoration: none;"><h2>x</h2></a>
             <h3>Create Account    </h3>
             <br>
-            <form method="post" onsubmit="return validateForm();" style="border: 1px solid black; border-radius: 5px; padding: 15px;">
+            <form method="post" onsubmit="return validateForm();" style=" ">
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
                     <label for="username">Username</label>
@@ -216,7 +134,7 @@ require 'PHPMailer/src/SMTP.php';
                     <label for="confirmPassword">Confirm Password</label>
                 </div>
                 <br>
-                <input type="submit" name="register" value="register" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 5px;"></input>
+                <input type="submit" name="register" value="register" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;"></input>
             </form>
             <br>
         </div>
@@ -225,8 +143,6 @@ require 'PHPMailer/src/SMTP.php';
 </body>
 <script>
  
-   
-
     function validateForm() {
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
@@ -256,16 +172,167 @@ require 'PHPMailer/src/SMTP.php';
         //         alert("Password must contain at least one digit");
         //         return false;
         //     }
-            // if (password.search(/[!@#$%^&*]/) < 0) {
-            //     alert("Password must contain at least one special character");
-            //     return false;
-            // }
-        }
+        //     if (password.search(/[!@#$%^&*]/) < 0) {
+        //         alert("Password must contain at least one special character");
+        //         return false;
+        //     }
+        // }
        
         localStorage.setItem("email", email);
 
         return true;
     }
+    
 </script>
+<?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+if (isset($_POST["register"])) {
+    $email = $_POST["email"];
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $confirmPassword = $_POST["confirmPassword"];
+
+    // Validate input
+    if (empty($email) || empty($username) || empty($password) || empty($confirmPassword)) {
+        echo "All fields are required.";
+        exit;
+    }
+
+    if ($password !== $confirmPassword) {
+        echo "Passwords do not match.";
+        exit;
+    }
+
+    // Hash password
+    $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Connect to database
+    $conn = mysqli_connect("localhost", "root", "", "market");
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    // Check if email exists
+$emailCheckSql = "SELECT * FROM account WHERE email = ?";
+$emailCheckStmt = mysqli_prepare($conn, $emailCheckSql);
+if ($emailCheckStmt) {
+    mysqli_stmt_bind_param($emailCheckStmt, "s", $email);
+    mysqli_stmt_execute($emailCheckStmt);
+    $emailResult = mysqli_stmt_get_result($emailCheckStmt);
+
+    if (mysqli_num_rows($emailResult) > 0) {
+        echo "<script>alert('Email already exists. Please choose another email.');</script>";
+        exit;
+    }
+
+    mysqli_stmt_close($emailCheckStmt);
+} else {
+    echo "Error: " . mysqli_error($conn);
+    exit;
+}
+
+// Check if username exists
+$usernameCheckSql = "SELECT * FROM account WHERE username = ?";
+$usernameCheckStmt = mysqli_prepare($conn, $usernameCheckSql);
+if ($usernameCheckStmt) {
+    mysqli_stmt_bind_param($usernameCheckStmt, "s", $username);
+    mysqli_stmt_execute($usernameCheckStmt);
+    $usernameResult = mysqli_stmt_get_result($usernameCheckStmt);
+
+    if (mysqli_num_rows($usernameResult) > 0) {
+        echo "<script>alert('Username already exists. Please choose another username.');</script>";
+        exit;
+    }
+
+    mysqli_stmt_close($usernameCheckStmt);
+} else {
+    echo "Error: " . mysqli_error($conn);
+    exit;
+}
+
+        // Insert new user into database
+        $currentDateTime = new DateTime();
+        $date = $currentDateTime->format('Y-m-d');
+        $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+
+        $insertSql = "INSERT INTO account(username, email, password, membership, date, verification_code, email_verified_at) VALUES (?, ?, ?, ?, ?, ?, NULL)";
+        $insertStmt = mysqli_prepare($conn, $insertSql);
+
+        if ($insertStmt) {
+
+            $membership = "basic";
+            mysqli_stmt_bind_param($insertStmt, "ssssss", $username, $email, $encrypted_password, $membership, $date, $verification_code);
+            mysqli_stmt_execute($insertStmt);
+
+            // Send verification email
+            $mail = new PHPMailer(true);
+            try {
+                //Enable verbose debug output
+            $mail->SMTPDebug = 0;//SMTP::DEBUG_SERVER;
+ 
+            //Send using SMTP
+            $mail->isSMTP();
+ 
+            //Set the SMTP server to send through
+            $mail->Host = 'smtp.gmail.com';
+ 
+            //Enable SMTP authentication
+            $mail->SMTPAuth = true;
+ 
+            //SMTP username
+            $mail->Username = 'market51bn@gmail.com';
+ 
+            //SMTP password
+            $mail->Password = 'ixcnouumjkoxtcvs';
+ 
+            //Enable TLS encryption;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+ 
+            //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+            $mail->Port = 587;
+ 
+            //Recipients
+            $mail->setFrom('admin.market@gmail.com', 'admin.market');
+ 
+            //Add a recipient
+            $mail->addAddress($email);
+ 
+            //Set email format to HTML
+            $mail->isHTML(true);
+ 
+            $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+ 
+            $mail->Subject = 'Email verification';
+            $mail->Body    = '<p>Your verification code is: <b style="font-size: 30px;">' . $verification_code . '</b></p>';
+ 
+            $mail->send();
+            // echo 'Message has been sent'; 
+                
+            } catch (Exception $e) {
+                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            }
+
+            echo '<script>window.location.href = "emailverification.php?email=' . $email . '";</script>';
+    exit();
+} else {
+    echo "Error: " . mysqli_error($conn);
+    mysqli_close($conn);
+    exit;
+}
+}
+    
+        ?>
 </html>
 

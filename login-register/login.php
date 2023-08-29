@@ -1,45 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php
-     
-     if (isset($_POST["login"]))
-     {
-         $email = $_POST["email"];
-         $password = $_POST["password"];
-  
-         // connect with database
-         $conn = mysqli_connect("localhost", "root", "", "market");
-  
-         // check if credentials are okay, and email is verified
-         $sql = "SELECT * FROM account WHERE email = '" . $email . "'";
-         $result = mysqli_query($conn, $sql);
-  
-         if (mysqli_num_rows($result) == 0)
-         {
-             die("Email not found.");
-         }
-  
-         $user = mysqli_fetch_object($result);
 
-          
-    if (!password_verify($password, $user->password)) {
-        die("Password is not correct");
-    }
-  
-         if (!password_verify($password, $user->password))
-         {
-             die("Password is not correct");
-         }
-  
-         if ($user->email_verified_at == null)
-         {
-             die("Please verify your email <a href='emailverification.php?email=" . $email . "'>from here</a>");
-         }
-  
-         header("Location:../home/index.php"); 
-            exit();
-     }
- ?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -148,12 +109,12 @@
   
 <center>
 <div class="popup-overlay" >
-    <div class="popup-content" style="padding:40px; height:535px">
+    <div class="popup-content" style="padding:40px; height:480px">
     <a href="../home/index-guest.php" class="d-grid gap-2 d-md-flex justify-content-md-end" style="color: inherit; 
   text-decoration: none;"><h2>x</h2></a>
         <h3>Login</h3>
         <br>
-        <div style="border: 1px solid black; border-radius: 15px; padding: 50px; padding-top:40px;padding-bottom:40px;">
+        <div style="">
         <form method="POST">
     <div class="form-floating mb-3" >
         <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required >
@@ -165,7 +126,7 @@
     </div>
     </div>
     <br><p ><a href="forgot-password.php" id="" style="color: rgb(255, 83, 83);"> Forgot password? </a></p>
-    <input type="submit" name="login" value="Log In" style="background-color: rgb(255, 83, 83);width: 100%;border-radius: 10px; padding: 5px;">
+    <input type="submit" name="login" value="Log In" style="background-color: rgb(255, 83, 83);width: 100%;border-radius: 10px; padding: 10px;">
             </form>
             <br>
         </div>
@@ -173,4 +134,44 @@
 </div>
 </center>
 </body>
+<?php
+     
+     if (isset($_POST["login"]))
+     {
+         $email = $_POST["email"];
+         $password = $_POST["password"];
+  
+         // connect with database
+         $conn = mysqli_connect("localhost", "root", "", "market");
+  
+         // check if credentials are okay, and email is verified
+         $sql = "SELECT * FROM account WHERE email = '" . $email . "'";
+         $result = mysqli_query($conn, $sql);
+  
+         if (mysqli_num_rows($result) == 0)
+         {
+             die("Email not found.");
+         }
+  
+         $user = mysqli_fetch_object($result);
+
+          
+    if (!password_verify($password, $user->password)) {
+        die("Password is not correct");
+    }
+  
+         if (!password_verify($password, $user->password))
+         {
+             die("Password is not correct");
+         }
+  
+         if ($user->email_verified_at == null)
+         {
+             die("Please verify your email <a href='emailverification.php?email=" . $email . "'>from here</a>");
+         }
+  
+         header("Location:../home/index.php"); 
+            exit();
+     }
+ ?>
 </html>

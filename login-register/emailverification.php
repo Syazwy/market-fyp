@@ -20,7 +20,7 @@
          die("Verification code failed.");
      }
 
-    header("Location: login.php");
+    header("Location: verified.php");
             exit();
 
  }
