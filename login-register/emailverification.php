@@ -1,31 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-    
 <?php
- 
- if (isset($_POST["verify_email"]))
- {
-     $email = $_POST["email"];
-     $verification_code = $_POST["verification_code"];
-
-     // connect with database
-     $conn = mysqli_connect("localhost", "root", "", "market");
-
-     // mark email as verified
-     $sql = "UPDATE account SET email_verified_at = NOW() WHERE email = '" . $email . "' AND verification_code = '" . $verification_code . "'";
-     $result  = mysqli_query($conn, $sql);
-
-     if (mysqli_affected_rows($conn) == 0)
-     {
-         die("Verification code failed.");
-     }
-
-    header("Location: verified.php");
-            exit();
-
- }
-
+$email = $_GET['email'];
 ?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -140,7 +118,11 @@
   text-decoration: none;"><h2>x</h2></a>
             <img src="../image/email.png" alt="mail logo" style="height:15%">
             <h4>Verify your email address</h4>
-            <h5 style="color: #5C5C5C">Please enter the 5 digit code sent to example@gmail.com</h5> 
+            <?php
+    echo "<h5 style='color: #5C5C5C'>Please enter the 5 digit code sent to $email</span></h5>";
+?>
+
+            
             <p></p>
 <form method="POST">
     
@@ -153,9 +135,37 @@
     <input type="submit" name="verify_email" value="Verify" style="background-color: rgb(255, 83, 83); width: 50%; border-radius: 10px; padding: 5px;">
 </form>
 <br>
-<h5 style="color: #FF5353">Resend Code</h5>
+<a href="register.php" style="text-decoration: none;"><h5 style="color: #FF5353">Change email</h5></a>
 </div>
 </div>
 </center>
 </body>
+<?php
+ 
+ if (isset($_POST["verify_email"]))
+ {
+     $email = $_POST["email"];
+     $verification_code = $_POST["verification_code"];
+
+     // connect with database
+     $conn = mysqli_connect("localhost", "root", "", "market");
+
+     // mark email as verified
+     $sql = "UPDATE account SET email_verified_at = NOW() WHERE email = '" . $email . "' AND verification_code = '" . $verification_code . "'";
+     $result  = mysqli_query($conn, $sql);
+
+     if (mysqli_affected_rows($conn) == 0)
+     {
+      echo "<script>alert('Verification Code Failed!');</script>";
+       
+exit();
+
+     }
+
+    header("Location: verified.php");
+            exit();
+
+ }
+
+?>
 </html>
