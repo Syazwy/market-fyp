@@ -1,4 +1,5 @@
 <?php require 'connection.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,7 @@
 </head>
 <body>
     
-    <table border = 1 cellspacing = 0 cellpadding = 10>
+    <table border="1" cellspacing="0" cellpadding="10">
         <tr>
             <td>#</td>
             <td>Name</td>
@@ -20,11 +21,14 @@
 
         <?php
         $i = 1;
-        $rows = mysqli_query($conn, "SELECT * from itemslisting ORDER BY Id DESC");
-        ?>
+        $query = "SELECT itemslisting.*, item_images.image_filename 
+                  FROM itemslisting 
+                  JOIN item_images ON itemslisting.id = item_images.item_id 
+                  GROUP BY itemslisting.id 
+                  ORDER BY itemslisting.id DESC";
+        $result = mysqli_query($conn, $query);
 
-        <?php
-        foreach($rows as $row) :
+        while ($row = mysqli_fetch_assoc($result)) :
         ?>
 
         <tr>
@@ -33,10 +37,10 @@
             <td><?php echo $row["price"]; ?></td>
             <td><?php echo $row["description"]; ?></td>
             <td><?php echo $row["location"]; ?></td>
-            <td><img src ="upload/<?php echo $row['image'];?>" width= 200></td>    
+            <td><img src="upload/<?php echo $row['image_filename']; ?>" width="200"></td>    
         </tr>
 
-        <?php endforeach; ?>
+        <?php endwhile; ?>
 
     </table>
 
