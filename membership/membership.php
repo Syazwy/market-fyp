@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+require_once("../session/session.php");
+?>
 <html>
 <link rel="stylesheet" href="membership.css">
 <link rel="stylesheet" href="../home/index.css">

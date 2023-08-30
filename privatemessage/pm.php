@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+require_once("../session/session.php");
+?>
 <html>
 <head>
     <meta charset="utf-8">

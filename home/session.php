@@ -1,4 +1,0 @@
-<?php
-    SESSION_START();
-    
-?>

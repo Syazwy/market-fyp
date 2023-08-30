@@ -272,6 +272,8 @@ if ($usernameCheckStmt) {
 
         if ($insertStmt) {
 
+         
+
             $membership = "basic";
             mysqli_stmt_bind_param($insertStmt, "ssssss", $username, $email, $encrypted_password, $membership, $date, $verification_code);
             mysqli_stmt_execute($insertStmt);
@@ -312,7 +314,7 @@ if ($usernameCheckStmt) {
             //Set email format to HTML
             $mail->isHTML(true);
  
-            $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+           
  
             $mail->Subject = 'Email verification';
             $mail->Body    = '<p>Your verification code is: <b style="font-size: 30px;">' . $verification_code . '</b></p>';

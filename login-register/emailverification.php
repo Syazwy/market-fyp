@@ -135,7 +135,9 @@
       </div>
       <center>
       <div class="popup-overlay">
-        <div class="popup-content" style="height:40%; width:23%; padding-top:35px">
+        <div class="popup-content" style="height:50%; width:23%; padding-top:35px">
+        <a href="../home/index-guest.php" class="d-grid gap-2 d-md-flex justify-content-md-end" style="color: inherit; 
+  text-decoration: none;"><h2>x</h2></a>
             <img src="../image/email.png" alt="mail logo" style="height:15%">
             <h4>Verify your email address</h4>
             <h5 style="color: #5C5C5C">Please enter the 5 digit code sent to example@gmail.com</h5> 

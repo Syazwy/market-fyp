@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="login-register.css">
     <link rel="stylesheet" href="../home/index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <title>Log in</title>
+    <title>Verified</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
@@ -108,10 +108,11 @@
   
 <center>
 <div class="popup-overlay" >
-    <div class="popup-content" style="padding:40px; height:480px">
+    <div class="popup-content" style="height:250px; width:300px" >
     <a href="../home/index-guest.php" class="d-grid gap-2 d-md-flex justify-content-md-end" style="color: inherit; 
   text-decoration: none;"><h2>x</h2></a>
-        <h3 style="margin:auto">Verified</h3>
+        <h3>Verified</h3>
+        <h4>You may login now</h4>
     </div>
 </div>
 </center>

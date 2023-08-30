@@ -1,6 +1,55 @@
+<?php
+$errorMessage = ""; // Initialize an empty error message
+
+if (isset($_POST["login"])) {
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+  
+    // Connect to the database (consider using a separate file for database configuration)
+    $conn = mysqli_connect("localhost", "root", "", "market");
+  
+    // Check if the connection was successful
+    if (!$conn) {
+        die("Database connection failed: " . mysqli_connect_error());
+    }
+  
+    // Use prepared statements to prevent SQL injection
+    $sql = "SELECT * FROM account WHERE email = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $user = mysqli_fetch_object($result);
+    if (mysqli_num_rows($result) == 0) {
+      $errorMessage = "Email not found.";
+  } elseif (!password_verify($password, $user->password)) {
+      $errorMessage = "Password is not correct";
+  } elseif ($user->email_verified_at == null) {
+      header("Location: emailverification.php?email=" . urlencode($email));
+      exit();
+  } else {
+      // Start the session and set a session variable to indicate the user is logged in
+      session_start();
+      $_SESSION['member'] = true;
+
+      // Redirect to the authenticated page
+      header("Location: ../home/index.php");
+      exit();
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <!-- your head content -->
+</head>
+<body>
+    <!-- your HTML content -->
+</body>
+</html>
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,16 +61,15 @@
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
   <div class="container">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="">
       <img src="../image/logo.png" width="80" height="80">
     </a>
-
     <div class="collapse navbar-collapse justify-content-center">
     <ul class="nav nav-pills">
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Categories</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../login-register/register.php">Register</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../login-register/login.php">Login</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Sell</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Sell</a></li>
     </ul>
     </div>
   </div>
@@ -30,11 +78,9 @@
         <input class="searchbar" type="text" placeholder="Search for anything and everything" style="padding-left: 20px;">
         <button type="button" class="btn btn-primary">Search</button>
     </div>
-   
     <div>
       <h4>What would you like to find?</h4>
     </div>
-    
     <div class="row row-cols-1 row-cols-md-5 g-4">
       <div class="col">
         <div class="card">
@@ -72,7 +118,6 @@
         </div>
       </div>
     </div>
-   
     <div class="container">
       <div class="row">
         <div class="col-sm">
@@ -106,7 +151,6 @@
           </div>
         </div>
       </div>
-  
 <center>
 <div class="popup-overlay" >
     <div class="popup-content" style="padding:40px; height:480px">
@@ -130,48 +174,13 @@
             </form>
             <br>
         </div>
+        <?php if (!empty($errorMessage)) : ?>
+            <script>
+                alert("<?php echo $errorMessage; ?>");
+            </script>
+        <?php endif; ?>
     </div>
 </div>
 </center>
 </body>
-<?php
-     
-     if (isset($_POST["login"]))
-     {
-         $email = $_POST["email"];
-         $password = $_POST["password"];
-  
-         // connect with database
-         $conn = mysqli_connect("localhost", "root", "", "market");
-  
-         // check if credentials are okay, and email is verified
-         $sql = "SELECT * FROM account WHERE email = '" . $email . "'";
-         $result = mysqli_query($conn, $sql);
-  
-         if (mysqli_num_rows($result) == 0)
-         {
-             die("Email not found.");
-         }
-  
-         $user = mysqli_fetch_object($result);
-
-          
-    if (!password_verify($password, $user->password)) {
-        die("Password is not correct");
-    }
-  
-         if (!password_verify($password, $user->password))
-         {
-             die("Password is not correct");
-         }
-  
-         if ($user->email_verified_at == null)
-         {
-             die("Please verify your email <a href='emailverification.php?email=" . $email . "'>from here</a>");
-         }
-  
-         header("Location:../home/index.php"); 
-            exit();
-     }
- ?>
 </html>
