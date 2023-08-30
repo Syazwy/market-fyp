@@ -38,8 +38,8 @@
             <td><?php echo $row["description"]; ?></td>
             <td><?php echo $row["location"]; ?></td>
             <td><img src ="upload/<?php echo $row['image'];?>" width= 200></td>
-            <td><a href="edit_page_1.php?id=<?php echo $row["name"]; ?>" class="btn btn-success">Edit</td> 
-            <td><a href="remove_page_1.php?id=<?php echo $row["name"]; ?>" class="btn btn-danger">Remove</td>
+            <td><a href="edit_page_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">Edit</td> 
+            <td><a href="remove_page_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Remove</td>
         </tr>
 
         <?php endforeach; ?>

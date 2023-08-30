@@ -7,6 +7,7 @@
     $price = $_POST["price"];
     $description = $_POST["description"];
     $location = $_POST["location"];
+    $imaage = $_POST["image"];
     
     if($_FILES['image']["error"] === 4){
       echo
