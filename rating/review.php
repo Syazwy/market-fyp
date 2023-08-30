@@ -146,7 +146,6 @@ require_once("../session/session.php");
     </div>
   </form>
 </div>
-
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         <button type="submit" class="btn btn-primary" id="submitReviewBtn">Submit Review</button>
