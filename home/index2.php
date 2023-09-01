@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
-session_start();
-require_once("session.php");
+require_once("../session/session.php");
+require '../sellers/connection.php';
 ?>
 
 <html lang="en">
@@ -50,6 +50,7 @@ require_once("session.php");
     <div>
       <h4>What would you like to find?</h4>
     </div>
+
   <div class="row row-cols-1 row-cols-md-5 g-4">
       <div class="col">
         <div class="card">
@@ -87,13 +88,31 @@ require_once("session.php");
         </div>
       </div>
     </div>
+
+    <div>
+      <h4>Newly Listed</h4>
+      <?php
+        $i = 1;
+        $query = "SELECT itemslisting.*, item_images.image_filename 
+                  FROM itemslisting 
+                  JOIN item_images ON itemslisting.id = item_images.item_id 
+                  GROUP BY itemslisting.id 
+                  ORDER BY itemslisting.id DESC";
+        $result = mysqli_query($conn, $query);
+
+        while ($row = mysqli_fetch_assoc($result)) :
+        ?>
+
+        
+    </div>
+
   <div class="container">
       <div class="row">
         <div class="col-sm">
           <div class="card" style="width: 18rem;">
             <img src="../image/iphone.png" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title">Iphone 12</h5>
+              <h5 class="card-title"><?php echo $row["name"]; ?></h5>
               <p class="card-text">Price: $1000</p>
               <a href="#" class="btn btn-primary">Buy</a>
             </div>
@@ -103,7 +122,7 @@ require_once("session.php");
           <div class="card" style="width: 18rem;">
             <img src="../image/iphone.png" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title">Iphone 12</h5>
+              <h5 class="card-title"><?php echo $row["name"]; ?></h5>
               <p class="card-text">Price: $1000</p>
               <a href="#" class="btn btn-primary">Buy</a>
             </div>
@@ -113,14 +132,14 @@ require_once("session.php");
           <div class="card" style="width: 18rem;">
             <img src="../image/iphone.png" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title">Iphone 12</h5>
+              <h5 class="card-title"><?php echo $row["name"]; ?></h5>
               <p class="card-text">Price: $1000</p>
               <a href="#" class="btn btn-primary">Buy</a>
             </div>
           </div>
         </div>
       </div>
-
+      <?php endwhile; ?>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>
