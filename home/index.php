@@ -32,8 +32,9 @@ require_once("../session/session.php");
     </a>
 
     <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="#">Your Listings</a></li>
+      <li><a class="dropdown-item" href="">Your Listings</a></li>
       <li><a class="dropdown-item" href="#">My purchases</a></li>
+      <li><a class="dropdown-item" href="../rating/users.php">Reviews</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
       <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
     </ul>

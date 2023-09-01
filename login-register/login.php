@@ -1,52 +1,49 @@
 <?php
+session_start(); // Start the session at the beginning of your script
+
 $errorMessage = ""; // Initialize an empty error message
 
 if (isset($_POST["login"])) {
-    $email = $_POST["email"];
+    $emailOrUsername = $_POST["emailOrUsername"]; // Modified to handle email or username
     $password = $_POST["password"];
-  
+
     // Connect to the database (consider using a separate file for database configuration)
     $conn = mysqli_connect("localhost", "root", "", "market");
-  
+
     // Check if the connection was successful
     if (!$conn) {
         die("Database connection failed: " . mysqli_connect_error());
     }
-  
+
     // Use prepared statements to prevent SQL injection
-    $sql = "SELECT * FROM account WHERE email = ?";
+    $sql = "SELECT * FROM account WHERE email = ? OR username = ?";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_bind_param($stmt, "ss", $emailOrUsername, $emailOrUsername); // Bind the same value twice
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
-    $user = mysqli_fetch_object($result);
+    
     if (mysqli_num_rows($result) == 0) {
-      $errorMessage = "Email not found.";
-  } elseif (!password_verify($password, $user->password)) {
-      $errorMessage = "Password is not correct";
-  } elseif ($user->email_verified_at == null) {
-      header("Location: emailverification.php?email=" . urlencode($email));
-      exit();
-  } else {
-      // Start the session and set a session variable to indicate the user is logged in
-      session_start();
-      $_SESSION['member'] = true;
+        $errorMessage = "Email or username not found.";
+    } else {
+        $user = mysqli_fetch_object($result);
+        if (!password_verify($password, $user->password)) {
+            $errorMessage = "Password is not correct";
+        } elseif ($user->email_verified_at == null) {
+            header("Location: emailverification.php?email=" . urlencode($user->email));
+            exit();
+        } else {
+            // Set session variables to indicate the user is logged in
+            $_SESSION['member'] = true;
+            $_SESSION['email'] = $user->email;
+            $_SESSION['username'] = $user->username;
 
-      // Redirect to the authenticated page
-      header("Location: ../home/index.php");
-      exit();
-  }
+            header("Location: ../home/index.php");
+            exit();
+        }
+    }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- your head content -->
-</head>
-<body>
-    <!-- your HTML content -->
-</body>
-</html>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -160,18 +157,19 @@ if (isset($_POST["login"])) {
         <br>
         <div style="">
         <form method="POST">
-    <div class="form-floating mb-3" >
-        <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required >
-        <label for="email">Email</label>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="emailOrUsername" name="emailOrUsername" placeholder="Email or Username" required>
+        <label for="emailOrUsername">Email or Username</label>
     </div>
     <div class="form-floating">
         <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
         <label for="password">Password</label>
     </div>
-    </div>
-    <br><p ><a href="forgot-password.php" id="" style="color: rgb(255, 83, 83);"> Forgot password? </a></p>
-    <input type="submit" name="login" value="Log In" style="background-color: rgb(255, 83, 83);width: 100%;border-radius: 10px; padding: 10px;">
-            </form>
+    <br>
+    <p><a href="forgot-password.php" id="" style="color: rgb(255, 83, 83);">Forgot password?</a></p>
+    <input type="submit" name="login" value="Log In" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;">
+</form>
+
             <br>
         </div>
         <?php if (!empty($errorMessage)) : ?>

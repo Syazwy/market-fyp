@@ -2,6 +2,7 @@
 <?php
 require_once("../session/session.php");
 $users = $_GET['users'];
+$username = $_SESSION['username'];
 ?>
 <html lang="en">
 <head>
@@ -161,8 +162,7 @@ echo "<h2>" . $users ;
       <div class="modal-body">
   <form id="reviewForm" method="POST" action="review.php">
     <div class="form-group">
-      <label for="username">Name</label>
-      <input type="text" class="form-control" id="username" name="username"  autocomplete="off" required>
+      <input type="text" class="form-control" id="username" name="username" value="<?php echo $username ?>"  autocomplete="off" hidden >
     </div>
     <div class="form-group">
       <label for="content">Content</label> <!-- Change the label text here -->

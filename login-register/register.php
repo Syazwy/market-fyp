@@ -134,7 +134,7 @@
                     <label for="confirmPassword">Confirm Password</label>
                 </div>
                 <br>
-                <input type="submit" name="register" value="register" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;"></input>
+                <input type="submit" name="register" value="Create" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;"></input>
             </form>
             <br>
         </div>
@@ -272,8 +272,6 @@ if ($usernameCheckStmt) {
 
         if ($insertStmt) {
 
-         
-
             $membership = "basic";
             mysqli_stmt_bind_param($insertStmt, "ssssss", $username, $email, $encrypted_password, $membership, $date, $verification_code);
             mysqli_stmt_execute($insertStmt);
@@ -306,7 +304,7 @@ if ($usernameCheckStmt) {
             $mail->Port = 587;
  
             //Recipients
-            $mail->setFrom('admin.market@gmail.com', 'admin.market');
+            $mail->setFrom('admin.market@gmail.com', 'MarketBN');
  
             //Add a recipient
             $mail->addAddress($email);
