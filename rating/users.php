@@ -1,29 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User List</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 600px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
         .user-link {
             display: block;
             padding: 10px;
@@ -39,11 +22,47 @@
             background-color: #f5f5f5;
         }
     </style>
+
+    <link rel="stylesheet" href="review.css">
 </head>
 <body>
-    <div class="container">
+<nav class="navbar navbar-expand-lg bg-transparent">
+  <div class="container">
+    <a class="navbar-brand" href="../home/index.php">
+      <img src="../image/logo.png" width="80" height="80">
+    </a>
+  
+  <div class="collapse navbar-collapse justify-content-center">
+    <ul class="nav nav-pills">
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#" >Sell</a></li>
+    </ul>
+  </div>
+
+  <div class="dropdown">
+    <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
+      <img src="../image/profile.png" width="50" height="50" class="profile">
+    </a>
+
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="">Your Listings</a></li>
+      <li><a class="dropdown-item" href="#">My purchases</a></li>
+      <li><a class="dropdown-item" href="../rating/users.php">Reviews</a></li>
+      <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
+      <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
+    </ul>
+  </div>
+  </div>
+</nav>
+
+    <div >
         <h1>Pick sellers and review them</h1>
         <?php
+        session_start();
+        $username = $_SESSION['username'];
+      
+        echo $username;
         $conn = mysqli_connect("localhost", "root", "", "market");
 
         if (!$conn) {
@@ -62,12 +81,15 @@
         } else {
             while ($row = mysqli_fetch_assoc($result)) {
                 $users = $row['username'];
-                echo "<a class='user-link' href='review.php?users=" . urlencode($users) . "'>" . $users . "</a>";
+                echo "<p>Sellers: <a class='user-link' href='review.php?users=" . urlencode($users) . "'>" . $users . "</a></p>";
             }
         }
 
         mysqli_close($conn);
         ?>
     </div>
-</body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script></body>
 </html>

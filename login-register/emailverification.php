@@ -33,6 +33,18 @@
     <link rel="stylesheet" href="login-register.css">
     <link rel="stylesheet" href="../home/index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+      .form-control{
+        width:250px;
+      }
+      .popup-content{
+        height:50%;
+      }
+      #changeemail{
+        text-decoration:none;
+        color: #FF5353;
+      }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
@@ -135,27 +147,32 @@
       </div>
       <center>
       <div class="popup-overlay">
-        <div class="popup-content" style="height:50%; width:23%; padding-top:35px">
+        <div class="popup-content">
         <a href="../home/index-guest.php" class="d-grid gap-2 d-md-flex justify-content-md-end" style="color: inherit; 
   text-decoration: none;"><h2>x</h2></a>
             <img src="../image/email.png" alt="mail logo" style="height:15%">
             <h4>Verify your email address</h4>
-            <h5 style="color: #5C5C5C">Please enter the 5 digit code sent to example@gmail.com</h5> 
-            <p></p>
-<form method="POST">
-    
-
+            <h5 style="color: #5C5C5C">Please enter the 5-digit code sent to 
+    <span style="color: #FF5353;"><?php echo $_GET['email']; ?></span>
+</h5>
+   <p></p>        
+<form method="POST"> 
+<div class="form-group">
     <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>" required>
-    <input type="text" name="verification_code" placeholder="Enter verification code" required />
- <br>
+    <input type="text" class="form-control" name="verification_code" id="verification_code" placeholder="Enter verification code" required />
  <br>
 
-    <input type="submit" name="verify_email" value="Verify" style="background-color: rgb(255, 83, 83); width: 50%; border-radius: 10px; padding: 5px;">
-</form>
+
+    <input type="submit" name="verify_email" value="Verify" style="background-color:#FF5353 ; width: 50%; border-radius: 10px; padding: 5px;">
+    </div>
+  </form>
 <br>
-<h5 style="color: #FF5353">Resend Code</h5>
+<a id="changeemail" href="register.php" ><h5>Change Email</h5></a>
 </div>
 </div>
 </center>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
