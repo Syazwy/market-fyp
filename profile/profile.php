@@ -1,3 +1,13 @@
+<?php
+require 'connection.php';
+
+
+
+// Fetch product listings
+$productQuery = "SELECT * FROM `itemslisting`";
+$productResult = mysqli_query($conn, $productQuery);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,15 +56,30 @@
             </div>
         </div>
 
+  
+        
+
+
+
 
         <div class="box2">
+           
+
             <div class="contact-info">
-                <a href="mailto:johndoe@example.com">Listings</a>
-                <a href="https://twitter.com/johndoe" target="_blank">Reviews</a>
-                <a href="https://linkedin.com/in/johndoe" target="_blank">Wishlist</a>
+            <?php while ($productRow = mysqli_fetch_assoc($productResult)) { ?>
+                <div class="product">
+                    <div class="product-img"><img src ="../sellers/img/upload/<?php echo $productRow['image'];?>"></div>
+                    <div class="product-category"><?php echo $productRow["category"]; ?></div>
+                    <div class="product-name"><?php echo $productRow["name"]; ?></div>
+                    <div class="product-description"><?php echo $productRow["description"]; ?></div>
+                    <div class="product-price">$<?php echo $productRow["price"]; ?></div>
+                    <div class="product-location"><?php echo $productRow["location"]; ?></div>
+
+                </div>
             </div>
-        </div>
+            <?php } ?>
     </div>
+
 
 </body>
 </html>
