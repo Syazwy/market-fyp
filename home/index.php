@@ -1,9 +1,9 @@
-<!DOCTYPE html>
 <?php
 require_once("../session/session.php");
 require '../sellers/connection.php';
 ?>
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -50,6 +50,7 @@ require '../sellers/connection.php';
     <div>
       <h4>What would you like to find?</h4>
     </div>
+
     <center>
   <div class="container">
   <div class="row row-cols-1 row-cols-md-5 g-4">

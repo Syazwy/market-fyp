@@ -337,6 +337,58 @@ if (isset($_POST["login"])) {
         <button type="button" class="btn btn-primary">Search</button>
     </div>
 
+    <div>
+      <h4>What would you like to find?</h4>
+    </div>
+
+    <center>
+  <div class="container">
+  <div class="row row-cols-1 row-cols-md-5 g-4">
+      <div class="col">
+        <div class="card">
+          <a href="">
+            <img class="image" src="../image/property.png" alt="">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <a href="">
+            <img class="image" src="../image/vehicle.png" alt="">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <a href="">
+            <img class="image" src="../image/furniture.png" alt="">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <a href="">
+            <img class="image" src="../image/electronic.png" alt="">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <a href="">
+            <img class="image" src="../image/fashion.png" alt="">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </center>
+
+    <div>
+      <h4>Newly Listed</h4>
+    </div>
+
+    
+
 <script>
   $('#myModal').on('shown.bs.modal', function () {
   $('#myInput').trigger('focus')
