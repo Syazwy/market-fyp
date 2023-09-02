@@ -1,6 +1,5 @@
 <?php
-require_once("../session/session.php");
-require '../sellers/connection.php';
+  require_once("../session/session.php");
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +14,7 @@ require '../sellers/connection.php';
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
   <div class="container">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="index.php">
       <img src="../image/logo.png" width="80" height="80">
     </a>
   
@@ -23,7 +22,7 @@ require '../sellers/connection.php';
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#" >Sell</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
     </ul>
   </div>
 
@@ -100,6 +99,7 @@ require '../sellers/connection.php';
   <div class="container">
     <div class="row row-cols-1 row-cols-md-5 g-4">
       <?php
+        require '../sellers/connection.php';
         $i = 1;
         $query = "SELECT itemslisting.*, item_images.image_filename 
                   FROM itemslisting 
