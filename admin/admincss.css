@@ -134,3 +134,26 @@ a.nav-link.active {
 
 
 }
+
+.box1 {
+    float: left;
+    width: 20%;
+    height: 300px;
+    margin: 10px 0px 0px 20px ;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.box2 {
+    display: flex;
+      float: right;
+      width: 65%;
+      height: 90%;
+      margin:  10px 10px 0px 0px ;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }

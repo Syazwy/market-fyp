@@ -30,7 +30,7 @@
 
 <div class="profile-container">
         <div class="profile-picture">
-            <img src="profileimage/wajdi.jpg" alt="Profile Picture">
+            <img src="image/Tommy.jpeg" alt="Profile Picture">
         </div>
        
         
@@ -39,12 +39,21 @@
     <br>
 
     <div class="box">
+
         <div class="box1">
             <div class="user-info">
                 <div class="user-name">John Doe</div>
                 <div class="user-bio">Web Developer | Designer</div>
             </div>
         </div>
+
+        <div class="box2">
+          
+
+
+        </div>
+
+    </div>
 
   
         
