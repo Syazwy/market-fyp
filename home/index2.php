@@ -50,7 +50,7 @@ require '../sellers/connection.php';
     <div>
       <h4>What would you like to find?</h4>
     </div>
-
+    <center>
   <div class="container">
   <div class="row row-cols-1 row-cols-md-5 g-4">
       <div class="col">
@@ -90,11 +90,13 @@ require '../sellers/connection.php';
       </div>
     </div>
   </div>
+  </center>
 
     <div>
       <h4>Newly Listed</h4>
     </div>
 
+    <center>
   <div class="container">
     <div class="row row-cols-1 row-cols-md-5 g-4">
       <?php
@@ -110,64 +112,21 @@ require '../sellers/connection.php';
         ?>
 
       <div class="col">
-        <div class="card item" style="background-color: #FFFFFF;">
+        <div class="card item h-100" style="background-color: #FFFFFF;">
           <a href="">
-            <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top">
+            <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
           <div class="card-body">
             <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
             <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
+            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
           </div>
         </div>
       </div>
-      <!-- <div class="container">
-      <div class="row">
-        <div class="col-sm">
-          <div class="card" style="width: 18rem;">
-            <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" width="200">
-            <div class="card-body">
-              <h5 class="card-title"><?php echo $row["name"]; ?></h5>
-              <p class="card-text"><?php echo $row["price"]; ?></p>
-              <a href="#" class="btn btn-primary">Buy</a>
-            </div>
-          </div>
-        </div> -->
       <?php endwhile; ?>
       </div>
     </div>
-      <!-- <div class="container">
-      <div class="row">
-        <div class="col-sm">
-          <div class="card" style="width: 18rem;">
-            <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" width="200">
-            <div class="card-body">
-              <h5 class="card-title"><?php echo $row["name"]; ?></h5>
-              <p class="card-text"><?php echo $row["price"]; ?></p>
-              <a href="#" class="btn btn-primary">Buy</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm">
-          <div class="card" style="width: 18rem;">
-            <img src="../image/iphone.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title"><?php echo $row["name"]; ?></h5>
-              <p class="card-text">Price: $1000</p>
-              <a href="#" class="btn btn-primary">Buy</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm">
-          <div class="card" style="width: 18rem;">
-            <img src="../image/iphone.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title"><?php echo $row["name"]; ?></h5>
-              <p class="card-text">Price: $1000</p>
-              <a href="#" class="btn btn-primary">Buy</a>
-            </div>
-          </div>
-        </div>
-      </div> -->
+    </center>
       
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
