@@ -1,4 +1,13 @@
-  a.nav-link.active {
+
+a.nav-link.active {
+    background-color: #FF5353 !important;
+    margin-right: 20px;
+    border-radius: 18px;
+    width: 150px;
+    text-align: center;
+  }
+
+  button.nav-link.active {
     background-color: #FF5353 !important;
     margin-right: 20px;
     border-radius: 18px;
@@ -52,6 +61,15 @@
     width: 150px;
     height: 150px;
     background-color: #FFEAEA;
+    border: none;
+  }
+
+  div.card-body {
+    width: 150px;
+    height: 150px;
+    /* background-color: #FFFFFF; */
+    padding: 0px;
+    padding-top: 16px;
   }
 
   img.img-thumbnail {
