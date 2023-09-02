@@ -560,6 +560,7 @@ if (isset($_POST["login"])) {
             </script>
         <?php endif; ?>
 
+        
         </body>
 </html>
 <?php
