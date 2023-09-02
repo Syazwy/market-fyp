@@ -61,6 +61,15 @@ a.nav-link.active {
     width: 150px;
     height: 150px;
     background-color: #FFEAEA;
+    border: none;
+  }
+
+  div.card-body {
+    width: 150px;
+    height: 150px;
+    /* background-color: #FFFFFF; */
+    padding: 0px;
+    padding-top: 16px;
   }
 
   img.img-thumbnail {
