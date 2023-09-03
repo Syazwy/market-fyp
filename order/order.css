@@ -1,0 +1,58 @@
+.payment-container{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+    max-width: 600px; 
+    height:500px;
+    margin: 0 auto; 
+    padding:40px;
+    border-radius: 20px ;
+    
+}
+
+
+.order-request {
+    position: absolute;
+    background-color: white;
+    z-index: 2;
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+a.nav-link.active {
+    background-color: #FF5353 !important;
+    margin-right: 20px;
+    border-radius: 18px;
+    width: 150px;
+    text-align: center;
+  }
+
+  button.nav-link.active {
+    background-color: #FF5353 !important;
+    margin-right: 20px;
+    border-radius: 18px;
+    width: 150px;
+    text-align: center;
+  }
+  
+  .btn.btn-primary {
+    background-color: #FF5353;
+    border-radius: 18px;
+    border: none;
+    width: 100px;
+  }
+
+  #placeOrderButton {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+    background-color: #FF5353;
+    border-radius: 10px;
+    width: 350px;
+    height: 40px;
+    border: none;
+    color: white; /* Add this line to set the text color to white */
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
