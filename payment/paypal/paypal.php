@@ -11,24 +11,21 @@
   <div id="paypal-button-container"></div>
   <script
     data-sdk-integration-source="integrationbuilder_sc"
-    src="https://www.paypal.com/sdk/js?client-id=<test>>&components=buttons&enable-funding=venmo,paylater"></script>
-  <script>
+    src="https://www.paypal.com/sdk/js?client-id=AW6IItKqFlY_wY4a0L_9wJ97PFoDY734dhsRZ45Iz572a4sOtDPyWjZ28ATRpy5fWjTPtg-xx8yqoCQc&components=buttons&enable-funding=venmo,paylater"></script>
+    <script>
     const FUNDING_SOURCES = [
-      // EDIT FUNDING SOURCES
-        paypal.FUNDING.PAYPAL,
-        paypal.FUNDING.PAYLATER,
-        paypal.FUNDING.CARD
+      paypal.FUNDING.PAYPAL,
+      paypal.FUNDING.CARD
     ];
+    
     FUNDING_SOURCES.forEach(fundingSource => {
       paypal.Buttons({
         fundingSource,
-
         style: {
           layout: 'vertical',
-          shape: 'pill',
+          shape: 'rect',
           color: (fundingSource == paypal.FUNDING.PAYLATER) ? 'gold' : '',
         },
-
         createOrder: async (data, actions) => {
           try {
             const response = await fetch("http://localhost:9597/orders", {
@@ -43,8 +40,6 @@
           }
         },
 
-        
-
         onApprove: async (data, actions) => {
           try {
             const response = await fetch(`http://localhost:9597/orders/${data.orderID}/capture`, {
@@ -52,18 +47,11 @@
             });
 
             const details = await response.json();
-            // Three cases to handle:
-            //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-            //   (2) Other non-recoverable errors -> Show a failure message
-            //   (3) Successful transaction -> Show confirmation or thank you message
 
-            // This example reads a v2/checkout/orders capture response, propagated from the server
-            // You could use a different API or structure for your 'orderData'
             const errorDetail = Array.isArray(details.details) && details.details[0];
 
             if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
               return actions.restart();
-              // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
             }
 
             if (errorDetail) {
@@ -73,7 +61,6 @@
               alert(msg);
             }
 
-            // Successful capture! For demo purposes:
             console.log('Capture result', details, JSON.stringify(details, null, 2));
             const transaction = details.purchase_units[0].payments.captures[0];
             alert('Transaction ' + transaction.status + ': ' + transaction.id + 'See console for all available details');
@@ -83,7 +70,7 @@
           }
         },
       }).render("#paypal-button-container");
-    })
+    });
   </script>
 </body>
 
