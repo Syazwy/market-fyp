@@ -27,7 +27,7 @@
         // print_r($reset_pwd);
       
         if ($reset_pwd) {
-            $msg = 'Your password has been updated successfully. <a href="../../login.php">Click here</a> to login.';
+            $msg = 'Your password has been updated successfully. <a href="../../index.php">Click here</a> to login.';
         } else {
             $msg = "Error while updating password.";
         }

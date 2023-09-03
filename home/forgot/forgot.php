@@ -17,7 +17,7 @@ if(isset($_REQUEST['pwdrst']))
      <p><b>Hello!</b></p>
      <p>We are sorry to hear that you are having trouble with logging in to our website. We have received a message that you have forgotten your password. If this was you, you can get straight back into your account or reset your password now.</p>
      <br>
-     <p><a style="background-color: #FF5353;border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;" href="http://localhost/Market/login-register/forgot/reset/passwordreset.php?secret='.($email).'"> Click to Reset Your Password </a></p>
+     <p><a style="background-color: #FF5353;border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;" href="http://localhost/Market/home/forgot/reset/passwordreset.php?secret='.($email).'"> Click to Reset Your Password </a></p>
      <br>
      <p>If you didnt request a login link or password reset, you can ignore this message. </p>
     <p>Only people who know your password or click the login link in this email can log in to your account </p>
