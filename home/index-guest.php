@@ -337,6 +337,88 @@ if (isset($_POST["login"])) {
         <button type="button" class="btn btn-primary">Search</button>
     </div>
 
+    <div>
+      <h4>What would you like to find?</h4>
+    </div>
+
+    <center>
+  <div class="container">
+  <div class="row row-cols-1 row-cols-md-5 g-4">
+      <div class="col">
+        <div class="card">
+          <a href="">
+            <img class="image" src="../image/property.png" alt="">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <a href="">
+            <img class="image" src="../image/vehicle.png" alt="">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <a href="">
+            <img class="image" src="../image/furniture.png" alt="">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <a href="">
+            <img class="image" src="../image/electronic.png" alt="">
+          </a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <a href="">
+            <img class="image" src="../image/fashion.png" alt="">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </center>
+
+    <div>
+      <h4>Newly Listed</h4>
+    </div>
+
+    <div class="container">
+    <div class="row row-cols-1 row-cols-md-5 g-4">
+      <?php
+        require '../sellers/connection.php';
+        
+        $i = 1;
+        $query = "SELECT itemslisting.*, item_images.image_filename 
+                  FROM itemslisting 
+                  JOIN item_images ON itemslisting.id = item_images.item_id 
+                  GROUP BY itemslisting.id 
+                  ORDER BY itemslisting.id DESC";
+        $result = mysqli_query($conn, $query);
+
+        while ($row = mysqli_fetch_assoc($result)) :
+        ?>
+
+      <div class="col d-flex align-items-center justify-content-center">
+        <div class="card item h-100" style="background-color: #FFFFFF;">
+          <a href="">
+            <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
+          </a>
+          <div class="card-body">
+            <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
+            <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
+            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+          </div>
+        </div>
+      </div>
+      <?php endwhile; ?>
+      </div>
+    </div>
+
 <script>
   $('#myModal').on('shown.bs.modal', function () {
   $('#myInput').trigger('focus')
@@ -560,6 +642,7 @@ if (isset($_POST["login"])) {
             </script>
         <?php endif; ?>
 
+        
         </body>
 </html>
 <?php
