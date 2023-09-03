@@ -77,7 +77,7 @@ if (isset($_POST["verify_email"])) {
   // connect with the database
   $conn = mysqli_connect("localhost", "root", "", "market");
 
-  // Check for a successful database connection
+  // Check for a successful database connectionMarket
   if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());
   }

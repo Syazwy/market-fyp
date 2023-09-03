@@ -116,15 +116,23 @@
         ?>
 
       <div class="col d-flex align-items-center justify-content-center">
-        <div class="card item h-100" style="background-color: #FFFFFF;">
+        <div class="card item">
+          <div class="card-header bg-transparent border border-0" style="background-color: #FFFFFF !important;">
+            <h6 class="card-title">
+              <a class="navbar-brand" href="index.php">
+                <img src="../image/logo.png" width="20" height="20">
+              </a style="text-transform: capitalize">
+              <?php echo $row["username"]; ?>
+            </h6>
+            <p class="card-text">Test</p>
+          </div>
           <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
             <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
-          <div class="card-body">
+          <div class="card-body h-100">
             <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
             <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
-            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-            
+            <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
           </div>
         </div>
       </div>
