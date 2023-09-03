@@ -205,7 +205,7 @@ if (isset($_POST["register"])) {
     $insertStmt = mysqli_prepare($conn, $insertSql);
 
     if ($insertStmt) {
-        $membership = "basic";
+        $membership = " Basic";
         mysqli_stmt_bind_param($insertStmt, "ssssss", $username, $email, $encrypted_password, $membership, $date, $verification_code);
         mysqli_stmt_execute($insertStmt);
 
