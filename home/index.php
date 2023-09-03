@@ -114,7 +114,7 @@
 
       <div class="col d-flex align-items-center justify-content-center">
         <div class="card item h-100" style="background-color: #FFFFFF;">
-          <a href="">
+          <a href="product.php?id=?">
             <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
           <div class="card-body">

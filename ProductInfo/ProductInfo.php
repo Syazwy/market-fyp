@@ -1,4 +1,4 @@
-<?php require 'connection.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,16 +25,31 @@
     
       <main>
 
-      <?php
-        $i = 1;
-        $rows = mysqli_query($conn, "SELECT * from itemslisting ORDER BY Id DESC");
-        ?>
+      
 
-        <?php
-        foreach($rows as $row) 
-        ?>
+        
     
         <h1>Market</h1>
+
+        <?php
+        require 'connection.php';
+
+        // Check if the 'id' query parameter is set in the URL
+        if (isset($_GET['id'])) {
+            $itemId = $_GET['id'];
+            
+            // Fetch the specific product based on the 'id' parameter
+            $query = "SELECT itemslisting.*, item_images.image_filename 
+                      FROM itemslisting 
+                      JOIN item_images ON itemslisting.id = item_images.item_id 
+                      WHERE itemslisting.id = $itemId"; // Make sure to sanitize and validate the input
+            $result = mysqli_query($conn, $query);
+            
+            // Check if a product with the specified 'id' exists
+            if ($row = mysqli_fetch_assoc($result)) {
+                // Product data is now available in the $row variable
+      ?>
+
     
         <section id="home">
           <h1><?php echo $row["name"]; ?></h1>
@@ -62,13 +77,13 @@
                 </div>
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src ="../sellers/upload/<?php echo $row['image'];?>" width= 200>
+                    <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" width= 500px>
                   </div>
                   <div class="carousel-item">
-                    <img src ="upload/<?php echo $row['image'];?>" width= 200>
+                  <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" width= 500px>
                   </div>
                   <div class="carousel-item">
-                    <img src ="upload/<?php echo $row['image'];?>" width= 200>
+                  <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" width= 500px>
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -113,7 +128,7 @@
 
 
             </div>
-    
+            
         </div>
 
           <br>
@@ -134,6 +149,17 @@
           <p>This is the contact section of the website template.</p>
         </section>
       </div>
+
+      <?php
+            } else {
+                // Handle the case where the specified product doesn't exist
+                echo "Product not found.";
+            }
+        } else {
+            // Handle the case where the 'id' parameter is not set
+            echo "Product ID not specified.";
+        }
+      ?>
 
       </main>
     
