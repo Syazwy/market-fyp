@@ -49,6 +49,22 @@
 
         <div class="box2">
           
+    <div class="container">
+      <div class="row row-cols-1 row-cols-md-5 g-4">
+      
+
+        <div class="col d-flex align-items-center justify-content-center">
+          <div class="card item h-100" style="background-color: #FFFFFF;">
+         
+            <div class="card-body">
+           
+            </div>
+            
+          </div>
+        </div>
+      
+      </div>
+    </div>
 
 
         </div>
