@@ -4,20 +4,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PayPal JS SDK Demo</title>
+  <title>PayPal</title>
 </head>
 
 <body>
   <div id="paypal-button-container"></div>
   <script
     data-sdk-integration-source="integrationbuilder_sc"
-    src="https://www.paypal.com/sdk/js?client-id=<test>>&components=buttons&enable-funding=venmo,paylater"></script>
+    src="https://www.paypal.com/sdk/js?client-id=AW6IItKqFlY_wY4a0L_9wJ97PFoDY734dhsRZ45Iz572a4sOtDPyWjZ28ATRpy5fWjTPtg-xx8yqoCQc&components=buttons&enable-funding=venmo,paylater"></script>
   <script>
     const FUNDING_SOURCES = [
       // EDIT FUNDING SOURCES
-        paypal.FUNDING.PAYPAL,
-        paypal.FUNDING.PAYLATER,
-        paypal.FUNDING.CARD
+        paypal.FUNDING.PAYPAL
     ];
     FUNDING_SOURCES.forEach(fundingSource => {
       paypal.Buttons({
@@ -25,7 +23,7 @@
 
         style: {
           layout: 'vertical',
-          shape: 'pill',
+          shape: 'rect',
           color: (fundingSource == paypal.FUNDING.PAYLATER) ? 'gold' : '',
         },
 
