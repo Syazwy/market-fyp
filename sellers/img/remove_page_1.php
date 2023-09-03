@@ -1,0 +1,22 @@
+<?php require 'connection.php'; ?>
+
+<?php 
+
+if(isset($_GET['id'])){
+    $id = $id = $_GET['id'];
+}
+
+$query = "delete from `itemslisting` where `id` = '$id'";
+
+$result = mysqli_query($conn, $query);
+
+if(!$result){
+    die("Query Failed".mysqul_error());
+
+}
+
+else{
+    header('location: data.php?delete_msg=You have deleted the record.');
+}
+
+?>
