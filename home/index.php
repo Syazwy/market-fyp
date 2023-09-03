@@ -1,6 +1,9 @@
 <?php
   require_once("../session/session.php");
+  
 ?>
+
+<?php require 'connection.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -114,13 +117,14 @@
 
       <div class="col d-flex align-items-center justify-content-center">
         <div class="card item h-100" style="background-color: #FFFFFF;">
-          <a href="product.php?id=?">
+          <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
             <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
           <div class="card-body">
             <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
             <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
-            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            <p class="card-text"><small class="text-body-secondary"><a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">Lets go!</a></small></p>
+            
           </div>
         </div>
       </div>
