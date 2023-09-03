@@ -3,9 +3,7 @@ require 'connection.php';
 
 
 
-// Fetch product listings
-$productQuery = "SELECT * FROM `itemslisting`";
-$productResult = mysqli_query($conn, $productQuery);
+
 ?>
 
 <!DOCTYPE html>

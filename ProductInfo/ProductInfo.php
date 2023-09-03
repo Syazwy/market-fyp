@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,11 +24,35 @@
       </header>
     
       <main>
+
+      
+
+        
     
         <h1>Market</h1>
+
+        <?php
+        require 'connection.php';
+
+        // Check if the 'id' query parameter is set in the URL
+        if (isset($_GET['id'])) {
+            $itemId = $_GET['id'];
+            
+            // Fetch the specific product based on the 'id' parameter
+            $query = "SELECT itemslisting.*, item_images.image_filename 
+                      FROM itemslisting 
+                      JOIN item_images ON itemslisting.id = item_images.item_id 
+                      WHERE itemslisting.id = $itemId"; // Make sure to sanitize and validate the input
+            $result = mysqli_query($conn, $query);
+            
+            // Check if a product with the specified 'id' exists
+            if ($row = mysqli_fetch_assoc($result)) {
+                // Product data is now available in the $row variable
+      ?>
+
     
         <section id="home">
-          <h1>Yacht-Master 42</h1>
+          <h1><?php echo $row["name"]; ?></h1>
         </section>
     
         <div>
@@ -52,13 +77,13 @@
                 </div>
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img  src="images/Rolex1.jpg" class="d-block w-50 itemM" alt="Rolex1">
+                    <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" width= 500px>
                   </div>
                   <div class="carousel-item">
-                    <img  src="images/Rolex2.jpg" class="d-block w-50 itemM" alt="Rolex2">
+                  <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" width= 500px>
                   </div>
                   <div class="carousel-item">
-                    <img  src="images/Rolex3.webp" class="d-block w-50 itemM" alt="Rolex3">
+                  <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" width= 500px>
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -69,6 +94,10 @@
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="">Next</span>
                 </button>
+
+
+
+
               </div>
 
           </div>
@@ -77,18 +106,17 @@
 
         <div id="secondhalf">
           <div class="product-info description">
-              <h1>Yacht-Master 42</h1>
+              <h1><?php echo $row["name"]; ?></h1>
               <br>
+              <p><b><?php echo $row["category"]; ?></b></p>
               <p><b>Description:</b></p>
-              <p>Luxury meets precision in this exceptional Rolex Submariner watch. With its timeless design, stainless steel elegance, 
-                and automatic movement, it's more than just an accessory, it's a statement of refined taste. From formal occasions to adventurous pursuits,
-                 this Submariner is the epitome of versatility. Immaculately maintained and ready to adorn a new wrist, it's a chance to own a symbol of enduring 
-                 style and craftsmanship. Inquire now to make this remarkable Rolex Submariner yours.</p>
+              <p><?php echo $row["description"]; ?></p>
               <br>
-              <p class="price"> Price: $599.99</p>
+              <p class="price"><?php echo $row["price"]; ?></p>
               <br>
               <button type="button" class="buy-button">Buy Now</button>
               <button type="button" class="chat-button">Chat Now</button>
+              <a href="../admin/report.php?id=<?php echo $row["id"]; ?>"><button type="button" class="chat-button">Report</button></a>
             </div>
 
             <div class="proInfo">
@@ -101,7 +129,7 @@
 
 
             </div>
-    
+            
         </div>
 
           <br>
@@ -122,6 +150,17 @@
           <p>This is the contact section of the website template.</p>
         </section>
       </div>
+
+      <?php
+            } else {
+                // Handle the case where the specified product doesn't exist
+                echo "Product not found.";
+            }
+        } else {
+            // Handle the case where the 'id' parameter is not set
+            echo "Product ID not specified.";
+        }
+      ?>
 
       </main>
     

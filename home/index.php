@@ -1,6 +1,9 @@
 <?php
   require_once("../session/session.php");
+  
 ?>
+
+<?php require 'connection.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
