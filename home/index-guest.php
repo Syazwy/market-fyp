@@ -317,7 +317,7 @@ if (isset($_POST["login"])) {
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
   <div class="container">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="index.php">
       <img src="../image/logo.png" width="80" height="80">
     </a>
 

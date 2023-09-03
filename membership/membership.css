@@ -1,56 +1,7 @@
-       .modal{
-        border-radius: 10px;
-       }
-
-       .modal-body{
-        
-        border-radius: 10px;
-       }
-       #tick{
-        margin-top: 20px;
-       }
-       .current-plan-container {
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-        text-align: center;
-        }
-       .current-plan {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        }
-
-       body {
+        body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 0; 
-        }
-
-        input {
-            background-color: #FF5353;
-            border-radius: 10px;
-        }
-
-        .button-container {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center; 
-            justify-content: center; 
-            padding: 10px; 
-        }
-
-        .logo {
-            display: inline-block; 
-            margin-right: auto; 
-            margin-left: 10px; 
-        }
-
-        img.logo-image {
-            max-width: 60px; 
-            height: auto; 
         }
 
         .icon-left {
@@ -65,19 +16,30 @@
             right: 10px;
         }
 
-		.membership-container {
-			display: flex;
-			justify-content: space-between;
-		}
-		.membership-box {
-			width: 30%;
-			padding: 20px;
-			border: 1px solid #ccc;
-			margin: 10px;
-			border-radius: 10px; 
-            cursor: pointer; 
-		}
-		
+        .membership-container {
+            display: flex;
+            justify-content: space-around; 
+        }
+        
+        .membership-box-container {
+            text-align: center;
+            margin: 0 10px; 
+            flex-grow: 1;
+            max-width: 20%; 
+        }
+        
+        .membership-box {
+            border-radius: 20px;
+            height: 500px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow with the desired properties */
+        }
+        
+
+        li{
+            padding-bottom: 20px;
+        }
+
 		.basic-membership {
 			background-color: #FFEAEA; 
 		}
