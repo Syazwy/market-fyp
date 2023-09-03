@@ -1,6 +1,6 @@
 <?php
+require_once("../session/session.php");
 require 'connection.php';
-session_start();
 $username = $_SESSION['username'];
 ?>
 <?php
@@ -116,10 +116,11 @@ if(isset($_POST["submit"])){
     </a>
 
     <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="#">Your Listings</a></li>
-      <li><a class="dropdown-item" href="#">My purchases</a></li>
-      <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
-      <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
+        <li><a class="dropdown-item" href="../profile/profile.php">My Profile</a></li>
+        <li><a class="dropdown-item" href="#">Your Listings</a></li>
+        <li><a class="dropdown-item" href="#">My purchases</a></li>
+        <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
+        <li><a class="dropdown-item" href="../home/index-guest.php">Log out</a></li>
     </ul>
   </div>
   </div>
@@ -142,7 +143,7 @@ if(isset($_POST["submit"])){
                 <form action="" method="post" autocomplete="off" enctype="multipart/form-data">
                     <div class="input-images">
                         <center>
-                            <h2>Upload up to 6 Photos</h2>
+                            <h2>Upload up to 2 Photos</h2>
                         </center>
                     </div>
                     <div class="input-field">
@@ -195,7 +196,7 @@ if(isset($_POST["submit"])){
             <script>
                 $(document).ready(function() {
                     $('.input-images-2').imageUploader({
-                        maxFiles: 6,
+                        maxFiles: 2,
                         imagesInputName: 'photos', // This should match the name attribute of the file input
                         preloadedInputName: 'old'
                     });
