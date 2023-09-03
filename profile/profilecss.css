@@ -127,8 +127,8 @@ a.nav-link.active {
 }
 
 .box{
-    overflow: hidden; 
-    width: 90%;
+    
+    display: flex;
     height: 500px;
     margin: auto;
 

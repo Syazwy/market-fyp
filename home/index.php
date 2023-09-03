@@ -1,16 +1,18 @@
 <?php
   require_once("../session/session.php");
+  
 ?>
+
+<?php require 'connection.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MARKET</title>
+  <title>Market</title>
   <link rel="stylesheet" href="index.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-  
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
@@ -33,8 +35,9 @@
     </a>
 
     <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="../profile/profile.php">My Profile</a></li>
       <li><a class="dropdown-item" href="#">Your Listings</a></li>
-      <li><a class="dropdown-item" href="#">My purchases</a></li>
+      <li><a class="dropdown-item" href="#">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
       <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
     </ul>
@@ -114,13 +117,14 @@
 
       <div class="col d-flex align-items-center justify-content-center">
         <div class="card item h-100" style="background-color: #FFFFFF;">
-          <a href="">
+          <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
             <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
           <div class="card-body">
             <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
             <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
-            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            <p class="card-text"><small class="text-body-secondary"><a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">Lets go!</a></small></p>
+            
           </div>
         </div>
       </div>

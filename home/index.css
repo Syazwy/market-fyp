@@ -13,6 +13,7 @@ a.nav-link.active {
     border-radius: 18px;
     width: 150px;
     text-align: center;
+    border: none;
   }
 
   .search {
