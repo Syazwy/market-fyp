@@ -56,52 +56,45 @@ $productResult = mysqli_query($conn, $productQuery);
             </div>
         </div>
 
-  
-        
+    
 
 
 
 
+    
         <div class="container">
-           
 
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 
-            <?php
-                    require '../sellers/connection.php';
-                    $i = 1;
-                    $query = "SELECT itemslisting.*, item_images.image_filename 
-                            FROM itemslisting 
-                            JOIN item_images ON itemslisting.id = item_images.item_id 
-                            GROUP BY itemslisting.id 
-                            ORDER BY itemslisting.id DESC";
-                    $result = mysqli_query($conn, $query);
+                    <?php
+                        require '../sellers/connection.php';
+                        $i = 1;
+                        $query = "SELECT itemslisting.*, item_images.image_filename 
+                                FROM itemslisting 
+                                JOIN item_images ON itemslisting.id = item_images.item_id 
+                                GROUP BY itemslisting.id 
+                                ORDER BY itemslisting.id DESC";
+                        $result = mysqli_query($conn, $query);
 
-                    while ($row = mysqli_fetch_assoc($result)) :
+                        while ($row = mysqli_fetch_assoc($result)) :
                     ?>
 
-                    <div class="col d-flex align-items-center justify-content-center">
-                        <div class="card item h-100" style="background-color: #FFFFFF;">
-                        <a><img src ="../sellers/img/upload/<?php echo $productRow['image'];?>" class="card-img-top" width="150px" height="150px"></a>
-                            <div class="card-body">
+                    <div class="col">
+                        <div class="card h-100" style="background-color: #FFFFFF;">
 
-                                
-                                
-                                <p class="card-title" style="text-transform: capitalize"><?php echo $productRow["name"]; ?></p>
-                                
-                                <h5 class="card-title"><b>$<?php echo $productRow["price"]; ?></b></h5>
-                                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-
-                            </div>
-            
+                            <a><img src ="../sellers/upload/<?php echo $row['image_filename'];?>" class="card-img-top" width="150px" height="150px"></a>
+                                <div class="card-body">
+                                    <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
+                                    <h5 class="card-title"><b>$<?php echo $row["price"]; ?></b></h5>
+                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                                </div>
                         </div>
-
-
-                </div>
+                    </div>
+                    <?php endwhile; ?>
             </div>
-            <?php endwhile; ?>
-    </div>
-
+        </div>
+    
+        </div>
 
 </body>
 </html>
