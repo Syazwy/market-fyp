@@ -2,7 +2,7 @@
 <head>  
     <title>Forgot Password</title>  
     <link rel="stylesheet" href="forgotphp.css" />
-    <link rel="stylesheet" href="../forgot/forgot.css">  
+    <link rel="stylesheet" href="forgot.css">  
 </head>
 <?php
 include_once('connection.php');
