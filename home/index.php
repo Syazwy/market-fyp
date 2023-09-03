@@ -120,12 +120,13 @@
           <div class="card-header bg-transparent border border-0" style="background-color: #FFFFFF !important;">
             <h6 class="card-title">
               <a class="navbar-brand" href="index.php">
-            <img src="../image/logo.png" width="20" height="20">
-          </a style="text-transform: capitalize">
-          <?php echo $row["username"]; ?>
+                <img src="../image/logo.png" width="20" height="20">
+              </a style="text-transform: capitalize">
+              <?php echo $row["username"]; ?>
             </h6>
+            <p class="card-text">Test</p>
           </div>
-          <a href="">
+          <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
             <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
           <div class="card-body h-100">
