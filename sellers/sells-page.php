@@ -1,7 +1,7 @@
 <?php
-require_once("../session/session.php");
-require 'connection.php';
-$username = $_SESSION['username'];
+    require_once("../session/session.php");
+    require 'connection.php';
+    $username = $_SESSION['username'];
 ?>
 <?php
 if(isset($_POST["submit"])){
@@ -13,11 +13,13 @@ if(isset($_POST["submit"])){
     $description = mysqli_real_escape_string($conn, $_POST["description"]);
     $location = mysqli_real_escape_string($conn, $_POST["location"]);
     $username = mysqli_real_escape_string($conn, $_POST["username"]);
+    $currentDateTime = new DateTime();
+    $timedate = $currentDateTime->format('Y-m-d H:i:s');
 
     // Insert item data into database
-    $query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location, username) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location, username, time, uploaded_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "sssdsss", $category, $item_condition, $name, $price, $description, $location, $username);
+    mysqli_stmt_bind_param($stmt, "sssdsssss", $category, $item_condition, $name, $price, $description, $location, $username, $timedate, $timedate);
     mysqli_stmt_execute($stmt);
     $itemId = mysqli_insert_id($conn); // Get the last inserted item ID
     mysqli_stmt_close($stmt);

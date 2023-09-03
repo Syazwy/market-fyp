@@ -65,9 +65,11 @@ a.nav-link.active {
     border: none;
   }
 
-  /* div.card-header.bg-transparent.border.border-0 {
+  div.card-header.bg-transparent.border.border-0 {
     background-color: #FFFFFF !important;
-  } */
+    padding: 0px;
+    padding-top: 16px;
+  }
 
   div.card-body {
     width: 150px;
