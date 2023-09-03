@@ -1,3 +1,7 @@
+<?php
+require 'connection.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,7 +51,7 @@
             </div>
         </div>
 
-        <div class="box2">
+        
           
     <div class="container">
       <div class="row row-cols-1 row-cols-md-5 g-4">
@@ -56,10 +60,41 @@
         <div class="col d-flex align-items-center justify-content-center">
           <div class="card item h-100" style="background-color: #FFFFFF;">
          
-            <div class="card-body">
-           
-            </div>
-            
+                <table border = 1 cellspacing = 0 cellpadding = 10>
+                    <tr>
+                        <td>#</td>
+                        <td>Name</td>
+                        <td>Status</td>
+                        <td>Item</td>
+                        <td>Report</td>
+                        <td>Remarks</td>
+                    </tr>
+
+                  <?php
+                      $i = 1;
+                      $rows = mysqli_query($conn, "SELECT * from `report` ORDER BY Id DESC");
+                  ?>
+
+                  <?php
+                    foreach($rows as $row) :
+                  ?>
+
+                      <tr>
+                          <td><?php echo $i++; ?></td>
+                          <td><?php echo $row["name"]; ?></td>
+                          <td><?php echo $row["status"]; ?></td>
+                          <td><?php echo $row["item"]; ?></td>
+                          <td><?php echo $row["report"]; ?></td>
+                          <td><?php echo $row["remarks"]; ?></td>
+                          
+                          <td><a href="edit_page_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">Ban</td> 
+                          <td><a href="remove_page_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Unban</td>
+                      </tr>
+
+                  <?php endforeach; ?>
+
+                </table>
+
           </div>
         </div>
       
@@ -67,7 +102,7 @@
     </div>
 
 
-        </div>
+        
 
     </div>
 

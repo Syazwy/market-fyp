@@ -1,3 +1,4 @@
+<?php require 'connection.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,11 +24,20 @@
       </header>
     
       <main>
+
+      <?php
+        $i = 1;
+        $rows = mysqli_query($conn, "SELECT * from itemslisting ORDER BY Id DESC");
+        ?>
+
+        <?php
+        foreach($rows as $row) 
+        ?>
     
         <h1>Market</h1>
     
         <section id="home">
-          <h1>Yacht-Master 42</h1>
+          <h1><?php echo $row["name"]; ?></h1>
         </section>
     
         <div>
@@ -52,13 +62,13 @@
                 </div>
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img  src="images/Rolex1.jpg" class="d-block w-50 itemM" alt="Rolex1">
+                    <img src ="../sellers/upload/<?php echo $row['image'];?>" width= 200>
                   </div>
                   <div class="carousel-item">
-                    <img  src="images/Rolex2.jpg" class="d-block w-50 itemM" alt="Rolex2">
+                    <img src ="upload/<?php echo $row['image'];?>" width= 200>
                   </div>
                   <div class="carousel-item">
-                    <img  src="images/Rolex3.webp" class="d-block w-50 itemM" alt="Rolex3">
+                    <img src ="upload/<?php echo $row['image'];?>" width= 200>
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -69,6 +79,10 @@
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="">Next</span>
                 </button>
+
+
+
+
               </div>
 
           </div>
@@ -77,15 +91,13 @@
 
         <div id="secondhalf">
           <div class="product-info description">
-              <h1>Yacht-Master 42</h1>
+              <h1><?php echo $row["name"]; ?></h1>
               <br>
+              <p><b><?php echo $row["category"]; ?></b></p>
               <p><b>Description:</b></p>
-              <p>Luxury meets precision in this exceptional Rolex Submariner watch. With its timeless design, stainless steel elegance, 
-                and automatic movement, it's more than just an accessory, it's a statement of refined taste. From formal occasions to adventurous pursuits,
-                 this Submariner is the epitome of versatility. Immaculately maintained and ready to adorn a new wrist, it's a chance to own a symbol of enduring 
-                 style and craftsmanship. Inquire now to make this remarkable Rolex Submariner yours.</p>
+              <p><?php echo $row["description"]; ?></p>
               <br>
-              <p class="price"> Price: $599.99</p>
+              <p class="price"><?php echo $row["price"]; ?></p>
               <br>
               <button type="button" class="buy-button">Buy Now</button>
               <button type="button" class="chat-button">Chat Now</button>
