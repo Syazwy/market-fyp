@@ -1,40 +1,32 @@
-<!-- session -->
-<?php
- session_start();
-?>
-
 <html>  
 <head>  
     <title>Forgot Password</title>  
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" /> 
-    <link rel="stylesheet" href="forgot.css"> 
+    <link rel="stylesheet" href="forgotphp.css" />
+    <link rel="stylesheet" href="../forgot/forgot.css">  
 </head>
-
-<!-- php for the forgot password -->
 <?php
 include_once('connection.php');
-
 if(isset($_REQUEST['pwdrst']))
 {
   $email = $_REQUEST['email'];
-  $check_email = mysqli_query($connection,"select email from tbl_student where email='$email'");
+  $check_email = mysqli_query($connection,"select email from account where email='$email'");
   $res = mysqli_num_rows($check_email);
   if($res>0)
   {
-    $_SESSION['email'] = $email;
     $message = '<div>
      <p><b>Hello!</b></p>
-     <p>You are recieving this email because we receIved a password reset request for your account.</p>
+     <p>We are sorry to hear that you are having trouble with logging in to our website. We have received a message that you have forgotten your password. If this was you, you can get straight back into your account or reset your password now.</p>
      <br>
-     <p>
-     <a href="http://localhost/Market/login-register/forgot/reset/passwordreset.php?secret='.$email.'">Reset Password</a></p>
+     <p><a style="background-color: #FF5353;border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;" href="http://localhost/Market/login-register/forgot/reset/passwordreset.php?secret='.($email).'"> Click to Reset Your Password </a></p>
      <br>
-     <p>If you did not request a password reset, no further action is required.</p>
+     <p>If you didnt request a login link or password reset, you can ignore this message. </p>
+    <p>Only people who know your password or click the login link in this email can log in to your account </p>
     </div>';
 
 include_once("SMTP/class.phpmailer.php");
 include_once("SMTP/class.smtp.php");
-$email = $email;
+
+$email = $email; 
 
 // Send verification email 
 $mail = new PHPMailer;
@@ -60,21 +52,19 @@ $mail->Username = 'market51bn@gmail.com';
 //SMTP password
 $mail->Password = 'ixcnouumjkoxtcvs';
 
+// $mail->FromName = "Tech Area";
+
 //Recipients
 $mail->setFrom('admin.market@gmail.com', 'admin.market');
 
 //Add a recipient
 $mail->AddAddress($email);
 
-// Add email subject
 $mail->Subject = "Reset Password";
 
-//Set email format to HTML
-$mail->isHTML(true);
+$mail->isHTML( TRUE );
 
-// Set the content inside the email
 $mail->Body =$message;
-
 
 if($mail->send())
 {
@@ -93,7 +83,7 @@ else
     <div class="table-responsive">  
     <h3 align="center">Forgot Password</h3><br/>
     <div class="box">
-     <form id="validate_form" method="post" action="reset/passwordreset.php">  
+     <form id="validate_form" method="post" >  
        <div class="form-group">
        <label for="email">Email Address</label>
        <input type="text" name="email" id="email" placeholder="Enter Email" required 

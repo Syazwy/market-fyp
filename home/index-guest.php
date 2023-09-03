@@ -6,9 +6,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>MARKET</title>
   <link rel="stylesheet" href="index.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="index-guest.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"></head>
   <style>
   .modal-header {
@@ -495,7 +495,7 @@ if (isset($_POST["login"])) {
     </div>
     <br>
     <center>
-    <p><a href="../forgot/forgot.php" id="" style="color: rgb(255, 83, 83);">Forgot password?</a></p>
+    <p><a href="forgot/forgot.php" id="" style="color: rgb(255, 83, 83);">Forgot password?</a></p>
     </center>
     <input type="submit" name="login" value="Log In" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;">
 </form>

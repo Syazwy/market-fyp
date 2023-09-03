@@ -1,20 +1,18 @@
-<!-- session start -->
 <?php
  session_start();
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Password Reset</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../forgotphp.css">
+    <link rel="stylesheet" href="../forgot.css">
 </head>
 <body>
-
 <?php
     include_once('../connection.php');
     
-    $msg = 'please renew your password different from old password'; // Initialize a message variable
+    $msg = ''; // Initialize a message variable
     // echo " this is the ".$_GET['secret'];
     if (isset($_POST['pwdrst'])) {
         $email = $_POST['email'];
@@ -22,11 +20,10 @@
 
 
         // Hash the new password securely
-         $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
-        // for checking the password in text view
-        // $hashedPassword = $newPassword;
+        // $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+         $hashedPassword = $newPassword;
 
-        $reset_pwd = mysqli_query($connection, "UPDATE tbl_student SET password='$hashedPassword' WHERE email='".$_SESSION['email']."'");
+        $reset_pwd = mysqli_query($connection, "UPDATE account SET password='$hashedPassword' WHERE email='".$_SESSION['email']."'");
         // print_r($reset_pwd);
       
         if ($reset_pwd) {
@@ -36,7 +33,6 @@
         }
     }
 ?>
-
 <div class="container">
     <h3 align="center">Reset Password</h3><br/>
     <div class="box">
@@ -57,7 +53,6 @@
         </form>
     </div>
 </div>
-
 </body>
 </html>
 
