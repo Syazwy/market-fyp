@@ -55,11 +55,11 @@ require 'connection.php';
                     <label>Select Type Of Report:</label>
                     <select class="form-select form-select-sm" aria-label="Small select example">
                         <option value="null"> </option>
-                        <option value="ProductQuality"> <img src="../image/property.png"> Product Quality</option>
-                        <option value="Misleading"> <img src="../image/vehicle.png"> Misleading</option>
-                        <option value="Shipping"> <img src="../image/electronic.png"> Shipping and Delivery Issues</option>
-                        <option value="CustomerService"> <img src="../image/fashion.png">Customer Service</option>
-                        <option value="PNAE"> <img src="../image/furniture.png"> Product Not as Expected</option>
+                        <option value="ProductQuality">  Product Quality</option>
+                        <option value="Misleading">  Misleading</option>
+                        <option value="Shipping">  Shipping and Delivery Issues</option>
+                        <option value="CustomerService"> Customer Service</option>
+                        <option value="PNAE">  Product Not as Expected</option>
                     </select>
                     
                     <div class="mb-3">
