@@ -54,7 +54,7 @@ require 'connection.php';
         
           
     <div class="container">
-      <div class="row row-cols-1 row-cols-md-5 g-4">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
       
 
         <div class="col d-flex align-items-center justify-content-center">
@@ -67,7 +67,8 @@ require 'connection.php';
                         <td>Status</td>
                         <td>Item</td>
                         <td>Report</td>
-                        <td>Remarks</td>
+                        <td>Type of report</td>
+                        
                     </tr>
 
                   <?php
@@ -85,10 +86,12 @@ require 'connection.php';
                           <td><?php echo $row["status"]; ?></td>
                           <td><?php echo $row["item"]; ?></td>
                           <td><?php echo $row["report"]; ?></td>
-                          <td><?php echo $row["remarks"]; ?></td>
+                          <td><?php echo $row["typeofreport"]; ?></td>
                           
-                          <td><a href="edit_page_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">Ban</td> 
-                          <td><a href="remove_page_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Unban</td>
+                          
+                          <td><a href="ban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Action</td>
+                          <td><a href="remove_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Report</td>
+                          <td><a href="remove_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Remove</td>
                       </tr>
 
                   <?php endforeach; ?>

@@ -11,7 +11,7 @@ $query = "delete from `itemslisting` where `id` = '$id'";
 $result = mysqli_query($conn, $query);
 
 if(!$result){
-    die("Query Failed".mysqul_error());
+    die("Query Failed: " . mysqli_error($conn));
 
 }
 
