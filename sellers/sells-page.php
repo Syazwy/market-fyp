@@ -1,6 +1,9 @@
 <?php
 require 'connection.php';
-
+session_start();
+$username = $_SESSION['username'];
+?>
+<?php
 if(isset($_POST["submit"])){
     // Get form data and sanitize
     $category = mysqli_real_escape_string($conn, $_POST["category"]);
@@ -9,11 +12,12 @@ if(isset($_POST["submit"])){
     $price = floatval($_POST["price"]);
     $description = mysqli_real_escape_string($conn, $_POST["description"]);
     $location = mysqli_real_escape_string($conn, $_POST["location"]);
+    $username = mysqli_real_escape_string($conn, $_POST["username"]);
 
     // Insert item data into database
-    $query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location) VALUES (?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location, username) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "sssdss", $category, $item_condition, $name, $price, $description, $location);
+    mysqli_stmt_bind_param($stmt, "sssdsss", $category, $item_condition, $name, $price, $description, $location, $username);
     mysqli_stmt_execute($stmt);
     $itemId = mysqli_insert_id($conn); // Get the last inserted item ID
     mysqli_stmt_close($stmt);
@@ -181,6 +185,7 @@ if(isset($_POST["submit"])){
                         <label for="location" class="form-label">Location</label>
                         <input type="text" class="form-control" name="location" id="location" placeholder="">
                     </div>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="" value="<?php echo $username ?>" hidden>
                     <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;">Create</button>
                 </div>
             </form>
