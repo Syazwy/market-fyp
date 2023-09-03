@@ -205,7 +205,7 @@ if (isset($_POST["register"])) {
     $insertStmt = mysqli_prepare($conn, $insertSql);
 
     if ($insertStmt) {
-        $membership = "basic";
+        $membership = " Basic";
         mysqli_stmt_bind_param($insertStmt, "ssssss", $username, $email, $encrypted_password, $membership, $date, $verification_code);
         mysqli_stmt_execute($insertStmt);
 
@@ -317,7 +317,7 @@ if (isset($_POST["login"])) {
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
   <div class="container">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="index.php">
       <img src="../image/logo.png" width="80" height="80">
     </a>
 

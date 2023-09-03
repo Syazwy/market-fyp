@@ -15,7 +15,7 @@
         <nav>
           <ul>
             <img id="pPictures" src="images/logo.png">
-            <li><a href="#home">Home</a></li>
+            <li><a href="../home/index.php">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
             <li><a href="#contact">Contact</a></li>
@@ -109,10 +109,11 @@
               <h1><?php echo $row["name"]; ?></h1>
               <br>
               <p><b><?php echo $row["category"]; ?></b></p>
-              <p><b>Description:</b></p>
+              <p><h2>Description:</h2></p>
               <p><?php echo $row["description"]; ?></p>
               <br>
-              <p class="price"><?php echo $row["price"]; ?></p>
+              <h2>Price:</h2>
+              <p class="price">$<?php echo $row["price"]; ?></p>
               <br>
               <button type="button" class="buy-button">Buy Now</button>
               <button type="button" class="chat-button">Chat Now</button>
