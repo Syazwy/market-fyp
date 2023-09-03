@@ -3,15 +3,17 @@ require 'connection.php';
 
 if(isset($_POST["submit"])){
     // Get form data and sanitize
+    $category = mysqli_real_escape_string($conn, $_POST["category"]);
+    $item_condition = mysqli_real_escape_string($conn, $_POST["item_condition"]);
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $price = floatval($_POST["price"]);
     $description = mysqli_real_escape_string($conn, $_POST["description"]);
     $location = mysqli_real_escape_string($conn, $_POST["location"]);
 
     // Insert item data into database
-    $query = "INSERT INTO itemslisting (name, price, description, location) VALUES (?, ?, ?, ?)";
+    $query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "sdss", $name, $price, $description, $location);
+    mysqli_stmt_bind_param($stmt, "sssdss", $category, $item_condition, $name, $price, $description, $location);
     mysqli_stmt_execute($stmt);
     $itemId = mysqli_insert_id($conn); // Get the last inserted item ID
     mysqli_stmt_close($stmt);
@@ -47,7 +49,7 @@ if(isset($_POST["submit"])){
     }
 
     // Redirect to data.php
-    header("Location: data.php");
+    header("Location: ../home/index.php");
     exit(); // Make sure to exit after sending the header
 }
 
@@ -147,13 +149,21 @@ if(isset($_POST["submit"])){
                 <br>
                 <div class="subcontainer">
                     <label>Select Item Category:</label>
-                    <select class="form-select form-select-sm" aria-label="Small select example">
+                    <select class="form-select form-select-sm" aria-label="Small select example" name="category">
                         <option value="null"> </option>
                         <option value="property"> <img src="../image/property.png"> Property</option>
                         <option value="vehicles"> <img src="../image/vehicle.png"> Vehicles</option>
                         <option value="electronics"> <img src="../image/electronic.png"> Electronics</option>
                         <option value="clothing"> <img src="../image/fashion.png">Clothing</option>
                         <option value="furniture"> <img src="../image/furniture.png"> Furniture</option>
+                    </select>
+                    <label>Condition</label>
+                    <select class="form-select form-select-sm" aria-label="Small select example" name="item_condition">
+                        <option value=""> </option>
+                        <option value="New"> <img src="../image/property.png"> New </option>
+                        <option value="Used - Like New"> <img src="../image/vehicle.png"> Used - Like New </option>
+                        <option value="Used - Good"> <img src="../image/electronic.png"> Used - Good</option>
+                        <option value="Used - fair"> <img src="../image/fashion.png">Used - fair</option>
                     </select>
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
@@ -174,7 +184,7 @@ if(isset($_POST["submit"])){
                     <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;">Create</button>
                 </div>
             </form>
-            <a href="data.php">Data</a>
+
             <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
             <script src="dist/image-uploader.min.js"></script>
             <script>

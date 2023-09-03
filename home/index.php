@@ -120,7 +120,7 @@
           <div class="card-body">
             <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
             <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
-            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
           </div>
         </div>
       </div>
