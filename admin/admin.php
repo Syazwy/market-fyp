@@ -1,3 +1,4 @@
+
 <?php
 require 'connection.php';
 ?>
@@ -34,46 +35,53 @@ require 'connection.php';
 
 <div class="profile-container">
         <div class="profile-picture">
-            <img src="image/Tommy.jpeg" alt="Profile Picture">
+            <img src="image/admin.png" alt="Profile Picture">
         </div>
-       
-        
+        <div class="admin">
+        <h1>Admin</h1>
+        </div>
+</div>
+
+    <br>
+
+
+          
+    <div class="container">
+
+    <div class="justify-content-center">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="admin.php">Overview</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="admin_2.php">Reports</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Appeals</a></li>
+        </ul>
     </div>
 
     <br>
 
-    <div class="box">
+    <div class="row row-cols-1 row-cols-md-1 g-4">
 
-        <div class="box1">
-            <div class="user-info">
-                <div class="user-name">John Doe</div>
-                <div class="user-bio">Web Developer | Designer</div>
-            </div>
-        </div>
 
-        
-          
-    <div class="container">
-      <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div  class="col border1">
       
+                <table  cellspacing = 0 cellpadding = 10>
 
-        <div class="col d-flex align-items-center justify-content-center">
-          <div class="card item h-100" style="background-color: #FFFFFF;">
-         
-                <table border = 1 cellspacing = 0 cellpadding = 10>
+                    <tr>
+                        <td><h1>Overview</h1></td>
+                    </tr>
+
                     <tr>
                         <td>#</td>
-                        <td>Name</td>
-                        <td>Status</td>
-                        <td>Item</td>
-                        <td>Report</td>
-                        <td>Type of report</td>
+                        <td>Username</td>
+                        <td>Email</td>                      
+                        <td>Membership</td>
+                        <td>Date Joined</td>
+                        <td>Date Verified</td>
                         
                     </tr>
 
                   <?php
                       $i = 1;
-                      $rows = mysqli_query($conn, "SELECT * from `report` ORDER BY Id DESC");
+                      $rows = mysqli_query($conn, "SELECT * from `account` ORDER BY Id DESC");
                   ?>
 
                   <?php
@@ -82,32 +90,31 @@ require 'connection.php';
 
                       <tr>
                           <td><?php echo $i++; ?></td>
-                          <td><?php echo $row["name"]; ?></td>
-                          <td><?php echo $row["status"]; ?></td>
-                          <td><?php echo $row["item"]; ?></td>
-                          <td><?php echo $row["report"]; ?></td>
-                          <td><?php echo $row["typeofreport"]; ?></td>
+                          <td><?php echo $row["username"]; ?></td>
+                          <td><?php echo $row["email"]; ?></td>                        
+                          <td><?php echo $row["membership"]; ?></td>
+                          <td><?php echo $row["date"]; ?></td>
+                          <td><?php echo $row["email_verified_at"]; ?></td>
                           
                           
-                          <td><a href="ban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Action</td>
-                          <td><a href="remove_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Report</td>
-                          <td><a href="remove_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Remove</td>
+                          <td><a href="view_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">View</td>
+                          <td><a href="Edit_2.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">Edit</td>
+                          <td><a href="remove_2.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Delete</td>
                       </tr>
 
                   <?php endforeach; ?>
 
                 </table>
-
-          </div>
-        </div>
+        
       
       </div>
+    </div>
     </div>
 
 
         
 
-    </div>
+    
 
   
         

@@ -75,12 +75,20 @@ a.nav-link.active {
 }
 
 .profile-container {
+  display: flex;
     max-width: 90%;
     margin: auto ;
     background-color: #ff9292;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin{
+  margin: 50px 0px 0px 25%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .profile-picture {
@@ -127,9 +135,9 @@ a.nav-link.active {
 }
 
 .box{
-    overflow: hidden; 
-    width: 90%;
-    height: 500px;
+    
+    width: auto;
+    overflow: auto;
     margin: auto;
 
 
@@ -138,7 +146,7 @@ a.nav-link.active {
 .box1 {
     float: left;
     width: 20%;
-    height: 300px;
+    
     margin: 10px 0px 0px 20px ;
     background-color: #fff;
     padding: 20px;
@@ -149,11 +157,27 @@ a.nav-link.active {
 .box2 {
     display: flex;
       float: right;
-      width: 65%;
-      height: 90%;
+      width: auto;
+      
       margin:  10px 10px 0px 0px ;
       background-color: #fff;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
+
+  .border1{
+
+    width: auto;
+    
+      margin:  auto ;
+      background-color: #fff;
+      
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .POP img{
+    border-radius: 50%;
+  }
+

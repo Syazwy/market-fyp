@@ -16,7 +16,7 @@ if(!$result){
 }
 
 else{
-    header('location: admin.php?delete_msg=You have deleted the record.');
+    header('location: admin_2.php?delete_msg=You have deleted the record.');
 }
 
 ?>
