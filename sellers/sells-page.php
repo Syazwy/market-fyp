@@ -208,10 +208,12 @@ if(isset($_POST["submit"])){
       </div>
       <div class="modal-body">
         <p>You have reached the maximum limit for submissions as a basic member.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Return to Homepage</button>
-      </div>
+      </div>     
+    <div class="modal-footer" style="display: flex; justify-content: space-between;">
+        <button type="button" style="background-color: #FF5353; width: 48%; border-radius: 10px; padding: 5px;" class="btn btn-secondary" data-bs-dismiss="modal" onclick="upgradeMembership()">Upgrade Plan</button>  
+        <button type="button" style="background-color: #FF5353; width: 48%; border-radius: 10px; padding: 5px;" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Return to Homepage</button>
+    </div>
+
     </div>
   </div>
 </div>
@@ -333,6 +335,10 @@ if(isset($_POST["submit"])){
     function closeModal() {
         // Redirect to index.php when closing the modal
         window.location.href = "../home/index.php";
+    }
+    function upgradeMembership() {
+        // Redirect to the membership upgrade page
+        window.location.href = "../membership/membership.php";
     }
 </script>
 </body>
