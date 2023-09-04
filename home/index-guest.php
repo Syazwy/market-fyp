@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>description
 <html lang="en">
 <head>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -141,8 +141,8 @@ if (isset($_POST["register"])) {
     }
 
     // Hash password
-    // $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
-    $encrypted_password = $password;
+    $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
+    // $encrypted_password = $password;
 
     // Connect to database
     $conn = mysqli_connect("localhost", "root", "", "market");
