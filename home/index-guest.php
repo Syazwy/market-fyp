@@ -390,7 +390,7 @@ if (isset($_POST["login"])) {
     <div class="container">
     <div class="row row-cols-1 row-cols-md-5 g-4">
       <?php
-        require '../sellers/connection.php';
+         require '../connection/connection.php';
         
         $i = 1;
         $query = "SELECT itemslisting.*, item_images.image_filename 

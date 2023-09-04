@@ -26,35 +26,35 @@ if ($selectedPlan === "Basic") {
 
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-transparent">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="../image/logo.png" width="80" height="80">
-            </a>
+<nav class="navbar navbar-expand-lg bg-transparent">
+  <div class="container">
+    <a class="navbar-brand" href="../home/index.php">
+      <img src="../image/logo.png" width="80" height="80">
+    </a>
+  
+  <div class="collapse navbar-collapse justify-content-center">
+    <ul class="nav nav-pills">
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
+    </ul>
+  </div>
 
-            <div class="collapse navbar-collapse justify-content-center">
-                <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Sell</a></li>
-                </ul>
-            </div>
+  <div class="dropdown">
+    <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
+      <img src="../image/profile.png" width="50" height="50" class="profile">
+    </a>
 
-            <div class="dropdown">
-                <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                    style="border: none;">
-                    <img src="../image/profile.png" width="50" height="50" class="profile">
-                </a>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
+      <li><a class="dropdown-item" href="#">My Purchases</a></li>
+      <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
+      <li><a class="dropdown-item" href="../home/index-guest.php">Log out</a></li>
+    </ul>
+  </div>
+  </div>
+</nav>
 
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Your Listings</a></li>
-                    <li><a class="dropdown-item" href="#">My purchases</a></li>
-                    <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
-                    <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
     <br>
     <div class="container">
         <div class="row">
@@ -140,7 +140,7 @@ if ($selectedPlan === "Basic") {
 
             if (paypalCheckbox.checked || cashCheckbox.checked) {
                 // At least one payment method is selected, proceed to order placement.
-                window.location.href = '../order/orderCompleted.php';
+                window.location.href = '../payment/paypal.php';
             } else {
                 // No payment method selected, show an error message.
                 alert('Please select a payment method before placing your order.');

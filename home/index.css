@@ -74,7 +74,7 @@ a.nav-link.active {
   div.card-body {
     width: 150px;
     height: 150px;
-    background-color: #FFFFFF;
+    background-color: #FFFFFF !important;
     padding: 0px;
     padding-top: 16px;
   }

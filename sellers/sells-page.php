@@ -1,6 +1,6 @@
 <?php
     require_once("../session/session.php");
-    require 'connection.php';
+    require '../connection/connection.php';
     $username = $_SESSION['username'];
 ?>
 <?php
@@ -109,6 +109,7 @@ if(isset($_POST["submit"])){
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
     </ul>
   </div>
 
@@ -118,11 +119,10 @@ if(isset($_POST["submit"])){
     </a>
 
     <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="../profile/profile.php">My Profile</a></li>
-        <li><a class="dropdown-item" href="#">Your Listings</a></li>
-        <li><a class="dropdown-item" href="#">My purchases</a></li>
-        <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
-        <li><a class="dropdown-item" href="../home/index-guest.php">Log out</a></li>
+      <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
+      <li><a class="dropdown-item" href="#">My Purchases</a></li>
+      <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
+      <li><a class="dropdown-item" href="../home/index-guest.php">Log out</a></li>
     </ul>
   </div>
   </div>

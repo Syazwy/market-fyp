@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PayPal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PayPal Button Centering Test</title>
+  <style>
+    #paypal-button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+  </style>
 </head>
-
 <body>
-  <div id="paypal-button-container"></div>
+  <div id="paypal-button-container">
   <script
     data-sdk-integration-source="integrationbuilder_sc"
     src="https://www.paypal.com/sdk/js?client-id=AW6IItKqFlY_wY4a0L_9wJ97PFoDY734dhsRZ45Iz572a4sOtDPyWjZ28ATRpy5fWjTPtg-xx8yqoCQc&components=buttons&enable-funding=venmo,paylater"></script>
@@ -83,6 +89,6 @@
       }).render("#paypal-button-container");
     })
   </script>
+  </div>
 </body>
-
 </html>

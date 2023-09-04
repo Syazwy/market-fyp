@@ -4,7 +4,6 @@ require_once("../session/session.php");
         $username = $_SESSION['username'];
 ?>
 
-<body>
     <?php
     // Database connection information
     $conn = mysqli_connect("localhost", "root", "", "market");
@@ -40,38 +39,36 @@ require_once("../session/session.php");
     $stmt->close();
     $conn->close();
     ?>
-    
-<link rel="stylesheet" href="membership.css">
-<link rel="stylesheet" href="../home/index.css">
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <head>
+
 
 <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MEMBERSHIP</title>
+    <link rel="stylesheet" href="membership.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    .membership-box h4 {
+  text-align: center; /* Center the text horizontally */
+  /* Add any additional styles for vertical centering if needed */
+}
 
+</style>
 </head>
 
 <body>
-
 <nav class="navbar navbar-expand-lg bg-transparent">
   <div class="container">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="../home/index.php">
       <img src="../image/logo.png" width="80" height="80">
     </a>
- 
+  
   <div class="collapse navbar-collapse justify-content-center">
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#" >Sell</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
     </ul>
   </div>
 
@@ -81,16 +78,14 @@ require_once("../session/session.php");
     </a>
 
     <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="#">Your Listings</a></li>
-      <li><a class="dropdown-item" href="#">My purchases</a></li>
+      <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
+      <li><a class="dropdown-item" href="#">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
-      <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
+      <li><a class="dropdown-item" href="../home/index-guest.php">Log out</a></li>
     </ul>
   </div>
   </div>
 </nav>
-    
-
   
 <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -138,8 +133,8 @@ function order(plan) {
         <h4>Free</h4>
             <br>
             <ul>
-                <li>Can only sell a maximum of 2 items only</li>
-                <li>Can add up to 5 wish lists</li>
+                <li style="padding-bottom:40px">Can only sell a maximum of 2 items only</li>
+                <li style="padding-bottom:40px">Can add up to 5 wish lists</li>
                 </div>
             </ul>
 </button>
@@ -149,14 +144,14 @@ function order(plan) {
         <h3 class="text-center"><b>Premium Monthly</b></h3>
         <br>
         <button class="membership-box premium-monthly-membership membership-button"  data-plan="Premium Monthly" data-bs-toggle="modal" data-bs-target="#confirmationModal">
-            <h4>$4.99/monthly</h4>
+            <h4 >$4.99/monthly</h4>
             <br>
-            <ul>
-                <li>Can sell an unlimited amount of items</li>
-                <li>Can add an unlimited amount of Wish List</li>
-                <li>Have discount option</li>
-                <li>Can purchase items as gifts</li>
-                <li>Receive gifts</li>
+            <ul >
+                <li style="padding-bottom:40px">Can sell an unlimited amount of items</li>
+                <li style="padding-bottom:40px">Can add an unlimited amount of Wish List</li>
+                <li style="padding-bottom:40px">Have discount option</li>
+                <li style="padding-bottom:40px">Can purchase items as gifts</li>
+                <li style="padding-bottom:40px">Receive gifts</li>
             </ul>
         </button>
     </div>
@@ -168,12 +163,12 @@ function order(plan) {
             <h4>$49.99/annually</h4>
             <br>
             <ul>
-                <li>Can sell an unlimited amount of items</li>
-                <li>Can add an unlimited amount of Wish List</li>
-                <li>Have discount option</li>
-                <li>Can purchase items as gifts</li>
-                <li>Receive gifts</li>
-                <li>$10 off each year</li>
+                <li style="padding-bottom:40px">Can sell an unlimited amount of items</li>
+                <li style="padding-bottom:40px">Can add an unlimited amount of Wish List</li>
+                <li style="padding-bottom:40px">Have discount option</li>
+                <li style="padding-bottom:40px">Can purchase items as gifts</li>
+                <li style="padding-bottom:40px">Receive gifts</li>
+                <li style="padding-bottom:40px">$10 off each year</li>
             </ul>
         </button>
     </div>
@@ -235,8 +230,12 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>   
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php
   require_once("../session/session.php");
-  require 'connection.php'; 
+  require '../connection/connection.php';
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +15,7 @@
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
   <div class="container">
-    <a class="navbar-brand" href="index.php">
+    <a class="navbar-brand" href="../home/index.php">
       <img src="../image/logo.png" width="80" height="80">
     </a>
   
@@ -33,8 +33,7 @@
     </a>
 
     <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="../profile/profile.php">My Profile</a></li>
-      <li><a class="dropdown-item" href="#">Your Listings</a></li>
+      <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
       <li><a class="dropdown-item" href="#">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
       <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
@@ -101,7 +100,7 @@
   <div class="container">
     <div class="row row-cols-1 row-cols-md-5 g-4">
       <?php
-        require '../sellers/connection.php';
+         require '../connection/connection.php';
         $i = 1;
         $query = "SELECT itemslisting.*, item_images.image_filename 
                   FROM itemslisting 

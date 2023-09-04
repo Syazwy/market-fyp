@@ -49,7 +49,7 @@
         <h1>Market</h1>
 
         <?php
-        require 'connection.php';
+         require '../connection/connection.php';
 
         // Check if the 'id' query parameter is set in the URL
         if (isset($_GET['id'])) {
