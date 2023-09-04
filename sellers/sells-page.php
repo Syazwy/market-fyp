@@ -203,14 +203,14 @@ if(isset($_POST["submit"])){
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Submission Limit Reached</h5>
+        <h5 class="modal-title">Listing Limit Reached</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
       </div>
       <div class="modal-body">
         <p>You have reached the maximum limit for submissions as a basic member.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Close</button>
+        <button type="button" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Return to Homepage</button>
       </div>
     </div>
   </div>
@@ -231,7 +231,11 @@ if(isset($_POST["submit"])){
         <div class="container">
             <br>
                 <div id="imagePreview" class="subcontainer" style="background: #FFEAEA; width: 550px;">
-                <form action="" method="post" autocomplete="off" enctype="multipart/form-data">
+                <div id="imageUploadError" class="alert alert-danger" style="display: none;">
+                    Please upload at least one image.
+                </div>
+
+                <form action="" method="post" autocomplete="off" enctype="multipart/form-data" onsubmit="return validateForm()">
                     <div class="input-images">
                         <center>
                             <h2>Upload up to 6 Photos</h2>
@@ -239,6 +243,12 @@ if(isset($_POST["submit"])){
                     </div>
                     <div class="input-field">
                         <div class="input-images-2" style="padding-top: .5rem; padding-bottom: .5rem;"></div>
+                    </div>
+                    <!-- Uploaded images will be displayed here -->
+                    
+                    <!-- Add the error message div -->
+                    <div id="imageUploadError" class="alert alert-danger" style="display: none;">
+                        Please upload at least one image.
                     </div>
                     <!-- Uploaded images will be displayed here -->
                 </div>
@@ -306,6 +316,19 @@ if(isset($_POST["submit"])){
             }
         });
     });
+
+     // JavaScript function to validate the form
+     function validateForm() {
+        // Check if at least one image is uploaded
+        const imageUploadDiv = document.querySelector('.input-images-2');
+        const uploadedImages = imageUploadDiv.querySelectorAll('img');
+        if (uploadedImages.length === 0) {
+            // Display the error message
+            document.getElementById('imageUploadError').style.display = 'block';
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
 
     function closeModal() {
         // Redirect to index.php when closing the modal
