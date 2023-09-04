@@ -195,8 +195,9 @@
                         <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
                     </div>
                     <button style="border-radius:20px;background-color:white">Edit</button>
-                </div>  
-                <a href="../sellers/sells-page.php" style="text-decoration:none">
+                </div>    
+            <?php endwhile; ?>
+            <a href="../sellers/sells-page.php" style="text-decoration:none">
     <div class="card" style="width: 150px; height: 170px; border:none; ">
         <div class="image-container" style="height: 75%;padding:20px; background-color: #FFCBCB; border-radius:20px">
             <img src="../image/plus.png" alt="Product Image" style="height: 30%;">
@@ -207,8 +208,7 @@
             <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></p>
         </div>
     </div>
-</a>           
-            <?php endwhile; ?>
+</a>         
         </div>
     <?php else : ?>
         <h4>You have not made any listings.</h4>
