@@ -32,10 +32,19 @@ function getUserSubmissions($conn, $username) {
 $membership = getUserMembership($conn, $username);
 $numSubmissions = getUserSubmissions($conn, $username);
 
+// Define the submission limits for basic members
+$minSubmissionsForBasic = 0;
+$maxSubmissionsForBasic = 2;
+
 // Check the user's membership level and submission limit
-if ($membership === 'Basic' && $numSubmissions >= 2) {
-    // Basic members are allowed only 2 submissions
-    $submissionLimitReached = true;
+if ($membership === 'Basic') {
+    if ($numSubmissions >= $minSubmissionsForBasic && $numSubmissions <= $maxSubmissionsForBasic) {
+        // Basic members are allowed to submit within the defined limit
+        $submissionLimitReached = false; // Reset the flag
+    } else {
+        // Basic members have exceeded the submission limit
+        $submissionLimitReached = true;
+    }
 } elseif ($membership === 'Premium Monthly') {
     // Premium members can submit unlimited times
     // Proceed with the item creation logic
@@ -45,6 +54,7 @@ if ($membership === 'Basic' && $numSubmissions >= 2) {
     echo "Unknown membership level or an error occurred.";
     $submissionLimitReached = false; // Reset the flag
 }
+
 
 // Check if the user is a basic member and has reached the submission limit
 $submissionLimitReached = ($membership == 'Basic' && $numSubmissions >= 2);
