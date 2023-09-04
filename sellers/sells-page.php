@@ -173,7 +173,6 @@ if(isset($_POST["submit"])){
   </div>
   </div>
 </nav>
-<<<<<<< Updated upstream
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
     event.preventDefault(); // Prevent the link from immediately navigating
@@ -187,7 +186,6 @@ if(isset($_POST["submit"])){
     }
   });
 </script>
-=======
 
 <div class="modal" tabindex="-1" id="submissionLimitModal">
   <div class="modal-dialog">
@@ -206,7 +204,6 @@ if(isset($_POST["submit"])){
   </div>
 </div>
 
->>>>>>> Stashed changes
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
    
 
