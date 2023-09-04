@@ -166,7 +166,7 @@
           
     </div>
     <br>
-    <button class="btn btn-primary">Edit Profile</button>   
+    <button class="btn btn-primary" style="width: 150px;">Edit Profile</button>   
   </div>
 
 
@@ -341,84 +341,5 @@ function showReviews() {
   </script>
 
   
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-<script>
-
-function addReview(username, content, rating) {
-    const starIcons = Array.from({ length: 5 }, (_, i) => {
-        return `<span class="fa fa-star ${i < rating ? 'checked' : ''}"></span>`;
-    }).join('');
-
-    const newReview = `
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">${username}</h5>
-                <p class="card-text">${content}</p>
-                <div class="rating">${starIcons}</div>
-            </div>
-        </div>`;
-    
-   
-}
-document.getElementById("goBackBtn").addEventListener("click", function() {
-    // Navigate back to the previous page
-    history.back();
-});
-
-
-document.getElementById("submitReviewBtn").addEventListener("click", function() {
-    const username = document.getElementById("username").value;
-    const content = document.getElementById("content").value;
-    const rating = parseInt(document.getElementById("rating").value);
-    
-    // Get the value of the hidden input field
-
-
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("content", content);
-    formData.append("rating", rating);
-
-
-    fetch("review.php", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log(data);
-
-        // Clear form fields and close modal
-        document.getElementById("reviewForm").reset();
-        $('#addReviewModal').modal('hide');
-        
-        // Assuming addReview function needs to be called here, but not sure
-        addReview(username, content, rating);
-        
-        // If you really need to refresh the page after adding a review, use window.location.href
- 
-    })
-    .catch(error => {
-        // Handle errors
-        console.error("Error:", error);
-    });
-});
-<?php
-// ... Other PHP code ...
-
-if ($users === $username) {
-    // Show the button if $users matches the session username
-    $addReviewButtonStyle = 'display: block;';
-} else {
-    // Hide the button if $users does not match the session username
-    $addReviewButtonStyle = 'display: none;';
-}
-?>
-
-
-</script>
 </body>
 </html>
