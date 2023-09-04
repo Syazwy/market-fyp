@@ -13,7 +13,6 @@ if ($selectedPlan === "Basic") {
 ?>
 
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,11 +48,25 @@ if ($selectedPlan === "Basic") {
       <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
       <li><a class="dropdown-item" href="#">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
-      <li><a class="dropdown-item" href="../home/index-guest.php">Log out</a></li>
+      <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
+
     </ul>
   </div>
   </div>
 </nav>
+<script>
+  document.getElementById('logout-link').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent the link from immediately navigating
+
+    // Display a confirmation dialog
+    const confirmLogout = confirm("Are you sure you want to log out?");
+
+    // If the user confirms, navigate to the logout page
+    if (confirmLogout) {
+      window.location.href = event.target.href;
+    }
+  });
+</script>
 
     <br>
     <div class="container">
@@ -134,19 +147,27 @@ if ($selectedPlan === "Basic") {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function placeOrder() {
-            var paypalCheckbox = document.getElementById('btn-check-outlined');
-            var cashCheckbox = document.getElementById('btn-check-3-outlined');
+    function placeOrder() {
+        var paypalCheckbox = document.getElementById('btn-check-outlined');
+        var cashCheckbox = document.getElementById('btn-check-3-outlined');
 
-            if (paypalCheckbox.checked || cashCheckbox.checked) {
-                // At least one payment method is selected, proceed to order placement.
-                window.location.href = '../payment/paypal.php';
+        if (paypalCheckbox.checked || cashCheckbox.checked) {
+            // At least one payment method is selected, proceed to order placement.
+            if ("<?php echo $selectedPlan; ?>" === "Basic") {
+                // Redirect to orderCompleted.php for Basic plan with plan as a query parameter.
+                window.location.href = 'orderCompleted.php?plan=Basic';
             } else {
-                // No payment method selected, show an error message.
-                alert('Please select a payment method before placing your order.');
+                // Redirect to PayPal for other plans with plan as a query parameter.
+                window.location.href = '../payment/paypal.php?plan=<?php echo $selectedPlan; ?>';
             }
+        } else {
+            // No payment method selected, show an error message.
+            alert('Please select a payment method before placing your order.');
         }
-    </script>
+    }
+</script>
+
+
 </body>
 
-</html>
+</html
