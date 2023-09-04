@@ -390,7 +390,7 @@ if (isset($_POST["login"])) {
     <div class="container">
     <div class="row row-cols-1 row-cols-md-5 g-4">
       <?php
-        require '../sellers/connection.php';
+         require '../connection/connection.php';
         
         $i = 1;
         $query = "SELECT itemslisting.*, item_images.image_filename 
@@ -401,17 +401,53 @@ if (isset($_POST["login"])) {
         $result = mysqli_query($conn, $query);
 
         while ($row = mysqli_fetch_assoc($result)) :
-        ?>
+          $uploadedAt = strtotime($row["uploaded_at"]); // Convert uploaded_at datetime to a timestamp
+          $currentTime = time(); // Current time timestamp
+          $timeDiff = $currentTime - $uploadedAt;
+      
+          // Calculate time difference in human-readable format
+          if ($timeDiff < 60) {
+              $timeAgo = $timeDiff . " seconds ago";
+          } elseif ($timeDiff < 3600) {
+              $minutes = floor($timeDiff / 60);
+              $timeAgo = $minutes . " minutes ago";
+          } elseif ($timeDiff < 86400) {
+              $hours = floor($timeDiff / 3600);
+              $timeAgo = $hours . " hours ago";
+          } else {
+              $days = floor($timeDiff / 86400);
+              $timeAgo = $days . " days ago";
+          }
+          ?>
 
       <div class="col d-flex align-items-center justify-content-center">
-        <div class="card item h-100" style="background-color: #FFFFFF;">
-        <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
+        <div class="card item h-100">
+          <div class="card-header bg-transparent border border-0">
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+              <div class="col col-lg-3">
+                <a href="">
+                  <img src="../image/profile.png" width="40" height="40">
+                </a>
+              </div>
+              <div class="col-md-auto">
+                <h6 class="card-title">
+                  <p style="text-transform: capitalize; margin:0px;"><?php echo $row["username"]; ?></p>
+                </h6>
+                <small class="text-body-secondary">
+                  <p class="card-text">
+                    <?php echo $timeAgo; ?>
+                  </p>
+                </small>
+              </div>
+            </div>
+          </div>
+          <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
             <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
           <div class="card-body">
             <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
             <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
-            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
           </div>
         </div>
       </div>
@@ -646,6 +682,5 @@ if (isset($_POST["login"])) {
         </body>
 </html>
 <?php
-
 session_destroy();
 ?>

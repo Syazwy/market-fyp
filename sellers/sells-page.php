@@ -1,7 +1,7 @@
 <?php
-require 'connection.php';
-session_start();
-$username = $_SESSION['username'];
+    require_once("../session/session.php");
+    require '../connection/connection.php';
+    $username = $_SESSION['username'];
 ?>
 <?php
 if(isset($_POST["submit"])){
@@ -13,11 +13,13 @@ if(isset($_POST["submit"])){
     $description = mysqli_real_escape_string($conn, $_POST["description"]);
     $location = mysqli_real_escape_string($conn, $_POST["location"]);
     $username = mysqli_real_escape_string($conn, $_POST["username"]);
+    $currentDateTime = new DateTime();
+    $timedate = $currentDateTime->format('Y-m-d H:i:s');
 
     // Insert item data into database
-    $query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location, username) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location, username, time, uploaded_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "sssdsss", $category, $item_condition, $name, $price, $description, $location, $username);
+    mysqli_stmt_bind_param($stmt, "sssdsssss", $category, $item_condition, $name, $price, $description, $location, $username, $timedate, $timedate);
     mysqli_stmt_execute($stmt);
     $itemId = mysqli_insert_id($conn); // Get the last inserted item ID
     mysqli_stmt_close($stmt);
@@ -107,6 +109,7 @@ if(isset($_POST["submit"])){
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
     </ul>
   </div>
 
@@ -116,14 +119,28 @@ if(isset($_POST["submit"])){
     </a>
 
     <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="#">Your Listings</a></li>
-      <li><a class="dropdown-item" href="#">My purchases</a></li>
+      <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
+      <li><a class="dropdown-item" href="#">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
-      <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
+      <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
+
     </ul>
   </div>
   </div>
 </nav>
+<script>
+  document.getElementById('logout-link').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent the link from immediately navigating
+
+    // Display a confirmation dialog
+    const confirmLogout = confirm("Are you sure you want to log out?");
+
+    // If the user confirms, navigate to the logout page
+    if (confirmLogout) {
+      window.location.href = event.target.href;
+    }
+  });
+</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
    
 
@@ -195,7 +212,7 @@ if(isset($_POST["submit"])){
             <script>
                 $(document).ready(function() {
                     $('.input-images-2').imageUploader({
-                        maxFiles: 6,
+                        maxFiles: 2,
                         imagesInputName: 'photos', // This should match the name attribute of the file input
                         preloadedInputName: 'old'
                     });

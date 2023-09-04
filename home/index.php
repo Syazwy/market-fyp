@@ -1,9 +1,7 @@
 <?php
   require_once("../session/session.php");
-  
+  require '../connection/connection.php';
 ?>
-
-<?php require 'connection.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +15,7 @@
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
   <div class="container">
-    <a class="navbar-brand" href="index.php">
+    <a class="navbar-brand" href="../home/index.php">
       <img src="../image/logo.png" width="80" height="80">
     </a>
   
@@ -35,15 +33,28 @@
     </a>
 
     <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="../profile/profile.php">My Profile</a></li>
-      <li><a class="dropdown-item" href="#">Your Listings</a></li>
+      <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
       <li><a class="dropdown-item" href="#">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
-      <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
+      <li><a class="dropdown-item" href="index-guest.php" id="logout-link">Log out</a></li>
+
     </ul>
   </div>
   </div>
 </nav>
+<script>
+  document.getElementById('logout-link').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent the link from immediately navigating
+
+    // Display a confirmation dialog
+    const confirmLogout = confirm("Are you sure you want to log out?");
+
+    // If the user confirms, navigate to the logout page
+    if (confirmLogout) {
+      window.location.href = event.target.href;
+    }
+  });
+</script>
 
     <div class="search">
         <input class="searchbar" type="text" placeholder="Search for anything and everything" style="padding-left: 20px;">
@@ -103,7 +114,7 @@
   <div class="container">
     <div class="row row-cols-1 row-cols-md-5 g-4">
       <?php
-        require '../sellers/connection.php';
+         require '../connection/connection.php';
         $i = 1;
         $query = "SELECT itemslisting.*, item_images.image_filename 
                   FROM itemslisting 
@@ -113,23 +124,60 @@
         $result = mysqli_query($conn, $query);
 
         while ($row = mysqli_fetch_assoc($result)) :
-        ?>
+          $uploadedAt = strtotime($row["uploaded_at"]); // Convert uploaded_at datetime to a timestamp
+          $currentTime = time(); // Current time timestamp
+          $timeDiff = $currentTime - $uploadedAt;
+      
+          // Calculate time difference in human-readable format
+          if ($timeDiff < 60) {
+              $timeAgo = $timeDiff . " seconds ago";
+          } elseif ($timeDiff < 3600) {
+              $minutes = floor($timeDiff / 60);
+              $timeAgo = $minutes . " minutes ago";
+          } elseif ($timeDiff < 86400) {
+              $hours = floor($timeDiff / 3600);
+              $timeAgo = $hours . " hours ago";
+          } else {
+              $days = floor($timeDiff / 86400);
+              $timeAgo = $days . " days ago";
+          }
+          ?>
 
       <div class="col d-flex align-items-center justify-content-center">
-        <div class="card item">
-          <div class="card-header bg-transparent border border-0" style="background-color: #FFFFFF !important;">
+        <div class="card item h-100">
+          <div class="card-header bg-transparent border border-0">
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+              <div class="col col-lg-3">
+                <a href="">
+                  <img src="../image/profile.png" width="40" height="40">
+                </a>
+              </div>
+              <div class="col-md-auto">
+                <h6 class="card-title">
+                  <p style="text-transform: capitalize; margin:0px;"><?php echo $row["username"]; ?></p>
+                </h6>
+                <small class="text-body-secondary">
+                  <p class="card-text">
+                    <?php echo $timeAgo; ?>
+                  </p>
+                </small>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="card-header bg-transparent border border-0">
             <h6 class="card-title">
               <a class="navbar-brand" href="index.php">
-                <img src="../image/logo.png" width="20" height="20">
-              </a style="text-transform: capitalize">
-              <?php echo $row["username"]; ?>
+                <img src="../image/profile.png" width="40" height="40">
+                <p style="text-transform: capitalize"><?php echo $row["username"]; ?></p>
+              </a>
+              
             </h6>
-            <p class="card-text">Test</p>
-          </div>
+            <p class="card-text"><?php echo $timeAgo; ?></p>
+          </div> -->
           <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
             <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
-          <div class="card-body h-100">
+          <div class="card-body">
             <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
             <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
             <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>

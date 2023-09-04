@@ -1,4 +1,7 @@
-<?php require 'connection.php'; ?>
+<?php 
+require_once("../session/session.php");
+require 'connection.php';
+?>
 
 <?php
 if(isset($_POST["submit"])){

@@ -1,3 +1,31 @@
+.no-background {
+  background: none;
+}
+
+.no-border {
+  border: none;
+}
+
+.checked {
+  color: orange;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  font-size: 20px; /* Adjust the font size as needed */
+}
+
+.rating .fa {
+  margin: 0 5px; /* Adjust the spacing between stars */
+}
+
+
+.container1{
+  overflow-y: auto;
+}
+
 a.nav-link.active {
     background-color: #FF5353 !important;
     margin-right: 20px;
@@ -5,68 +33,12 @@ a.nav-link.active {
     width: 150px;
     text-align: center;
   }
-
-  .search {
-    margin: auto;
-    width: 80%;
-    padding: 20px;
-  }
-
-  .searchbar {
-    width: 80%;
-    height: 30px;
-    border-radius: 18px;
-    border: none;
-    background-color: #FFEAEA;
-    margin-right: 15px;
-  }
-
   .btn.btn-primary {
     background-color: #FF5353;
     border-radius: 18px;
     border: none;
     width: 100px;
   }
-
-  h4 {
-    margin: auto;
-    width: 80%;
-    padding: 20px;
-  }
-
-  .card {
-    width: 20px;
-    height: 20px;
-  }
-
-  img.image {
-    width: 100px;
-    height: 100px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20%;
-  }
-
-  div.card {
-    width: 150px;
-    height: 150px;
-    background-color: #FFEAEA;
-  }
-
-  img.img-thumbnail {
-    width: 150px;
-    height: 150px;
-    background-color: #FFEAEA;
-    padding: 20px;
-  }
-
-  div.text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-  }
-
   body {
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
@@ -76,19 +48,31 @@ a.nav-link.active {
 
 .profile-container {
     max-width: 90%;
+    height: 110px;
     margin: auto ;
     background-color: #ff9292;
     padding: 20px;
     border-radius: 10px;
+ 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+/* Add CSS for the grid container */
+
+
+.card {
+ margin: 10px;
+
+}
+
+/* Adjust the column width for larger screens */
 
 .profile-picture {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     overflow: hidden;
-    margin: 10px 0px 0px 10%;
+    margin: 10px 0px 0px 5%;
 }
 
 .profile-picture img {
@@ -97,117 +81,78 @@ a.nav-link.active {
     object-fit: cover;
 }
 
-.user-info {
-    text-align: left;
-    margin-top: 20px;
-}
-
-.user-name {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.user-bio {
-    margin-top: 10px;
-}
-
-.contact-info {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.contact-info a {
-    text-decoration: none;
-    color: #007BFF;
-    margin: 0 10px;
-}
-
-.contact-info a:hover {
-    text-decoration: underline;
-}
-
 .box{
     
     display: flex;
     height: 500px;
     margin: auto;
-
-
+    width:92%;
 }
 
-.box1 {
-    float: left;
-    width: 20%;
-    height: 300px;
-    margin: 10px 0px 0px 20px ;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.box2 {
-  display: flex;
-    float: right;
-    width: 65%;
-    height: 90%;
-    margin:  10px 10px 0px 0px ;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.product {
+#box1 {
+  float: left;
+  width: 20%;
+  height: 300px;
   background-color: #fff;
-  width: 250px;
   padding: 20px;
-  margin: 10px;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  text-align: left;
-  
+  margin: 20px;
+  position: relative; /* Add relative positioning */
 }
 
-/* Styling for product elements */
-
-.product-img {
-  margin: auto;
-  width: 150px; 
-  height: 150px;
-  border-radius: 50%; 
-  overflow: hidden;
-}
-
-.product-img img {
-  width: 100%; 
+/* Add a pseudo-element to create the right border */
+#box1::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2px; /* Adjust the width of the border */
   height: 100%;
-  object-fit: cover;
+  background-color: #000; /* Adjust the color of the border */
 }
 
-.product-category {
-  font-size: 16px;
-  font-weight: bold;
-  color: #007BFF;
+#box2{
+  display: flex;
+  float: right;
+  width: 80%;
+  height: 100%; /* Set the container's height to 100% */
+  background-color: #fff;
+  padding: 20px;
+  margin: 20px;
+  overflow: auto;
 }
 
-.product-name {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 10px 0;
+#box3{
+  display: flex;
+  float: right;
+  width: 80%;
+  height: 100%; /* Set the container's height to 100% */
+  background-color: #fff;
+  padding: 20px;
+  margin: 20px;
+  overflow: auto;
 }
 
-.product-description {
-  font-size: 14px;
-  margin-bottom: 10px;
+
+
+
+/* Add a new CSS rule to style the image container */
+.image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
 }
 
-.product-price {
-  font-size: 20px;
-  font-weight: bold;
-  color: #FF5353;
+.image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Use "contain" to maintain aspect ratio and fit the image inside the container without overflowing */
 }
 
-.product-location {
-  font-size: 14px;
-  color: #888;
-}
+
+
+
+
+

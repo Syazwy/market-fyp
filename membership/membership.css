@@ -4,19 +4,10 @@
             margin: 0; 
         }
 
-        .icon-left {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
-
-        .icon-right {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        
+        .membership-box h4 {
+            text-align: center; /* Center the text horizontally */
+            /* Add any additional styles for vertical centering if needed */
+          }
 
         .membership-container {
             display: flex;
@@ -38,10 +29,7 @@
             color: black; /* Override text color for li elements within .not */
             padding-bottom: 20px;
         }
-        
-        li{
-            padding-bottom: 35px;
-        }
+      
 
         .membership-button {
             border: none; /* Remove the border */
@@ -88,4 +76,25 @@
             flex-grow: 1; /* Allow the current-plan element to grow and take up available space */
             text-align: center; /* Center the text horizontally */
         }
+        a.nav-link.active {
+            background-color: #FF5353 !important;
+            margin-right: 20px;
+            border-radius: 18px;
+            width: 150px;
+            text-align: center;
+          }
         
+          button.nav-link.active {
+            background-color: #FF5353 !important;
+            margin-right: 20px;
+            border-radius: 18px;
+            width: 150px;
+            text-align: center;
+          }
+          
+          .btn.btn-primary {
+            background-color: #FF5353;
+            border-radius: 18px;
+            border: none;
+            width: 100px;
+          }
