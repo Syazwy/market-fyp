@@ -55,7 +55,7 @@
 
     <br>
     <center>
-    <button class="no-background no-border " onclick="showListings()"><h5>Listings</h5></button>
+    <button class="no-background no-border " onclick="showListings()"><h5>My Listings</h5></button>
     <button class="no-background no-border " onclick="showReviews()"><h5>Reviews</h5></button>
   </center>
 
@@ -148,8 +148,11 @@
         
         $conn->close();
         
-        ?>          
+        ?>       
+          
     </div>
+    <br>
+    <button class="btn btn-primary">Edit Profile</button>   
   </div>
 
 
@@ -176,10 +179,13 @@
                 <h5><b>$<?php echo $row["price"]; ?></b></h5>
                 <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
             </div>
+            
         </div>
         <?php endwhile; ?>
+        
     </div>
-</div>
+  
+  </div>
 
 
 <div class="box" id="box3" style="display: none;">
