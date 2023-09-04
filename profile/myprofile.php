@@ -63,7 +63,7 @@
 
     <div class="profile-container">
         <div class="profile-picture">
-            <img src="profileimage/wajdi.jpg" alt="Profile Picture">
+            <img src="../image/profile.png" alt="Profile Picture">
         </div>   
     </div>
 
@@ -159,17 +159,38 @@
         } else {
             echo 'Error in preparing the SQL statement.';
         }
+
+       
+                   
+                  
         
-        $conn->close();
         
-        ?>       
+        
+        ?>
+        
+        
           
     </div>
     <br>
-    <button class="btn btn-primary" style="width: 150px;">Edit Profile</button>   
+
+                  <?php
+                      $i = 1;
+                      $rows = mysqli_query($conn, "SELECT * from account WHERE username = '$username' ORDER BY id DESC ");
+                  ?>
+
+                  
+
+                  <?php
+                    foreach($rows as $row) :
+                  ?>
+                      <a href="profileedit.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary"> Edit Profile </a>
+                      <?php endforeach; ?>
+
+                  
+      
   </div>
 
-
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
   <div class="box" id="box2" style="display: block;">
     <?php
     require '../connection/connection.php';
@@ -194,9 +215,23 @@
                         <h5><b>$<?php echo $row["price"]; ?></b></h5>
                         <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
                     </div>
-                    <button style="border-radius:20px;background-color:white">Edit</button>
-                </div>    
+
+
+
+                    <?php
+                          $i = 1;
+                          $rows = mysqli_query($conn, "SELECT * from itemslisting  ORDER BY id DESC ");
+                          
+                    ?>
+                    
+                          <a href="profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary"> Edit item </a>
+                          
+
+
+                </div>  
+                           
             <?php endwhile; ?>
+
             <a href="../sellers/sells-page.php" style="text-decoration:none">
     <div class="card" style="width: 150px; height: 170px; border:none; ">
         <div class="image-container" style="height: 75%;padding:20px; background-color: #FFCBCB; border-radius:20px">
@@ -208,7 +243,7 @@
             <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></p>
         </div>
     </div>
-</a>         
+</a>
         </div>
     <?php else : ?>
         <h4>You have not made any listings.</h4>
@@ -219,7 +254,7 @@
 
 </div>
 
-
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
 
 <div class="box" id="box3" style="display: none;">
 <!-- <button class="btn mb-3" id="addReviewBtn" data-toggle="modal" data-target="#addReviewModal" style="border: 1px solid black; position: fixed; top: 240px; right: 710px; <?php echo $addReviewButtonStyle; ?>">Add New Review</button> -->
