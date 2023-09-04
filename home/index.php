@@ -21,7 +21,7 @@
   
   <div class="collapse navbar-collapse justify-content-center">
     <ul class="nav nav-pills">
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" data-bs-toggle="offcanvas" href="#offcanvasRight" role="button" aria-controls="offcanvasRight">Categories</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
     </ul>
@@ -42,6 +42,21 @@
   </div>
   </div>
 </nav>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">All Categories</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <!-- <div class="offcanvas-body"> -->
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Property</a></li>
+      <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Vehicles</a></li>
+      <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Furnitures</a></li>
+      <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Electronics</a></li>
+      <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Fashion</a></li>
+    </ul>
+  <!-- </div> -->
+</div>
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
     event.preventDefault(); // Prevent the link from immediately navigating

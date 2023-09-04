@@ -166,40 +166,59 @@
           
     </div>
     <br>
-    <button class="btn btn-primary">Edit Profile</button>   
+    <button class="btn btn-primary" style="width: 150px;">Edit Profile</button>   
   </div>
 
 
-<div class="box" id="box2" style="display: block;">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
-        <?php
-        require '../connection/connection.php';
-        $i = 1;
-        $query = "SELECT itemslisting.*, item_images.image_filename 
-        FROM itemslisting 
-        JOIN item_images ON itemslisting.id = item_images.item_id 
-        GROUP BY itemslisting.id 
-        ORDER BY itemslisting.id DESC";
-        $result = mysqli_query($conn, $query);
-        while ($row = mysqli_fetch_assoc($result)) :
-        ?>
-      
-        <div class="card" style="width: 150px; height: 200px; border:none">
-            <div class="image-container" style="height: 50%;">
-                <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" alt="Product Image" style="max-height: 100%;">
-            </div>
-            <div class="card-content">
-                <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?php echo $row["name"]; ?></p>
-                <h5><b>$<?php echo $row["price"]; ?></b></h5>
-                <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
-            </div>
-            
+  <div class="box" id="box2" style="display: block;">
+    <?php
+    require '../connection/connection.php';
+    $i = 1;
+    $query = "SELECT itemslisting.*, item_images.image_filename 
+    FROM itemslisting 
+    JOIN item_images ON itemslisting.id = item_images.item_id 
+    GROUP BY itemslisting.id 
+    ORDER BY itemslisting.id DESC";
+    $result = mysqli_query($conn, $query);
+    ?>
+
+    <?php if (mysqli_num_rows($result) > 0) : ?>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
+            <?php while ($row = mysqli_fetch_assoc($result)) : ?>
+                <div class="card" style="width: 150px; height: 200px; border:none">
+                    <div class="image-container" style="height: 50%;">
+                        <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" alt="Product Image" style="max-height: 100%;">
+                    </div>
+                    <div class="card-content">
+                        <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?php echo $row["name"]; ?></p>
+                        <h5><b>$<?php echo $row["price"]; ?></b></h5>
+                        <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
+                    </div>
+                    <button style="border-radius:20px;background-color:white">Edit</button>
+                </div>  
+                <a href="../sellers/sells-page.php" style="text-decoration:none">
+    <div class="card" style="width: 150px; height: 170px; border:none; ">
+        <div class="image-container" style="height: 75%;padding:20px; background-color: #FFCBCB; border-radius:20px">
+            <img src="../image/plus.png" alt="Product Image" style="height: 30%;">
         </div>
-        <?php endwhile; ?>
-        
+        <div class="card-content">
+            <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></p>
+            <center><p>Add New Listing</p></center>
+            <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></p>
+        </div>
     </div>
-  
-  </div>
+</a>           
+            <?php endwhile; ?>
+        </div>
+    <?php else : ?>
+        <h4>You have not made any listings.</h4>
+    <?php endif; ?>
+    <br>
+
+
+
+</div>
+
 
 
 <div class="box" id="box3" style="display: none;">
@@ -322,84 +341,5 @@ function showReviews() {
   </script>
 
   
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-<script>
-
-function addReview(username, content, rating) {
-    const starIcons = Array.from({ length: 5 }, (_, i) => {
-        return `<span class="fa fa-star ${i < rating ? 'checked' : ''}"></span>`;
-    }).join('');
-
-    const newReview = `
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">${username}</h5>
-                <p class="card-text">${content}</p>
-                <div class="rating">${starIcons}</div>
-            </div>
-        </div>`;
-    
-   
-}
-document.getElementById("goBackBtn").addEventListener("click", function() {
-    // Navigate back to the previous page
-    history.back();
-});
-
-
-document.getElementById("submitReviewBtn").addEventListener("click", function() {
-    const username = document.getElementById("username").value;
-    const content = document.getElementById("content").value;
-    const rating = parseInt(document.getElementById("rating").value);
-    
-    // Get the value of the hidden input field
-
-
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("content", content);
-    formData.append("rating", rating);
-
-
-    fetch("review.php", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log(data);
-
-        // Clear form fields and close modal
-        document.getElementById("reviewForm").reset();
-        $('#addReviewModal').modal('hide');
-        
-        // Assuming addReview function needs to be called here, but not sure
-        addReview(username, content, rating);
-        
-        // If you really need to refresh the page after adding a review, use window.location.href
- 
-    })
-    .catch(error => {
-        // Handle errors
-        console.error("Error:", error);
-    });
-});
-<?php
-// ... Other PHP code ...
-
-if ($users === $username) {
-    // Show the button if $users matches the session username
-    $addReviewButtonStyle = 'display: block;';
-} else {
-    // Hide the button if $users does not match the session username
-    $addReviewButtonStyle = 'display: none;';
-}
-?>
-
-
-</script>
 </body>
 </html>
