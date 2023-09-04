@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 03, 2023 at 08:16 PM
+-- Generation Time: Sep 04, 2023 at 09:40 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -45,7 +45,8 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`id`, `username`, `email`, `password`, `membership`, `date`, `verification_code`, `email_verified_at`, `rating`) VALUES
 (40, 'syazwy', 'syazwywardyshah@gmail.com', '$2y$10$/o2kyoK1r8hiv7gSokdM2eqW4886n4aTdHS9EXNXBhGIHU6IiOyCC', 'Premium Monthly', '2023-09-02', '231472', '2023-09-02 21:52:54', NULL),
-(44, '21FTT1292', '21FTT1292@student.pb.edu.bn', '$2y$10$uA1umpA50GAZ99HUcv7ti.kRbSAsLcg5uPo40XNkYxATaSQE/Yag.', ' Basic', '2023-09-03', '190284', '2023-09-04 02:05:28', NULL);
+(44, '21FTT1292', '21FTT1292@student.pb.edu.bn', '$2y$10$uA1umpA50GAZ99HUcv7ti.kRbSAsLcg5uPo40XNkYxATaSQE/Yag.', ' Basic', '2023-09-03', '190284', '2023-09-04 02:05:28', NULL),
+(45, 'barzun', '21ftt1287@student.pb.edu.bn', '$2y$10$W/HLAx3HEnd3PYd3Bn7pSuU61NhEO23l.wS/9nNGn23hZMHmUpm1C', ' Basic', '2023-09-03', '283252', '2023-09-04 04:24:10', NULL);
 
 -- --------------------------------------------------------
 
@@ -62,15 +63,22 @@ CREATE TABLE `itemslisting` (
   `description` varchar(100) NOT NULL,
   `location` varchar(100) NOT NULL,
   `item_id` int(11) DEFAULT NULL,
-  `username` varchar(100) NOT NULL
+  `username` varchar(100) NOT NULL,
+  `time` time(6) NOT NULL,
+  `uploaded_at` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `itemslisting`
 --
 
-INSERT INTO `itemslisting` (`id`, `category`, `item_condition`, `name`, `price`, `description`, `location`, `item_id`, `username`) VALUES
-(61, 'property', 'New', 'reaver', '20', 'fasdf', 'brunei', NULL, 'syazwy');
+INSERT INTO `itemslisting` (`id`, `category`, `item_condition`, `name`, `price`, `description`, `location`, `item_id`, `username`, `time`, `uploaded_at`) VALUES
+(75, 'electronics', 'New', 'prime vandal', '30', 'dfsf', 'brunei', NULL, 'syazwy', '22:18:33.000000', '2023-09-03 22:18:33'),
+(76, 'electronics', 'Used - Like New', 'reaver vandal', '20', 'fsfd', 'brunei', NULL, 'syazwy', '22:18:56.000000', '2023-09-03 22:18:56'),
+(77, 'vehicles', 'Used - Good', 'ion sheriff', '30', 'sheriff', 'bandar seri begawan', NULL, '21FTT1292', '22:21:44.000000', '2023-09-03 22:21:44'),
+(78, 'electronics', 'Used - fair', 'prime karambit', '30', 'bazlir', 'tanjung nangka', NULL, 'barzun', '22:24:52.000000', '2023-09-03 22:24:52'),
+(79, 'electronics', 'New', 'glitchpop phantom', '30', 'fsadf', 'bandar', NULL, 'syazwy', '23:53:46.000000', '2023-09-03 23:53:46'),
+(80, 'electronics', 'Used - fair', 'elderflame vandal', '30', 'boom boom', 'tutong', NULL, 'syazwy', '23:55:00.000000', '2023-09-03 23:55:00');
 
 -- --------------------------------------------------------
 
@@ -89,7 +97,12 @@ CREATE TABLE `item_images` (
 --
 
 INSERT INTO `item_images` (`id`, `item_id`, `image_filename`) VALUES
-(42, 61, '64f4c3526d50a_Screenshot 2023-04-03 231950.png');
+(57, 75, '64f4ea1988217_Screenshot 2023-04-03 231750.png'),
+(58, 76, '64f4ea30a9ba5_Screenshot 2023-04-03 231950.png'),
+(59, 77, '64f4ead89f038_Screenshot 2023-04-03 232841.png'),
+(60, 78, '64f4eb94b55b0_Screenshot 2023-04-03 233157.png'),
+(61, 79, '64f5006a8f8e8_Screenshot 2023-04-03 232418.png'),
+(62, 80, '64f500b440ffe_Screenshot 2023-04-03 232152.png');
 
 -- --------------------------------------------------------
 
@@ -155,19 +168,19 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `itemslisting`
 --
 ALTER TABLE `itemslisting`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `item_images`
 --
 ALTER TABLE `item_images`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `reviews`
