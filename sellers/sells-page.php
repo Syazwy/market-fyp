@@ -140,7 +140,7 @@ if(isset($_POST["submit"])){
             border-radius: 10px;
             padding: 10px;
             box-shadow: 0px 0px 3px black;
-            height: 550px;
+            height: 590px;
         }
 
         #home {
