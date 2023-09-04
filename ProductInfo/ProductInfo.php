@@ -16,27 +16,27 @@
       <img src="../image/logo.png" width="80" height="80">
     </a>
   
-  <div class="collapse navbar-collapse justify-content-center">
-    <ul class="nav nav-pills">
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
-    </ul>
-  </div>
+    <div class="collapse navbar-collapse justify-content-center">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
+      </ul>
+    </div>
 
-  <div class="dropdown">
-    <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-      <img src="../image/profile.png" width="50" height="50" class="profile">
-    </a>
+    <div class="dropdown">
+      <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
+        <img src="../image/profile.png" width="50" height="50" class="profile">
+      </a>
 
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="../profile/profile.php">My Profile</a></li>
-      <li><a class="dropdown-item" href="#">Your Listings</a></li>
-      <li><a class="dropdown-item" href="#">My Purchases</a></li>
-      <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
-      <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
-    </ul>
-  </div>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="../profile/profile.php">My Profile</a></li>
+        <li><a class="dropdown-item" href="#">Your Listings</a></li>
+        <li><a class="dropdown-item" href="#">My Purchases</a></li>
+        <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
+        <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
+      </ul>
+    </div>
   </div>
 </nav>
 
@@ -71,16 +71,6 @@
         <section id="home">
           <h1><?php echo $row["name"]; ?></h1>
         </section>
-    
-        <div>
-          <label for="category">Filter by Category:</label>
-          <select id="category" onchange="filterProducts()">
-            <option value="all">All</option>
-            <option value="electronics">Electronics</option>
-            <option value="clothing">Clothing</option>
-            <option value="furniture">Furniture</option>
-          </select>
-        </div>
 
         <div class="product-container">
             
@@ -138,11 +128,10 @@
             </div>
 
             <div class="proInfo">
-
               <img width="50px " src="images/pb.png">
-              <p>Username</p>
+              <p><?php echo $row["username"]; ?></p>
               <br>
-              <p>Location</p>
+              <p><?php echo $row["location"]; ?></p>
 
 
 
@@ -151,23 +140,6 @@
         </div>
 
           <br>
-
-      <div id="footer1">
-        <section id="about">
-          <h2>About Us</h2>
-          <p>This is the about section of the website template.</p>
-        </section>
-    
-        <section id="services">
-          <h2>Our Services</h2>
-          <p>This is the services section of the website template.</p>
-        </section>
-    
-        <section id="contact">
-          <h2>Contact Us</h2>
-          <p>This is the contact section of the website template.</p>
-        </section>
-      </div>
 
       <?php
             } else {
@@ -181,10 +153,7 @@
       ?>
 
       </main>
-    
-      <footer>
-        <p>&copy; 2023 Your Company. All rights reserved.</p>
-      </footer>
+  
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>

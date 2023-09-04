@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 04, 2023 at 09:40 AM
+-- Generation Time: Sep 04, 2023 at 08:43 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -45,8 +45,10 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`id`, `username`, `email`, `password`, `membership`, `date`, `verification_code`, `email_verified_at`, `rating`) VALUES
 (40, 'syazwy', 'syazwywardyshah@gmail.com', '$2y$10$/o2kyoK1r8hiv7gSokdM2eqW4886n4aTdHS9EXNXBhGIHU6IiOyCC', 'Premium Monthly', '2023-09-02', '231472', '2023-09-02 21:52:54', NULL),
-(44, '21FTT1292', '21FTT1292@student.pb.edu.bn', '$2y$10$uA1umpA50GAZ99HUcv7ti.kRbSAsLcg5uPo40XNkYxATaSQE/Yag.', ' Basic', '2023-09-03', '190284', '2023-09-04 02:05:28', NULL),
-(45, 'barzun', '21ftt1287@student.pb.edu.bn', '$2y$10$W/HLAx3HEnd3PYd3Bn7pSuU61NhEO23l.wS/9nNGn23hZMHmUpm1C', ' Basic', '2023-09-03', '283252', '2023-09-04 04:24:10', NULL);
+(45, 'barzun', '21ftt1287@student.pb.edu.bn', '$2y$10$W/HLAx3HEnd3PYd3Bn7pSuU61NhEO23l.wS/9nNGn23hZMHmUpm1C', ' Basic', '2023-09-03', '283252', '2023-09-04 04:24:10', NULL),
+(48, 'wajid', '21ftt1294@student.pb.edu.bn', '$2y$10$QDlQxpEg6WisIKJAlhaKf.isfM3xO5X5PfDGDDNfmmkyRoDrwe8mm', 'Basic', '2023-09-04', '347801', '2023-09-04 22:32:40', NULL),
+(51, '21FTT1292', '21FTT1292@student.pb.edu.bn', '$2y$10$4.TPT3W8TIRzHnGgCLgAOODeEfAURveGkUzRzIL.PkTN5yZPmlIs.', ' Basic', '2023-09-04', '233387', '2023-09-05 01:24:14', NULL),
+(52, 'mujlir', '21FTT1750@student.pb.edu.bn', '$2y$10$tzth6Xz/3qk1jQq3g8BSouqAJx3fS8.rxyXd1naornFyFH9U7ii5y', ' Basic', '2023-09-04', '237661', '2023-09-05 02:05:46', NULL);
 
 -- --------------------------------------------------------
 
@@ -68,18 +70,6 @@ CREATE TABLE `itemslisting` (
   `uploaded_at` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `itemslisting`
---
-
-INSERT INTO `itemslisting` (`id`, `category`, `item_condition`, `name`, `price`, `description`, `location`, `item_id`, `username`, `time`, `uploaded_at`) VALUES
-(75, 'electronics', 'New', 'prime vandal', '30', 'dfsf', 'brunei', NULL, 'syazwy', '22:18:33.000000', '2023-09-03 22:18:33'),
-(76, 'electronics', 'Used - Like New', 'reaver vandal', '20', 'fsfd', 'brunei', NULL, 'syazwy', '22:18:56.000000', '2023-09-03 22:18:56'),
-(77, 'vehicles', 'Used - Good', 'ion sheriff', '30', 'sheriff', 'bandar seri begawan', NULL, '21FTT1292', '22:21:44.000000', '2023-09-03 22:21:44'),
-(78, 'electronics', 'Used - fair', 'prime karambit', '30', 'bazlir', 'tanjung nangka', NULL, 'barzun', '22:24:52.000000', '2023-09-03 22:24:52'),
-(79, 'electronics', 'New', 'glitchpop phantom', '30', 'fsadf', 'bandar', NULL, 'syazwy', '23:53:46.000000', '2023-09-03 23:53:46'),
-(80, 'electronics', 'Used - fair', 'elderflame vandal', '30', 'boom boom', 'tutong', NULL, 'syazwy', '23:55:00.000000', '2023-09-03 23:55:00');
-
 -- --------------------------------------------------------
 
 --
@@ -92,17 +82,39 @@ CREATE TABLE `item_images` (
   `image_filename` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `item_images`
+-- Table structure for table `report`
 --
 
-INSERT INTO `item_images` (`id`, `item_id`, `image_filename`) VALUES
-(57, 75, '64f4ea1988217_Screenshot 2023-04-03 231750.png'),
-(58, 76, '64f4ea30a9ba5_Screenshot 2023-04-03 231950.png'),
-(59, 77, '64f4ead89f038_Screenshot 2023-04-03 232841.png'),
-(60, 78, '64f4eb94b55b0_Screenshot 2023-04-03 233157.png'),
-(61, 79, '64f5006a8f8e8_Screenshot 2023-04-03 232418.png'),
-(62, 80, '64f500b440ffe_Screenshot 2023-04-03 232152.png');
+CREATE TABLE `report` (
+  `id` int(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `status` varchar(100) NOT NULL,
+  `item` varchar(100) NOT NULL,
+  `report` varchar(100) NOT NULL,
+  `typeofreport` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reportbyusers`
+--
+
+CREATE TABLE `reportbyusers` (
+  `id` int(100) NOT NULL,
+  `typeReport` varchar(100) NOT NULL,
+  `reason` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reportbyusers`
+--
+
+INSERT INTO `reportbyusers` (`id`, `typeReport`, `reason`) VALUES
+(1, 'ProductQuality', 'something');
 
 -- --------------------------------------------------------
 
@@ -124,7 +136,7 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `username`, `content`, `rating`, `time`, `users`) VALUES
-(36, 'lakaka', 'hi my name is lakaka, I am from nigeria. Where im from, we dont have wotah. Pls sedekah some wotah for me and my familyu back in hindustan, banglasdeh. Sekian harap maklum', 4, '2023-08-19 09:59:53.000000', NULL),
+(36, 'lakaka', 'hi my name is lakaka, I am from nigeria. Where im from, we dont have wotah. Pls sedekah some wotah for me and my familyu back in hindustan, banglasdeh. Sekian harap maklum', 4, '2023-08-19 09:59:53.000000', 'syazwy'),
 (37, 'kirim salam benz', 'hey lakaka, im here to help you. just contact me @lakaka is a fool.com', 1, '2023-08-19 10:01:02.000000', NULL),
 (38, 'af1qaiman', 'hey im afq, i like supra, i like hotwherels,. i lijkle playing futebal, i like ', 5, '2023-08-20 16:13:16.000000', NULL),
 (39, 'good seller', 'on time', 5, '2023-08-24 05:07:39.000000', NULL),
@@ -155,6 +167,18 @@ ALTER TABLE `item_images`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `report`
+--
+ALTER TABLE `report`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `reportbyusers`
+--
+ALTER TABLE `reportbyusers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `reviews`
 --
 ALTER TABLE `reviews`
@@ -168,19 +192,31 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `itemslisting`
 --
 ALTER TABLE `itemslisting`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT for table `item_images`
 --
 ALTER TABLE `item_images`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+
+--
+-- AUTO_INCREMENT for table `report`
+--
+ALTER TABLE `report`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `reportbyusers`
+--
+ALTER TABLE `reportbyusers`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `reviews`

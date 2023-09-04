@@ -22,17 +22,27 @@ require '../connection/connection.php';
       <img src="../image/logo.png" width="80" height="80">
     </a>
 
-    <div class="collapse navbar-collapse justify-content-center">
+    <div class="collapse navbar-collapse">
     <ul class="nav nav-pills">
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../login-register/register.php">Register</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../login-register/login.php">Login</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Sell</a></li>
-  
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../home/index-guest.php" id="logout-link">Logout</a></li>
     </ul>
     </div>
   </div>
 </nav>
+
+<script>
+  document.getElementById('logout-link').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent the link from immediately navigating
+
+    // Display a confirmation dialog
+    const confirmLogout = confirm("Are you sure you want to log out?");
+
+    // If the user confirms, navigate to the logout page
+    if (confirmLogout) {
+      window.location.href = event.target.href;
+    }
+  });
+</script>
 
 <div class="profile-container">
         <div class="profile-picture">

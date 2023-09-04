@@ -37,7 +37,6 @@
     </a>
 
     <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
       <li><a class="dropdown-item" href="#">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
       <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
@@ -379,6 +378,6 @@ function showReviews() {
 
   </script>
 
-  
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
