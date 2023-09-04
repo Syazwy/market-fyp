@@ -8,7 +8,14 @@
     <link rel="stylesheet" href="productinfo.css">
     <link rel="stylesheet" href="../home/index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-</head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+     .checked {
+    color: orange;
+  }
+  </style>
+  </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
   <div class="container">
@@ -64,7 +71,9 @@
             
             // Check if a product with the specified 'id' exists
             if ($row = mysqli_fetch_assoc($result)) {
-                // Product data is now available in the $row variable
+          
+          
+          
       ?>
 
     
@@ -128,20 +137,52 @@
             </div>
 
             <div class="proInfo">
-              <img width="50px " src="images/pb.png">
-              <p><?php echo $row["username"]; ?></p>
-              <br>
-              <p><?php echo $row["location"]; ?></p>
+    <img width="50px" src="images/pb.png">
+    <?php 
+        $conn = new mysqli('localhost', 'root', '', 'market');
+        $username = $row["username"];
+        
+        if ($conn->connect_error) {
+            die('Connection Failed : '.$conn->connect_error);
+        }
+        
+        $reviewResult = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$username'");
+        
+        if ($reviewResult->num_rows > 0) {
+            $reviewRow = $reviewResult->fetch_assoc();
+            $averageRating = $reviewRow['avg_rating'];
+            $totalReviews = $reviewRow['total_reviews'];
 
-
-
-            </div>
+            // Function to generate star rating based on the average rating
+            function generateStarRating($rating) {
+                $output = '';
+                for ($i = 1; $i <= 5; $i++) {
+                    if ($i <= ceil($rating)) { // Use ceil to round up decimal ratings
+                        $output .= '<i class="fa fa-star checked"></i>';
+                    } else {
+                        $output .= '<i class="fa fa-star"></i>';
+                    }
+                }
+                return $output;
+            }
             
-        </div>
+            echo generateStarRating($averageRating) . ' (' . $totalReviews . ' reviews)';
+        } else {
+            echo '- No reviews available.';
+        }
+
+        $conn->close();
+    ?> 
+    <p><?php echo $row["username"]; ?></p>
+    <br>
+    <p><?php echo $row["location"]; ?></p>
+</div>
+
 
           <br>
 
       <?php
+
             } else {
                 // Handle the case where the specified product doesn't exist
                 echo "Product not found.";
@@ -151,6 +192,8 @@
             echo "Product ID not specified.";
         }
       ?>
+
+
 
       </main>
   
