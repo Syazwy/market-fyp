@@ -32,9 +32,11 @@ function getUserSubmissions($conn, $username) {
 $membership = getUserMembership($conn, $username);
 $numSubmissions = getUserSubmissions($conn, $username);
 
-// Define the submission limits for basic members
+// Define the submission limits for different membership levels
 $minSubmissionsForBasic = 0;
 $maxSubmissionsForBasic = 2;
+$minSubmissionsForPremium = 0; // Both Premium Monthly and Premium Annually
+$maxSubmissionsForPremium = PHP_INT_MAX; // Unlimited submissions for Premium
 
 // Check the user's membership level and submission limit
 if ($membership === 'Basic') {
@@ -45,8 +47,8 @@ if ($membership === 'Basic') {
         // Basic members have exceeded the submission limit
         $submissionLimitReached = true;
     }
-} elseif ($membership === 'Premium Monthly') {
-    // Premium members can submit unlimited times
+} elseif ($membership === 'Premium Monthly' || $membership === 'Premium Annually') {
+    // Premium members (both Monthly and Annually) can submit unlimited times
     // Proceed with the item creation logic
     $submissionLimitReached = false; // Reset the flag
 } else {
@@ -55,9 +57,9 @@ if ($membership === 'Basic') {
     $submissionLimitReached = false; // Reset the flag
 }
 
-
 // Check if the user is a basic member and has reached the submission limit
-$submissionLimitReached = ($membership == 'Basic' && $numSubmissions >= 2);
+$submissionLimitReached = ($membership == 'Basic' && $numSubmissions >= $maxSubmissionsForBasic);
+
 
 
 if(isset($_POST["submit"])){
@@ -243,7 +245,7 @@ if(isset($_POST["submit"])){
                 <br>
                 <div class="subcontainer">
                     <label>Select Item Category:</label>
-                    <select class="form-select form-select-sm" aria-label="Small select example" name="category">
+                    <select class="form-select form-select-sm" aria-label="Small select example" name="category" required>
                         <option value="null"> </option>
                         <option value="property"> <img src="../image/property.png"> Property</option>
                         <option value="vehicles"> <img src="../image/vehicle.png"> Vehicles</option>
@@ -252,7 +254,7 @@ if(isset($_POST["submit"])){
                         <option value="furniture"> <img src="../image/furniture.png"> Furniture</option>
                     </select>
                     <label>Condition</label>
-                    <select class="form-select form-select-sm" aria-label="Small select example" name="item_condition">
+                    <select class="form-select form-select-sm" aria-label="Small select example" name="item_condition" required>
                         <option value=""> </option>
                         <option value="New"> <img src="../image/property.png"> New </option>
                         <option value="Used - Like New"> <img src="../image/vehicle.png"> Used - Like New </option>
@@ -261,11 +263,11 @@ if(isset($_POST["submit"])){
                     </select>
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="">
+                        <input type="text" class="form-control" name="name" id="name" placeholder=""required>
                     </div>
                     <div class="mb-3">
                         <label for="price" class="form-label">Price</label>
-                        <input type="number" class="form-control" name="price" id="price" placeholder="">
+                        <input type="number" class="form-control" name="price" id="price" placeholder="" required>
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
@@ -273,7 +275,7 @@ if(isset($_POST["submit"])){
                     </div>
                     <div class="mb-3">
                         <label for="location" class="form-label">Location</label>
-                        <input type="text" class="form-control" name="location" id="location" placeholder="">
+                        <input type="text" class="form-control" name="location" id="location" placeholder="" required>
                     </div>
                     <input type="text" class="form-control" name="username" id="username" placeholder="" value="<?php echo $username ?>" hidden>
                     <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;"<?php if ($submissionLimitReached) echo 'disabled'; ?>>Create</button>
@@ -301,17 +303,6 @@ if(isset($_POST["submit"])){
         }).on('blur', function() {
             if ($(this).val() == '') {
                 $(this).parent().find('label').removeClass('active');
-            }
-        });
-
-        // Add an event listener to the form submission
-        $('form').on('submit', function(event) {
-            // Check if the submission limit has been reached for basic members
-            if (<?php echo json_encode($submissionLimitReached); ?>) {
-                // Prevent the form from submitting
-                event.preventDefault();
-                // Use JavaScript to trigger the modal
-                $('#submissionLimitModal').modal('show');
             }
         });
     });
