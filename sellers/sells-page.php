@@ -122,11 +122,25 @@ if(isset($_POST["submit"])){
       <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
       <li><a class="dropdown-item" href="#">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
-      <li><a class="dropdown-item" href="../home/index-guest.php">Log out</a></li>
+      <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
+
     </ul>
   </div>
   </div>
 </nav>
+<script>
+  document.getElementById('logout-link').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent the link from immediately navigating
+
+    // Display a confirmation dialog
+    const confirmLogout = confirm("Are you sure you want to log out?");
+
+    // If the user confirms, navigate to the logout page
+    if (confirmLogout) {
+      window.location.href = event.target.href;
+    }
+  });
+</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
    
 
