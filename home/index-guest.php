@@ -141,8 +141,8 @@ if (isset($_POST["register"])) {
     }
 
     // Hash password
-    // $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
-    $encrypted_password = $password;
+    $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
+    // $encrypted_password = $password;
 
     // Connect to database
     $conn = mysqli_connect("localhost", "root", "", "market");
@@ -496,7 +496,7 @@ if (isset($_POST["login"])) {
   <div class="modal-content" >
   <div class="modal-header justify-content-center" style="border: none;">
   <h3 class="modal-title d-flex justify-content-center text-center" id="registerModalLabel">Create Account</h3>
-  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
