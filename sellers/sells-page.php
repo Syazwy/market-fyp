@@ -4,6 +4,52 @@
     $username = $_SESSION['username'];
 ?>
 <?php
+// Function to get the user's membership level
+function getUserMembership($conn, $username) {
+    $query = "SELECT TRIM(membership) FROM account WHERE username = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $membership);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+    return $membership;
+}
+
+
+// Function to get the number of submissions made by the user
+function getUserSubmissions($conn, $username) {
+    $query = "SELECT COUNT(*) FROM itemslisting WHERE username = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $numSubmissions);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+    return $numSubmissions;
+}
+
+$membership = getUserMembership($conn, $username);
+$numSubmissions = getUserSubmissions($conn, $username);
+
+// Check the user's membership level and submission limit
+if ($membership === 'Basic' && $numSubmissions >= 2) {
+    // Basic members are allowed only 2 submissions
+    $submissionLimitReached = true;
+} elseif ($membership === 'Premium Monthly') {
+    // Premium members can submit unlimited times
+    // Proceed with the item creation logic
+    $submissionLimitReached = false; // Reset the flag
+} else {
+    // Handle other cases or errors as needed
+    echo "Unknown membership level or an error occurred.";
+    $submissionLimitReached = false; // Reset the flag
+}
+
+// Check if the user is a basic member and has reached the submission limit
+$submissionLimitReached = ($membership == 'Basic' && $numSubmissions >= 2);
+
+
 if(isset($_POST["submit"])){
     // Get form data and sanitize
     $category = mysqli_real_escape_string($conn, $_POST["category"]);
@@ -16,7 +62,7 @@ if(isset($_POST["submit"])){
     $currentDateTime = new DateTime();
     $timedate = $currentDateTime->format('Y-m-d H:i:s');
 
-    // Insert item data into database
+    // Insert item data into the database
     $query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location, username, time, uploaded_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "sssdsssss", $category, $item_condition, $name, $price, $description, $location, $username, $timedate, $timedate);
@@ -58,7 +104,6 @@ if(isset($_POST["submit"])){
     header("Location: ../home/index.php");
     exit(); // Make sure to exit after sending the header
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -141,6 +186,24 @@ if(isset($_POST["submit"])){
     }
   });
 </script>
+
+<div class="modal" tabindex="-1" id="submissionLimitModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Submission Limit Reached</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p>You have reached the maximum limit for submissions as a basic member.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
    
 
@@ -203,31 +266,50 @@ if(isset($_POST["submit"])){
                         <input type="text" class="form-control" name="location" id="location" placeholder="">
                     </div>
                     <input type="text" class="form-control" name="username" id="username" placeholder="" value="<?php echo $username ?>" hidden>
-                    <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;">Create</button>
+                    <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;"<?php if ($submissionLimitReached) echo 'disabled'; ?>>Create</button>
                 </div>
             </form>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+        <script src="dist/image-uploader.min.js"></script>
+        <script>
+    $(document).ready(function() {
+        // Check if the submission limit has been reached for basic members
+        if (<?php echo json_encode($submissionLimitReached); ?>) {
+            // Use JavaScript to trigger the modal
+            $('#submissionLimitModal').modal('show');
+        }
 
-            <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
-            <script src="dist/image-uploader.min.js"></script>
-            <script>
-                $(document).ready(function() {
-                    $('.input-images-2').imageUploader({
-                        maxFiles: 2,
-                        imagesInputName: 'photos', // This should match the name attribute of the file input
-                        preloadedInputName: 'old'
-                    });
+        $('.input-images-2').imageUploader({
+            maxFiles: 6,
+            imagesInputName: 'photos', // This should match the name attribute of the file input
+            preloadedInputName: 'old'
+        });
 
-                    // Input and label handler
-                    $('input').on('focus', function() {
-                        $(this).parent().find('label').addClass('active');
-                    }).on('blur', function() {
-                        if ($(this).val() == '') {
-                            $(this).parent().find('label').removeClass('active');
-                        }
-                    });
-                });
-            </script>
-        </div>
-    </main>
+        // Input and label handler
+        $('input').on('focus', function() {
+            $(this).parent().find('label').addClass('active');
+        }).on('blur', function() {
+            if ($(this).val() == '') {
+                $(this).parent().find('label').removeClass('active');
+            }
+        });
+
+        // Add an event listener to the form submission
+        $('form').on('submit', function(event) {
+            // Check if the submission limit has been reached for basic members
+            if (<?php echo json_encode($submissionLimitReached); ?>) {
+                // Prevent the form from submitting
+                event.preventDefault();
+                // Use JavaScript to trigger the modal
+                $('#submissionLimitModal').modal('show');
+            }
+        });
+    });
+
+    function closeModal() {
+        // Redirect to index.php when closing the modal
+        window.location.href = "../home/index.php";
+    }
+</script>
 </body>
 </html>
