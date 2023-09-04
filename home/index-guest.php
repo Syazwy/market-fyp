@@ -274,8 +274,8 @@ if (isset($_POST["register"])) {
 $errorMessage = ""; // Initialize an empty error message
 
 if (isset($_POST["login"])) {
-  $emailOrUsername = $_POST["emailOrUsername"];
-  $password = $_POST["password"];
+    $emailOrUsername = $_POST["emailOrUsername"];
+    $password = $_POST["password"];
 
     // Connect to the database (consider using a separate file for database configuration)
     $conn = mysqli_connect("localhost", "root", "", "market");
@@ -285,34 +285,52 @@ if (isset($_POST["login"])) {
         die("Database connection failed: " . mysqli_connect_error());
     }
 
-    // Use prepared statements to prevent SQL injection
-    $sql = "SELECT * FROM account WHERE email = ? OR username = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ss", $emailOrUsername, $emailOrUsername); // Bind the same value twice
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    
-    if (mysqli_num_rows($result) == 0) {
-        $errorMessage = "Email or username not found.";
-    } else {
-        $user = mysqli_fetch_object($result);
-        if (!password_verify($password, $user->password)) {
-            $errorMessage = "Password is not correct";
-        } elseif ($user->email_verified_at == null) {
-            header("Location: index-guest.php?email=" . urlencode($user->email));
+    // Check if the input name is "admin"
+    if ($emailOrUsername === "admin") {
+        // Verify the admin password
+        if ($password === "123") {
+            // Set session variables to indicate the user is logged in as admin
+            $_SESSION['member'] = true;
+            $_SESSION['email'] = ""; // Set as needed
+            $_SESSION['username'] = "admin";
+
+            header("Location: ../admin/admin.php");
             exit();
         } else {
-            // Set session variables to indicate the user is logged in
-            $_SESSION['member'] = true;
-            $_SESSION['email'] = $user->email;
-            $_SESSION['username'] = $user->username;
+            $errorMessage = "Password is not correct";
+        }
+    } else {
+        // Use prepared statements to prevent SQL injection
+        $sql = "SELECT * FROM account WHERE email = ? OR username = ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "ss", $emailOrUsername, $emailOrUsername);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
-            header("Location: ../home/index.php");
-            exit();
+        if (mysqli_num_rows($result) == 0) {
+            $errorMessage = "Email or username not found.";
+        } else {
+            $user = mysqli_fetch_object($result);
+            if (!password_verify($password, $user->password)) {
+                $errorMessage = "Password is not correct";
+            } elseif ($user->email_verified_at == null) {
+                header("Location: index-guest.php?email=" . urlencode($user->email));
+                exit();
+            } else {
+                // Set session variables for a regular user
+                $_SESSION['member'] = true;
+                $_SESSION['email'] = $user->email;
+                $_SESSION['username'] = $user->username;
+
+                header("Location: ../home/index.php");
+                exit();
+            }
         }
     }
 }
+
 ?>
+
 
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
