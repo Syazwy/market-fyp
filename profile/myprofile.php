@@ -193,15 +193,19 @@
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
   <div class="box" id="box2" style="display: block;">
     <?php
-    require '../connection/connection.php';
-    $i = 1;
-    $query = "SELECT itemslisting.*, item_images.image_filename 
-    FROM itemslisting 
-    JOIN item_images ON itemslisting.id = item_images.item_id 
-    GROUP BY itemslisting.id 
-    ORDER BY itemslisting.id DESC";
-    $result = mysqli_query($conn, $query);
-    ?>
+require '../connection/connection.php';
+$i = 1;
+$username = $_SESSION['username']; // Get the logged-in user's username
+$query = "SELECT itemslisting.*, item_images.image_filename 
+          FROM itemslisting 
+          JOIN item_images ON itemslisting.id = item_images.item_id 
+          WHERE itemslisting.username = '$username' 
+          GROUP BY itemslisting.id 
+          ORDER BY itemslisting.id DESC";
+
+$result = mysqli_query($conn, $query);
+?>
+
 
     <?php if (mysqli_num_rows($result) > 0) : ?>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
