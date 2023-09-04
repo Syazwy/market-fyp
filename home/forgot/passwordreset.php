@@ -10,28 +10,29 @@
 </head>
 <body>
 <?php
-    include_once('connection.php');
-    
-    $msg = ''; // Initialize a message variable
-    // echo " this is the ".$_GET['secret'];
-    if (isset($_POST['pwdrst'])) {
-        $email = $_POST['email'];
-        $newPassword = $_POST['pwd']; // Get the new password
+include_once('connection.php');
 
+$msg = ''; // Initialize a message variable
 
-        // Hash the new password securely
-        // $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
-         $hashedPassword = $newPassword;
+if (isset($_POST['pwdrst'])) {
+    $email = $_POST['email'];
+    $newPassword = $_POST['pwd']; // Get the new password
 
-        $reset_pwd = mysqli_query($connection, "UPDATE account SET password='$hashedPassword' WHERE email='".$_SESSION['email']."'");
-        // print_r($reset_pwd);
-      
-        if ($reset_pwd) {
-            $msg = 'Your password has been updated successfully. <a href="../index.php">Click here</a> to login.';
-        } else {
-            $msg = "Error while updating password.";
-        }
+    // Hash the new password securely
+    // $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+    $hashedPassword = $newPassword;
+
+    // Set 'email' in the $_SESSION array
+    $_SESSION['email'] = $email;
+
+    $reset_pwd = mysqli_query($connection, "UPDATE account SET password='$hashedPassword' WHERE email='$email'");
+
+    if ($reset_pwd) {
+        $msg = 'Your password has been updated successfully. <a href="../index.php">Click here</a> to login.';
+    } else {
+        $msg = "Error while updating password.";
     }
+}
 ?>
 <div class="container">
     <h3 align="center">Reset Password</h3><br/>
@@ -55,4 +56,3 @@
 </div>
 </body>
 </html>
-
