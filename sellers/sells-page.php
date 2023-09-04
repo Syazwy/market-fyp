@@ -145,7 +145,7 @@ if(isset($_POST["submit"])){
                 <form action="" method="post" autocomplete="off" enctype="multipart/form-data">
                     <div class="input-images">
                         <center>
-                            <h2>Upload up to 2 Photos</h2>
+                            <h2>Upload up to 6 Photos</h2>
                         </center>
                     </div>
                     <div class="input-field">
