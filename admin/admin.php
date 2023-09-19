@@ -92,7 +92,7 @@ require '../connection/connection.php';
                       <tr>
                           <td><?php echo $i++; ?></td>
                           <td><?php echo $row["username"]; ?></td>
-                          <td><?php echo $row["email"]; ?></td>                        
+                          <td><?php echo $row["email"]; ?></td>                          
                           <td><?php echo $row["membership"]; ?></td>
                           <td><?php echo $row["date"]; ?></td>
                           <td><?php echo $row["email_verified_at"]; ?></td>
