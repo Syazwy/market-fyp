@@ -13,7 +13,7 @@
             display: none;
             padding: 20px;
             background-color: #white;
-            height:750px;
+            height: 750px;
         }
 
         /* Style for the active div */
@@ -31,53 +31,62 @@
         .card-container {
             display: flex; /* Use flexbox to arrange cards horizontally */
             flex-wrap: wrap; /* Allow cards to wrap to the next row if needed */
-           
         }
         .card {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    height: 645px;
-    width: calc(20% - 20px); /* Four cards side by side with some spacing */
-    display: flex;
-    flex-direction: column; /* Stack the elements vertically inside the card */
-    justify-content: space-between; /* Space elements evenly vertically */
-    align-items: center; /* Center elements horizontally */
-    text-align: center; /* Center text horizontally */
-}
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            height: 645px;
+            width: calc(20% - 20px); /* Four cards side by side with some spacing */
+            display: flex;
+            flex-direction: column; /* Stack the elements vertically inside the card */
+            justify-content: space-between; /* Space elements evenly vertically */
+            align-items: center; /* Center elements horizontally */
+            text-align: center; /* Center text horizontally */
+        }
 
-.card img {
-    max-width: 75%;
-    max-height: 150px;
-    margin-bottom: 10px;
-}
+        .card img {
+            max-width: 75%;
+            max-height: 150px;
+            margin-bottom: 10px;
+        }
 
-.card p {
-    margin: 10px 0; /* Add vertical margin to paragraphs */
-}
+        .card p {
+            margin: 10px 0; /* Add vertical margin to paragraphs */
+        }
 
-.complete-button, .cancel-button {
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-    width: 40%;
-    border-radius: 20px;
-}
+        .complete-button, .cancel-button {
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            width: 40%;
+            border-radius: 20px;
+        }
 
-.complete-button {
-    background-color: #00A37C;
-    margin-bottom: 20px;
-}
+        .complete-button {
+            background-color: #00A37C;
+            margin-bottom: 20px;
+        }
 
-.cancel-button {
-    background-color: #FF5353;
-    margin-bottom: 20px;
-}
+        .cancel-button {
+            background-color: #FF5353;
+            margin-bottom: 20px;
+        }
 
-/* Add a CSS class for the active button */
-.active-button {
-    border-bottom: 1px solid black;
-}
+        /* Add a CSS class for the active button */
+        .active-button {
+            border-bottom: 1px solid black;
+        }
+
+        .card-container-horizontal {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .card-container-horizontal .card {
+            width: 30%; /* Adjust the width of cards for horizontal layout */
+        }
 
   </style>
 </head>
@@ -135,68 +144,97 @@
     </div>
 
     <div id="div1" class="content active">
-
     <div class="card-container">
         <div class="card">
-            <p>Username</p>
+            <p>Civic</p>
             <center>
             <img src="../image/supra.png" alt="Card 1 Image" >
             </center>
-            <p>Description</p>
-            <p>Price</p>
-            <p>Status</p>
-            <button class="complete-button">Complete</button>
-            <button class="cancel-button">Cancel</button>
+            <p>Very fast</p>
+            <p>$100000</p>
+            <p>Second-hand</p>
+            <button class="complete-button" data-status="completed">Complete</button>
+            <button class="cancel-button" data-status="canceled">Cancel</button>
         </div>
         <div class="card">
-        <p>Username</p>
+        <p>Mazda rx-ek</p>
         <center>
             <img src="../image/civic.png" alt="Card 2 Image">
             </center>
-            <p>Description</p>
-            <p>Price</p>
-            <p>Status</p>
-            <button class="complete-button">Complete</button>
-            <button class="cancel-button">Cancel</button>
+            <p>Not as fast</p>
+            <p>$10000000</p>
+            <p>Second-hand</p>
+            <button class="complete-button" data-status="completed">Complete</button>
+            <button class="cancel-button" data-status="canceled">Cancel</button>
         </div>
+        </div>
+</div>
+<div id="div2" class="content">
+    <div class="card-container">
+        <!-- ... cards ... -->
     </div>
 </div>
 
-
-    <div id="div2" class="content">
-        <h1>Yg completed sini</h1>
-
+<div id="div3" class="content">
+    <div class="card-container">
+        <!-- ... cards ... -->
     </div>
-
-    <div id="div3" class="content">
-        <h1>Yg canceled sini</h1>
-
-    </div>
+</div>
 
     <script>
+    document.getElementById('logout-link').addEventListener('click', function (event) {
+        event.preventDefault();
+        const confirmLogout = confirm("Are you sure you want to log out?");
+        if (confirmLogout) {
+            window.location.href = event.target.href;
+        }
+    });
+
     function showDiv(divId) {
-        // Remove the "active-button" class from all buttons
-        document.getElementById('btn1').classList.remove('active-button');
-        document.getElementById('btn2').classList.remove('active-button');
-        document.getElementById('btn3').classList.remove('active-button');
-
-        // Add the "active-button" class to the clicked button
-        document.getElementById('btn' + divId.substr(3)).classList.add('active-button');
-
-        // Hide all divs with the class "content"
-        const divs = document.querySelectorAll('.content');
-        divs.forEach((div) => {
-            div.classList.remove('active');
+        const buttons = document.querySelectorAll('.transparent-button');
+        buttons.forEach((button) => {
+            button.classList.remove('active-button');
         });
 
-        // Show the selected div
-        const selectedDiv = document.getElementById(divId);
-        selectedDiv.classList.add('active');
+        const divs = document.querySelectorAll('.content');
+        divs.forEach((div) => {
+            div.style.display = 'none';
+        });
 
-        // Your logic to show/hide the corresponding div here
+        document.getElementById('btn' + divId.substr(3)).classList.add('active-button');
+        document.getElementById(divId).style.display = 'block';
     }
-</script>
 
+    document.addEventListener('DOMContentLoaded', function () {
+        const completeButtons = document.querySelectorAll('.complete-button');
+        const cancelButtons = document.querySelectorAll('.cancel-button');
+
+        completeButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                moveCard(this.closest('.card'), 'div2'); // 'div2' for Completed div
+            });
+        });
+
+        cancelButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                moveCard(this.closest('.card'), 'div3'); // 'div3' for Canceled div
+            });
+        });
+
+        function moveCard(card, targetDivId) {
+            const targetDiv = document.getElementById(targetDivId);
+            const status = card.getAttribute('data-status');
+            
+            // Check if the card is not already in the target div
+            if (status !== targetDivId) {
+                card.setAttribute('data-status', targetDivId);
+                card.querySelector('.complete-button').removeEventListener('click', moveCard);
+                card.querySelector('.cancel-button').removeEventListener('click', moveCard);
+                targetDiv.appendChild(card);
+            }
+        }
+    });
+</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
