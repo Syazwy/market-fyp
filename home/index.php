@@ -34,7 +34,7 @@
 
     <ul class="dropdown-menu">
       <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
-      <li><a class="dropdown-item" href="#">My Purchases</a></li>
+      <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
       <li><a class="dropdown-item" href="index-guest.php" id="logout-link">Log out</a></li>
 
