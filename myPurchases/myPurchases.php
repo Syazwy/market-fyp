@@ -73,6 +73,12 @@
     background-color: #FF5353;
     margin-bottom: 20px;
 }
+
+/* Add a CSS class for the active button */
+.active-button {
+    border-bottom: 1px solid black;
+}
+
   </style>
 </head>
 <body>
@@ -122,10 +128,10 @@
   <center>
 <h3>My Purchases</h3>
 </center>
-<div style="padding-left:50px;">
-<button class="transparent-button" onclick="showDiv('div1')">In Progress</button>
-    <button class="transparent-button" onclick="showDiv('div2')">Completed</button>
-    <button class="transparent-button" onclick="showDiv('div3')">Canceled</button>
+<div style="padding-left:50px;border-bottom: 1px solid #C7C7C7">
+<button class="transparent-button active-button" onclick="showDiv('div1')" id="btn1">In Progress</button>
+    <button class="transparent-button" onclick="showDiv('div2')" id="btn2">Completed</button>
+    <button class="transparent-button" onclick="showDiv('div3')" id="btn3">Canceled</button>
     </div>
 
     <div id="div1" class="content active">
@@ -168,18 +174,29 @@
     </div>
 
     <script>
-        function showDiv(divId) {
-            // Hide all divs with the class "content"
-            const divs = document.querySelectorAll('.content');
-            divs.forEach((div) => {
-                div.classList.remove('active');
-            });
+    function showDiv(divId) {
+        // Remove the "active-button" class from all buttons
+        document.getElementById('btn1').classList.remove('active-button');
+        document.getElementById('btn2').classList.remove('active-button');
+        document.getElementById('btn3').classList.remove('active-button');
 
-            // Show the selected div
-            const selectedDiv = document.getElementById(divId);
-            selectedDiv.classList.add('active');
-        }
-    </script>
+        // Add the "active-button" class to the clicked button
+        document.getElementById('btn' + divId.substr(3)).classList.add('active-button');
+
+        // Hide all divs with the class "content"
+        const divs = document.querySelectorAll('.content');
+        divs.forEach((div) => {
+            div.classList.remove('active');
+        });
+
+        // Show the selected div
+        const selectedDiv = document.getElementById(divId);
+        selectedDiv.classList.add('active');
+
+        // Your logic to show/hide the corresponding div here
+    }
+</script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
