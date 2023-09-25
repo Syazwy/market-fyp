@@ -1,75 +1,9 @@
-<!-- <?php
-session_start()
-?>
 <?php
  require '../connection/connection.php';
  require_once("../session/session.php");
  $username = $_SESSION['username'];
-?> -->
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WISHLIST</title>
-</head>
-<body>
-<!-- CREATE DATABASE wishlist_db;
-USE wishlist_db;
-
-CREATE TABLE wishlist_items (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    price DECIMAL(10, 2),
-    added_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-); -->
-<!-- 
-<?php
-// Database connection configuration
-$db_host = "localhost";
-$db_user = "your_db_username";
-$db_pass = "your_db_password";
-$db_name = "wishlist_db"; // Change to your database name
-
-// Create a database connection
-$conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
-
-// Check the connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-// Fetch wishlist items from the database
-$sql = "SELECT * FROM wishlist_items";
-$result = mysqli_query($conn, $sql);
-
-// Display wishlist items
-if (mysqli_num_rows($result) > 0) {
-    echo "<h1>My Wishlist</h1>";
-    echo "<ul>";
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo "<li>";
-        echo "<strong>Name:</strong> " . $row['name'] . "<br>";
-        echo "<strong>Description:</strong> " . $row['description'] . "<br>";
-        echo "<strong>Price:</strong> $" . number_format($row['price'], 2) . "<br>";
-        echo "<strong>Added On:</strong> " . $row['added_on'] . "<br>";
-        echo "</li>";
-    }
-    echo "</ul>";
-} else {
-    echo "No items in the wishlist.";
-}
-
-// Close the database connection
-mysqli_close($conn);
 ?>
-   -->
-</body>
-</html>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -77,7 +11,7 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" href="profilecss.css">
+    <link rel="stylesheet" href="../profile/profilecss.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
@@ -127,7 +61,7 @@ mysqli_close($conn);
 
     <div class="profile-container">
         <div class="profile-picture">
-            <img src="../image/profile.png" alt="Profile Picture">
+            <img src="../profile/profileimage/hotwheels.jpg" alt="Profile Picture">
         </div>   
     </div>
 
@@ -135,7 +69,7 @@ mysqli_close($conn);
     <center>
     <button class="no-background no-border " onclick="showListings()"><h5>My Listings</h5></button>
     <button class="no-background no-border " onclick="showReviews()"><h5>Reviews</h5></button>
-    <button class="no-background no-border " onclick="showWishlist()"><h5>Wishlist</h5></button>
+    <button class="no-background no-border " onclick="showWishlists()"><h5>Wishlists</h5></button>
   </center>
 
 <div class="box">
@@ -248,7 +182,7 @@ mysqli_close($conn);
                   <?php
                     foreach($rows as $row) :
                   ?>
-                      <a href="profileedit.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary"> Edit Profile </a>
+                      <a href="../profile/profileedit.php?echo $row["id"]; ?>" class="btn btn-primary"> Edit Profile </a>
                       <?php endforeach; ?>
 
                   
@@ -293,7 +227,7 @@ $result = mysqli_query($conn, $query);
                           
                     ?>
                     
-                          <a href="profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary"> Edit item </a>
+                          <a href="../profile/profile_edit_item.php?echo $row["id"]; ?>" class="btn btn-primary"> Edit item </a>
                           
 
 
@@ -301,7 +235,7 @@ $result = mysqli_query($conn, $query);
                            
             <?php endwhile; ?>
 
-            <a href="../sellers/sells-page.php" style="text-decoration:none">
+            <a href="../sellers/sell.php" style="text-decoration:none">
     <div class="card" style="width: 150px; height: 170px; border:none; ">
         <div class="image-container" style="height: 75%;padding:20px; background-color: #FFCBCB; border-radius:20px">
             <img src="../image/plus.png" alt="Product Image" style="height: 30%;">
@@ -324,6 +258,185 @@ $result = mysqli_query($conn, $query);
 </div>
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
+
+<div class="box" id="box3" style="display: none;">
+<!-- <button class="btn mb-3" id="addReviewBtn" data-toggle="modal" data-target="#addReviewModal" style="border: 1px solid black; position: fixed; top: 240px; right: 710px; <?php echo $addReviewButtonStyle; ?>">Add New Review</button> -->
+
+
+
+<div class="container1" style="">
+<?php
+      $conn = new mysqli('localhost', 'root', '', 'market');
+
+      if ($conn->connect_error) {
+          die('Connection Failed : '.$conn->connect_error);
+      }
+
+      if (isset($_POST['username']) && isset($_POST['content']) && isset($_POST['rating'])) {
+          $username = $_POST['username'];
+          $content = $_POST['content'];
+          $rating = $_POST['rating'];
+          $users = $_POST['users'];
+
+          $currentDateTime = new DateTime();
+          $timedate = $currentDateTime->format('Y-m-d H:i:s');
+
+          $stmt = $conn->prepare("INSERT INTO reviews(username, content, rating, time, user) VALUES (?, ?, ?, ? )");
+          $stmt->bind_param("ssss", $username, $content, $rating, $timedate, );
+          $stmt->execute();
+
+          $stmt->close();
+      } else {
+        $result = $conn->query("SELECT * FROM reviews WHERE users = '$username' ORDER BY time DESC");
+
+
+          if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+              $reviewDate = date('Y-m-d', strtotime($row['time']));
+          
+              echo '
+                  <div class="card mb-4">
+                      <div class="card-body"><center>
+                          <h5 class="card-title">' . $row['username'] . '</h5>
+                          <p class="rating">'; // Open the rating container
+          
+              for ($i = 1; $i <= 5; $i++) {
+                  echo '<span class="fa fa-star ' . ($i <= $row['rating'] ? 'checked' : '') . '"></span>';
+              }
+          
+              echo '</p>'; // Close the rating container
+              
+              echo '<p class="card-text">' . $row['content'] . '</p>
+                    <p class="time">Posted on ' . $reviewDate . '</p>
+                      </center></div>
+                  </div>'; // Close the card
+          }
+          
+          
+             $result->close();
+          } else {
+              echo '<p>No reviews available.</p>';
+          }
+      }
+      $conn->close();
+      
+      ?>
+
+<?php if (mysqli_num_rows($result) > 0) : ?>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
+            <?php while ($row = mysqli_fetch_assoc($result)) : ?>
+                <div class="card" style="width: 150px; height: 200px; border:none">
+                    <div class="image-container" style="height: 50%;">
+                        <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" alt="Product Image" style="max-height: 100%;">
+                    </div>
+                    <div class="card-content">
+                        <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?php echo $row["name"]; ?></p>
+                        <h5><b>$<?php echo $row["price"]; ?></b></h5>
+                        <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
+                    </div>
+
+
+
+                    <?php
+                          $i = 1;
+                          $rows = mysqli_query($conn, "SELECT * from itemslisting  ORDER BY id DESC ");
+                          
+                    ?>
+                    
+                          <a href="../profile/profile_edit_item.php?echo $row["id"]; ?>" class="btn btn-primary"> Edit item </a>
+                          
+
+
+                </div>  
+                           
+            <?php endwhile; ?>
+
+            <a href="../sellers/sell.php" style="text-decoration:none">
+    <div class="card" style="width: 150px; height: 170px; border:none; ">
+        <div class="image-container" style="height: 75%;padding:20px; background-color: #FFCBCB; border-radius:20px">
+            <img src="../image/plus.png" alt="Product Image" style="height: 30%;">
+        </div>
+        <div class="card-content">
+            <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></p>
+            <center><p>Add New Listing</p></center>
+            <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></p>
+        </div>
+    </div>
+</a>
+        </div>
+    <?php else : ?>
+        <h4>You have not made any listings.</h4>
+    <?php endif; ?>
+    <br>
+</div>
+</div> 
+
+<div class="box" id="box4" style="display: none;">
+  <div class="container1" style=""></div>
+</div>
+
+<div class="modal fade" id="addReviewModal" tabindex="-1" role="dialog" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <h5 class="modal-title" id="addReviewModalLabel">Add New Review</h5> -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+  <form id="reviewForm" method="POST" action="review.php">
+    <div class="form-group">
+      <input type="text" class="form-control" id="username" name="username" value="<?php echo $username ?>"  autocomplete="off" hidden >
+    </div>
+    <div class="form-group">
+      <label for="content">Content</label> <!-- Change the label text here -->
+      <textarea class="form-control" id="content"name="content" rows="3" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="rating">Rating</label>
+      <select class="form-control" name="rating" id="rating" required>
+        <option value="1">1 Star</option>
+        <option value="2">2 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="5">5 Stars</option>
+      </select>
+    </div>
+    <input type="text" class="form-control" id="users" name="users" hidden value="<?php echo isset($_GET['users']) ? $_GET['users'] : ''; ?>">
+
+  </form>
+</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="submitReviewBtn">Submit Review</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+ var box2Content = document.getElementById("box2").innerHTML; // Store the initial content of box2
+ function showListings() {
+  document.getElementById("box2").style.display = "block"; // Show box2
+  document.getElementById("box3").style.display = "none"; // Hide box3
+  document.getElementById("box4").style.display = "none"; // Hide box4
+}
+
+function showReviews() {
+  document.getElementById("box2").style.display = "none"; // Hide box2
+  document.getElementById("box3").style.display = "block"; // Show box3
+  document.getElementById("box4").style.display = "none"; // Hide box4
+}
+
+function showWishlists() {
+  document.getElementById("box2").style.display = "none"; // Hide box2
+  document.getElementById("box3").style.display = "none"; // Hide box3
+  document.getElementById("box4").style.display = "block"; // Show box4
+}
+
+  </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
