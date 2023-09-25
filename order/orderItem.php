@@ -8,11 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="order.css">
-    
 </head>
 
 <body>
-
 <nav class="navbar navbar-expand-lg bg-transparent">
   <div class="container">
     <a class="navbar-brand" href="../home/index.php">
@@ -70,42 +68,36 @@
     <br>
     <div class="container">
         <div class="row">
-    <div class="payment-container">
+        <div class="payment-container">
+        <h3 class="text-center"><b>Delivery & Payment</b></h3>
+        <div>
+            <h4>Delivery Method</h4>
+            <br>
+            <input type="radio" class="btn-check" name="deliveryMethod" id="delivery" autocomplete="off">
+            <label class="btn btn-outline-primary" for="delivery">Delivery</label>
+        </div>
+        <p style="color:#8F8F8F">Deliver to your address</p>
 
-    <h3 class="text-center"><b>Delivery</b></h3>
-    <div>
-        <h4>Delivery Method</h4>
-    <br>
-        <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btn-check-outlined">Delivery</label>
+        <div>
+            <input type="radio" class="btn-check" name="deliveryMethod" id="pickUp" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="pickUp">Pick-up</label>
+        </div>
+        <p style="color:#8F8F8F">Chat with the seller to get address</p>
+
+        <div>
+            <h4>Payment Method</h4>
+            <br>
+            <input type="radio" class="btn-check" name="paymentMethod" id="paypal" autocomplete="off">
+            <label class="btn btn-outline-primary" for="paypal">Paypal</label>
+        </div>
+        <p style="color:#8F8F8F">Pay using PayPal directly to user</p>
+
+        <div>
+            <input type="radio" class="btn-check" name="paymentMethod" id="cash" autocomplete="off" >
+            <label class="btn btn-outline-secondary" for="cash">Cash</label>
+        </div>
+        <p style="color:#8F8F8F">Pay using cash in person</p>
     </div>
-
-   <p style="color:#8F8F8F">Deliver to your address</p>
-
-    <div>
-        <input type="checkbox" class="btn-check" id="btn-check-3-outlined" autocomplete="off" >
-        <label class="btn btn-outline-secondary" for="btn-check-3-outlined">Pick-up</label>
-    </div>
-    <p style="color:#8F8F8F">Chat with the seller to get address</p>
-
-        <h3 class="text-center"><b>Payment</b></h3>
-    <div>
-        <h4>Payment Method</h4>
-    <br>
-        <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btn-check-outlined">Paypal</label>
-    </div>
-
-   <p style="color:#8F8F8F">Pay using PayPal directly to user</p>
-
-    <div>
-        <input type="checkbox" class="btn-check" id="btn-check-3-outlined" autocomplete="off" disabled>
-        <label class="btn btn-outline-secondary" for="btn-check-3-outlined">Cash</label>
-    </div>
-    <p style="color:#8F8F8F">Pay using cash in person</p>
-
-</div>
-
 
 <div class="payment-container" >
     <h3 class="text-center"><b>Order Summary</b></h3>
@@ -114,32 +106,27 @@
     <table class="table table-borderless">
     <thead>
         <tr>
-            <th class="col-6">Market Membership:</th>
-            <td class="col-4 text-end"><?php echo $itemName . " Plan" ?></td>
+            <th class="col-6">Item Name:</th>
+            <td class="col-4 text-end">Iphone 13</td>
         </tr>
-        
-        <tr>
-            <th></th>
-        </tr>
+      
     </thead>
     <tbody>
         <tr>
             <th class="col-6">Price:</th>
-            <td class="col-4 text-end">BND$<?php echo $price; ?></td>
+            <td class="col-4 text-end">BND$0</td>
         </tr>
         <tr>
         <th class="col-6">Delivery fee:</th>
-        <td class="col-4 text-end">BND$<?php echo $fee; ?></td>
+        <td class="col-4 text-end">BND$0</td>
         </tr>
        
         <tr>
             <th class="col-6">Total:</th>
-            <td class="col-4 text-end"><b>BND$<?php echo $total; ?></b></td>
+            <td class="col-4 text-end"><b>BND$0</b></td>
         </tr>
     </tbody>
 </table>
-
-
 
 
 <br>
@@ -152,28 +139,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-    function placeOrder() {
-        var paypalCheckbox = document.getElementById('btn-check-outlined');
-        var cashCheckbox = document.getElementById('btn-check-3-outlined');
-
-        if (paypalCheckbox.checked || cashCheckbox.checked) {
-            // At least one payment method is selected, proceed to order placement.
-            if ("<?php echo $selectedPlan; ?>" === "Basic") {
-                // Redirect to orderCompleted.php for Basic plan with plan as a query parameter.
-                window.location.href = 'orderCompleted.php?plan=Basic';
-            } else {
-                // Redirect to PayPal for other plans with plan as a query parameter.
-                window.location.href = '../payment/paypal.php?plan=<?php echo $selectedPlan; ?>';
-            }
-        } else {
-            // No payment method selected, show an error message.
-            alert('Please select a payment method before placing your order.');
-        }
-    }
-</script>
-
 
 </body>
-
 </html
