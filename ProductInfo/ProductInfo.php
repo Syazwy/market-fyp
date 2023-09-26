@@ -176,6 +176,10 @@
     <p><?php echo $row["username"]; ?></p>
     <br>
     <p><?php echo $row["location"]; ?></p>
+      
+    <!-- <a type="button" class="btn btn-primary"><img src="../image/chat.png"></img></a> -->
+    <button type="button" class="btn btn-primary">Chat</button>
+    <button type="button" class="btn btn-primary">Buy</button>
 </div>
 
 
