@@ -77,6 +77,8 @@ $total = $price + $delivery;
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MEMBERSHIP</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="order.css">
@@ -208,12 +210,56 @@ $total = $price + $delivery;
     <br>
     <p>By tapping on Place order, you accept the terms of service from <span style="color: #00A307;">Market</span> and the payments provider.</p>
 
+    <!-- Bootstrap Modal -->
+<div class="modal fade" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deliveryModalLabel">Delivery Address</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Add your form fields here -->
+        <form id="deliveryForm">
+          <div class="form-group">
+            <label for="address">Delivery Address</label>
+            <input type="text" class="form-control" id="address" name="address" placeholder="Enter your address">
+          </div>
+          <!-- Add more form fields as needed -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="confirmDelivery">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
     
     <script>
+
+document.getElementById('confirmDelivery').addEventListener('click', function () {
+    // Handle the form submission here
+    const address = document.getElementById('address').value;
+    
+    // You can send the address to the server via AJAX if needed
+    
+    // Close the modal using Bootstrap function
+    $('#deliveryModal').modal('hide');
+    
+    // Redirect to the payment page with the selected ID
+    const id = <?php echo $id; ?>;
+    window.location.href = `../payment/itemPaypal.php?id=${id}`;
+});
+
+
         // Function to check if both payment and delivery methods are selected
         function isPaymentAndDeliverySelected() {
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
@@ -222,17 +268,26 @@ $total = $price + $delivery;
         }
 
         // Function to place the order and redirect
-        function placeOrder() {
-            if (isPaymentAndDeliverySelected()) {
-                // Get the selected ID (assuming it's already set in your code)
-                const id = <?php echo $id; ?>;
-                
-                // Redirect to the payment page with the selected ID
-                window.location.href = `../payment/paypal.php?id=${id}`;
-            } else {
-                alert("Please select both payment and delivery methods before placing the order.");
-            }
+        // Function to place the order and show the modal for delivery address
+function placeOrder() {
+    if (isPaymentAndDeliverySelected()) {
+        const id = <?php echo $id; ?>;
+        
+        // Check if the delivery method is selected
+        const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
+        
+        if (deliveryMethod && deliveryMethod.id === 'delivery') {
+            // Show the delivery address modal
+            $('#deliveryModal').modal('show');
+        } else {
+            // Redirect to the payment page with the selected ID
+            window.location.href = `../payment/itemPaypal.php?id=${id}`;
         }
+    } else {
+        alert("Please select both payment and delivery methods before placing the order.");
+    }
+}
+
 
   </script>
 

@@ -150,7 +150,7 @@ if ($selectedPlan === "Basic") {
                 window.location.href = 'orderCompleted.php?plan=Basic';
             } else {
                 // Redirect to PayPal for other plans with plan as a query parameter.
-                window.location.href = '../payment/paypal.php?plan=<?php echo $selectedPlan; ?>';
+                window.location.href = '../payment/membershipPaypal.php?plan=<?php echo $selectedPlan; ?>';
             }
         } else {
             // No payment method selected, show an error message.
