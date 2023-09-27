@@ -112,28 +112,20 @@ if ($selectedPlan === "Basic") {
             <th class="col-6">Market Membership:</th>
             <td class="col-4 text-end"><?php echo $selectedPlan . " Plan" ?></td>
         </tr>
-        
-        <tr>
-            <th></th>
-        </tr>
+ 
     </thead>
     <tbody>
         <tr>
             <th class="col-6">Price:</th>
             <td class="col-4 text-end">BND$<?php echo $price; ?></td>
         </tr>
-        <tr>
-        <th></th>
-        </tr>
-       
+    
         <tr>
             <th class="col-6">Total:</th>
             <td class="col-4 text-end"><b>BND$<?php echo $price; ?></b></td>
         </tr>
     </tbody>
 </table>
-
-
 
 
 <br>
@@ -166,7 +158,6 @@ if ($selectedPlan === "Basic") {
         }
     }
 </script>
-
 
 </body>
 

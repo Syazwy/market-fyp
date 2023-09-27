@@ -165,7 +165,7 @@ if(isset($_POST["submit"])){
   <div class="collapse navbar-collapse justify-content-center">
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../wishlist/wishlist.php">Wishlist</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
     </ul>
   </div>
@@ -177,7 +177,7 @@ if(isset($_POST["submit"])){
 
     <ul class="dropdown-menu">
       <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
-      <li><a class="dropdown-item" href="#">My Purchases</a></li>
+      <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
       <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
 
@@ -199,7 +199,7 @@ if(isset($_POST["submit"])){
   });
 </script>
 
-<div class="modal" tabindex="-1" id="submissionLimitModal">
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="submissionLimitModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -208,10 +208,12 @@ if(isset($_POST["submit"])){
       </div>
       <div class="modal-body">
         <p>You have reached the maximum limit for submissions as a basic member.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Return to Homepage</button>
-      </div>
+      </div>     
+    <div class="modal-footer" style="display: flex; justify-content: space-between;">
+        <button type="button" style="background-color: #FF5353; width: 48%; border-radius: 10px; padding: 5px;" class="btn btn-secondary" data-bs-dismiss="modal" onclick="upgradeMembership()">Upgrade Plan</button>  
+        <button type="button" style="background-color: #FF5353; width: 48%; border-radius: 10px; padding: 5px;" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Return to Homepage</button>
+    </div>
+
     </div>
   </div>
 </div>
@@ -254,6 +256,7 @@ if(isset($_POST["submit"])){
                 </div>
                 <br>
                 <div class="subcontainer">
+                    <div class="mb-3">
                     <label>Select Item Category:</label>
                     <select class="form-select form-select-sm" aria-label="Small select example" name="category" required>
                         <option value="null"> </option>
@@ -263,13 +266,14 @@ if(isset($_POST["submit"])){
                         <option value="clothing"> <img src="../image/fashion.png">Clothing</option>
                         <option value="furniture"> <img src="../image/furniture.png"> Furniture</option>
                     </select>
+                    </div>
                     <label>Condition</label>
                     <select class="form-select form-select-sm" aria-label="Small select example" name="item_condition" required>
                         <option value=""> </option>
                         <option value="New"> <img src="../image/property.png"> New </option>
                         <option value="Used - Like New"> <img src="../image/vehicle.png"> Used - Like New </option>
                         <option value="Used - Good"> <img src="../image/electronic.png"> Used - Good</option>
-                        <option value="Used - fair"> <img src="../image/fashion.png">Used - fair</option>
+                        <option value="Used - fair"> <img src="../image/fashion.png">Used - Fair</option>
                     </select>
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
@@ -284,11 +288,16 @@ if(isset($_POST["submit"])){
                         <textarea class="form-control" name="description" id="description" rows="3"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="location" class="form-label">Location</label>
-                        <input type="text" class="form-control" name="location" id="location" placeholder="" required>
+                    <label>Select Your District</label>
+                    <select class="form-select form-select-sm" aria-label="Small select example" name="location" required>
+                        <option value="Brunei Muara" default>Brunei Muara</option>
+                        <option value="Tutong">Tutong</option>
+                        <option value="Temburong">Temburong</option>
+                        <option value="Belait">Belait</option>
+                    </select>
                     </div>
                     <input type="text" class="form-control" name="username" id="username" placeholder="" value="<?php echo $username ?>" hidden>
-                    <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;"<?php if ($submissionLimitReached) echo 'disabled'; ?>>Create</button>
+                    <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px; color: white;"<?php if ($submissionLimitReached) echo 'disabled'; ?>>Create</button>
                 </div>
             </form>
         <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
@@ -333,6 +342,10 @@ if(isset($_POST["submit"])){
     function closeModal() {
         // Redirect to index.php when closing the modal
         window.location.href = "../home/index.php";
+    }
+    function upgradeMembership() {
+        // Redirect to the membership upgrade page
+        window.location.href = "../membership/membership.php";
     }
 </script>
 </body>

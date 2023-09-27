@@ -26,7 +26,7 @@
   <div class="collapse navbar-collapse justify-content-center">
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../wishlist/wishlist.php">Wishlist</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
     </ul>
   </div>
@@ -37,8 +37,7 @@
     </a>
 
     <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
-      <li><a class="dropdown-item" href="#">My Purchases</a></li>
+      <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
       <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
 
@@ -193,15 +192,19 @@
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
   <div class="box" id="box2" style="display: block;">
     <?php
-    require '../connection/connection.php';
-    $i = 1;
-    $query = "SELECT itemslisting.*, item_images.image_filename 
-    FROM itemslisting 
-    JOIN item_images ON itemslisting.id = item_images.item_id 
-    GROUP BY itemslisting.id 
-    ORDER BY itemslisting.id DESC";
-    $result = mysqli_query($conn, $query);
-    ?>
+require '../connection/connection.php';
+$i = 1;
+$username = $_SESSION['username']; // Get the logged-in user's username
+$query = "SELECT itemslisting.*, item_images.image_filename 
+          FROM itemslisting 
+          JOIN item_images ON itemslisting.id = item_images.item_id 
+          WHERE itemslisting.username = '$username' 
+          GROUP BY itemslisting.id 
+          ORDER BY itemslisting.id DESC";
+
+$result = mysqli_query($conn, $query);
+?>
+
 
     <?php if (mysqli_num_rows($result) > 0) : ?>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
@@ -375,6 +378,6 @@ function showReviews() {
 
   </script>
 
-  
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

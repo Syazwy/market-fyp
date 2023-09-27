@@ -79,7 +79,7 @@ require_once("../session/session.php");
 
     <ul class="dropdown-menu">
       <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
-      <li><a class="dropdown-item" href="#">My Purchases</a></li>
+      <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
       <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
 
@@ -163,9 +163,6 @@ function order(plan) {
             <ul >
                 <li style="padding-bottom:40px">Can sell an unlimited amount of items</li>
                 <li style="padding-bottom:40px">Can add an unlimited amount of Wish List</li>
-                <li style="padding-bottom:40px">Have discount option</li>
-                <li style="padding-bottom:40px">Can purchase items as gifts</li>
-                <li style="padding-bottom:40px">Receive gifts</li>
             </ul>
         </button>
     </div>
@@ -179,9 +176,6 @@ function order(plan) {
             <ul>
                 <li style="padding-bottom:40px">Can sell an unlimited amount of items</li>
                 <li style="padding-bottom:40px">Can add an unlimited amount of Wish List</li>
-                <li style="padding-bottom:40px">Have discount option</li>
-                <li style="padding-bottom:40px">Can purchase items as gifts</li>
-                <li style="padding-bottom:40px">Receive gifts</li>
                 <li style="padding-bottom:40px">$10 off each year</li>
             </ul>
         </button>

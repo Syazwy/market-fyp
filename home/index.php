@@ -22,7 +22,7 @@
   <div class="collapse navbar-collapse justify-content-center">
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link active" aria-current="page" data-bs-toggle="offcanvas" href="#offcanvasRight" role="button" aria-controls="offcanvasRight">Categories</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../wishlist/wishlist.php">Wishlist</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
     </ul>
   </div>
@@ -34,7 +34,7 @@
 
     <ul class="dropdown-menu">
       <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
-      <li><a class="dropdown-item" href="#">My Purchases</a></li>
+      <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
       <li><a class="dropdown-item" href="index-guest.php" id="logout-link">Log out</a></li>
 
@@ -196,6 +196,7 @@
             <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
             <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
             <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
+            <button type="button" class="btn btn-primary">Add to Wishlist</button>
           </div>
         </div>
       </div>
