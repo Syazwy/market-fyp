@@ -1,5 +1,27 @@
 <!DOCTYPE html>
 
+<?php
+require_once("../session/session.php");
+$itemName = "Iphone 14 pro max";
+$price = 1399;
+
+$district = "Belait" ;
+$delivery = "" ;
+
+if ($district = "Brunei Muara") {
+    $delivery = 3 ;
+} elseif ($district = "Tutong") {
+    $delivery = 5;
+} elseif ($district = "Belait") {
+    $delivery = 7;
+} elseif ($district = "Temburong") {
+  $delivery = 6;
+}
+
+$total = $price + $delivery;
+
+?>
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -107,23 +129,23 @@
     <thead>
         <tr>
             <th class="col-6">Item Name:</th>
-            <td class="col-4 text-end">Iphone 13</td>
+            <td class="col-4 text-end"><?php echo $itemName ?></td>
         </tr>
       
     </thead>
     <tbody>
         <tr>
             <th class="col-6">Price:</th>
-            <td class="col-4 text-end">BND$0</td>
+            <td class="col-4 text-end">$<?php echo $price?></td>
         </tr>
         <tr>
         <th class="col-6">Delivery fee:</th>
-        <td class="col-4 text-end">BND$0</td>
+        <td class="col-4 text-end">$<?php echo $delivery?></td>
         </tr>
        
         <tr>
             <th class="col-6">Total:</th>
-            <td class="col-4 text-end"><b>BND$0</b></td>
+            <td class="col-4 text-end"><b>$<?php echo $total ?></b></td>
         </tr>
     </tbody>
 </table>
