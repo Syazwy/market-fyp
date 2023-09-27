@@ -122,8 +122,10 @@
 
         <div id="secondhalf">
           <div class="product-info description">
-              <h1><?php echo $row["name"]; ?></h1>
+              <h1 class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></h1>
               <br>
+              <h1>Price:</h1>
+              <p class="price">$<?php echo $row["price"]; ?></p>
               <p><b><?php echo $row["category"]; ?></b></p>
               <p><h2>Description:</h2></p>
               <p><?php echo $row["description"]; ?></p>
@@ -179,7 +181,7 @@
       
     <!-- <a type="button" class="btn btn-primary"><img src="../image/chat.png"></img></a> -->
     <button type="button" class="btn btn-primary">Chat</button>
-    <button type="button" class="btn btn-primary">Buy</button>
+    <button type="button" class="btn btn-primary" onclick="buy()">Buy</button>
 </div>
 
 
@@ -200,7 +202,13 @@
 
 
       </main>
-  
+      
+      <script>
+        function buy(id) {
+    // Redirect to buyMembership.php with the selected plan as a URL parameter
+    window.location.href = '../order/orderItem.php?id=' + <?php echo $row["id"]; ?>
+}
+      </script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>
