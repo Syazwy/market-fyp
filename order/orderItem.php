@@ -2,24 +2,74 @@
 
 <?php
 require_once("../session/session.php");
-$itemName = "Iphone 14 pro max";
-$price = 1399;
 
-$district = "Belait" ;
+
+// $itemName = "Iphone 14 pro max";
+// $price = 1399;
+
+// $district = "Belait" ;
+// $delivery = "" ;
+
+// if ($district = "Brunei Muara") {
+//     $delivery = 3 ;
+// } elseif ($district = "Tutong") {
+//     $delivery = 5;
+// } elseif ($district = "Belait") {
+//     $delivery = 7;
+// } elseif ($district = "Temburong") {
+//   $delivery = 6;
+// }
+
+// $total = $price + $delivery;
+
+?>
+
+<?php
+    // Database connection information
+    $conn = mysqli_connect("localhost", "root", "", "market");
+
+    if (!$conn) {
+        die("Database connection failed: " . mysqli_connect_error());
+    }
+
+    $id = $_GET['id'];
+
+    // Check the connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Prepare and execute SQL query to fetch name, price, and location for the given ID
+    $sql = "SELECT name, price, location FROM itemslisting WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $id);
+    $stmt->execute();
+    $stmt->bind_result($name, $price, $location);
+
+    // Fetch the result
+    if ($stmt->fetch()) {
+        // Output the fetched values
+
 $delivery = "" ;
 
-if ($district = "Brunei Muara") {
+if ($location = "Brunei Muara") {
     $delivery = 3 ;
-} elseif ($district = "Tutong") {
+} elseif ($location = "Tutong") {
     $delivery = 5;
-} elseif ($district = "Belait") {
+} elseif ($location = "Belait") {
     $delivery = 7;
-} elseif ($district = "Temburong") {
+} elseif ($location = "Temburong") {
   $delivery = 6;
 }
 
 $total = $price + $delivery;
+    } else {
+        echo "No data found for the given ID.";
+    }
 
+    // Close the database connection
+    $stmt->close();
+    $conn->close();
 ?>
 
 <html>
@@ -129,7 +179,7 @@ $total = $price + $delivery;
     <thead>
         <tr>
             <th class="col-6">Item Name:</th>
-            <td class="col-4 text-end"><?php echo $itemName ?></td>
+            <td class="col-4 text-end"><?php echo $name ?></td>
         </tr>
       
     </thead>
@@ -161,6 +211,30 @@ $total = $price + $delivery;
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    
+    <script>
+        // Function to check if both payment and delivery methods are selected
+        function isPaymentAndDeliverySelected() {
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+            const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
+            return paymentMethod !== null && deliveryMethod !== null;
+        }
+
+        // Function to place the order and redirect
+        function placeOrder() {
+            if (isPaymentAndDeliverySelected()) {
+                // Get the selected ID (assuming it's already set in your code)
+                const id = <?php echo $id; ?>;
+                
+                // Redirect to the payment page with the selected ID
+                window.location.href = `../payment/paypal.php?id=${id}`;
+            } else {
+                alert("Please select both payment and delivery methods before placing the order.");
+            }
+        }
+
+  </script>
 
 </body>
 </html
