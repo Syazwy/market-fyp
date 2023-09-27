@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 require_once("../session/session.php");
 $selectedPlan = $_GET['plan'];
@@ -12,7 +13,6 @@ if ($selectedPlan === "Basic") {
 }
 ?>
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -85,7 +85,10 @@ if ($selectedPlan === "Basic") {
                 value: price.toFixed(2), // Ensure the price is formatted with 2 decimal places
                 currency_code: 'USD' // Adjust currency if necessary
               }
-            }]
+            }],
+            application_context: {
+              shipping_preference: 'NO_SHIPPING' // Indicate no shipping address is required
+            }
           });
         },
         onApprove: function(data, actions) {

@@ -52,15 +52,16 @@ require_once("../session/session.php");
 
 $delivery = "" ;
 
-if ($location = "Brunei Muara") {
-    $delivery = 3 ;
-} elseif ($location = "Tutong") {
-    $delivery = 5;
-} elseif ($location = "Belait") {
-    $delivery = 7;
-} elseif ($location = "Temburong") {
-    $delivery = 6;
+if ($location === "Brunei Muara") {
+  $delivery = 3 ;
+} elseif ($location === "Tutong") {
+  $delivery = 5;
+} elseif ($location === "Belait") {
+  $delivery = 7;
+} elseif ($location === "Temburong") {
+  $delivery = 6;
 }
+
 
 $total = $price + $delivery;
     } else {
@@ -244,52 +245,53 @@ $total = $price + $delivery;
 
     
     <script>
-
-document.getElementById('confirmDelivery').addEventListener('click', function () {
-    // Handle the form submission here
-    const address = document.getElementById('address').value;
-    
-    // You can send the address to the server via AJAX if needed
-    
-    // Close the modal using Bootstrap function
-    $('#deliveryModal').modal('hide');
-    
-    // Redirect to the payment page with the selected ID
-    const id = <?php echo $id; ?>;
-    window.location.href = `../payment/itemPaypal.php?id=${id}`;
-});
-
-
-        // Function to check if both payment and delivery methods are selected
-        function isPaymentAndDeliverySelected() {
-            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-            const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
-            return paymentMethod !== null && deliveryMethod !== null;
-        }
-
-        // Function to place the order and redirect
-        // Function to place the order and show the modal for delivery address
-function placeOrder() {
-    if (isPaymentAndDeliverySelected()) {
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('confirmDelivery').addEventListener('click', function () {
+        // Handle the form submission here
+        const address = document.getElementById('address').value;
+        
+        // You can send the address to the server via AJAX if needed
+        
+        // Close the modal using Bootstrap function
+        $('#deliveryModal').modal('hide');
+        
+        // Redirect to the payment page with the selected ID
         const id = <?php echo $id; ?>;
-        
-        // Check if the delivery method is selected
+        window.location.href = `../payment/itemPaypal.php?id=${id}`;
+    });
+
+    // Function to check if both payment and delivery methods are selected
+    function isPaymentAndDeliverySelected() {
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
         const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
-        
-        if (deliveryMethod && deliveryMethod.id === 'delivery') {
-            // Show the delivery address modal
-            $('#deliveryModal').modal('show');
-        } else {
-            // Redirect to the payment page with the selected ID
-            window.location.href = `../payment/itemPaypal.php?id=${id}`;
-        }
-    } else {
-        alert("Please select both payment and delivery methods before placing the order.");
+        return paymentMethod !== null && deliveryMethod !== null;
     }
-}
 
+    // Function to place the order and show the modal for delivery address
+    function placeOrder() {
+        if (isPaymentAndDeliverySelected()) {
+            const id = <?php echo $id; ?>;
+            
+            // Check if the delivery method is selected
+            const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
+            
+            if (deliveryMethod && deliveryMethod.id === 'delivery') {
+                // Show the delivery address modal
+                $('#deliveryModal').modal('show');
+            } else {
+                // Redirect to the payment page with the selected ID
+                window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>`;
+            }
+        } else {
+            alert("Please select both payment and delivery methods before placing the order.");
+        }
+    }
 
-  </script>
+    // Attach the placeOrder function to the button click event
+    document.getElementById('placeOrderButton').addEventListener('click', placeOrder);
+});
+</script>
+
 
 </body>
 </html
