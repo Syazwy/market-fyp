@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 04, 2023 at 08:43 PM
+-- Generation Time: Sep 27, 2023 at 09:09 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -44,11 +44,7 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`id`, `username`, `email`, `password`, `membership`, `date`, `verification_code`, `email_verified_at`, `rating`) VALUES
-(40, 'syazwy', 'syazwywardyshah@gmail.com', '$2y$10$/o2kyoK1r8hiv7gSokdM2eqW4886n4aTdHS9EXNXBhGIHU6IiOyCC', 'Premium Monthly', '2023-09-02', '231472', '2023-09-02 21:52:54', NULL),
-(45, 'barzun', '21ftt1287@student.pb.edu.bn', '$2y$10$W/HLAx3HEnd3PYd3Bn7pSuU61NhEO23l.wS/9nNGn23hZMHmUpm1C', ' Basic', '2023-09-03', '283252', '2023-09-04 04:24:10', NULL),
-(48, 'wajid', '21ftt1294@student.pb.edu.bn', '$2y$10$QDlQxpEg6WisIKJAlhaKf.isfM3xO5X5PfDGDDNfmmkyRoDrwe8mm', 'Basic', '2023-09-04', '347801', '2023-09-04 22:32:40', NULL),
-(51, '21FTT1292', '21FTT1292@student.pb.edu.bn', '$2y$10$4.TPT3W8TIRzHnGgCLgAOODeEfAURveGkUzRzIL.PkTN5yZPmlIs.', ' Basic', '2023-09-04', '233387', '2023-09-05 01:24:14', NULL),
-(52, 'mujlir', '21FTT1750@student.pb.edu.bn', '$2y$10$tzth6Xz/3qk1jQq3g8BSouqAJx3fS8.rxyXd1naornFyFH9U7ii5y', ' Basic', '2023-09-04', '237661', '2023-09-05 02:05:46', NULL);
+(55, 'syazwy', '21FTT1292@student.pb.edu.bn', '$2y$10$KIVt9RKUsxPPK4dl7lPjBupGmjQg57YreLJi/4whBlNe5kgZMM57e', 'Premium Annually', '2023-09-05', '258550', '2023-09-05 15:25:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -70,6 +66,14 @@ CREATE TABLE `itemslisting` (
   `uploaded_at` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `itemslisting`
+--
+
+INSERT INTO `itemslisting` (`id`, `category`, `item_condition`, `name`, `price`, `description`, `location`, `item_id`, `username`, `time`, `uploaded_at`) VALUES
+(138, 'electronics', 'Used - Like New', 'iphone 14 pro max', '1300', 'fasdfadfs', 'Brunei Muara', NULL, 'syazwy', '16:24:28.000000', '2023-09-24 16:24:28'),
+(139, 'clothing', 'New', 'necklace', '40', 'sdfaf', 'Brunei Muara', NULL, 'syazwy', '12:31:00.000000', '2023-09-26 12:31:00');
+
 -- --------------------------------------------------------
 
 --
@@ -81,6 +85,14 @@ CREATE TABLE `item_images` (
   `item_id` int(100) NOT NULL,
   `image_filename` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `item_images`
+--
+
+INSERT INTO `item_images` (`id`, `item_id`, `image_filename`) VALUES
+(111, 138, '6510469c39921_iphone.png'),
+(112, 139, '6512b2e4d621f_necklace.png');
 
 -- --------------------------------------------------------
 
@@ -136,12 +148,8 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `username`, `content`, `rating`, `time`, `users`) VALUES
-(36, 'lakaka', 'hi my name is lakaka, I am from nigeria. Where im from, we dont have wotah. Pls sedekah some wotah for me and my familyu back in hindustan, banglasdeh. Sekian harap maklum', 4, '2023-08-19 09:59:53.000000', 'syazwy'),
-(37, 'kirim salam benz', 'hey lakaka, im here to help you. just contact me @lakaka is a fool.com', 1, '2023-08-19 10:01:02.000000', NULL),
-(38, 'af1qaiman', 'hey im afq, i like supra, i like hotwherels,. i lijkle playing futebal, i like ', 5, '2023-08-20 16:13:16.000000', NULL),
-(39, 'good seller', 'on time', 5, '2023-08-24 05:07:39.000000', NULL),
-(40, 'aslcnasknf', 'abcd', 5, '2023-08-24 05:07:51.000000', NULL),
-(41, 'svsb', 'dfdsb', 1, '2023-08-24 05:08:21.000000', NULL);
+(36, 'hakim', 'Great seller', 4, '2023-08-19 09:59:53.000000', 'syazwy'),
+(37, 'lapik aiman', 'Amazing seller', 3, '2023-08-19 10:01:02.000000', 'syazwy');
 
 --
 -- Indexes for dumped tables
@@ -192,19 +200,19 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `itemslisting`
 --
 ALTER TABLE `itemslisting`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT for table `item_images`
 --
 ALTER TABLE `item_images`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- AUTO_INCREMENT for table `report`
