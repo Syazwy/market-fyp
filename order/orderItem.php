@@ -59,7 +59,7 @@ if ($location = "Brunei Muara") {
 } elseif ($location = "Belait") {
     $delivery = 7;
 } elseif ($location = "Temburong") {
-  $delivery = 6;
+    $delivery = 6;
 }
 
 $total = $price + $delivery;
@@ -142,9 +142,9 @@ $total = $price + $delivery;
         <div class="row">
         <div class="payment-container">
         <h3 class="text-center"><b>Delivery & Payment</b></h3>
+        <br>
         <div>
             <h4>Delivery Method</h4>
-            <br>
             <input type="radio" class="btn-check" name="deliveryMethod" id="delivery" autocomplete="off">
             <label class="btn btn-outline-primary" for="delivery">Delivery</label>
         </div>
@@ -155,10 +155,10 @@ $total = $price + $delivery;
             <label class="btn btn-outline-secondary" for="pickUp">Pick-up</label>
         </div>
         <p style="color:#8F8F8F">Chat with the seller to get address</p>
+        <br>
 
         <div>
             <h4>Payment Method</h4>
-            <br>
             <input type="radio" class="btn-check" name="paymentMethod" id="paypal" autocomplete="off">
             <label class="btn btn-outline-primary" for="paypal">Paypal</label>
         </div>
@@ -179,18 +179,18 @@ $total = $price + $delivery;
     <thead>
         <tr>
             <th class="col-6">Item Name:</th>
-            <td class="col-4 text-end"><?php echo $name ?></td>
+            <td class="col-4 text-end" style="text-transform: capitalize"><b><?php echo $name ?><b></td>
         </tr>
       
     </thead>
     <tbody>
         <tr>
             <th class="col-6">Price:</th>
-            <td class="col-4 text-end">$<?php echo $price?></td>
+            <td class="col-4 text-end"><b>$<?php echo $price?><b></td>
         </tr>
         <tr>
         <th class="col-6">Delivery fee:</th>
-        <td class="col-4 text-end">$<?php echo $delivery?></td>
+        <td class="col-4 text-end"><b>$<?php echo $delivery?></b></td>
         </tr>
        
         <tr>

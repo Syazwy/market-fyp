@@ -48,13 +48,6 @@
 </nav>
 
       <main>
-
-      
-
-        
-    
-        <h1>Market</h1>
-
         <?php
          require '../connection/connection.php';
 
@@ -75,11 +68,6 @@
           
           
       ?>
-
-    
-        <section id="home">
-          <h1><?php echo $row["name"]; ?></h1>
-        </section>
 
         <div class="product-container">
             
@@ -133,9 +121,9 @@
               <h2>Price:</h2>
               <p class="price">$<?php echo $row["price"]; ?></p>
               <br>
-              <button type="button" class="buy-button">Buy Now</button>
+              <!-- <button type="button" class="buy-button">Buy Now</button>
               <button type="button" class="chat-button">Chat Now</button>
-              <a href="../admin/report.php?id=<?php echo $row["id"]; ?>"><button type="button" class="chat-button">Report</button></a>
+              <a href="../admin/report.php?id=<?php echo $row["id"]; ?>"><button type="button" class="chat-button">Report</button></a> -->
             </div>
 
             <div class="proInfo">
