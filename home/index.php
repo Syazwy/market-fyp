@@ -197,7 +197,7 @@
             <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
             <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-primary">Add to Wishlist</button>
+            <button type="button" class="btn btn-primary" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button>
             </div>
           </div>
         </div>
@@ -206,6 +206,68 @@
       </div>
     </div>
     
+    <?php
+// Connect to your MySQL database
+$mysqli = new mysqli('localhost', 'username', 'password', 'your_database_name');
+
+// Check for connection errors
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $mysqli->connect_error);
+}
+
+// Retrieve the itemId from the POST request
+$itemId = $_POST['itemId'];
+
+// Insert the item into the wishlist table (you may need to adjust the table and column names)
+$query = "INSERT INTO wishlist (item_id) VALUES (?)";
+$stmt = $mysqli->prepare($query);
+$stmt->bind_param('i', $itemId);
+
+if ($stmt->execute()) {
+    echo 'success';
+} else {
+    echo 'error';
+}
+
+$stmt->close();
+$mysqli->close();
+?>
+
+
+
+    <script>
+  function addToWishlist(itemId) {
+    // Create an XMLHttpRequest object
+    var xhr = new XMLHttpRequest();
+
+    // Define the PHP script URL
+    var url = 'addToWishlist.php';
+
+    // Create a FormData object to send data to the server
+    var formData = new FormData();
+    formData.append('itemId', itemId);
+
+    // Configure the request
+    xhr.open('POST', url, true);
+
+    // Set up the callback function to handle the response
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // Handle the response here (e.g., show a success message)
+        var response = xhr.responseText;
+        if (response === 'success') {
+          alert('Item added to wishlist successfully!');
+        } else {
+          alert('Failed to add item to wishlist.');
+        }
+      }
+    };
+
+    // Send the request with the form data
+    xhr.send(formData);
+  }
+</script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>
