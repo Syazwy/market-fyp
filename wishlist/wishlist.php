@@ -11,26 +11,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" href="../profile/profilecss.css">
+    <link rel="stylesheet" href="wishlist.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
 <body>
+
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
+
+<!-- NAVIGATION BAR -->
+
 <nav class="navbar navbar-expand-lg bg-transparent">
-  <div class="container">
+    <div class="container">
     <a class="navbar-brand" href="../home/index.php">
       <img src="../image/logo.png" width="80" height="80">
     </a>
   
-  <div class="collapse navbar-collapse justify-content-center">
+    <div class="collapse navbar-collapse justify-content-center">
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
     </ul>
-  </div>
+    </div>
 
-  <div class="dropdown">
+    <div class="dropdown">
     <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
       <img src="../image/profile.png" width="50" height="50" class="profile">
     </a>
@@ -41,9 +46,10 @@
       <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
 
     </ul>
-  </div>
+    </div>
   </div>
 </nav>
+
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
     event.preventDefault(); // Prevent the link from immediately navigating
@@ -58,9 +64,12 @@
   });
 </script>
 
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
 
-    <div class="profile-container">
-        <div class="profile-picture">
+<!-- BODY -->
+
+    <div class="wishlist-container">
+        <div class="wishlist-picture">
             <img src="../profile/profileimage/hotwheels.jpg" alt="Profile Picture">
         </div>   
     </div>
@@ -182,7 +191,7 @@
                   <?php
                     foreach($rows as $row) :
                   ?>
-                      <a href="../profile/profileedit.php?echo $row["id"]; class="btn btn-primary"> Edit Profile </a>
+                      <a href="../profile/profileedit.php <?php echo $row["id"]; ?>)" class="btn btn-primary"> Edit Profile </a>
                       <?php endforeach; ?>
 
                   
@@ -190,7 +199,10 @@
   </div>
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
-  <div class="box" id="box2" style="display: block;">
+  
+<!-- ITEM-LISTING -->
+
+<div class="box" id="box2" style="display: block;">
     <?php
 require '../connection/connection.php';
 $i = 1;
@@ -227,8 +239,7 @@ $result = mysqli_query($conn, $query);
                           
                     ?>
                     
-                          <a href="../profile/profile_edit_item.php?echo $row["id"]; class="btn btn-primary"> Edit Listings </a>
-                          
+                          <a href="../profile/profile_edit_item.php <?php echo $row["id"]; ?>)" class="btn btn-primary"> Edit Listings </a>
 
 
                 </div>  
@@ -253,11 +264,12 @@ $result = mysqli_query($conn, $query);
     <?php endif; ?>
     <br>
 
-
-
 </div>
 
+
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
+
+<!-- REVIEWS -->
 
 <div class="box" id="box3" style="display: none;">
 <!-- <button class="btn mb-3" id="addReviewBtn" data-toggle="modal" data-target="#addReviewModal" style="border: 1px solid black; position: fixed; top: 240px; right: 710px; <?php echo $addReviewButtonStyle; ?>">Add New Review</button> -->
@@ -321,6 +333,11 @@ $result = mysqli_query($conn, $query);
       ?>
 </div>
 </div>  
+
+
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
+
+<!-- WISHLIST -->
 
 <div class="box" id="box4" style="display: none;">
 <div class="container1" style="">
@@ -459,8 +476,9 @@ function addToCart(item_id) {
   </div>
 </div>
 
- 
+ <!-- ------------------------------------------------------------------------------------------------------------------- -->
 
+<!-- PROFILE -->
 
 <div class="modal fade" id="addReviewModal" tabindex="-1" role="dialog" aria-labelledby="addReviewModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -502,6 +520,7 @@ function addToCart(item_id) {
   </div>
 </div>
 </div>
+
 
 <script>
         // Function to show the Listings (box2) content
