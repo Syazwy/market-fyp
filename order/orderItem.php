@@ -211,84 +211,135 @@ $total = $price + $delivery;
     <br>
     <p>By tapping on Place order, you accept the terms of service from <span style="color: #00A307;">Market</span> and the payments provider.</p>
 
-    <!-- Bootstrap Modal -->
-<div class="modal fade" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+
+<!-- Delivery Modal -->
+<div class="modal" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="width: 70%;">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deliveryModalLabel">Delivery Address</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+      <div class="modal-header text-center">
+        <h5 class="modal-title" id="deliveryModalLabel" style="text-align: center; margin: 0 auto;">Address Form</h5>
+        <button type="button" class="btn" data-bs-dismiss="modal"><h5>X</h5></button>
       </div>
+
       <div class="modal-body">
-        <!-- Add your form fields here -->
-        <form id="deliveryForm">
-          <div class="form-group">
-            <label for="address">Delivery Address</label>
-            <input type="text" class="form-control" id="address" name="address" placeholder="Enter your address">
-          </div>
-          <!-- Add more form fields as needed -->
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="confirmDelivery">Confirm</button>
+        <div class="form-group">
+          <input type="text" class="form-control" id="District" name="District" placeholder="District">
+          <br>
+          <input type="text" class="form-control" id="City" name="City" placeholder="City">
+          <br>
+          <input type="text" class="form-control" id="StreetAddress" name="StreetAddress" placeholder="Street Address">
+          <br>
+          <input type="text" class="form-control" id="PostalCode" name="PostalCode" placeholder="Postal Code">
+        </div>
+        <br>
+        <button type="button" class="btn btn-primary d-block mx-auto" id="confirmDelivery" style="background-color: #FF5353; border-radius: 10px; padding: 10px; width: 450px;" disabled>Confirm</button>
       </div>
     </div>
   </div>
 </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
-    
-    <script>
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById('confirmDelivery').addEventListener('click', function () {
-        // Handle the form submission here
-        const address = document.getElementById('address').value;
-        
-        // You can send the address to the server via AJAX if needed
-        
-        // Close the modal using Bootstrap function
-        $('#deliveryModal').modal('hide');
-        
-        // Redirect to the payment page with the selected ID
-        const id = <?php echo $id; ?>;
-        window.location.href = `../payment/itemPaypal.php?id=${id}`;
-    });
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Get references to the input fields
+  const districtInput = document.getElementById('District');
+  const cityInput = document.getElementById('City');
+  const streetAddressInput = document.getElementById('StreetAddress');
+  const postalCodeInput = document.getElementById('PostalCode');
+  const confirmDeliveryButton = document.getElementById('confirmDelivery');
 
-    // Function to check if both payment and delivery methods are selected
-    function isPaymentAndDeliverySelected() {
-        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-        const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
-        return paymentMethod !== null && deliveryMethod !== null;
+  // Function to check if all fields are filled
+  function areAllFieldsFilled() {
+    return districtInput.value.trim() !== '' &&
+      cityInput.value.trim() !== '' &&
+      streetAddressInput.value.trim() !== '' &&
+      postalCodeInput.value.trim() !== '';
+  }
+
+  // Function to handle the Confirm button click
+  function confirmDelivery() {
+  // Check the payment method
+  const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+  if (paymentMethod) {
+    const id = <?php echo $id; ?>;
+    if (paymentMethod.id === 'paypal') {
+      // Redirect to PayPal payment page
+      window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>`;
+    } else if (paymentMethod.id === 'cash') {
+      // Redirect to Cash payment page
+      window.location.href = `orderHalfwayCompleted.php?id=${id}&total=<?php echo $total; ?>`;
     }
+  } else {
+    alert("Please select a payment method before confirming delivery.");
+  }
+}
 
-    // Function to place the order and show the modal for delivery address
-    function placeOrder() {
-        if (isPaymentAndDeliverySelected()) {
-            const id = <?php echo $id; ?>;
-            
-            // Check if the delivery method is selected
-            const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
-            
-            if (deliveryMethod && deliveryMethod.id === 'delivery') {
-                // Show the delivery address modal
-                $('#deliveryModal').modal('show');
-            } else {
-                // Redirect to the payment page with the selected ID
-                window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>`;
-            }
-        } else {
-            alert("Please select both payment and delivery methods before placing the order.");
-        }
+  // Attach an event listener to each input field to enable/disable the Confirm button
+  districtInput.addEventListener('input', function () {
+    confirmDeliveryButton.disabled = !areAllFieldsFilled();
+  });
+
+  cityInput.addEventListener('input', function () {
+    confirmDeliveryButton.disabled = !areAllFieldsFilled();
+  });
+
+  streetAddressInput.addEventListener('input', function () {
+    confirmDeliveryButton.disabled = !areAllFieldsFilled();
+  });
+
+  postalCodeInput.addEventListener('input', function () {
+    confirmDeliveryButton.disabled = !areAllFieldsFilled();
+  });
+
+  // Attach the confirmDelivery function to the button click event
+  confirmDeliveryButton.addEventListener('click', confirmDelivery);
+
+  // Function to check if both payment and delivery methods are selected
+  function isPaymentAndDeliverySelected() {
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+    const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
+    return paymentMethod !== null && deliveryMethod !== null;
+  }
+
+  // Function to place the order and show the modal for delivery address
+  function placeOrder() {
+    if (isPaymentAndDeliverySelected()) {
+      const id = <?php echo $id; ?>;
+      
+      // Check if the delivery method is selected
+      const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
+      
+      if (deliveryMethod && deliveryMethod.id === 'delivery') {
+        // Show the delivery address modal
+        $('#deliveryModal').modal('show');
+      } else {
+       // Check the payment method
+const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+if (paymentMethod) {
+  if (paymentMethod.id === 'paypal') {
+    // Redirect to PayPal payment page
+    window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>`;
+  } else if (paymentMethod.id === 'cash') {
+    // Redirect to Cash payment page
+    window.location.href = `orderHalfwayCompleted.php?id=${id}&total=<?php echo $total; ?>`;
+  }
+} else {
+  alert("Please select a payment method before placing the order.");
+}
+
+      }
+    } else {
+      alert("Please select both payment and delivery methods before placing the order.");
     }
+  }
 
-    // Attach the placeOrder function to the button click event
-    document.getElementById('placeOrderButton').addEventListener('click', placeOrder);
+  // Attach the placeOrder function to the button click event
+  document.getElementById('placeOrderButton').addEventListener('click', placeOrder);
 });
 </script>
 

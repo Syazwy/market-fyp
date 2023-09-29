@@ -208,7 +208,7 @@
     
     <?php
 // Connect to your MySQL database
-$mysqli = new mysqli('localhost', 'username', 'password', 'your_database_name');
+$mysqli = new mysqli('localhost', 'root', '', 'market');
 
 // Check for connection errors
 if ($mysqli->connect_error) {

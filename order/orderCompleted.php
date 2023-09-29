@@ -15,6 +15,17 @@ $email = $_SESSION['email'];
 // Get the plan carried from the URL
 $selectedPlan = $_GET['plan'];
 
+$price = 0; // Default price
+if ($selectedPlan === "Basic") {
+    $price = 0;
+} elseif ($selectedPlan === "Premium Monthly") {
+    $price = 4.99;
+} elseif ($selectedPlan === "Premium Annually") {
+    $price = 49.99;
+}
+
+
+
 $conn = mysqli_connect("localhost", "root", "", "market");
 
 // Check the connection
@@ -74,7 +85,7 @@ $mail->Body = "Thank you for your order,<br><br>";
 $mail->Body .= "Here is your order details:<br>";
 $mail->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
 $mail->Body .= "Selected Plan: <b>" . $selectedPlan . "</b><br>";
-
+$mail->Body .= "Total: $<b>" . $price . "</b><br>";
 // Set the email content type to HTML
 $mail->isHTML(true);
 
