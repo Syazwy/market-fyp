@@ -15,6 +15,8 @@ $email = $_SESSION['email'];
 
 $id = $_GET['id'];
 $total = $_GET['total'];
+$deliveryMethod = $_GET['deliveryMethod'];
+$paymentMethod = $_GET['paymentMethod'];
 
 $conn = mysqli_connect("localhost", "root", "", "market");
 
@@ -81,15 +83,14 @@ $mail->Subject = 'Receipt Number: ' . $receiptNumber;
 $mail->Body = "Thank you for your order,<br><br>";
 $mail->Body .= "Here is your order details:<br>";
 $mail->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
-$mail->Body .= "item Name: <b>" . $name . "</b><br>";
+$mail->Body .= "Item Name: <b>" . $name . "</b><br>";
+$mail->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
+$mail->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
 $mail->Body .= "Total: $<b>" . $total . "</b><br>";
 
 // Set the email content type to HTML
 $mail->isHTML(true);
 
-// The rest of your email sending code remains the same
-
-// The rest of your email sending code remains the same
 
     $mail->send();
     

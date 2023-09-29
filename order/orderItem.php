@@ -263,20 +263,22 @@ document.addEventListener("DOMContentLoaded", function () {
   function confirmDelivery() {
   // Check the payment method
   const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+  const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
 
-  if (paymentMethod) {
+  if (paymentMethod && deliveryMethod) {
     const id = <?php echo $id; ?>;
     if (paymentMethod.id === 'paypal') {
-      // Redirect to PayPal payment page
-      window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>`;
+      // Redirect to PayPal payment page with both methods in the URL
+      window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
     } else if (paymentMethod.id === 'cash') {
-      // Redirect to Cash payment page
-      window.location.href = `orderHalfwayCompleted.php?id=${id}&total=<?php echo $total; ?>`;
+      // Redirect to Cash payment page with both methods in the URL
+      window.location.href = `orderCompleted1.php?id=${id}&price=<?php echo $total; ?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
     }
   } else {
-    alert("Please select a payment method before confirming delivery.");
+    alert("Please select both payment and delivery methods before confirming delivery.");
   }
 }
+
 
   // Attach an event listener to each input field to enable/disable the Confirm button
   districtInput.addEventListener('input', function () {
@@ -307,39 +309,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to place the order and show the modal for delivery address
   function placeOrder() {
-    if (isPaymentAndDeliverySelected()) {
-      const id = <?php echo $id; ?>;
-      
-      // Check if the delivery method is selected
-      const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
-      
-      if (deliveryMethod && deliveryMethod.id === 'delivery') {
+  if (isPaymentAndDeliverySelected()) {
+    const id = <?php echo $id; ?>;
+    
+    // Check if the delivery method and payment method are selected
+    const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+    
+    if (deliveryMethod && paymentMethod) {
+      if (deliveryMethod.id === 'delivery') {
         // Show the delivery address modal
         $('#deliveryModal').modal('show');
       } else {
-       // Check the payment method
-const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-
-if (paymentMethod) {
-  if (paymentMethod.id === 'paypal') {
-    // Redirect to PayPal payment page
-    window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>`;
-  } else if (paymentMethod.id === 'cash') {
-    // Redirect to Cash payment page
-    window.location.href = `orderHalfwayCompleted.php?id=${id}&total=<?php echo $total; ?>`;
-  }
-} else {
-  alert("Please select a payment method before placing the order.");
-}
-
+        // Check payment method and redirect accordingly
+        if (paymentMethod.id === 'cash') {
+          // Redirect to a page for cash payment with pickup
+          window.location.href = `orderHalfwayCompleted.php?id=${id}&total=<?php echo $total; ?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
+        } else if (paymentMethod.id === 'paypal') {
+          // Redirect to a page for PayPal payment with pickup
+         window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
+        } else {
+          alert("Invalid payment method selected.");
+        }
       }
     } else {
       alert("Please select both payment and delivery methods before placing the order.");
     }
+  } else {
+    alert("Please select both payment and delivery methods before placing the order.");
   }
+}
 
-  // Attach the placeOrder function to the button click event
-  document.getElementById('placeOrderButton').addEventListener('click', placeOrder);
+// Attach the placeOrder function to the button click event
+document.getElementById('placeOrderButton').addEventListener('click', placeOrder);
+
 });
 </script>
 
