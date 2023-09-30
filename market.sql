@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 27, 2023 at 09:09 AM
+-- Generation Time: Sep 30, 2023 at 01:20 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -36,15 +36,16 @@ CREATE TABLE `account` (
   `date` date NOT NULL,
   `verification_code` varchar(1000) NOT NULL,
   `email_verified_at` datetime DEFAULT NULL,
-  `rating` varchar(1000) DEFAULT NULL
+  `rating` varchar(1000) DEFAULT NULL,
+  `status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `account`
 --
 
-INSERT INTO `account` (`id`, `username`, `email`, `password`, `membership`, `date`, `verification_code`, `email_verified_at`, `rating`) VALUES
-(55, 'syazwy', '21FTT1292@student.pb.edu.bn', '$2y$10$KIVt9RKUsxPPK4dl7lPjBupGmjQg57YreLJi/4whBlNe5kgZMM57e', 'Premium Annually', '2023-09-05', '258550', '2023-09-05 15:25:28', NULL);
+INSERT INTO `account` (`id`, `username`, `email`, `password`, `membership`, `date`, `verification_code`, `email_verified_at`, `rating`, `status`) VALUES
+(58, 'Barzun', '21ftt1287@student.pb.edu.bn', '$2y$10$KKerGgOM/mitjc5Iv.mCtOOffP1IVnTVYk0fj0pqlkUJ4TJyd8IIS', ' Basic', '2023-09-27', '293766', '2023-09-27 17:38:47', '', 'Active');
 
 -- --------------------------------------------------------
 
@@ -200,7 +201,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `itemslisting`
