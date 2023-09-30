@@ -445,10 +445,12 @@ if (isset($_POST["login"])) {
         
         $i = 1;
         $query = "SELECT itemslisting.*, item_images.image_filename 
-                  FROM itemslisting 
-                  JOIN item_images ON itemslisting.id = item_images.item_id 
-                  GROUP BY itemslisting.id 
-                  ORDER BY itemslisting.id DESC";
+        FROM itemslisting 
+        JOIN item_images ON itemslisting.id = item_images.item_id 
+        JOIN account ON itemslisting.username = account.username
+        WHERE account.status = 'active' 
+        GROUP BY itemslisting.id 
+        ORDER BY itemslisting.id DESC";
         $result = mysqli_query($conn, $query);
 
         while ($row = mysqli_fetch_assoc($result)) :

@@ -93,7 +93,10 @@ if(isset($_POST["submit"])){
 
                     
                     <div class="mb-3">
+                        
                         <input type="text" name="name" id="username" value="Muin" hidden>
+
+
                         <input type="text" name="status" id="status" value="Active" hidden>
                         <input type="text" name="item" id="item" value="Barang" hidden>
                         <label for="report" class="form-label">Report</label>
