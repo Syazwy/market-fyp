@@ -1,7 +1,7 @@
 <?php
 require_once("../session/session.php");
 $email = $_SESSION['email'];
-echo $email;
+
 ?>
 
 <?php
@@ -71,6 +71,13 @@ if ($conn->connect_error) {
       $city = $_POST["City"];
       $streetAddress = $_POST["StreetAddress"];
       $postalCode = $_POST["PostalCode"];
+      
+      // Debugging
+      echo "District: " . $district . "<br>";
+      echo "City: " . $city . "<br>";
+      echo "Street Address: " . $streetAddress . "<br>";
+      echo "Postal Code: " . $postalCode . "<br>";
+      
   
       // Update the 'account' table with order details
       $updateAccountSQL = "UPDATE account SET District = ?, City = ?, StreetAddress = ?, PostalCode = ? WHERE email = ?";
@@ -79,9 +86,11 @@ if ($conn->connect_error) {
       
       if ($updateStmt->execute()) {
           // Handle success
+          print_r($_POST);
+
           exit();
       } else {
-          echo "Failed to update the account table.";
+          echo "Failed to update the account table." . mysqli_error($conn);
       }
   }
   
@@ -283,6 +292,11 @@ document.addEventListener("DOMContentLoaded", function () {
       cityInput.value.trim() !== '' &&
       streetAddressInput.value.trim() !== '' &&
       postalCodeInput.value.trim() !== '';
+      console.log("District:", districtInput.value.trim());
+console.log("City:", cityInput.value.trim());
+console.log("Street Address:", streetAddressInput.value.trim());
+console.log("Postal Code:", postalCodeInput.value.trim());
+
   }
 
   // Function to handle the Confirm button click
