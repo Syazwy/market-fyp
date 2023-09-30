@@ -1,83 +1,46 @@
-       .modal{
-        border-radius: 10px;
-       }
-
-       .modal-body{
-        
-        border-radius: 10px;
-       }
-       #tick{
-        margin-top: 20px;
-       }
-       .current-plan-container {
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-        text-align: center;
-        }
-       .current-plan {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        }
-
-       body {
+        body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 0; 
         }
 
-        input {
-            background-color: #FF5353;
-            border-radius: 10px;
-        }
+        .membership-box h4 {
+            text-align: center; /* Center the text horizontally */
+            /* Add any additional styles for vertical centering if needed */
+          }
 
-        .button-container {
-            margin-bottom: 10px;
+        .membership-container {
             display: flex;
-            align-items: center; 
-            justify-content: center; 
-            padding: 10px; 
+            justify-content: space-around; 
+        }
+        
+        
+        .membership-box {
+            border-radius: 20px;
+            padding: 30px ; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        
+        .not {
+            color: black; /* Override text color for li elements within .not */
+            padding-bottom: 20px;
+        }
+      
+
+        .membership-button {
+            border: none; /* Remove the border */
+            /* Other button styles here */
+        }
+        
+        .membership-box{
+            
+            color: white;
         }
 
-        .logo {
-            display: inline-block; 
-            margin-right: auto; 
-            margin-left: 10px; 
-        }
-
-        img.logo-image {
-            max-width: 60px; 
-            height: auto; 
-        }
-
-        .icon-left {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
-
-        .icon-right {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-		.membership-container {
-			display: flex;
-			justify-content: space-between;
-		}
-		.membership-box {
-			width: 30%;
-			padding: 20px;
-			border: 1px solid #ccc;
-			margin: 10px;
-			border-radius: 10px; 
-            cursor: pointer; 
-		}
-		
 		.basic-membership {
 			background-color: #FFEAEA; 
 		}
@@ -87,13 +50,51 @@
 		.premium-annually-membership {
 			background-color: #FF5353; 
 		}
-		.search-bar {
-			width: 60%; 
-			padding: 1px;
-			font-size: 16px;
-            background-color: #FFEAEA;
-        }
-        .input-center {
-            text-align: center; 
+		
+        
+        .current-plan-container {
+            display: flex;
+            align-items: center; /* Vertically center-align the content */
+            background-color: #FF5353;
+            padding: 20px;
+            border-radius: 20px;
+            width: 30%; 
+            margin: 0 auto;
+            border:none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
         }
         
+        #current-plan1 {
+            color: white;
+            margin-right: 20px;
+        }
+        
+        .current-plan {
+            background-color: #FFEAEA;
+            padding: 10px;
+            border-radius: 20px;
+            flex-grow: 1; /* Allow the current-plan element to grow and take up available space */
+            text-align: center; /* Center the text horizontally */
+        }
+        a.nav-link.active {
+            background-color: #FF5353 !important;
+            margin-right: 20px;
+            border-radius: 18px;
+            width: 150px;
+            text-align: center;
+          }
+        
+          button.nav-link.active {
+            background-color: #FF5353 !important;
+            margin-right: 20px;
+            border-radius: 18px;
+            width: 150px;
+            text-align: center;
+          }
+          
+          .btn.btn-primary {
+            background-color: #FF5353;
+            border-radius: 18px;
+            border: none;
+            width: 100px;
+          }

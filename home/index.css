@@ -13,6 +13,7 @@ a.nav-link.active {
     border-radius: 18px;
     width: 150px;
     text-align: center;
+    border: none;
   }
 
   .search {
@@ -64,19 +65,18 @@ a.nav-link.active {
     border: none;
   }
 
-  div.card-body {
-    width: 150px;
-    height: 150px;
-    /* background-color: #FFFFFF; */
+  div.card-header.bg-transparent.border.border-0 {
+    background-color: #FFFFFF !important;
     padding: 0px;
     padding-top: 16px;
   }
 
-  img.img-thumbnail {
+  div.card-body {
     width: 150px;
     height: 150px;
-    background-color: #FFEAEA;
-    padding: 20px;
+    background-color: #FFFFFF !important;
+    padding: 0px;
+    padding-top: 16px;
   }
 
   /* div.text {

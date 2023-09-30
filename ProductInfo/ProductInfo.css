@@ -2,15 +2,29 @@
     font-family: Arial, sans-serif;
   }
   
-  h1 {
+  /* h1 {
     text-align: center;
-  }
+  } */
   
   div {
     margin: 10px;
     
   }
+  .checked {
+    color: orange;
+  }
+
+  .rating {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 20px; /* Adjust the font size as needed */
+  }
   
+  .rating .fa {
+    margin: 0 5px; /* Adjust the spacing between stars */
+  }
+
   label {
     margin-right: 5px;
   }
@@ -173,7 +187,7 @@
 
   #footer1{
     display: flex;
-    
+
     width: 100%;
   }
 
