@@ -1,27 +1,7 @@
-<!DOCTYPE html>
-
 <?php
 require_once("../session/session.php");
-
-
-// $itemName = "Iphone 14 pro max";
-// $price = 1399;
-
-// $district = "Belait" ;
-// $delivery = "" ;
-
-// if ($district = "Brunei Muara") {
-//     $delivery = 3 ;
-// } elseif ($district = "Tutong") {
-//     $delivery = 5;
-// } elseif ($district = "Belait") {
-//     $delivery = 7;
-// } elseif ($district = "Temburong") {
-//   $delivery = 6;
-// }
-
-// $total = $price + $delivery;
-
+$email = $_SESSION['email'];
+echo $email;
 ?>
 
 <?php
@@ -68,10 +48,50 @@ $total = $price + $delivery;
         echo "No data found for the given ID.";
     }
 
-    // Close the database connection
     $stmt->close();
-    $conn->close();
-?>
+  $conn->close();
+  ?>
+  <?php
+
+$conn = mysqli_connect("localhost", "root", "", "market");
+
+if (!$conn) {
+    die("Database connection failed: " . mysqli_connect_error());
+}
+
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      // Get form data
+  
+      $district = $_POST["District"];
+      $city = $_POST["City"];
+      $streetAddress = $_POST["StreetAddress"];
+      $postalCode = $_POST["PostalCode"];
+  
+      // Update the 'account' table with order details
+      $updateAccountSQL = "UPDATE account SET District = ?, City = ?, StreetAddress = ?, PostalCode = ? WHERE email = ?";
+      $updateStmt = $conn->prepare($updateAccountSQL);
+      $updateStmt->bind_param("sssss", $district, $city, $streetAddress, $postalCode, $email);
+      
+      if ($updateStmt->execute()) {
+          // Handle success
+          exit();
+      } else {
+          echo "Failed to update the account table.";
+      }
+  }
+  
+  // Close the database connection
+  
+  $conn->close();
+  ?>
+
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -211,9 +231,7 @@ $total = $price + $delivery;
     <br>
     <p>By tapping on Place order, you accept the terms of service from <span style="color: #00A307;">Market</span> and the payments provider.</p>
 
-
-<!-- Delivery Modal -->
-<div class="modal" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
+    <div class="modal" id="deliveryModal" tabindex="-1" role="dialog" aria-labelledby="deliveryModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document" style="width: 70%;">
     <div class="modal-content">
       <div class="modal-header text-center">
@@ -222,17 +240,25 @@ $total = $price + $delivery;
       </div>
 
       <div class="modal-body">
+      <form id="deliveryForm" method="post">
         <div class="form-group">
-          <input type="text" class="form-control" id="District" name="District" placeholder="District">
+          <label for="District">District:</label>
+          <select class="form-control" id="District" name="District">
+            <option value="Brunei Muara">Brunei Muara</option>
+            <option value="Tutong">Tutong</option>
+            <option value="Belait">Belait</option>
+            <option value="Temburong">Temburong</option>
+          </select>
           <br>
           <input type="text" class="form-control" id="City" name="City" placeholder="City">
           <br>
           <input type="text" class="form-control" id="StreetAddress" name="StreetAddress" placeholder="Street Address">
           <br>
-          <input type="text" class="form-control" id="PostalCode" name="PostalCode" placeholder="Postal Code">
-        </div>
-        <br>
-        <button type="button" class="btn btn-primary d-block mx-auto" id="confirmDelivery" style="background-color: #FF5353; border-radius: 10px; padding: 10px; width: 450px;" disabled>Confirm</button>
+          <input type="text" class="form-control" id="PostalCode" name="PostalCode" placeholder="Postal Code" maxlength="6">
+          <br>
+          <button type="button" class="btn btn-primary d-block mx-auto" id="confirmDelivery" name="placeOrderButton" style="background-color: #FF5353; border-radius: 10px; padding: 10px; width: 450px;" disabled>Confirm</button>
+ </div>
+        </form>
       </div>
     </div>
   </div>
@@ -261,22 +287,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to handle the Confirm button click
   function confirmDelivery() {
+
+        // Collect form data
+  const formData = new FormData(document.getElementById('deliveryForm'));
+  const params = new URLSearchParams(formData);
+  console.log("District:", districtInput.value.trim());
+  console.log("City:", cityInput.value.trim());
+  console.log("Street Address:", streetAddressInput.value.trim());
+  console.log("Postal Code:", postalCodeInput.value.trim());
+
+  
+  document.getElementById('deliveryForm').submit();
   // Check the payment method
   const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
   const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
 
   if (paymentMethod && deliveryMethod) {
-    const id = <?php echo $id; ?>;
-    if (paymentMethod.id === 'paypal') {
-      // Redirect to PayPal payment page with both methods in the URL
-      window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
-    } else if (paymentMethod.id === 'cash') {
-      // Redirect to Cash payment page with both methods in the URL
-      window.location.href = `orderCompleted1.php?id=${id}&price=<?php echo $total; ?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
-    }
-  } else {
-    alert("Please select both payment and delivery methods before confirming delivery.");
+  const id = <?php echo $id; ?>;
+  if (paymentMethod.id === 'paypal') {
+    // Redirect to PayPal payment page with all parameters
+    window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}&District=${districtInput.value}&City=${cityInput.value}&StreetAddress=${streetAddressInput.value}&PostalCode=${postalCodeInput.value}`;
+  } else if (paymentMethod.id === 'cash') {
+    // Redirect to Cash payment page with all parameters
+    window.location.href = `orderCompleted1.php?id=${id}&price=<?php echo $total; ?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}&District=${districtInput.value}&City=${cityInput.value}&StreetAddress=${streetAddressInput.value}&PostalCode=${postalCodeInput.value}`;
   }
+} else {
+  alert("Please select both payment and delivery methods before confirming delivery.");
+}
+
 }
 
 
@@ -315,9 +353,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Check if the delivery method and payment method are selected
     const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-    
+
     if (deliveryMethod && paymentMethod) {
       if (deliveryMethod.id === 'delivery') {
+
+        
+
         // Show the delivery address modal
         $('#deliveryModal').modal('show');
       } else {
@@ -345,7 +386,6 @@ document.getElementById('placeOrderButton').addEventListener('click', placeOrder
 
 });
 </script>
-
 
 </body>
 </html

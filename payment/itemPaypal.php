@@ -10,6 +10,8 @@ if (!$conn) {
 
 $id = $_GET['id'];
 $total = $_GET['total'];
+$deliveryMethod = $_GET['deliveryMethod'];
+$paymentMethod = $_GET['paymentMethod'];
 
 // Check the connection
 if ($conn->connect_error) {
@@ -120,9 +122,10 @@ $conn->close();
                 // Successful capture! Redirect to orderCompleted1.php
 
                 var id = <?php echo json_encode($_GET['id']); ?>;
-
-                window.location.href = "../order/orderCompleted1.php?price=" + total + "&id=" + id;
-            } else {
+                var deliveryMethod = <?php echo json_encode($_GET['deliveryMethod']); ?>;
+                var paymentMethod = <?php echo json_encode($_GET['paymentMethod']); ?>;
+                window.location.href = "../order/orderCompleted1.php?price=" + total + "&id=" + id + "&deliveryMethod=" + deliveryMethod + "&paymentMethod=" + paymentMethod;
+          } else {
                 // Handle capture errors here
                 console.error("Order capture error:", details.status);
             }
