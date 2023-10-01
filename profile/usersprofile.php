@@ -38,6 +38,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
 }
 ?>
 
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Handle the form data
+    $item_id = $_POST['item_id'];
+    $typeReport = $_POST['typeReport'];
+    $report_reason = $_POST['report_reason'];
+    
+    // Establish a database connection (you'll need to replace these values with your actual database credentials)
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "market";
+    
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    
+    // Check the connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    
+    // Get the values from the form
+    $item_id = $_POST['item_id'];
+    $typeReport = $_POST['typeReport'];
+    $report_reason = $_POST['report_reason'];
+    
+    // Define the SQL query to insert data into the reportbyusers table
+    $sql = "INSERT INTO reportbyusers (typeReport, reason) VALUES ('$typeReport', '$report_reason')";
+    
+    if ($conn->query($sql) === TRUE) {
+        // The report has been successfully submitted, now we trigger the success modal
+        echo '<script type="text/javascript">
+            $(document).ready(function(){
+                $("#successModal").modal("show");
+            });
+        </script>';
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    
+    // Close the database connection
+    $conn->close();
+    
+    // Redirect to the desired location
+    header("Location: usersprofile.php");
+    exit();
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -207,22 +258,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
 
                       <!-- Modal for reporting an item -->
 <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="reportModalLabel">Report User</h5>
             </div>
             <div class="modal-body">
                 <!-- Add a form for reporting the item here -->
-                <form method="post" action="report_item.php">
+                <form id="reportForm" method="post" action="usersprofile.php" onsubmit="return validateForm();">
                     <input type="hidden" name="item_id" id="reportItemID">
                     <div class="form-group">
-                        <label for="report_reason">Reason for Reporting:</label>
+                        <label for="type_of_report" name="typeReport" required>Type of Report</label>
+                        <br>
+                        <select class="form-select form-select-sm" id="typeReport" name="typeReport" aria-label="Small select example" required>
+                            <option value=""></option>
+                            <option value="Scam">Scam</option>
+                            <option value="Selling of illegal item">Selling of Illegal Item</option>
+                            <option value="Product quality">Product Quality</option>
+                            <option value="Sales of animals">Sales of animals</option>
+                            <option value="No intent to sell">No intent to sell</option>
+                        </select>
+                        <br>
+                        <label for="report_reason">Reason</label>
                         <textarea class="form-control" name="report_reason" id="report_reason" rows="4" required></textarea>
                     </div>
                     <br>
                     <button type="submit" class="btn btn-danger">Submit Report</button>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden success message modal -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Report Sent</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Your report has been sent and is now under review.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
             </div>
         </div>
     </div>
@@ -237,9 +319,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
     $('#reportModal').modal('show');
 }
 
+// Function to validate the form before submission
+function validateForm() {
+        var typeReport = document.getElementById("type_of_report").value;
+        var reportReason = document.getElementById("report_reason").value;
+
+        // Check if both fields are empty
+        if (typeReport === "" || reportReason === "") {
+            // Display a warning message in the modal
+            alert("Please fill out both fields before submitting the report.");
+            return false; // Prevent form submission
+        }
+    }
+
 </script>
 
-
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
                       <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Review
@@ -543,5 +638,21 @@ function submitModalRating() {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // JavaScript code to trigger the report modal
+    $(document).ready(function() {
+        <?php
+        if (isset($_POST['typeReport']) && isset($_POST['report_reason'])) {
+            echo '
+            $("#reportModal").modal({
+                backdrop: "static", // Prevents closing the modal by clicking outside
+                keyboard: false // Prevents closing the modal with the Esc key
+            });
+            ';
+        }
+        ?>
+    });
+</script>
+
 </body>
 </html>
