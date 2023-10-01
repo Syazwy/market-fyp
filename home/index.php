@@ -192,13 +192,23 @@
           <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
             <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
-          <div class="card-body">
+          <!-- <div class="card-body">
             <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
             <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
             <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <button type="button" class="btn btn-primary" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button>
-            </div>
+            </div> -->
+            <!-- Your HTML template for displaying items -->
+          <div class="card-body">
+              <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
+              <h5 class="card-title"><b><?php echo "BND$" . $row["price"]; ?></b></h5>
+              <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
+              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button type="button" class="btn btn-primary" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button>
+              </div>
+</div>
+
           </div>
         </div>
       </div>
@@ -207,19 +217,14 @@
     </div>
     
     <?php
-// Connect to your MySQL database
-$mysqli = new mysqli('localhost', 'username', 'password', 'your_database_name');
-
-// Check for connection errors
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
-}
+// Include your database connection file here (assuming you have it in a separate file)
+include '../connection/connection.php'; // Adjust the filename accordingly
 
 // Retrieve the itemId from the POST request
 $itemId = $_POST['itemId'];
 
-// Insert the item into the wishlist table (you may need to adjust the table and column names)
-$query = "INSERT INTO wishlist (item_id) VALUES (?)";
+// Replace 'wishlist' with your actual table name, and adjust the column names accordingly
+$query = "INSERT INTO wishlist (id, name, price, category) SELECT id, name, price, category FROM items WHERE id = ?";
 $stmt = $mysqli->prepare($query);
 $stmt->bind_param('i', $itemId);
 
@@ -232,6 +237,7 @@ if ($stmt->execute()) {
 $stmt->close();
 $mysqli->close();
 ?>
+
 
 
 
