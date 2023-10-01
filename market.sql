@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 30, 2023 at 01:20 PM
+-- Generation Time: Oct 01, 2023 at 06:25 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -37,15 +37,18 @@ CREATE TABLE `account` (
   `verification_code` varchar(1000) NOT NULL,
   `email_verified_at` datetime DEFAULT NULL,
   `rating` varchar(1000) DEFAULT NULL,
-  `status` varchar(20) NOT NULL
+  `status` varchar(20) NOT NULL,
+  `District` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `account`
 --
 
-INSERT INTO `account` (`id`, `username`, `email`, `password`, `membership`, `date`, `verification_code`, `email_verified_at`, `rating`, `status`) VALUES
-(58, 'Barzun', '21ftt1287@student.pb.edu.bn', '$2y$10$KKerGgOM/mitjc5Iv.mCtOOffP1IVnTVYk0fj0pqlkUJ4TJyd8IIS', ' Basic', '2023-09-27', '293766', '2023-09-27 17:38:47', '', 'Active');
+INSERT INTO `account` (`id`, `username`, `email`, `password`, `membership`, `date`, `verification_code`, `email_verified_at`, `rating`, `status`, `District`) VALUES
+(58, 'Barzun', '21ftt1287@student.pb.edu.bn', '$2y$10$KKerGgOM/mitjc5Iv.mCtOOffP1IVnTVYk0fj0pqlkUJ4TJyd8IIS', ' Basic', '2023-09-27', '293766', '2023-09-27 17:38:47', '', 'Active', ''),
+(59, '21FTT1294', '21ftt1294@student.pb.edu.bn', '$2y$10$ByKhU1eNsJ4ZGE9J9SV3Ze84a9txQbTcAIlEXg97MfQXM18Z.h1Mi', 'Premium Annually', '2023-10-01', '509076', '2023-10-01 23:46:11', NULL, '', ''),
+(60, 'wajid', 'bby-el@hotmail.com', '$2y$10$jl0kdZa2f73C/sOO9wfTW.eusN81dCiFOMAo3dgUeLhib3GQwFv56', ' Basic', '2023-10-01', '192842', '2023-10-02 00:23:46', NULL, '', '');
 
 -- --------------------------------------------------------
 
@@ -64,16 +67,19 @@ CREATE TABLE `itemslisting` (
   `item_id` int(11) DEFAULT NULL,
   `username` varchar(100) NOT NULL,
   `time` time(6) NOT NULL,
-  `uploaded_at` varchar(100) NOT NULL
+  `uploaded_at` varchar(100) NOT NULL,
+  `status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `itemslisting`
 --
 
-INSERT INTO `itemslisting` (`id`, `category`, `item_condition`, `name`, `price`, `description`, `location`, `item_id`, `username`, `time`, `uploaded_at`) VALUES
-(138, 'electronics', 'Used - Like New', 'iphone 14 pro max', '1300', 'fasdfadfs', 'Brunei Muara', NULL, 'syazwy', '16:24:28.000000', '2023-09-24 16:24:28'),
-(139, 'clothing', 'New', 'necklace', '40', 'sdfaf', 'Brunei Muara', NULL, 'syazwy', '12:31:00.000000', '2023-09-26 12:31:00');
+INSERT INTO `itemslisting` (`id`, `category`, `item_condition`, `name`, `price`, `description`, `location`, `item_id`, `username`, `time`, `uploaded_at`, `status`) VALUES
+(138, 'electronics', 'Used - Like New', 'iphone 14 pro max', '1300', 'fasdfadfs', 'Brunei Muara', NULL, 'syazwy', '16:24:28.000000', '2023-09-24 16:24:28', 'active'),
+(139, 'clothing', 'New', 'necklace', '40', 'sdfaf', 'Brunei Muara', NULL, 'syazwy', '12:31:00.000000', '2023-09-26 12:31:00', 'active'),
+(140, 'property', 'Used - Good', 'sadn canste ', '200', 'pasir', 'Brunei Muara', NULL, '21FTT1294', '17:50:10.000000', '2023-10-01 17:50:10', ''),
+(141, 'vehicles', 'New', 'cAER', '321', 'DASDAS', 'Temburong', NULL, '21FTT1294', '17:50:41.000000', '2023-10-01 17:50:41', '');
 
 -- --------------------------------------------------------
 
@@ -93,7 +99,9 @@ CREATE TABLE `item_images` (
 
 INSERT INTO `item_images` (`id`, `item_id`, `image_filename`) VALUES
 (111, 138, '6510469c39921_iphone.png'),
-(112, 139, '6512b2e4d621f_necklace.png');
+(112, 139, '6512b2e4d621f_necklace.png'),
+(113, 140, '651995324c8c9_Builder\'s Journey_2022-12-28_0-28-13.png'),
+(114, 141, '6519955195f0a_Builder\'s Journey_2022-12-22_9-31-28.png');
 
 -- --------------------------------------------------------
 
@@ -201,19 +209,19 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `itemslisting`
 --
 ALTER TABLE `itemslisting`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 
 --
 -- AUTO_INCREMENT for table `item_images`
 --
 ALTER TABLE `item_images`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `report`
