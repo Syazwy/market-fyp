@@ -107,9 +107,8 @@ require 'connection.php';
                           <td><?php echo $row["typeofreport"]; ?></td>
                           
                           
-                          <td><a href="ban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Action</td>
-                          <td><a href="remove_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Report</td>
-                          <td><a href="remove_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Remove</td>
+
+                          <td><a href="remove_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Remove Report</td>
                       </tr>
 
                   <?php endforeach; ?>

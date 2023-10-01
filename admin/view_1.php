@@ -137,7 +137,8 @@ if (!$result) {
                             <td><?php echo $row["description"]; ?></td>
                             <td><?php echo $row["price"]; ?></td>
                             <td><?php echo $row["location"]; ?></td>
-                            <td><a href="edit_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">Edit</td>
+                            
+
                             <td><a href="remove_3.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Delete</td>
                                 
                         </tr>

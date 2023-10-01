@@ -3,6 +3,29 @@
  require_once("../session/session.php");
  $username = $_SESSION['username'];
 
+ // Check the user's account status
+ $query = "SELECT * FROM account WHERE username = '$username'";
+ $result = mysqli_query($conn, $query);
+
+ 
+if ($result) {
+  while($row = $result->fetch_assoc()){
+    $accountStatus = $row['status'];
+    $name =  $row['username'];
+   }
+} else {
+    // Handle the query error
+    die("Query Failed: " . mysqli_error($conn));
+}
+
+// Close the result and database connection
+mysqli_free_result($result);
+mysqli_close($conn);
+
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -44,19 +67,36 @@
     </ul>
   </div>
   </div>
+  
 </nav>
+
+
 <script>
-  document.getElementById('logout-link').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the link from immediately navigating
+  var accountStatus = "<?php echo $accountStatus; ?>"; // Get the account status from PHP
 
-    // Display a confirmation dialog
-    const confirmLogout = confirm("Are you sure you want to log out?");
+  window.onload = function displayContentBasedOnStatus() {
+  var box2 = document.getElementById("box2");
+  var bannedMessage = document.getElementById("bannedMessage");
+  var appealButton = document.getElementById("appealButton");
 
-    // If the user confirms, navigate to the logout page
-    if (confirmLogout) {
-      window.location.href = event.target.href;
-    }
-  });
+  if (accountStatus == "banned") {
+    // Hide the item listing and "Add New Listing" button
+    box2.style.display = "none";
+    // display the banned message and "Appeal" button
+    bannedMessage.style.display = "block";
+    appealButton.style.display = "block";
+  } else {
+    // Show the item listing and "Add New Listing" button
+    box2.style.display = "block";
+    // Hide the banned message and "Appeal" button
+    bannedMessage.style.display = "none";
+    appealButton.style.display = "none";
+  }
+}
+
+// Call the function to initially display the content based on the account status
+displayContentBasedOnStatus();
+
 </script>
 
 
@@ -190,7 +230,7 @@
   </div>
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
-  <div class="box" id="box2" style="display: block;">
+  <div class="box" id="box2">
     <?php
 require '../connection/connection.php';
 $i = 1;
@@ -236,7 +276,7 @@ $result = mysqli_query($conn, $query);
             <?php endwhile; ?>
 
             <a href="../sellers/sells-page.php" style="text-decoration:none">
-    <div class="card" style="width: 150px; height: 170px; border:none; ">
+    <div class="card" style="width: 150px; height: 170px; border:none;">
         <div class="image-container" style="height: 75%;padding:20px; background-color: #FFCBCB; border-radius:20px">
             <img src="../image/plus.png" alt="Product Image" style="height: 30%;">
         </div>
@@ -248,6 +288,9 @@ $result = mysqli_query($conn, $query);
     </div>
 </a>
         </div>
+
+        
+
     <?php else : ?>
         <h4>You have not made any listings.</h4>
     <?php endif; ?>
@@ -256,6 +299,11 @@ $result = mysqli_query($conn, $query);
 
 
 </div>
+
+<div class="box" id="bannedMessage" style="display: none;">
+        <p>Your account is currently banned.</p>
+        <button id="appealButton" class="btn btn-primary">Appeal</button>
+        </div>
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
 

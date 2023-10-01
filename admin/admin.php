@@ -82,6 +82,7 @@ require '../connection/connection.php';
 
                     <tr>
                         <td>#</td>
+                        <td>Status</td>
                         <td>Username</td>
                         <td>Email</td>                      
                         <td>Membership</td>
@@ -101,16 +102,17 @@ require '../connection/connection.php';
 
                       <tr>
                           <td><?php echo $i++; ?></td>
+                          <td><?php echo $row["status"]; ?></td>
                           <td><?php echo $row["username"]; ?></td>
-                          <td><?php echo $row["email"]; ?></td>                        
+                          <td><?php echo $row["email"]; ?></td>                          
                           <td><?php echo $row["membership"]; ?></td>
                           <td><?php echo $row["date"]; ?></td>
                           <td><?php echo $row["email_verified_at"]; ?></td>
                           
                           
                           <td><a href="view_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">View</td>
-                          <td><a href="Edit_2.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">Edit</td>
-                          <td><a href="remove_2.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Delete</td>
+                          
+                          <td><a href="status_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Change Status</td>
                       </tr>
 
                   <?php endforeach; ?>

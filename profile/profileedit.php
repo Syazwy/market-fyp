@@ -113,14 +113,11 @@ if(isset($_POST['submit'])){
             <input type="text" class="form-control" name="username" id="username" value="<?php echo isset($row['username']) ? $row['username'] : ''; ?>"  >
         </div>
         </div>
-    <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="text" class="form-control" name="email" id="email" value="<?php echo isset($row['email']) ? $row['email'] : ''; ?>" >
-    </div>
+    
     
     <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <textarea class="form-control" name="password" id="password" rows="3"><?php echo isset($row['password']) ? $row['password'] : ''; ?></textarea>
+        <textarea class="form-control" name="password" id="password" rows="3"></textarea>
     </div>
 
 
