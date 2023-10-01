@@ -190,18 +190,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
             }
         } else {
             echo 'Error in preparing the SQL statement.';
-        }
-
-       
-                   
-                  
-        
-        
+        }       
         
         ?>
         
-        
-          
+                  
     </div>
     <br>
 
@@ -210,9 +203,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
                       $rows = mysqli_query($conn, "SELECT * from account WHERE username = '$username' ORDER BY id DESC ");
                   ?>
 
-                  
+<button class="report-button btn btn-primary" onclick="openReportModal(' . $itemId . ')">Report</button>
 
-                      <button  class="btn btn-primary"> Report </button> 
+                      <!-- Modal for reporting an item -->
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportModalLabel">Report User</h5>
+            </div>
+            <div class="modal-body">
+                <!-- Add a form for reporting the item here -->
+                <form method="post" action="report_item.php">
+                    <input type="hidden" name="item_id" id="reportItemID">
+                    <div class="form-group">
+                        <label for="report_reason">Reason for Reporting:</label>
+                        <textarea class="form-control" name="report_reason" id="report_reason" rows="4" required></textarea>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-danger">Submit Report</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openReportModal(itemId) {
+    // Set the item_id in the hidden input field of the modal form
+    document.getElementById('reportItemID').value = itemId;
+    
+    // Show the report modal
+    $('#reportModal').modal('show');
+}
+
+</script>
+
 
                       <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -514,6 +540,8 @@ function submitModalRating() {
 
   </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
