@@ -10,6 +10,8 @@ if (!$conn) {
 
 $id = $_GET['id'];
 $total = $_GET['total'];
+$deliveryMethod = $_GET['deliveryMethod'];
+$paymentMethod = $_GET['paymentMethod'];
 
 // Check the connection
 if ($conn->connect_error) {
@@ -40,7 +42,7 @@ $conn->close();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PayPal Button Centering Test</title>
+  <title>PayPal</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <link rel="stylesheet" href="../order/order.css">
@@ -117,9 +119,13 @@ $conn->close();
           return actions.order.capture().then(function(details) {
             // Check for any errors in the capture process
             if (details.status === "COMPLETED") {
-                // Successful capture! Redirect to orderCompleted.php
-                window.location.href = "../order/orderCompleted.php?price=" + total;
-            } else {
+                // Successful capture! Redirect to orderCompleted1.php
+
+                var id = <?php echo json_encode($_GET['id']); ?>;
+                var deliveryMethod = <?php echo json_encode($_GET['deliveryMethod']); ?>;
+                var paymentMethod = <?php echo json_encode($_GET['paymentMethod']); ?>;
+                window.location.href = "../order/orderCompleted1.php?price=" + total + "&id=" + id + "&deliveryMethod=" + deliveryMethod + "&paymentMethod=" + paymentMethod;
+          } else {
                 // Handle capture errors here
                 console.error("Order capture error:", details.status);
             }

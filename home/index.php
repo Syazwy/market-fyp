@@ -217,8 +217,13 @@
     </div>
     
     <?php
-// Include your database connection file here (assuming you have it in a separate file)
-include '../connection/connection.php'; // Adjust the filename accordingly
+// Connect to your MySQL database
+$mysqli = new mysqli('localhost', 'root', '', 'market');
+
+// Check for connection errors
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $mysqli->connect_error);
+}
 
 // Retrieve the itemId from the POST request
 $itemId = $_POST['itemId'];
