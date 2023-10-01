@@ -12,7 +12,6 @@ require_once("../session/session.php");
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 
-
 $id = $_GET['id'];
 $total = $_GET['total'];
 $deliveryMethod = $_GET['deliveryMethod'];
@@ -34,12 +33,21 @@ $stmt->bind_result($name);
 // Fetch the result
 if ($stmt->fetch()) {
     // The $name variable now holds the item's name
+    $stmt->close(); // Close the $stmt result set
+
+    // Update the status to 'sold' for the specified ID
+    $updateSql = "UPDATE itemslisting SET status = 'sold' WHERE id = ?";
+    $updateStmt = $conn->prepare($updateSql);
+    $updateStmt->bind_param("s", $id);
+    
+    if ($updateStmt->execute()) {
+        // Status updated successfully
+    } else {
+        echo "Error updating status: " . $conn->error;
+    }
 } else {
     echo "No data found for the given ID.";
 }
-
-// Close the statement
-$stmt->close();
 
 // Send an email using PHPMailer
 $mail = new PHPMailer(true);
