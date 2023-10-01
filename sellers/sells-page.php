@@ -75,10 +75,10 @@ if(isset($_POST["submit"])){
     $timedate = $currentDateTime->format('Y-m-d H:i:s');
 
     // Insert item data into the database
-    $query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location, username, time, uploaded_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location, username, time, uploaded_at, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "sssdsssss", $category, $item_condition, $name, $price, $description, $location, $username, $timedate, $timedate);
-    mysqli_stmt_execute($stmt);
+    mysqli_stmt_execute($stmt);    
     $itemId = mysqli_insert_id($conn); // Get the last inserted item ID
     mysqli_stmt_close($stmt);
 
