@@ -206,16 +206,20 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo '<p>' . $row['price'] . '</p>';
     echo '<p>' . $row['item_condition'] . '</p>';
     
+    // Add the "Chat" button/link
+    echo '<a href="../privatemessage/pm.php?itemId=' . $itemId . '" class="btn btn-primary">Chat</a>';
+    
     // Display the "Complete" button with an onclick event to trigger the JavaScript function
     echo '<form method="POST" id="complete-form-' . $itemId . '">';
     echo '<button class="complete-button" style="width:300px" onclick="confirmMarkCompleted(' . $itemId . ')" name="complete-button" value="' . $itemId . '">Complete</button>';
     echo '</form>';
     
     echo '</div></div>';
+    
 }
 
    } else {
-       echo '<p>You have not made any purchases that are currently in process.</p>';
+       echo '<p>You have not made any purchases that are currently in progress.</p>';
    }
    
    // Close the database connection
@@ -276,13 +280,6 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 <script>
 
-    document.getElementById('logout-link').addEventListener('click', function (event) {
-        event.preventDefault();
-        const confirmLogout = confirm("Are you sure you want to log out?");
-        if (confirmLogout) {
-            window.location.href = event.target.href;
-        }
-    });
 
     function showDiv(divId) {
         const buttons = document.querySelectorAll('.transparent-button');

@@ -203,13 +203,13 @@ if (isset($_POST["register"])) {
     $date = $currentDateTime->format('Y-m-d');
     $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
 
-    $insertSql = "INSERT INTO account(username, email, password, membership, date, verification_code, email_verified_at) VALUES (?, ?, ?, ?, ?, ?, NULL)";
-    $insertStmt = mysqli_prepare($conn, $insertSql);
+   $insertSql = "INSERT INTO account(username, email, password, membership, date, verification_code, email_verified_at, status) VALUES (?, ?, ?, ?, ?, ?, NULL, 'Active')";
+$insertStmt = mysqli_prepare($conn, $insertSql);
 
-    if ($insertStmt) {
-        $membership = " Basic";
-        mysqli_stmt_bind_param($insertStmt, "ssssss", $username, $email, $encrypted_password, $membership, $date, $verification_code);
-        mysqli_stmt_execute($insertStmt);
+if ($insertStmt) {
+    $membership = "Basic"; // Note: removed the extra space before "Basic"
+    mysqli_stmt_bind_param($insertStmt, "ssssss", $username, $email, $encrypted_password, $membership, $date, $verification_code);
+    mysqli_stmt_execute($insertStmt);
 
         // Send verification email
         $mail = new PHPMailer(true);

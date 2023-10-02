@@ -9,27 +9,52 @@ require_once("../session/session.php");
     <title>MEMBERSHIP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="pm.css">
-   
+    
 </head>
 <body>
+<nav class="navbar navbar-expand-lg bg-transparent">
+    <div class="container">
+        <a class="navbar-brand" href="../home/index.php">
+            <img src="../image/logo.png" width="80" height="80">
+        </a>
 
+        <div class="collapse navbar-collapse justify-content-center">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php">Sell</a></li>
+            </ul>
+        </div>
 
-<div class="icon-left">
-    <img src="../image/MarketLogo.png" alt="Left Icon" style="height: 80px">
-</div>
+        <div class="dropdown">
+            <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
+                <img src="../image/profile.png" width="50" height="50" class="profile">
+            </a>
 
-<div class="icon-right">
-    <img src="../image/User.png" alt="Right Icon" style="height: 60px;">
-</div>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
+                <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
+                <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
+                <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
 
-<div class="button-container mb-10">
-    <input type="button" name="Categories" class="button" value="Categories" />
-    <input type="button" name="Register" class="button" value="Register" />
-    <input type="button" name="Login" class="button" value="Login" />
-    <input type="button" name="Sell" class="button" value="Sell" />
-</div>
+            </ul>
+        </div>
+    </div>
 
+</nav>
+<script>
+    document.getElementById('logout-link').addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the link from immediately navigating
 
+        // Display a confirmation dialog
+        const confirmLogout = confirm("Are you sure you want to log out?");
+
+        // If the user confirms, navigate to the logout page
+        if (confirmLogout) {
+            window.location.href = event.target.href;
+        }
+    });
+</script>
 
 <div class="container-fluid">
     <div class="row">
@@ -50,102 +75,6 @@ require_once("../session/session.php");
                            <p>Ds4</p>
                        </div>
                        <span class="badge bg-primary rounded-pill">3</span>
-                   </li>
-                   <li class="list-group-item d-flex justify-content-between align-items-center contact" data-user="user2">
-                       <div class="user-icon">
-                           <img src="../image/civic.png" alt="User Icon" style="height: 60px;">
-                           <div class="user-info">
-                               <h5>Ascension_Virus</h5>
-                           </div>
-                       </div>
-                       <div class="user-info">
-                           <p>Lego minifig -DC Batgirl</p>
-                       </div>
-                       <span class="badge bg-primary rounded-pill">1</span>
-                   </li>
-                   <li class="list-group-item d-flex justify-content-between align-items-center contact" data-user="user3">
-                       <div class="user-icon">
-                           <img src="../image/cs.png" alt="User Icon" style="height: 60px;">
-                           <div class="user-info">
-                               <h5>ESP_Streck</h5>
-                           </div>
-                       </div>
-                       <div class="user-info">
-                           <p>Dragon lore</p>
-                       </div>
-                       <span class="badge bg-primary rounded-pill">2</span>
-                   </li>
-                   <li class="list-group-item d-flex justify-content-between align-items-center contact" data-user="user4">
-                       <div class="user-icon">
-                           <img src="../image/supra.png" alt="User Icon" style="height: 60px;">
-                           <div class="user-info">
-                               <h5>Lapik_Supra</h5>
-                           </div>
-                       </div>
-                       <div class="user-info">
-                           <p>Karambit Fade</p>
-                       </div>
-                       <span class="badge bg-primary rounded-pill">1</span>
-                   </li>
-                   <li class="list-group-item d-flex justify-content-between align-items-center contact" data-user="user5">
-                       <div class="user-icon">
-                           <img src="../image/tofu.png" alt="User Icon" style="height: 60px;">
-                           <div class="user-info">
-                               <h5>G2 Tofu</h5>
-                           </div>
-                       </div>
-                       <div class="user-info">
-                           <p>Honda Civic 1999 Type-R</p>
-                       </div>
-                       <span class="badge bg-primary rounded-pill">3</span>
-                   </li>
-                   <li class="list-group-item d-flex justify-content-between align-items-center contact" data-user="user6">
-                       <div class="user-icon">
-                           <img src="../image/User.png" alt="User Icon" style="height: 60px;">
-                           <div class="user-info">
-                               <h5>Wajid_Ball</h5>
-                           </div>
-                       </div>
-                       <div class="user-info">
-                           <p>Small Cabinet</p>
-                       </div>
-                       <span class="badge bg-primary rounded-pill">1</span>
-                   </li>
-                   <li class="list-group-item d-flex justify-content-between align-items-center contact" data-user="user7">
-                       <div class="user-icon">
-                           <img src="../image/User.png" alt="User Icon" style="height: 60px;">
-                           <div class="user-info">
-                               <h5>Masdo</h5>
-                           </div>
-                       </div>
-                       <div class="user-info">
-                           <p>Songkok Tenunan</p>
-                       </div>
-                       <span class="badge bg-primary rounded-pill">0</span>
-                   </li>
-                   <li class="list-group-item d-flex justify-content-between align-items-center contact" data-user="user8">
-                       <div class="user-icon">
-                           <img src="../image/bag.png" alt="User Icon" style="height: 60px;">
-                           <div class="user-info">
-                               <h5>Barslir</h5>
-                           </div>
-                       </div>
-                       <div class="user-info">
-                           <p>Hotwheels Rx-7</p>
-                       </div>
-                       <span class="badge bg-primary rounded-pill">2</span>
-                   </li>
-                   <li class="list-group-item d-flex justify-content-between align-items-center contact" data-user="user9">
-                       <div class="user-icon">
-                           <img src="../image/User.png" alt="User Icon" style="height: 60px;">
-                           <div class="user-info">
-                               <h5>Shark</h5>
-                           </div>
-                       </div>
-                       <div class="user-info">
-                           <p>Canon f5j Fujifilm</p>
-                       </div>
-                       <span class="badge bg-primary rounded-pill">0</span>
                    </li>
                </ul>
            </div>

@@ -39,7 +39,7 @@
       <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="../profile/profile.php">My Profile</a></li>
         <li><a class="dropdown-item" href="#">Your Listings</a></li>
-        <li><a class="dropdown-item" href="#">My Purchases</a></li>
+        <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
         <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
         <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
       </ul>
