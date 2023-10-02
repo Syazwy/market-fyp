@@ -177,7 +177,7 @@ session_start(); // Start the session
     <?php if ($sessionEmail === $row["email"]) { ?>
         <a href="../profile/profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">Edit</a>
     <?php } else { ?>
-        <button type="button" class="btn btn-primary" id="chatButton">Chat</button>
+        <button type="button" class="btn btn-primary" id="chatButton" onclick="chat()">Chat</button>
         <button type="button" class="btn btn-primary" id="buyButton" onclick="buy()">Buy</button>
     <?php } ?>
 </div>
@@ -192,6 +192,10 @@ session_start(); // Start the session
     function buy() {
         // Redirect to buyMembership.php with the selected plan as a URL parameter
         window.location.href = '../order/orderItem.php?id=<?php echo $row["id"]; ?>';
+    }
+    function chat() {
+        // Redirect to buyMembership.php with the selected plan as a URL parameter
+        window.location.href = '../privatemessage/pm.php?email=<?php echo $row["email"]; ?>';
     }
 </script>
 

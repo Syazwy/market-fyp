@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <?php
 require_once("../session/session.php");
+$usersEmail = $_GET['email'];
+$yourEmail = $_SESSION['email'];
+echo $usersEmail . $yourEmail;
 ?>
 <html>
 <head>
