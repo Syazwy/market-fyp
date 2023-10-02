@@ -194,8 +194,21 @@ session_start(); // Start the session
         window.location.href = '../order/orderItem.php?id=<?php echo $row["id"]; ?>';
     }
     function chat() {
-        // Redirect to buyMembership.php with the selected plan as a URL parameter
-        window.location.href = '../privatemessage/pm.php?email=<?php echo $row["email"]; ?>';
+      var username = "<?php echo $row['username']; ?>";
+var id = "<?php echo $row['id']; ?>";
+var description = "<?php echo $row['description']; ?>";
+var name = "<?php echo $row['name']; ?>";
+var price = "<?php echo $row['price']; ?>";
+
+var url = '../privatemessage/pm.php?' +
+    'username=' + encodeURIComponent(username) +
+    '&id=' + encodeURIComponent(id) +
+    '&description=' + encodeURIComponent(description) +
+    '&name=' + encodeURIComponent(name) +
+    '&price=' + encodeURIComponent(price);
+
+window.location.href = url;
+
     }
 </script>
 

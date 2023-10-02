@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <?php
 require_once("../session/session.php");
-$usersEmail = $_GET['email'];
 $yourEmail = $_SESSION['email'];
-echo $usersEmail . $yourEmail;
 ?>
 <html>
 <head>
@@ -59,6 +57,14 @@ echo $usersEmail . $yourEmail;
     });
 </script>
 
+<?php
+$username = $_GET['username'];
+$usersid = $_GET['id'];
+$description = $_GET['description'];
+$price = $_GET['price'];
+$item = $_GET['name'];
+?>
+
 <div class="container-fluid">
     <div class="row">
         <div class="container-flex">
@@ -71,11 +77,12 @@ echo $usersEmail . $yourEmail;
                        <div class="user-icon">
                            <img src="../image/lakaka.png" alt="User Icon" style="height: 60px;">
                            <div class="user-info">
-                               <h5>Na Dyma</h5>
+                               <h5><?php echo $username ?></h5>
                            </div>
                        </div>
                        <div class="user-info">
-                           <p>Ds4</p>
+                           <p><?php echo $item ?></p>
+                           <p>$<?php echo $price ?></p>
                        </div>
                        <span class="badge bg-primary rounded-pill">3</span>
                    </li>
