@@ -1,3 +1,6 @@
+<?php
+session_start(); // Start the session
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,7 +40,7 @@
       </a>
 
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="../profile/profile.php">My Profile</a></li>
+        <li><a class="dropdown-item" href="../profile/myProfile.php">My Profile</a></li>
         <li><a class="dropdown-item" href="#">Your Listings</a></li>
         <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
         <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
@@ -129,6 +132,8 @@
             <div class="proInfo">
     <img width="50px" src="images/pb.png">
     <?php 
+        // Assuming you have a session variable $_SESSION['email']
+        $sessionEmail = $_SESSION['email'];
         $conn = new mysqli('localhost', 'root', '', 'market');
         $username = $row["username"];
         
@@ -161,16 +166,36 @@
             echo '- No reviews available.';
         }
 
-        $conn->close();
+        // Store the session email in a JavaScript variable
+        echo "<script>var sessionEmail = '$sessionEmail';</script>";
     ?> 
     <p><?php echo $row["username"]; ?></p>
     <br>
     <p><?php echo $row["location"]; ?></p>
-      
-    <!-- <a type="button" class="btn btn-primary"><img src="../image/chat.png"></img></a> -->
-    <button type="button" class="btn btn-primary">Chat</button>
-    <button type="button" class="btn btn-primary" onclick="buy()">Buy</button>
+    
+    <!-- Use JavaScript to conditionally display the buttons -->
+    <?php if ($sessionEmail === $row["email"]) { ?>
+        <a href="../profile/profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">Edit</a>
+    <?php } else { ?>
+        <button type="button" class="btn btn-primary" id="chatButton">Chat</button>
+        <button type="button" class="btn btn-primary" id="buyButton" onclick="buy()">Buy</button>
+    <?php } ?>
 </div>
+
+<script>
+    // Check if the session email is the same as the email retrieved from the database
+    if (sessionEmail === '<?php echo $row["email"]; ?>') {
+        document.getElementById('chatButton').style.display = 'none';
+        document.getElementById('buyButton').style.display = 'none';
+    }
+    
+    function buy() {
+        // Redirect to buyMembership.php with the selected plan as a URL parameter
+        window.location.href = '../order/orderItem.php?id=<?php echo $row["id"]; ?>';
+    }
+</script>
+
+
 
 
           <br>

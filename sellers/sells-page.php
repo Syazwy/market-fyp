@@ -64,23 +64,28 @@ $submissionLimitReached = ($membership == 'Basic' && $numSubmissions >= $maxSubm
 
 if(isset($_POST["submit"])){
     // Get form data and sanitize
-    $category = mysqli_real_escape_string($conn, $_POST["category"]);
-    $item_condition = mysqli_real_escape_string($conn, $_POST["item_condition"]);
-    $name = mysqli_real_escape_string($conn, $_POST["name"]);
-    $price = floatval($_POST["price"]);
-    $description = mysqli_real_escape_string($conn, $_POST["description"]);
-    $location = mysqli_real_escape_string($conn, $_POST["location"]);
-    $username = mysqli_real_escape_string($conn, $_POST["username"]);
-    $currentDateTime = new DateTime();
-    $timedate = $currentDateTime->format('Y-m-d H:i:s');
+// Get the email from the session
+$email = $_SESSION["email"];
 
-    // Insert item data into the database
-    $query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location, username, time, uploaded_at, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')";
-    $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "sssdsssss", $category, $item_condition, $name, $price, $description, $location, $username, $timedate, $timedate);
-    mysqli_stmt_execute($stmt);    
-    $itemId = mysqli_insert_id($conn); // Get the last inserted item ID
-    mysqli_stmt_close($stmt);
+// Your existing code
+$category = mysqli_real_escape_string($conn, $_POST["category"]);
+$item_condition = mysqli_real_escape_string($conn, $_POST["item_condition"]);
+$name = mysqli_real_escape_string($conn, $_POST["name"]);
+$price = floatval($_POST["price"]);
+$description = mysqli_real_escape_string($conn, $_POST["description"]);
+$location = mysqli_real_escape_string($conn, $_POST["location"]);
+$username = mysqli_real_escape_string($conn, $_POST["username"]);
+$currentDateTime = new DateTime();
+$timedate = $currentDateTime->format('Y-m-d H:i:s');
+
+// Insert item data into the database
+$query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location, username, time, uploaded_at, status, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'active', ?)";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "sssdssssss", $category, $item_condition, $name, $price, $description, $location, $username, $timedate, $timedate, $email);
+mysqli_stmt_execute($stmt);
+$itemId = mysqli_insert_id($conn); // Get the last inserted item ID
+mysqli_stmt_close($stmt);
+
 
     // Handle uploaded images
     $uploadedImages = $_FILES['photos'];
