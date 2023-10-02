@@ -79,7 +79,7 @@ mysqli_close($conn);
   var bannedMessage = document.getElementById("bannedMessage");
   var appealButton = document.getElementById("appealButton");
 
-  if (accountStatus == "banned") {
+  if (accountStatus == "Banned") {
     // Hide the item listing and "Add New Listing" button
     box2.style.display = "none";
     // display the banned message and "Appeal" button
