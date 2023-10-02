@@ -1,4 +1,8 @@
 <?php
+session_start();
+?>
+
+<?php
    $conn = mysqli_connect("localhost", "root", "", "market");
 
 // Check if a POST request has been made and if the "complete-button" has been set
@@ -185,45 +189,53 @@ $conn = mysqli_connect("localhost", "root", "", "market");
     die("Connection failed: " . $conn->connect_error);
 }
 
-   // Query to select rows with status 'sold' from the itemslisting table
-   $query = "SELECT id, name, description, price, item_condition FROM itemslisting WHERE status = 'sold'";
-   
-   // Execute the query
-   $result = mysqli_query($conn, $query);
-   
-   // Check if there are rows with 'sold' status
-   if (mysqli_num_rows($result) > 0) {
-     // Inside the loop where you're generating the "Complete" button
-while ($row = mysqli_fetch_assoc($result)) {
-    // Get the item ID
-    $itemId = $row['id'];
+// Query to select rows with status 'sold' and bought by the user from the itemslisting table
+$email = $_SESSION['email']; // Get the user's email from the session
+$query = "SELECT itemslisting.id, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, item_images.image_filename 
+          FROM itemslisting 
+          LEFT JOIN item_images ON itemslisting.id = item_images.item_id 
+          WHERE itemslisting.status = 'sold' AND itemslisting.bought = ?";
 
-    echo '<div class="card-container">';
-    echo '<div class="card">';
-    echo '<p>' . $row['name'] . '</p>';
-    echo '<center><img src="../image/supra.png" alt="Card Image"></center>';
-    echo '<p>' . $row['description'] . '</p>';
-    echo '<p>' . $row['price'] . '</p>';
-    echo '<p>' . $row['item_condition'] . '</p>';
-    
-    // Add the "Chat" button/link
-    echo '<a href="../privatemessage/pm.php?itemId=' . $itemId . '" class="btn btn-primary">Chat</a>';
-    
-    // Display the "Complete" button with an onclick event to trigger the JavaScript function
-    echo '<form method="POST" id="complete-form-' . $itemId . '">';
-    echo '<button class="complete-button" style="width:300px" onclick="confirmMarkCompleted(' . $itemId . ')" name="complete-button" value="' . $itemId . '">Complete</button>';
-    echo '</form>';
-    
-    echo '</div></div>';
-    
+// Prepare the statement
+$stmt = $conn->prepare($query);
+$stmt->bind_param("s", $email);
+$stmt->execute();
+
+// Get the result
+$result = $stmt->get_result();
+
+// Check if there are rows with 'sold' status
+if (mysqli_num_rows($result) > 0) {
+    // Inside the loop where you're generating the "Complete" button
+    while ($row = mysqli_fetch_assoc($result)) {
+        // Get the item ID
+        $itemId = $row['id'];
+
+        echo '<div class="card-container">';
+        echo '<div class="card">';
+        echo '<p>' . $row['name'] . '</p>';
+        echo '<center><img src="../sellers/upload/' . $row['image_filename'] . '"></center>';
+        echo '<p>' . $row['description'] . '</p>';
+        echo '<p>' . $row['price'] . '</p>';
+        echo '<p>' . $row['item_condition'] . '</p>';
+
+        // Add the "Chat" button/link
+        echo '<a href="../privatemessage/pm.php?itemId=' . $itemId . '" class="btn btn-primary">Chat</a>';
+
+        // Display the "Complete" button with an onclick event to trigger the JavaScript function
+        echo '<form method="POST" id="complete-form-' . $itemId . '">';
+        echo '<button class="complete-button" style="width:300px" onclick="confirmMarkCompleted(' . $itemId . ')" name="complete-button" value="' . $itemId . '">Complete</button>';
+        echo '</form>';
+
+        echo '</div></div>';
+    }
+} else {
+    echo '<p>You have not made any purchases that are currently in progress.</p>';
 }
 
-   } else {
-       echo '<p>You have not made any purchases that are currently in progress.</p>';
-   }
-   
-   // Close the database connection
-   mysqli_close($conn);
+// Close the database connection
+mysqli_close($conn);
+
     ?>
 
 

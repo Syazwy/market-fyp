@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 01, 2023 at 06:25 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Oct 02, 2023 at 10:03 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -47,8 +47,9 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`id`, `username`, `email`, `password`, `membership`, `date`, `verification_code`, `email_verified_at`, `rating`, `status`, `District`) VALUES
 (58, 'Barzun', '21ftt1287@student.pb.edu.bn', '$2y$10$KKerGgOM/mitjc5Iv.mCtOOffP1IVnTVYk0fj0pqlkUJ4TJyd8IIS', ' Basic', '2023-09-27', '293766', '2023-09-27 17:38:47', '', 'Active', ''),
-(59, '21FTT1294', '21ftt1294@student.pb.edu.bn', '$2y$10$ByKhU1eNsJ4ZGE9J9SV3Ze84a9txQbTcAIlEXg97MfQXM18Z.h1Mi', 'Premium Annually', '2023-10-01', '509076', '2023-10-01 23:46:11', NULL, '', ''),
-(60, 'wajid', 'bby-el@hotmail.com', '$2y$10$jl0kdZa2f73C/sOO9wfTW.eusN81dCiFOMAo3dgUeLhib3GQwFv56', ' Basic', '2023-10-01', '192842', '2023-10-02 00:23:46', NULL, '', '');
+(59, '21FTT1294', '21ftt1294@student.pb.edu.bn', '$2y$10$ByKhU1eNsJ4ZGE9J9SV3Ze84a9txQbTcAIlEXg97MfQXM18Z.h1Mi', 'Premium Annually', '2023-10-01', '509076', '2023-10-01 23:46:11', NULL, 'Active', ''),
+(60, 'wajid', 'bby-el@hotmail.com', '$2y$10$jl0kdZa2f73C/sOO9wfTW.eusN81dCiFOMAo3dgUeLhib3GQwFv56', ' Basic', '2023-10-01', '192842', '2023-10-02 00:23:46', NULL, 'Active', ''),
+(61, 'mujlir', '21ftt1750@student.pb.edu.bn', '$2y$10$i73QEWM3So1mOnG/xOki9.rZSuqkZbNaN8XdXV4UdZt.LgSoxqbSu', 'Basic', '2023-10-02', '127716', '2023-10-02 14:21:55', NULL, 'Active', '');
 
 -- --------------------------------------------------------
 
@@ -68,18 +69,20 @@ CREATE TABLE `itemslisting` (
   `username` varchar(100) NOT NULL,
   `time` time(6) NOT NULL,
   `uploaded_at` varchar(100) NOT NULL,
-  `status` varchar(100) NOT NULL
+  `status` varchar(100) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `bought` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `itemslisting`
 --
 
-INSERT INTO `itemslisting` (`id`, `category`, `item_condition`, `name`, `price`, `description`, `location`, `item_id`, `username`, `time`, `uploaded_at`, `status`) VALUES
-(138, 'electronics', 'Used - Like New', 'iphone 14 pro max', '1300', 'fasdfadfs', 'Brunei Muara', NULL, 'syazwy', '16:24:28.000000', '2023-09-24 16:24:28', 'active'),
-(139, 'clothing', 'New', 'necklace', '40', 'sdfaf', 'Brunei Muara', NULL, 'syazwy', '12:31:00.000000', '2023-09-26 12:31:00', 'active'),
-(140, 'property', 'Used - Good', 'sadn canste ', '200', 'pasir', 'Brunei Muara', NULL, '21FTT1294', '17:50:10.000000', '2023-10-01 17:50:10', ''),
-(141, 'vehicles', 'New', 'cAER', '321', 'DASDAS', 'Temburong', NULL, '21FTT1294', '17:50:41.000000', '2023-10-01 17:50:41', '');
+INSERT INTO `itemslisting` (`id`, `category`, `item_condition`, `name`, `price`, `description`, `location`, `item_id`, `username`, `time`, `uploaded_at`, `status`, `email`, `bought`) VALUES
+(142, 'vehicles', 'New', 'dxrfhj', '4646', 'drhrdhrd', 'Belait', NULL, 'mujlir', '08:29:28.000000', '2023-10-02 08:29:28', 'sold', '21ftt1750@student.pb.edu.bn', NULL),
+(143, 'clothing', 'Used - Like New', 'earrings', '18', 'balum pernah pakai', 'Brunei Muara', NULL, 'wajid', '08:50:24.000000', '2023-10-02 08:50:24', 'active', 'bby-el@hotmail.com', NULL),
+(144, 'electronics', 'New', 'awgwag', '255', 'aswtgawtg', 'Brunei Muara', NULL, 'wajid', '09:19:46.000000', '2023-10-02 09:19:46', 'sold', 'bby-el@hotmail.com', '21ftt1750@student.pb.edu.bn'),
+(145, 'clothing', 'Used - Like New', 'awfgawg', '25256', 'aswgawgwag', 'Brunei Muara', NULL, 'mujlir', '09:33:53.000000', '2023-10-02 09:33:53', 'sold', '21ftt1750@student.pb.edu.bn', 'bby-el@hotmail.com');
 
 -- --------------------------------------------------------
 
@@ -98,10 +101,15 @@ CREATE TABLE `item_images` (
 --
 
 INSERT INTO `item_images` (`id`, `item_id`, `image_filename`) VALUES
-(111, 138, '6510469c39921_iphone.png'),
-(112, 139, '6512b2e4d621f_necklace.png'),
-(113, 140, '651995324c8c9_Builder\'s Journey_2022-12-28_0-28-13.png'),
-(114, 141, '6519955195f0a_Builder\'s Journey_2022-12-22_9-31-28.png');
+(115, 142, '651a6348942b3_cabinet.png'),
+(116, 142, '651a63489443e_car.png'),
+(117, 142, '651a6348945b9_earrings.png'),
+(118, 142, '651a634894716_iphone.png'),
+(119, 142, '651a634894837_necklace.png'),
+(120, 142, '651a634894924_necklace1.png'),
+(121, 143, '651a6830adf10_earrings.png'),
+(122, 144, '651a6f1253296_iphone.png'),
+(123, 145, '651a7261d3c6c_car.png');
 
 -- --------------------------------------------------------
 
@@ -209,19 +217,19 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `itemslisting`
 --
 ALTER TABLE `itemslisting`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
 
 --
 -- AUTO_INCREMENT for table `item_images`
 --
 ALTER TABLE `item_images`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `report`

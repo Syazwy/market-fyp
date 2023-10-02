@@ -34,12 +34,12 @@ $stmt->bind_result($name);
 if ($stmt->fetch()) {
     // The $name variable now holds the item's name
     $stmt->close(); // Close the $stmt result set
+  
+    // Update the status to 'sold' and set the 'bought' column to the email
+$updateSql = "UPDATE itemslisting SET status = 'sold', bought = ? WHERE id = ?";
+$updateStmt = $conn->prepare($updateSql);
+$updateStmt->bind_param("ss", $email, $id); // Assuming 'bought' column type is string
 
-    // Update the status to 'sold' for the specified ID
-    $updateSql = "UPDATE itemslisting SET status = 'sold' WHERE id = ?";
-    $updateStmt = $conn->prepare($updateSql);
-    $updateStmt->bind_param("s", $id);
-    
     if ($updateStmt->execute()) {
         // Status updated successfully
     } else {
