@@ -17,7 +17,6 @@ $id = $_GET['id'];
 $total = $_GET['price'];
 $deliveryMethod = $_GET['deliveryMethod'];
 $paymentMethod = $_GET['paymentMethod'];
-
 $conn = mysqli_connect("localhost", "root", "", "market");
 
 // Check the connection
@@ -34,12 +33,21 @@ $stmt->bind_result($name);
 // Fetch the result
 if ($stmt->fetch()) {
     // The $name variable now holds the item's name
+    $stmt->close(); // Close the $stmt result set
+  
+    // Update the status to 'sold' and set the 'bought' column to the email
+$updateSql = "UPDATE itemslisting SET status = 'sold', bought = ? WHERE id = ?";
+$updateStmt = $conn->prepare($updateSql);
+$updateStmt->bind_param("ss", $email, $id); // Assuming 'bought' column type is string
+
+    if ($updateStmt->execute()) {
+        // Status updated successfully
+    } else {
+        echo "Error updating status: " . $conn->error;
+    }
 } else {
     echo "No data found for the given ID.";
 }
-
-// Close the statement
-$stmt->close();
 
 // Send an email using PHPMailer
 $mail = new PHPMailer(true);

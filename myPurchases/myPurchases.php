@@ -253,14 +253,24 @@ mysqli_close($conn);
 
     // Check the connection
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Query to select rows with status 'completed' from the itemslisting table
-    $query = "SELECT name, description, price, item_condition FROM itemslisting WHERE status = 'completed'";
-
-    // Execute the query
-    $result = mysqli_query($conn, $query);
+       die("Connection failed: " . $conn->connect_error);
+   }
+   
+   // Query to select rows with status 'completed' and bought by the user from the itemslisting table
+   $email = $_SESSION['email']; // Get the user's email from the session
+   $query = "SELECT itemslisting.id, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, item_images.image_filename 
+             FROM itemslisting 
+             LEFT JOIN item_images ON itemslisting.id = item_images.item_id 
+             WHERE itemslisting.status = 'completed' AND itemslisting.bought = ?";
+   
+   // Prepare the statement
+   $stmt = $conn->prepare($query);
+   $stmt->bind_param("s", $email);
+   $stmt->execute();
+   
+   // Get the result
+   $result = $stmt->get_result();
+   
 
     // Check if there are rows with 'completed' status
     if (mysqli_num_rows($result) > 0) {
@@ -268,7 +278,7 @@ mysqli_close($conn);
             echo '<div class="card-container">';
             echo '<div class="card">';
             echo '<p>' . $row['name'] . '</p>';
-            echo '<center><img src="../image/supra.png" alt="Card Image"></center>';
+            echo '<center><img src="../sellers/upload/' . $row['image_filename'] . '"></center>';
             echo '<p>' . $row['description'] . '</p>';
             echo '<p>' . $row['price'] . '</p>';
             echo '<p>' . $row['item_condition'] . '</p>';
