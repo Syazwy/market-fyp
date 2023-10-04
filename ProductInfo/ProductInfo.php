@@ -181,7 +181,8 @@ session_start(); // Start the session
         <button type="button" class="btn btn-primary" id="buyButton" onclick="buy()">Buy</button>
     <?php } ?>
 </div>
-
+<br>
+<button type="button" class="btn btn-primary" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button>
 <script>
     // Check if the session email is the same as the email retrieved from the database
     if (sessionEmail === '<?php echo $row["email"]; ?>') {
