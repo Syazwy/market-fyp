@@ -1,41 +1,39 @@
-
-.message {
-    margin: 10px 0;
-    display: flex;
-    align-items: flex-start;
-}
-
-.left .text {
-    background-color: #f2f2f2;
-    padding: 10px;
-    border-radius: 8px;
-    max-width: 60%;
-}
-
 .chat {
-    flex: 1; 
-   
+    height: 83vh; /* Set a fixed height of 100 viewport height units */
     padding: 10px;
-    background-color: #ffffff;
+    background-color: #ffffff;  
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    flex-direction: column; /* Ensure child elements stack vertically */
+    overflow: hidden; /* Hide any content that overflows the fixed height */
 }
 
 .message-container {
-    
-    display: flex;
-    flex-direction: column;
+    flex: 1; /* Allow this div to grow and fill the remaining space */
+    overflow-y: auto; /* Enable vertical scrolling when content exceeds the container height */
 }
 
-.message-input {
+.message-input{
     display: flex;
-    align-items: center;
-    justify-content: space-between; 
-    padding: 10px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
+    width: 50%;
+}
+#message{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#send{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.message-time {
+    margin-right:5px; 
+    color: black;
+}
+.message-text {
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 15px; /* Padding */
+    background-color: #A174FF; /* Background color for user messages */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: white;
 }
 
 .message-input input {
@@ -52,155 +50,37 @@
     border: none;
     padding: 8px 16px;
     border-radius: 5px;
-    cursor: pointer;
-}
 
-.user-info-right {
-    margin-bottom: 20px;
-    text-align: center;
-    width: 100%;
-}
-
-.user-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 10px;
-}
-
-.user-info span {
-    margin: 2px 0;
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-}
-
-.user-info p {
-    margin: 0; 
-}
-
-.user-icon {
-    display: flex;
-    align-items: center; 
-}
-
-.list-group-item img {
-    height: 60px; 
-}
-
-.list-group-item {
-    height: 80px; 
-}
-
-
-.container-flex {
-    display: flex;
-    align-items: stretch;
-    height: calc(80vh - 60px);
-}
-
-.col-md-3 {
-
-   
-    background-color: #f5f5f5;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-#placeOrderButton {
-    background-color: #FF5353;
-}
-
-#applyButton {
-    background-color: #FF5353;
-}
-
-.payment-container {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    text-align: center;
-    width: 1200px;
-}
-
-.amount-container {
-    display: flex;
-    flex-direction: column;
-}
-
-.description {
-    margin: 0;
-}
-
-.amount {
-    margin: 0;
-    margin-right: 100px;
 }
 
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
 }
-
-input {
-  
- 
-    border-radius: 10px;
-    height: 40px;
-}
-
-.button-container {
-    margin-bottom: 10px;
+.message-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
+    flex-direction: column; /* Stack messages vertically */
+    align-items: flex-end; /* Align messages to the right */
 }
 
-.logo {
-    display: inline-block;
-    margin-right: auto;
-    margin-left: 10px;
+.user-message {
+    padding: 5px 10px; /* Padding */
+    align-self: flex-start; /* Align user messages to the left */
+    margin: 5px; /* Margin to separate messages */
+
+
 }
 
-img.logo-image {
-    max-width: 60px;
-    height: auto;
+.received-message {
+    background-color: #f0f0f0; /* Background color for received messages */
+    border-radius: 5px; /* Rounded corners */
+    padding: 5px 10px; /* Padding */
+    margin: 5px; /* Margin to separate messages */
+    align-self: flex-end; /* Align received messages to the right */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
-
-.icon-left {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
-
-.icon-right {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.input-center {
-    text-align: center;
-}
-
-a {
-    text-decoration: none;
-    display: inline-block;
-    padding: 8px 16px;
-}
-
-
-
 
 
 /* home css */
-
-
 a.nav-link.active {
     background-color: #FF5353 !important;
     margin-right: 20px;

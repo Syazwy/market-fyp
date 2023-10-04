@@ -191,7 +191,7 @@ $conn = mysqli_connect("localhost", "root", "", "market");
 
 // Query to select rows with status 'sold' and bought by the user from the itemslisting table
 $email = $_SESSION['email']; // Get the user's email from the session
-$query = "SELECT itemslisting.id, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, item_images.image_filename 
+$query = "SELECT itemslisting.id, itemslisting.username, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, item_images.image_filename 
           FROM itemslisting 
           LEFT JOIN item_images ON itemslisting.id = item_images.item_id 
           WHERE itemslisting.status = 'sold' AND itemslisting.bought = ?";
@@ -210,7 +210,7 @@ if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_assoc($result)) {
         // Get the item ID
         $itemId = $row['id'];
-
+        $username = $row['username'];
         echo '<div class="card-container">';
         echo '<div class="card">';
         echo '<p>' . $row['name'] . '</p>';
@@ -220,7 +220,8 @@ if (mysqli_num_rows($result) > 0) {
         echo '<p>' . $row['item_condition'] . '</p>';
 
         // Add the "Chat" button/link
-        echo '<a href="../privatemessage/pm.php?itemId=' . $itemId . '" class="btn btn-primary">Chat</a>';
+        echo '<a href="../privatemessage/pm.php?id=' . $itemId . '&username=' . urlencode($row['username']) . '&name=' . urlencode($row['name']) . '&description=' . urlencode($row['description']) . '&price=' . urlencode($row['price']) . '" class="btn btn-primary">Chat</a>';
+
 
         // Display the "Complete" button with an onclick event to trigger the JavaScript function
         echo '<form method="POST" id="complete-form-' . $itemId . '">';
@@ -240,6 +241,26 @@ mysqli_close($conn);
 
 
     <!-- closing -->
+
+    <script>
+function openPrivateMessage() {
+    var username = "<?php echo $row['username']; ?>";
+var id = "<?php echo $row['id']; ?>";
+var description = "<?php echo $row['description']; ?>";
+var name = "<?php echo $row['name']; ?>";
+var price = "<?php echo $row['price']; ?>";
+
+var url = '../privatemessage/pm.php?' +
+    'username=' + encodeURIComponent(username) +
+    '&id=' + encodeURIComponent(id) +
+    '&description=' + encodeURIComponent(description) +
+    '&name=' + encodeURIComponent(name) +
+    '&price=' + encodeURIComponent(price);
+
+window.location.href = url;
+}
+</script>
+
 
 </div>
 <div id="div2" class="content">

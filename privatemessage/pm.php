@@ -10,10 +10,10 @@ $yourEmail = $_SESSION['email'];
     <title>MEMBERSHIP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="pm.css">
-    
+
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-transparent">
+<nav class="navbar navbar-expand-lg bg-transparent" style=" box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
     <div class="container">
         <a class="navbar-brand" href="../home/index.php">
             <img src="../image/logo.png" width="80" height="80">
@@ -65,100 +65,93 @@ $price = $_GET['price'];
 $item = $_GET['name'];
 ?>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="container-flex">
-           
-            <div class="col-md-3">
-            <ul class="list-group mt-5">
-               
-               <br>
-               <li class="list-group-item d-flex justify-content-between align-items-center contact" data-user="user1">
-                       <div class="user-icon">
-                           <img src="../image/lakaka.png" alt="User Icon" style="height: 60px;">
-                           <div class="user-info">
-                               <h5><?php echo $username ?></h5>
-                           </div>
-                       </div>
-                       <div class="user-info">
-                           <p><?php echo $item ?></p>
-                           <p>$<?php echo $price ?></p>
-                       </div>
-                       <span class="badge bg-primary rounded-pill">3</span>
-                   </li>
-               </ul>
-           </div>
-            
-            <div class="chat">
-                <div class="user-info-right">
-                <h4></h4>
-        <p></p>
-                </div>
-                <div class="chat-content">
-                <h3>Select a chat or start a new conversation</h3>
-                </div>
-                
-                <div class="message-container">
-                    <div class="messages">
-                     
-                    </div>
-                    <div class="message-input">
-                        <input type="text" placeholder="Type your message">
-                        <button>Send</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="chat">
+<center>
+    <div class="user-info"  >      
+        <h3><?php echo $username ?></h3>
+        <h4 style="display: inline;"><?php echo $item ?></h4>
+        <p style="display: inline;"><b>$<?php echo $price ?></b></p>
+        <p><?php echo $description ?></p>  
+    </div>
+    <h4 id="start-discussion">Start a new discussion.</h4>
+</center>
+<div class="message-container" style="padding: 10px">
+    <div class="user-message">
+       
+    </div>
+    <div class="received-message">
+    
+
     </div>
 </div>
+
+</div>
+<center>
+    <div class="message-input">
+        <input type="text" id="message" placeholder="Type your message">
+        <button id="send">Send</button>
+    </div>
+    </center>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const messageContainer = document.querySelector(".message-container");
+    const messageInput = document.getElementById("message");
+    const sendButton = document.getElementById("send");
+    const startDiscussion = document.getElementById("start-discussion");
+
+    // Function to send a message
+    function sendMessage() {
+      const messageText = messageInput.value.trim();
+
+      if (messageText !== "") {
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("user-message"); // Assuming it's a user message
+
+        const messageTextElement = document.createElement("span");
+messageTextElement.classList.add("message-text");
+messageTextElement.textContent = messageText;
+
+const messageTimeElement = document.createElement("span");
+messageTimeElement.classList.add("message-time");
+const now = new Date();
+const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toLowerCase();
+messageTimeElement.textContent = timeString;
+
+messageElement.appendChild(messageTimeElement);
+messageElement.appendChild(messageTextElement);
+
+messageContainer.appendChild(messageElement);
+
+
+        // Scroll to the bottom of the message container to show the latest message
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+
+        // Clear the input field
+        messageInput.value = "";
+
+             // Hide the "Start a new discussion" section
+             startDiscussion.style.display = "none";
+      }
+    }
+
+    // Listen for Enter key press in the message input field
+    messageInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault(); // Prevent the default Enter key behavior (new line)
+        sendMessage(); // Call the sendMessage function when Enter is pressed
+      }
+    });
+
+    // Attach the sendMessage function to the Send button click event
+    sendButton.addEventListener("click", sendMessage);
+  });
+</script>
+
 
 
 <!-- Include Bootstrap JS (Optional, for certain Bootstrap components) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-       document.addEventListener("DOMContentLoaded", function() {
-    const chatDiv = document.querySelector(".chat h3");
-    const userItems = document.querySelectorAll(".contact");
-    const userInfoDiv = document.querySelector(".user-info-right");
-    const messagesContainer = document.querySelector(".messages");
-    const chatContent = document.querySelector(".chat-content h3");
-
-    const userMessages = {
-                user1: "Hello, how are you?",
-                user2: "Interested in the Lego set?",
-                user3: "Is the Dragon Lore still available?",
-                user4: "can nego?",
-                user5: "swap with iphone add cash?",
-                user6: "location?",
-                user7: "Is it waterproof",
-                user8: "can swap with my lego brz nissan mchyundai?",
-                user9: "my camera better",
-               
-            };
-
-    userItems.forEach(function(item) {
-        item.addEventListener("click", function() {
-            const userName = this.querySelector(".user-info h5").textContent;
-            const userTitle = this.querySelector(".user-info p").textContent;
-            const dataUser = this.getAttribute("data-user");
-
-            messagesContainer.innerHTML = `
-                <div class="message left">
-                    <div class="text">${userMessages[dataUser]}</div>
-                </div>
-            `;
-
-            userInfoDiv.innerHTML = `
-                <h4>${userName}</h4>
-                <p>${userTitle}</p>
-            `;
-
-            chatContent.textContent = "Chatting with " + userName;
-        });
-    });
-});
-
-    </script>
 
 </body>
 </html>
