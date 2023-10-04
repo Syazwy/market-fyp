@@ -195,21 +195,23 @@
           <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
             <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
-          <!-- <div class="card-body">
-            <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
-            <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
-            <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-primary" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button>
+          <div class="card-body">
+            <p class="card-title" style="text-transform: capitalize"></p>
+            <h5 class="card-title"><b></b></h5>
+            <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"></small></p>
+            <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-primary" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button> 
             </div> -->
+
             <!-- Your HTML template for displaying items -->
           <div class="card-body">
               <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
               <h5 class="card-title"><b><?php echo "BND$" . $row["price"]; ?></b></h5>
               <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
               <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                  <button type="button" class="btn btn-primary" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button>
-              </div>
+              <button type="button" class="btn btn-primary btn-wider btn-center-text" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button>
+            </div>
+
 </div>
 
           </div>
@@ -280,15 +282,6 @@ function addToWishlist($itemId) {
     }
   };
 
-<<<<<<< Updated upstream
-    // Send the request with the form data
-    xhr.send(formData);
-  }
-</script>
-<!-- Add these scripts before the closing </body> tag -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-=======
   // Send the request with the form data
   xhr.send(formData);
 }
@@ -296,6 +289,5 @@ function addToWishlist($itemId) {
 </script> -->
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
->>>>>>> Stashed changes
 </body>
 </html>
