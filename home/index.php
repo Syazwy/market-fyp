@@ -219,7 +219,7 @@
       </div>
     </div>
     
-    <?php
+    <!-- <?php
 // Connect to your MySQL database
 $mysqli = new mysqli('localhost', 'root', '', 'market');
 
@@ -244,29 +244,28 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $mysqli->close();
-?>
+?> -->
 
 
+    <!-- <script>
+function addToWishlist($itemId) {
+  // Create an XMLHttpRequest object
+  var xhr = new XMLHttpRequest();
 
+  // Define the PHP script URL
+  var url = '../wishlist/wishlist.php';
 
-    <script>
-  function addToWishlist(itemId) {
-    // Create an XMLHttpRequest object
-    var xhr = new XMLHttpRequest();
+  // Create a FormData object to send data to the server
+  var formData = new FormData();
+  formData.append('itemId', itemId);
 
-    // Define the PHP script URL
-    var url = 'addToWishlist.php';
+  // Configure the request
+  xhr.open('POST', url, true);
 
-    // Create a FormData object to send data to the server
-    var formData = new FormData();
-    formData.append('itemId', itemId);
-
-    // Configure the request
-    xhr.open('POST', url, true);
-
-    // Set up the callback function to handle the response
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4 && xhr.status === 200) {
+  // Set up the callback function to handle the response
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
         // Handle the response here (e.g., show a success message)
         var response = xhr.responseText;
         if (response === 'success') {
@@ -274,9 +273,14 @@ $mysqli->close();
         } else {
           alert('Failed to add item to wishlist.');
         }
+      } else {
+        // Handle other HTTP statuses (e.g., error)
+        alert('Error: ' + xhr.status);
       }
-    };
+    }
+  };
 
+<<<<<<< Updated upstream
     // Send the request with the form data
     xhr.send(formData);
   }
@@ -284,5 +288,14 @@ $mysqli->close();
 <!-- Add these scripts before the closing </body> tag -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+=======
+  // Send the request with the form data
+  xhr.send(formData);
+}
+
+</script> -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+>>>>>>> Stashed changes
 </body>
 </html>
