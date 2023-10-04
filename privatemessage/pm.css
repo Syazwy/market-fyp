@@ -1,6 +1,6 @@
 .chat {
     height: 83vh; /* Set a fixed height of 100 viewport height units */
-    padding: 10px;
+
     background-color: #ffffff;  
     display: flex;
     flex-direction: column; /* Ensure child elements stack vertically */
@@ -10,6 +10,7 @@
 .message-container {
     flex: 1; /* Allow this div to grow and fill the remaining space */
     overflow-y: auto; /* Enable vertical scrolling when content exceeds the container height */
+    padding: none;
 }
 
 .message-input{
