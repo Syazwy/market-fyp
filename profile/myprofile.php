@@ -79,7 +79,7 @@ mysqli_close($conn);
   var bannedMessage = document.getElementById("bannedMessage");
   var appealButton = document.getElementById("appealButton");
 
-  if (accountStatus == "banned") {
+  if (accountStatus == "Banned") {
     // Hide the item listing and "Add New Listing" button
     box2.style.display = "none";
     // display the banned message and "Appeal" button
@@ -301,8 +301,9 @@ $result = mysqli_query($conn, $query);
 </div>
 
 <div class="box" id="bannedMessage" style="display: none;">
-        <p>Your account is currently banned.</p>
-        <button id="appealButton" class="btn btn-primary">Appeal</button>
+        <br>
+        <h2>Your account is currently banned.</h2>
+        <a href="../admin/appealform.php"><button id="appealButton" class="btn btn-primary">Appeal</button></a>
         </div>
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->

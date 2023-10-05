@@ -63,7 +63,7 @@ require '../connection/connection.php';
         <ul class="nav nav-pills">
             <li class="nav-item"><a class="nav-link active" aria-current="page" href="admin.php">Overview</a></li>
             <li class="nav-item"><a class="nav-link active" aria-current="page" href="admin_2.php">Reports</a></li>
-            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Appeals</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="appealview.php">Appeals</a></li>
         </ul>
     </div>
 
