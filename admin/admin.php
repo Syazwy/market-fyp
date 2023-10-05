@@ -84,10 +84,9 @@ require '../connection/connection.php';
                         <td>#</td>
                         <td>Status</td>
                         <td>Username</td>
-                        <td>Email</td>                      
+                                              
                         <td>Membership</td>
-                        <td>Date Joined</td>
-                        <td>Date Verified</td>
+                       
                         
                     </tr>
 
@@ -104,10 +103,9 @@ require '../connection/connection.php';
                           <td><?php echo $i++; ?></td>
                           <td><?php echo $row["status"]; ?></td>
                           <td><?php echo $row["username"]; ?></td>
-                          <td><?php echo $row["email"]; ?></td>                          
+                                                   
                           <td><?php echo $row["membership"]; ?></td>
-                          <td><?php echo $row["date"]; ?></td>
-                          <td><?php echo $row["email_verified_at"]; ?></td>
+                          
                           
                           
                           <td><a href="view_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">View</td>
