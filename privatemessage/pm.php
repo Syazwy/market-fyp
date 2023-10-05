@@ -66,32 +66,34 @@ $item = $_GET['name'];
 ?>
 
 <div class="chat">
-<center>
-    <div class="user-info"  >      
+
+<center>    
+    <div class="user-info">      
         <h3><?php echo $username ?></h3>
         <h4 style="display: inline;"><?php echo $item ?></h4>
-        <p style="display: inline;"><b>$<?php echo $price ?></b></p>
+        <h4 style="display: inline;">$<?php echo $price ?></h4>
         <p><?php echo $description ?></p>  
     </div>
-    <h4 id="start-discussion">Start a new discussion.</h4>
-</center>
-<div class="message-container" style="padding: 10px">
+
+    <div class="message-container" style="padding: 10px">
+<h4 id="start-discussion">Start a new discussion.</h4>
     <div class="user-message">
        
     </div>
     <div class="received-message">
-    
-
+        Hi, Shahmi!
     </div>
 </div>
 
-</div>
 <center>
+    <br>
+    <br>
     <div class="message-input">
         <input type="text" id="message" placeholder="Type your message">
         <button id="send">Send</button>
     </div>
     </center>
+</div>
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", function () {

@@ -7,10 +7,20 @@
     overflow: hidden; /* Hide any content that overflows the fixed height */
 }
 
+
 .message-container {
     flex: 1; /* Allow this div to grow and fill the remaining space */
     overflow-y: auto; /* Enable vertical scrolling when content exceeds the container height */
     padding: none;
+    width: 70%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    height: 540px;
+    border-radius: 20px;
+}
+#start-discussion {
+    text-align: center !important;
+    margin: 0 auto !important;
+    width: max-content !important;
 }
 
 .message-input{
