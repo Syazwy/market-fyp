@@ -125,12 +125,11 @@ messageElement.appendChild(messageTextElement);
 
 messageContainer.appendChild(messageElement);
 
-
         // Scroll to the bottom of the message container to show the latest message
-        messageContainer.scrollTop = messageContainer.scrollHeight;
+    messageContainer.scrollTop = messageContainer.scrollHeight;
 
         // Clear the input field
-        messageInput.value = "";
+    messageInput.value = "";
 
              // Hide the "Start a new discussion" section
              startDiscussion.style.display = "none";
@@ -149,8 +148,6 @@ messageContainer.appendChild(messageElement);
     sendButton.addEventListener("click", sendMessage);
   });
 </script>
-
-
 
 <!-- Include Bootstrap JS (Optional, for certain Bootstrap components) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
