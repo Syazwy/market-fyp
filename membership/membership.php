@@ -87,6 +87,8 @@ require_once("../session/session.php");
   </div>
   </div>
 </nav>
+
+
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
     event.preventDefault(); // Prevent the link from immediately navigating
@@ -102,23 +104,27 @@ require_once("../session/session.php");
 </script>
   
 <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Subscription</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-    Do you want to subscribe to <span id="modalPlanName">this plan</span>? This subscription will automatically renew until you switch to a different plan.
-</div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirm Subscription</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Do you want to subscribe to <span id="modalPlanName">this plan</span>? This subscription will<span id="modalSubscriptionDuration"></span>.
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="confirmSubscription" onclick="order()">Confirm</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmSubscription" onclick="order()">Confirm</button>
             </div>
         </div>
     </div>
+</div>
+
+<script>
+    
+</script>
 
     <script>
 function order(plan) {
@@ -209,6 +215,21 @@ function checkMembership() {
         }
     });
 }
+
+function updateSubscriptionDuration() {
+    var modalPlanName = document.getElementById('modalPlanName').innerText;
+    var modalSubscriptionDuration = document.getElementById('modalSubscriptionDuration');
+    
+    if (modalPlanName === 'Premium Monthly') {
+        modalSubscriptionDuration.innerText = ' automatically expire after a month';
+    } else if (modalPlanName === 'Basic') {
+        modalSubscriptionDuration.innerText = ' never expire';
+    } else if (modalPlanName === 'Premium Annually') {
+        modalSubscriptionDuration.innerText = ' automatically expire after a year';
+    } else {
+        modalSubscriptionDuration.innerText = ''; // Handle other cases if needed
+    }
+}
 </script>
 
 <script>
@@ -221,12 +242,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add a click event listener to each membership button
     buttons.forEach(function (button) {
-        button.addEventListener('click', function () {
-            var dataPlan = button.getAttribute('data-plan');
-            // Update the modal's plan name with the clicked data-plan
-            modalPlanName.textContent = dataPlan;
-        });
+    button.addEventListener('click', function () {
+        var dataPlan = button.getAttribute('data-plan');
+        modalPlanName.textContent = dataPlan;
+        updateSubscriptionDuration(); // Call the function here
     });
+});
+
 
     // Add a click event listener to the "Confirm" button in the modal
     var confirmButton = document.getElementById('confirmSubscription');
