@@ -272,7 +272,6 @@ if ($insertStmt) {
 <!-- Login Database -->
 
 <?php
-
 $errorMessage = ""; // Initialize an empty error message
 
 if (isset($_POST["login"])) {
@@ -313,12 +312,44 @@ if (isset($_POST["login"])) {
             $errorMessage = "Email or username not found.";
         } else {
             $user = mysqli_fetch_object($result);
+
+            
             if (!password_verify($password, $user->password)) {
                 $errorMessage = "Password is not correct";
             } elseif ($user->email_verified_at == null) {
                 header("Location: index-guest.php?email=" . urlencode($user->email));
                 exit();
             } else {
+
+// Check membership and date for 'Premium Monthly'
+if ($user->membership === 'Premium Monthly') {
+    // Calculate the date 30 days ago from today
+    $thirtyDaysAgo = date('Y-m-d', strtotime('-30 days'));
+
+    // Compare the 'date' column in the database with the date 30 days ago
+    if (strtotime($user->date) <= strtotime($thirtyDaysAgo)) {
+        // Update the membership to 'Basic'
+        $updateSql = "UPDATE account SET membership = 'Basic' WHERE email = ?";
+        $updateStmt = mysqli_prepare($conn, $updateSql);
+        mysqli_stmt_bind_param($updateStmt, "s", $user->email);
+        mysqli_stmt_execute($updateStmt);
+    }
+}
+// Check membership and date for 'Premium Annually'
+if ($user->membership === 'Premium Annually') {
+  // Calculate the date 365 days ago from today
+  $threeHundredSixtyFiveDaysAgo = date('Y-m-d', strtotime('-365 days'));
+
+  // Compare the 'date' column in the database with the date 365 days ago
+  if (strtotime($user->date) <= strtotime($threeHundredSixtyFiveDaysAgo)) {
+      // Update the membership to 'Basic'
+      $updateSql = "UPDATE account SET membership = 'Basic' WHERE email = ?";
+      $updateStmt = mysqli_prepare($conn, $updateSql);
+      mysqli_stmt_bind_param($updateStmt, "s", $user->email);
+      mysqli_stmt_execute($updateStmt);
+  }
+}
+    
                 // Set session variables for a regular user
                 $_SESSION['member'] = true;
                 $_SESSION['email'] = $user->email;
@@ -329,7 +360,8 @@ if (isset($_POST["login"])) {
             }
         }
     }
-}
+} // This is where you were missing a closing curly brace
+
 
 ?>
 
