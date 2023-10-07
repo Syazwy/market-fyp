@@ -8,7 +8,7 @@ session_start(); // Start the session
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Info</title>
     <link rel="stylesheet" href="bootstrap-5.0.2-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="productinfo.css">
+    <link rel="stylesheet" href="productInfo.css">
     <link rel="stylesheet" href="../home/index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
@@ -71,26 +71,23 @@ session_start(); // Start the session
           
           
       ?>
-
+<div class="container1">
         <div class="product-container">
-            
-
-
-              <div id="carouselExampleIndicators" class="carousel slide w-100" data-bs-ride="carousel">
-                <div class="carousel-indicators">
+              <div id="carouselExampleIndicators" class="carousel slide w-100" data-bs-ride="carousel" >
+                <div class="carousel-indicators" >
                   <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                   <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
                   <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" width= 500px>
+                    <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" >
                   </div>
                   <div class="carousel-item">
-                  <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" width= 500px>
+                  <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" >
                   </div>
                   <div class="carousel-item">
-                  <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" width= 500px>
+                  <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" >
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -101,36 +98,32 @@ session_start(); // Start the session
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="">Next</span>
                 </button>
-
-
-
-
               </div>
-
           </div>
-
-          <br>
+          </div>
 
         <div id="secondhalf">
           <div class="product-info description">
-              <h1 class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></h1>
+              <h3>Item Name:</h3>
+              <p></p>
+              <h5 style="text-transform: capitalize"><?php echo $row["name"]; ?></h5>
+              <h3>Price:</h3>
+              <h5>$<?php echo $row["price"]; ?></h5>
+              <h3>Category:</h3>
+              <h5><?php echo $row["category"]; ?></h5>
+              <h3>Description:</h3>
+              <h5><?php echo $row["description"]; ?></h5>
               <br>
-              <h1>Price:</h1>
-              <p class="price">$<?php echo $row["price"]; ?></p>
-              <p><b><?php echo $row["category"]; ?></b></p>
-              <p><h2>Description:</h2></p>
-              <p><?php echo $row["description"]; ?></p>
-              <br>
-              <h2>Price:</h2>
-              <p class="price">$<?php echo $row["price"]; ?></p>
+
               <br>
               <!-- <button type="button" class="buy-button">Buy Now</button>
               <button type="button" class="chat-button">Chat Now</button>
               <a href="../admin/report.php?id=<?php echo $row["id"]; ?>"><button type="button" class="chat-button">Report</button></a> -->
             </div>
-
-            <div class="proInfo">
-    <img width="50px" src="images/pb.png">
+     <!-- untuk kan ke page usersprofile -->
+     <a href="../profile/usersprofile.php?email=<?php echo $row["email"]; ?>&username=<?php echo $row["username"]; ?>" style="text-decoration: none; color: black;">
+                     <div class="user">
+    <img width="50px" src="../image/profile.png">
     <?php 
         // Assuming you have a session variable $_SESSION['email']
         $sessionEmail = $_SESSION['email'];
@@ -169,19 +162,22 @@ session_start(); // Start the session
         // Store the session email in a JavaScript variable
         echo "<script>var sessionEmail = '$sessionEmail';</script>";
     ?> 
-    <p><?php echo $row["username"]; ?></p>
-    <br>
-    <p><?php echo $row["location"]; ?></p>
     
-    <!-- Use JavaScript to conditionally display the buttons -->
+   
+    <p><?php echo $row["username"]; ?></p>
+    <p><?php echo $row["location"]; ?></p>   
+   
+    </a>
+   
+ 
     <?php if ($sessionEmail === $row["email"]) { ?>
         <a href="../profile/profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">Edit</a>
     <?php } else { ?>
         <button type="button" class="btn btn-primary" id="chatButton" onclick="chat()">Chat</button>
         <button type="button" class="btn btn-primary" id="buyButton" onclick="buy()">Buy</button>
     <?php } ?>
-</div>
-
+   
+    </div>
 <script>
     // Check if the session email is the same as the email retrieved from the database
     if (sessionEmail === '<?php echo $row["email"]; ?>') {
