@@ -105,14 +105,13 @@ session_start(); // Start the session
         <div id="secondhalf">
           <div class="product-info description">
               <h3>Item Name:</h3>
-              <p></p>
-              <h5 style="text-transform: capitalize"><?php echo $row["name"]; ?></h5>
+              <h6 style="text-transform: capitalize"><?php echo $row["name"]; ?></h6>
               <h3>Price:</h3>
-              <h5>$<?php echo $row["price"]; ?></h5>
+              <h6>$<?php echo $row["price"]; ?></h6>
               <h3>Category:</h3>
-              <h5><?php echo $row["category"]; ?></h5>
+              <h6><?php echo $row["category"]; ?></h6>
               <h3>Description:</h3>
-              <h5><?php echo $row["description"]; ?></h5>
+              <h6><?php echo $row["description"]; ?></h6>
               <br>
 
               <br>

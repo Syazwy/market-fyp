@@ -2,7 +2,9 @@
 require '../connection/connection.php';
 require_once("../session/session.php");
 
-$username = $_SESSION['username'];
+$usersemail = $_GET['email'];
+$user = $_GET['username'];
+$myusername = $_SESSION['username'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset($_POST['content']) && isset($_POST['rating'])) {
     // Check if the request method is POST and all required POST parameters are set
@@ -162,13 +164,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="user-info"> 
         
       <?php 
-      echo "<h3>" . $username . "</h3><br>";
+      echo "<h3>" . $user . "</h3><br>";
       $conn = new mysqli('localhost', 'root', '', 'market');
     
       if ($conn->connect_error) {
           die('Connection Failed : '.$conn->connect_error);
       }
-      $result = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$username'");
+      $result = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$user'");
     
       if ($result->num_rows > 0) {
           $row = $result->fetch_assoc();
@@ -213,7 +215,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $conn->prepare("SELECT date FROM account WHERE username = ?");
         
         if ($stmt) {
-            $stmt->bind_param("s", $username);
+            $stmt->bind_param("s", $user);
             $stmt->execute();
             $result = $stmt->get_result();
         
@@ -251,7 +253,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                   <?php
                       $i = 1;
-                      $rows = mysqli_query($conn, "SELECT * from account WHERE username = '$username' ORDER BY id DESC ");
+                      $rows = mysqli_query($conn, "SELECT * from account WHERE username = '$user' ORDER BY id DESC ");
                   ?>
 
 <button class="report-button btn btn-primary" onclick="openReportModal(' . $itemId . ')">Report</button>
