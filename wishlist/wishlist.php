@@ -365,12 +365,12 @@ $result = mysqli_query($conn, $query);
     }
 }
 
-function addToCart(item_id) {
+function payment(item_id) {
     // Display a confirmation dialog
-    if (confirm("Are you sure you want to add this item to your cart?")) {
+    if (confirm("Are you sure you want to proceed to your payment?")) {
         // Send an AJAX request to the PHP script to add the item to the cart
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "add_to_cart.php", true);
+        xhr.open("POST", "../payment/itemPaypal.php", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
         xhr.onreadystatechange = function () {
@@ -396,18 +396,19 @@ function addToCart(item_id) {
     }
 
     // Assuming your wishlist table structure contains id, name, and price columns
-    $result = $conn->query("SELECT id, name, price FROM wishlist");
+    $result = $conn->query("SELECT * FROM wishlist");
 
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             echo '
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">' . $row['name'] . '</h5>
+                        <h5 class="card-title">' . $row['name'] .' || '. $row['item_condition'] . '</h5>
                         <p class="card-text">Price: $' . $row['price'] . '</p>
+                        <p class="card-text">' . $row['category'] .' - '. $row['description'] . '</p>
                         <div class="float-right">
                             <button class="btn btn-danger" onclick="removeFromWishlist(' . $row['id'] . ')">Remove</button>
-                            <button class="btn btn-success" onclick="addToCart(' . $row['id'] . ')">Add to Cart</button>
+                            <button class="btn btn-success" onclick="payment(' . $row['id'] . ')">Payment</button>
                         </div>
                     </div>
                 </div>';
