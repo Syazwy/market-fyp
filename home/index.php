@@ -179,6 +179,7 @@
                     <?php echo $timeAgo; ?>
                   </p>
                 </small>
+                <br>
               </div>
             </div>
           </div>
@@ -195,6 +196,7 @@
           <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
             <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
+          
           <div class="card-body">
             <p class="card-title" style="text-transform: capitalize"></p>
             <h5 class="card-title"><b></b></h5>
