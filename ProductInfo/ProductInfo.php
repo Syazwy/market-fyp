@@ -120,63 +120,60 @@ session_start(); // Start the session
               <a href="../admin/report.php?id=<?php echo $row["id"]; ?>"><button type="button" class="chat-button">Report</button></a> -->
             </div>
      <!-- untuk kan ke page usersprofile -->
-     <a href="../profile/usersprofile.php?email=<?php echo $row["email"]; ?>&username=<?php echo $row["username"]; ?>" style="text-decoration: none; color: black;">
-                     <div class="user">
-    <img width="50px" src="../image/profile.png">
-    <?php 
-        // Assuming you have a session variable $_SESSION['email']
-        $sessionEmail = $_SESSION['email'];
-        $conn = new mysqli('localhost', 'root', '', 'market');
-        $username = $row["username"];
-        
-        if ($conn->connect_error) {
-            die('Connection Failed : '.$conn->connect_error);
-        }
-        
-        $reviewResult = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$username'");
-        
-        if ($reviewResult->num_rows > 0) {
-            $reviewRow = $reviewResult->fetch_assoc();
-            $averageRating = $reviewRow['avg_rating'];
-            $totalReviews = $reviewRow['total_reviews'];
+     <?php 
+    // Assuming you have a session variable $_SESSION['email']
+    $sessionEmail = $_SESSION['email'];
+    $conn = new mysqli('localhost', 'root', '', 'market');
+    $username = $row["username"];
 
-            // Function to generate star rating based on the average rating
-            function generateStarRating($rating) {
-                $output = '';
-                for ($i = 1; $i <= 5; $i++) {
-                    if ($i <= ceil($rating)) { // Use ceil to round up decimal ratings
-                        $output .= '<i class="fa fa-star checked"></i>';
-                    } else {
-                        $output .= '<i class="fa fa-star"></i>';
-                    }
+    if ($conn->connect_error) {
+        die('Connection Failed : '.$conn->connect_error);
+    }
+
+    $reviewResult = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$username'");
+
+    if ($reviewResult->num_rows > 0) {
+        $reviewRow = $reviewResult->fetch_assoc();
+        $averageRating = $reviewRow['avg_rating'];
+        $totalReviews = $reviewRow['total_reviews'];
+
+        // Function to generate star rating based on the average rating
+        function generateStarRating($rating) {
+            $output = '';
+            for ($i = 1; $i <= 5; $i++) {
+                if ($i <= ceil($rating)) { // Use ceil to round up decimal ratings
+                    $output .= '<i class="fa fa-star checked"></i>';
+                } else {
+                    $output .= '<i class="fa fa-star"></i>';
                 }
-                return $output;
             }
-            
-            echo generateStarRating($averageRating) . ' (' . $totalReviews . ' reviews)';
-        } else {
-            echo '- No reviews available.';
+            return $output;
         }
 
-        // Store the session email in a JavaScript variable
-        echo "<script>var sessionEmail = '$sessionEmail';</script>";
-    ?> 
+        // Determine the href value based on email comparison
+        $href = ($row["email"] === $sessionEmail) ? '../profile/myProfile.php' : "../profile/usersprofile.php?email={$row["email"]}&username={$row["username"]}";
+        
+        echo '<a href="' . $href . '" style="text-decoration: none; color: black;">';
+        echo '<div class="user">';
+        echo '<img width="50px" src="../image/profile.png">';
+        echo generateStarRating($averageRating) . ' (' . $totalReviews . ' reviews)';
+        echo '<p>' . $row["username"] . '</p>';
+        echo '<p>' . $row["location"] . '</p>';
+        
+        echo '</a>';
+    } else {
+        echo '- No reviews available.';
+    }
     
-   
-    <p><?php echo $row["username"]; ?></p>
-    <p><?php echo $row["location"]; ?></p>   
-   
-    </a>
-   
- 
-    <?php if ($sessionEmail === $row["email"]) { ?>
-        <a href="../profile/profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">Edit</a>
-    <?php } else { ?>
-        <button type="button" class="btn btn-primary" id="chatButton" onclick="chat()">Chat</button>
-        <button type="button" class="btn btn-primary" id="buyButton" onclick="buy()">Buy</button>
-    <?php } ?>
-   
-    </div>
+    if ($sessionEmail === $row["email"]) {
+        echo '<a href="../profile/profile_edit_item.php?id=' . $row["id"] . '" class="btn btn-primary">Edit</a>';
+    } else {
+        echo '<button type="button" class="btn btn-primary" id="chatButton" onclick="chat()">Chat</button>';
+        echo '<button type="button" class="btn btn-primary" id="buyButton" onclick="buy()">Buy</button>';
+    }
+    echo '</div>';
+?>
+
 <script>
     // Check if the session email is the same as the email retrieved from the database
     if (sessionEmail === '<?php echo $row["email"]; ?>') {
