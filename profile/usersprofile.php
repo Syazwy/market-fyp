@@ -393,11 +393,10 @@ function validateForm() {
     <?php
 require '../connection/connection.php';
 $i = 1;
-$username = $_SESSION['username']; // Get the logged-in user's username
 $query = "SELECT itemslisting.*, item_images.image_filename 
           FROM itemslisting 
           JOIN item_images ON itemslisting.id = item_images.item_id 
-          WHERE itemslisting.username = '$username' 
+          WHERE itemslisting.username = '$user' 
           GROUP BY itemslisting.id 
           ORDER BY itemslisting.id DESC";
 
@@ -425,28 +424,11 @@ $result = mysqli_query($conn, $query);
                           $rows = mysqli_query($conn, "SELECT * from itemslisting  ORDER BY id DESC ");
                           
                     ?>
-                    
-                          <a href="profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary"> Edit item </a>
-                          
-
 
                 </div>  
                            
             <?php endwhile; ?>
-
-            <a href="../sellers/sells-page.php" style="text-decoration:none">
-    <div class="card" style="width: 150px; height: 170px; border:none; ">
-        <div class="image-container" style="height: 75%;padding:20px; background-color: #FFCBCB; border-radius:20px">
-            <img src="../image/plus.png" alt="Product Image" style="height: 30%;">
-        </div>
-        <div class="card-content">
-            <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></p>
-            <center><p>Add New Listing</p></center>
-            <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></p>
-        </div>
-    </div>
-</a>
-        </div>
+     
     <?php else : ?>
         <h4>No listings available.</h4>
     <?php endif; ?>
@@ -486,7 +468,7 @@ $result = mysqli_query($conn, $query);
 
           $stmt->close();
       } else {
-        $result = $conn->query("SELECT * FROM reviews WHERE users = '$username' ORDER BY time DESC");
+        $result = $conn->query("SELECT * FROM reviews WHERE users = '$user' ORDER BY time DESC");
 
 
           if ($result->num_rows > 0) {
