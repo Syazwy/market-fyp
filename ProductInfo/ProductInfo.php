@@ -101,33 +101,34 @@ session_start(); // Start the session
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="">Next</span>
                 </button>
-
-
-
-
               </div>
-
           </div>
 
           <br>
 
         <div id="secondhalf">
           <div class="product-info description">
-              <h1 class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></h1>
+              <p><h1 class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></h1></p> 
               <br>
-              <h1>Price:</h1>
+              <button type="button" class="btn btn-primary" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button>
+              <h1>Price: </h1>
               <p class="price">$<?php echo $row["price"]; ?></p>
+              <br>
               <p><b><?php echo $row["category"]; ?></b></p>
+              <br>
               <p><h2>Description:</h2></p>
               <p><?php echo $row["description"]; ?></p>
               <br>
               <h2>Price:</h2>
               <p class="price">$<?php echo $row["price"]; ?></p>
               <br>
+
               <!-- <button type="button" class="buy-button">Buy Now</button>
               <button type="button" class="chat-button">Chat Now</button>
               <a href="../admin/report.php?id=<?php echo $row["id"]; ?>"><button type="button" class="chat-button">Report</button></a> -->
+             
             </div>
+
 
             <div class="proInfo">
     <img width="50px" src="images/pb.png">
@@ -171,18 +172,23 @@ session_start(); // Start the session
     ?> 
     <p><?php echo $row["username"]; ?></p>
     <br>
-    <p><?php echo $row["location"]; ?></p>
-    
     <!-- Use JavaScript to conditionally display the buttons -->
     <?php if ($sessionEmail === $row["email"]) { ?>
         <a href="../profile/profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">Edit</a>
     <?php } else { ?>
-        <button type="button" class="btn btn-primary" id="chatButton" onclick="chat()">Chat</button>
+      <center>
+        <button type="button" class="btn btn-primary" id="chatButton" onclick="chat()" > <img src="img/chatbubble-ellipses-outline.svg" style="height: 30px;width:30px" alt=""></button>
         <button type="button" class="btn btn-primary" id="buyButton" onclick="buy()">Buy</button>
+      </center>
+        <br>
     <?php } ?>
+    <br>
+    <center>
+    <p> <img src="img/location-outline.svg" style="height: 50px;width:50px" alt=""> <?php echo $row["location"]; ?></p>
+    </center>
 </div>
 <br>
-<button type="button" class="btn btn-primary" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button>
+
 <script>
     // Check if the session email is the same as the email retrieved from the database
     if (sessionEmail === '<?php echo $row["email"]; ?>') {
