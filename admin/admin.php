@@ -102,15 +102,14 @@ require '../connection/connection.php';
                       <tr>
                           <td><?php echo $i++; ?></td>
                           <td><?php echo $row["status"]; ?></td>
-                          <td><?php echo $row["username"]; ?></td>
-                                                   
+                          <td><?php echo $row["username"]; ?></td>           
                           <td><?php echo $row["membership"]; ?></td>
                           
                           
                           
-                          <td><a href="view_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">View</td>
-                          
-                          <td><a href="status_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Change Status</td>
+                          <td><a href="view_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">View</td>
+                          <td><a href="ban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Ban</td>
+                          <td><a href="unban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">Unbanned</td>
                       </tr>
 
                   <?php endforeach; ?>
