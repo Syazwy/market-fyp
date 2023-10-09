@@ -5,6 +5,9 @@ require_once("../session/session.php");
 $usersemail = $_GET['email'];
 $user = $_GET['username'];
 $myusername = $_SESSION['username'];
+?>
+
+<?php
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset($_POST['content']) && isset($_POST['rating'])) {
     // Check if the request method is POST and all required POST parameters are set
@@ -43,31 +46,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Handle the form data
-    $item_id = $_POST['item_id'];
-    $typeReport = $_POST['typeReport'];
-    $report_reason = $_POST['report_reason'];
-    
+
     // Establish a database connection (you'll need to replace these values with your actual database credentials)
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "market";
-    
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli("localhost", "root", "", "market");
     
     // Check the connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
     
-    // Get the values from the form
+    $user = $_POST['username'];
     $item_id = $_POST['item_id'];
     $typeReport = $_POST['typeReport'];
     $report_reason = $_POST['report_reason'];
-    
+ 
     // Define the SQL query to insert data into the reportbyusers table
-    $sql = "INSERT INTO reportbyusers (typeReport, reason) VALUES ('$typeReport', '$report_reason')";
+    $sql = "INSERT INTO reportbyusers (typeReport, reason, username, status) VALUES ('$typeReport', '$report_reason', '$user', 'Active')";
     
     if ($conn->query($sql) === TRUE) {
         // The report has been successfully submitted, now we trigger the success modal
@@ -83,9 +77,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close the database connection
     $conn->close();
     
-    // Redirect to the desired location
-    header("Location: usersprofile.php");
-    exit();
+// Redirect to usersprofile.php with email and username as query parameters
+header("Location: usersprofile.php?");
+exit; // Make sure to exit the script after redirection
 }
 
 
@@ -258,7 +252,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <button class="report-button btn btn-primary" onclick="openReportModal(' . $itemId . ')">Report</button>
 
-                      <!-- Modal for reporting an item -->
+                      <!-- Modal for reporting an user -->
 <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -280,6 +274,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="Sales of animals">Sales of animals</option>
                             <option value="No intent to sell">No intent to sell</option>
                         </select>
+                        <input type="hidden" name="username" value="<?php echo htmlspecialchars($user); ?>">
                         <br>
                         <label for="report_reason">Reason</label>
                         <textarea class="form-control" name="report_reason" id="report_reason" rows="4" required></textarea>
