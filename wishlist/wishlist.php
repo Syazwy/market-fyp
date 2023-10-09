@@ -11,26 +11,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" href="../profile/profilecss.css">
+    <link rel="stylesheet" href="wishlist.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
 <body>
+
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
+
+<!-- NAVIGATION BAR -->
+
 <nav class="navbar navbar-expand-lg bg-transparent">
-  <div class="container">
+    <div class="container">
     <a class="navbar-brand" href="../home/index.php">
       <img src="../image/logo.png" width="80" height="80">
     </a>
   
-  <div class="collapse navbar-collapse justify-content-center">
+    <div class="collapse navbar-collapse justify-content-center">
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
     </ul>
-  </div>
+    </div>
 
-  <div class="dropdown">
+    <div class="dropdown">
     <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
       <img src="../image/profile.png" width="50" height="50" class="profile">
     </a>
@@ -41,9 +46,10 @@
       <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
 
     </ul>
-  </div>
+    </div>
   </div>
 </nav>
+
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
     event.preventDefault(); // Prevent the link from immediately navigating
@@ -58,9 +64,12 @@
   });
 </script>
 
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
 
-    <div class="profile-container">
-        <div class="profile-picture">
+<!-- BODY -->
+
+    <div class="wishlist-container">
+        <div class="wishlist-picture">
             <img src="../profile/profileimage/hotwheels.jpg" alt="Profile Picture">
         </div>   
     </div>
@@ -182,7 +191,7 @@
                   <?php
                     foreach($rows as $row) :
                   ?>
-                      <a href="../profile/profileedit.php?echo $row["id"]; ?>" class="btn btn-primary"> Edit Profile </a>
+                      <a href="../profile/profileedit.php <?php echo $row["id"]; ?>)" class="btn btn-primary"> Edit Profile </a>
                       <?php endforeach; ?>
 
                   
@@ -190,7 +199,10 @@
   </div>
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
-  <div class="box" id="box2" style="display: block;">
+  
+<!-- ITEM-LISTING -->
+
+<div class="box" id="box2" style="display: block;">
     <?php
 require '../connection/connection.php';
 $i = 1;
@@ -227,8 +239,7 @@ $result = mysqli_query($conn, $query);
                           
                     ?>
                     
-                          <a href="../profile/profile_edit_item.php?echo $row["id"]; ?>" class="btn btn-primary"> Edit item </a>
-                          
+                          <a href="../profile/profile_edit_item.php <?php echo $row["id"]; ?>)" class="btn btn-primary"> Edit Listings </a>
 
 
                 </div>  
@@ -253,16 +264,15 @@ $result = mysqli_query($conn, $query);
     <?php endif; ?>
     <br>
 
-
-
 </div>
+
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
 
+<!-- REVIEWS -->
+
 <div class="box" id="box3" style="display: none;">
 <!-- <button class="btn mb-3" id="addReviewBtn" data-toggle="modal" data-target="#addReviewModal" style="border: 1px solid black; position: fixed; top: 240px; right: 710px; <?php echo $addReviewButtonStyle; ?>">Add New Review</button> -->
-
-
 
 <div class="container1" style="">
 <?php
@@ -321,59 +331,154 @@ $result = mysqli_query($conn, $query);
       $conn->close();
       
       ?>
-
-<?php if (mysqli_num_rows($result) > 0) : ?>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
-            <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                <div class="card" style="width: 150px; height: 200px; border:none">
-                    <div class="image-container" style="height: 50%;">
-                        <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" alt="Product Image" style="max-height: 100%;">
-                    </div>
-                    <div class="card-content">
-                        <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?php echo $row["name"]; ?></p>
-                        <h5><b>$<?php echo $row["price"]; ?></b></h5>
-                        <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
-                    </div>
-
-
-
-                    <?php
-                          $i = 1;
-                          $rows = mysqli_query($conn, "SELECT * from itemslisting  ORDER BY id DESC ");
-                          
-                    ?>
-                    
-                          <a href="../profile/profile_edit_item.php?echo $row["id"]; ?>" class="btn btn-primary"> Edit item </a>
-                          
-
-
-                </div>  
-                           
-            <?php endwhile; ?>
-
-            <a href="../sellers/sell.php" style="text-decoration:none">
-    <div class="card" style="width: 150px; height: 170px; border:none; ">
-        <div class="image-container" style="height: 75%;padding:20px; background-color: #FFCBCB; border-radius:20px">
-            <img src="../image/plus.png" alt="Product Image" style="height: 30%;">
-        </div>
-        <div class="card-content">
-            <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></p>
-            <center><p>Add New Listing</p></center>
-            <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></p>
-        </div>
-    </div>
-</a>
-        </div>
-    <?php else : ?>
-        <h4>You have not made any listings.</h4>
-    <?php endif; ?>
-    <br>
 </div>
-</div> 
+</div>  
+
+
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
+
+<!-- WISHLIST -->
 
 <div class="box" id="box4" style="display: none;">
-  <div class="container1" style=""></div>
+<div class="container1" style="">
+  <br>  
+  <h3>My Wishlist</h3>
+
+    <script>
+      
+      function removeFromWishlist(item_id) {
+    if (confirm("Are you sure you want to remove this item from your wishlist?")) {
+        // Send an AJAX request to the PHP script to remove the item
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "remove_from_wishlist.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Handle the response (e.g., display a message)
+                alert(xhr.responseText);
+                // Reload the page or update the wishlist content as needed
+            }
+        };
+        
+        xhr.send("item_id=" + item_id);
+    }
+}
+
+function addToCart(item_id) {
+    // Display a confirmation dialog
+    if (confirm("Are you sure you want to add this item to your cart?")) {
+        // Send an AJAX request to the PHP script to add the item to the cart
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "add_to_cart.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Handle the response (e.g., display a message)
+                alert(xhr.responseText);
+                // You can also update the cart count or perform other actions as needed
+            }
+        };
+
+        xhr.send("item_id=" + item_id);
+    }
+}
+
+    </script>
+
+     <!-- to show the wishlist items in database  -->
+    <?php
+    $conn = new mysqli('localhost', 'root', '', 'market');
+
+    if ($conn->connect_error) {
+        die('Connection Failed : ' . $conn->connect_error);
+    }
+
+    // Assuming your wishlist table structure contains id, name, and price columns
+    $result = $conn->query("SELECT id, name, price FROM wishlist");
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo '
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">' . $row['name'] . '</h5>
+                        <p class="card-text">Price: $' . $row['price'] . '</p>
+                        <div class="float-right">
+                            <button class="btn btn-danger" onclick="removeFromWishlist(' . $row['id'] . ')">Remove</button>
+                            <button class="btn btn-success" onclick="addToCart(' . $row['id'] . ')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>';
+        }
+
+        $result->close();
+    } else {
+        echo '<p>No items in your wishlist.</p>';
+    }
+
+    $conn->close();
+    ?>
+
+    
+    <!-- to remove the items from the database -->
+    <?php
+    if (isset($_POST['item_id'])) {
+    $item_id = $_POST['item_id'];
+
+    // Perform the database removal operation here based on the $item_id
+    $conn = new mysqli('localhost', 'root', '', 'market');
+
+    if ($conn->connect_error) {
+        die('Connection Failed : ' . $conn->connect_error);
+    }
+
+    // Assuming your wishlist table structure contains an 'id' column
+    $sql = "DELETE FROM wishlist WHERE id = $item_id";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Item removed successfully";
+    } else {
+        echo "Error removing item: " . $conn->error;
+    }
+
+    $conn->close();
+    }
+    ?>
+
+    <!-- add to cart button to insert the item to add to cart page -->
+    <?php
+    if (isset($_POST['item_id'])) {
+    $item_id = $_POST['item_id'];
+    $username = $_SESSION['username']; // Assuming you have the username in the session
+
+    // Perform the database insertion operation here based on $item_id and $username
+    $conn = new mysqli('localhost', 'root', '', 'market');
+
+    if ($conn->connect_error) {
+        die('Connection Failed : ' . $conn->connect_error);
+    }
+
+    // Assuming your cart table structure contains columns 'item_id', 'username', and 'quantity'
+    $sql = "INSERT INTO cart (item_id, username, quantity) VALUES ($item_id, '$username', 1)";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Item added to cart successfully";
+    } else {
+        echo "Error adding item to cart: " . $conn->error;
+    }
+
+    $conn->close();
+    }
+    ?>
+
+  </div>
 </div>
+
+ <!-- ------------------------------------------------------------------------------------------------------------------- -->
+
+<!-- PROFILE -->
 
 <div class="modal fade" id="addReviewModal" tabindex="-1" role="dialog" aria-labelledby="addReviewModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -416,27 +521,30 @@ $result = mysqli_query($conn, $query);
 </div>
 </div>
 
+
 <script>
- var box2Content = document.getElementById("box2").innerHTML; // Store the initial content of box2
- function showListings() {
-  document.getElementById("box2").style.display = "block"; // Show box2
-  document.getElementById("box3").style.display = "none"; // Hide box3
-  document.getElementById("box4").style.display = "none"; // Hide box4
+        // Function to show the Listings (box2) content
+        function showListings() {
+            document.getElementById("box2").style.display = "block";
+            document.getElementById("box3").style.display = "none";
+            document.getElementById("box4").style.display = "none";
+        }
+
+        // Function to show the Reviews (box3) content
+        function showReviews() {
+            document.getElementById("box2").style.display = "none";
+            document.getElementById("box3").style.display = "block";
+            document.getElementById("box4").style.display = "none";
+        }
+
+        // Function to show the Wishlists (box4) content
+        function showWishlists() {
+            document.getElementById("box2").style.display = "none";
+            document.getElementById("box3").style.display = "none";
+            document.getElementById("box4").style.display = "block"; // Corrected the typo here
 }
 
-function showReviews() {
-  document.getElementById("box2").style.display = "none"; // Hide box2
-  document.getElementById("box3").style.display = "block"; // Show box3
-  document.getElementById("box4").style.display = "none"; // Hide box4
-}
-
-function showWishlists() {
-  document.getElementById("box2").style.display = "none"; // Hide box2
-  document.getElementById("box3").style.display = "none"; // Hide box3
-  document.getElementById("box4").style.display = "block"; // Show box4
-}
-
-  </script>
+    </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

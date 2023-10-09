@@ -46,7 +46,7 @@ if ($selectedPlan === "Basic") {
 
     <ul class="dropdown-menu">
       <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
-      <li><a class="dropdown-item" href="#">My Purchases</a></li>
+      <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
       <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
 
@@ -150,7 +150,7 @@ if ($selectedPlan === "Basic") {
                 window.location.href = 'orderCompleted.php?plan=Basic';
             } else {
                 // Redirect to PayPal for other plans with plan as a query parameter.
-                window.location.href = '../payment/paypal.php?plan=<?php echo $selectedPlan; ?>';
+                window.location.href = '../payment/membershipPaypal.php?plan=<?php echo $selectedPlan; ?>';
             }
         } else {
             // No payment method selected, show an error message.

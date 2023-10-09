@@ -1,0 +1,157 @@
+.no-background {
+  background: none;
+}
+
+.no-border {
+  border: none;
+}
+
+.checked {
+  color: orange;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  font-size: 20px; /* Adjust the font size as needed */
+}
+
+.rating .fa {
+  margin: 0 5px; /* Adjust the spacing between stars */
+}
+
+.container1{
+  overflow-y: auto;
+}
+
+a.nav-link.active {
+    background-color: #FF5353 !important;
+    margin-right: 20px;
+    border-radius: 18px;
+    width: 150px;
+    text-align: center;
+  }
+  .btn.btn-primary {
+    background-color: #FF5353;
+    border-radius: 18px;
+    border: none;
+    width: 100px;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+.wishlist-container {
+    max-width: 90%;
+    height: 110px;
+    margin: auto ;
+    background-color: #ff9292;
+    padding: 20px;
+    border-radius: 10px;
+ 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Add CSS for the grid container */
+
+
+.card {
+ margin: 10px;
+
+}
+
+/* Adjust the column width for larger screens */
+
+.wishlist-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 10px 0px 0px 5%;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.box{
+    
+    display: flex;
+    height: 500px;
+    margin: auto;
+    width:92%;
+}
+
+#box1 {
+  float: left;
+  width: 20%;
+  height: 300px;
+  background-color: #fff;
+  padding: 20px;
+  margin: 20px;
+  position: relative; /* Add relative positioning */
+}
+
+/* Add a pseudo-element to create the right border */
+#box1::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2px; /* Adjust the width of the border */
+  height: 100%;
+  background-color: #000; /* Adjust the color of the border */
+}
+
+#box2{
+  display: flex;
+  float: right;
+  width: 80%;
+  height: 100%; /* Set the container's height to 100% */
+  background-color: #fff;
+  padding: 20px;
+  margin: 20px;
+  overflow: auto;
+}
+
+#box3{
+  display: flex;
+  float: right;
+  width: 80%;
+  height: 100%; /* Set the container's height to 100% */
+  background-color: #fff;
+  padding: 20px;
+  margin: 20px;
+  overflow: auto;
+}
+
+
+
+
+/* Add a new CSS rule to style the image container */
+.image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
+}
+
+.image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Use "contain" to maintain aspect ratio and fit the image inside the container without overflowing */
+}
+
+
+
+
+
+

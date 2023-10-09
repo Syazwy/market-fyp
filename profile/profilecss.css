@@ -151,6 +151,17 @@ a.nav-link.active {
 }
 
 
+/* Style for the star icons in the modal */
+.star-rating-modal {
+    font-size: 24px;
+    color: #ffd700; /* Yellow color for selected stars */
+    cursor: pointer;
+}
+
+/* Style for the selected stars */
+.star-rating-modal .fa-star.checked {
+    color: #ffd700; /* Yellow color for selected stars */
+}
 
 
 

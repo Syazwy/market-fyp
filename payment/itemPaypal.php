@@ -1,15 +1,40 @@
 <?php
 require_once("../session/session.php");
-$selectedPlan = $_GET['plan'];
-$price = 0; // Default price
 
-if ($selectedPlan === "Basic") {
-    $price = 0;
-} elseif ($selectedPlan === "Premium Monthly") {
-    $price = 4.99;
-} elseif ($selectedPlan === "Premium Annually") {
-    $price = 49.99;
+// Establish a database connection
+$conn = mysqli_connect("localhost", "root", "", "market");
+
+if (!$conn) {
+    die("Database connection failed: " . mysqli_connect_error());
 }
+
+$id = $_GET['id'];
+$total = $_GET['total'];
+$deliveryMethod = $_GET['deliveryMethod'];
+$paymentMethod = $_GET['paymentMethod'];
+
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Prepare and execute SQL query to fetch the price for the given ID
+$sql = "SELECT price FROM itemslisting WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $id);
+$stmt->execute();
+$stmt->bind_result($price);
+
+// Fetch the result
+if ($stmt->fetch()) {
+    // The $price variable now holds the item's price
+} else {
+    echo "No data found for the given ID.";
+}
+
+// Close the database connection
+$stmt->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +42,7 @@ if ($selectedPlan === "Basic") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PayPal Button Centering Test</title>
+  <title>PayPal</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <link rel="stylesheet" href="../order/order.css">
@@ -69,8 +94,7 @@ if ($selectedPlan === "Basic") {
       data-sdk-integration-source="integrationbuilder_sc"
       src="https://www.paypal.com/sdk/js?client-id=AW6IItKqFlY_wY4a0L_9wJ97PFoDY734dhsRZ45Iz572a4sOtDPyWjZ28ATRpy5fWjTPtg-xx8yqoCQc&components=buttons&disable-funding=credit,card"></script>
     <script>
-      const selectedPlan = "<?php echo $selectedPlan; ?>";
-      const price = <?php echo $price; ?>; // Correctly set the price based on the selected plan
+      const total = <?php echo $total; ?>; // Get the total from the database
 
       paypal.Buttons({
         style: {
@@ -82,19 +106,26 @@ if ($selectedPlan === "Basic") {
           return actions.order.create({
             purchase_units: [{
               amount: {
-                value: price.toFixed(2), // Ensure the price is formatted with 2 decimal places
-                currency_code: 'USD' // Adjust currency if necessary
+                value: total.toFixed(2), // Use the 'total' variable here
+                currency_code: 'USD'
               }
-            }]
+            }],
+            application_context: {
+              shipping_preference: 'NO_SHIPPING' // Indicate no shipping address is required
+            }
           });
         },
         onApprove: function(data, actions) {
           return actions.order.capture().then(function(details) {
             // Check for any errors in the capture process
             if (details.status === "COMPLETED") {
-                // Successful capture! Redirect to orderCompleted.php
-                window.location.href = "../order/orderCompleted.php?plan=" + selectedPlan + "&price=" + price;
-            } else {
+                // Successful capture! Redirect to orderCompleted1.php
+
+                var id = <?php echo json_encode($_GET['id']); ?>;
+                var deliveryMethod = <?php echo json_encode($_GET['deliveryMethod']); ?>;
+                var paymentMethod = <?php echo json_encode($_GET['paymentMethod']); ?>;
+                window.location.href = "../order/orderCompleted1.php?price=" + total + "&id=" + id + "&deliveryMethod=" + deliveryMethod + "&paymentMethod=" + paymentMethod;
+          } else {
                 // Handle capture errors here
                 console.error("Order capture error:", details.status);
             }
