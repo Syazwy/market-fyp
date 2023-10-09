@@ -4,7 +4,6 @@ require_once("../session/session.php");
 
 $usersemail = $_GET['email'];
 $user = $_GET['username'];
-echo $user;
 $myusername = $_SESSION['username'];
 ?>
 
