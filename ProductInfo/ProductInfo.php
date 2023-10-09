@@ -1,5 +1,13 @@
 <?php
 session_start(); // Start the session
+if (isset($_SESSION['email'])) {
+  // Assuming you have a session variable $_SESSION['email']
+  $sessionEmail = $_SESSION['email'];
+} else {
+  header("Location: ../home/index-guest.php");
+  exit; // Make sure to exit the script after redirection
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -121,8 +129,11 @@ session_start(); // Start the session
             </div>
      <!-- untuk kan ke page usersprofile -->
      <?php 
-    // Assuming you have a session variable $_SESSION['email']
-    $sessionEmail = $_SESSION['email'];
+
+        // Assuming you have a session variable $_SESSION['email']
+        $sessionEmail = $_SESSION['email'];
+  
+    
     $conn = new mysqli('localhost', 'root', '', 'market');
     $username = $row["username"];
 
@@ -172,7 +183,9 @@ session_start(); // Start the session
         echo '<button type="button" class="btn btn-primary" id="buyButton" onclick="buy()">Buy</button>';
     }
     echo '</div>';
+
 ?>
+
 
 <script>
     // Check if the session email is the same as the email retrieved from the database
