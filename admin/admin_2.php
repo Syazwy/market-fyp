@@ -91,7 +91,7 @@ require 'connection.php';
 
                   <?php
                       $i = 1;
-                      $rows = mysqli_query($conn, "SELECT * from `report` ORDER BY Id DESC");
+                      $rows = mysqli_query($conn, "SELECT * from `reportbyuser` ORDER BY Id DESC");
                   ?>
 
                   <?php
