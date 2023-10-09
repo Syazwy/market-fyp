@@ -4,6 +4,7 @@ require_once("../session/session.php");
 
 $usersemail = $_GET['email'];
 $user = $_GET['username'];
+echo $user;
 $myusername = $_SESSION['username'];
 ?>
 
@@ -56,6 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     $user = $_POST['username'];
+    $usersemail = $_POST['usersemail'];
     $item_id = $_POST['item_id'];
     $typeReport = $_POST['typeReport'];
     $report_reason = $_POST['report_reason'];
@@ -76,9 +78,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Close the database connection
     $conn->close();
+
+
     
 // Redirect to usersprofile.php with email and username as query parameters
-header("Location: usersprofile.php?");
+header("Location: usersprofile.php?email=" . $usersemail . "&username=" . $user);
 exit; // Make sure to exit the script after redirection
 }
 
@@ -275,6 +279,7 @@ exit; // Make sure to exit the script after redirection
                             <option value="No intent to sell">No intent to sell</option>
                         </select>
                         <input type="hidden" name="username" value="<?php echo htmlspecialchars($user); ?>">
+                        <input type="hidden" name="usersemail" value="<?php echo htmlspecialchars($usersemail); ?>">
                         <br>
                         <label for="report_reason">Reason</label>
                         <textarea class="form-control" name="report_reason" id="report_reason" rows="4" required></textarea>
