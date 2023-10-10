@@ -220,7 +220,7 @@ if (mysqli_num_rows($result) > 0) {
         echo '<p>' . $row['item_condition'] . '</p>';
 
         // Add the "Chat" button/link
-        echo '<a href="../privatemessage/pm.php?id=' . $itemId . '&username=' . urlencode($row['username']) . '&name=' . urlencode($row['name']) . '&description=' . urlencode($row['description']) . '&price=' . urlencode($row['price']) . '" class="btn btn-primary">Chat</a>';
+        echo '<a href="../privatemessage/chat.php?id=' . $itemId . '&username=' . urlencode($row['username']) . '&name=' . urlencode($row['name']) . '&description=' . urlencode($row['description']) . '&price=' . urlencode($row['price']) . '" class="btn btn-primary">Chat</a>';
 
 
         // Display the "Complete" button with an onclick event to trigger the JavaScript function
@@ -250,7 +250,7 @@ var description = "<?php echo $row['description']; ?>";
 var name = "<?php echo $row['name']; ?>";
 var price = "<?php echo $row['price']; ?>";
 
-var url = '../privatemessage/pm.php?' +
+var url = '../privatemessage/chat.php?' +
     'username=' + encodeURIComponent(username) +
     '&id=' + encodeURIComponent(id) +
     '&description=' + encodeURIComponent(description) +

@@ -1,0 +1,100 @@
+body{
+  font-family: Arial, sans-serif;
+}
+input[type=textarea]
+{
+background-color: #0022b5;
+border:none;
+color: black;
+padding: 8px 18px;
+text-decoration: none;
+margin: 4px 1px;
+font-family: Arial, sans-serif;
+}
+
+#send{
+  background-color: #FF5353;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+
+}
+
+.messageContainer {
+
+  border-radius: 5px; /* Rounded corners */
+ 
+}
+
+.Message1 {
+  display: inline-block; /* Make the div inline-block to wrap around the content */
+  padding: 10px 15px; /* Adjust the padding to your liking */
+  background-color: #A174FF; /* Background color for user messages */
+  border-radius: 5px; /* Rounded corners */
+  margin: 5px; /* Add some margin to separate messages */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+  color: white;
+}
+
+
+button [type=submit]
+{
+background-color: #243200;
+border: none;
+color:black;
+padding: 8px 18px;
+text-decoration: none;
+margin: 4px 1px;
+cursor: pointer;
+border-radius:10%;
+font-family: Arial, sans-serif;
+box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+#chatFrame {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  width: 60%;
+  height: 60vh; /* Adjust the height as needed */
+  overflow-y: auto; /* Add vertical scrolling */
+  margin: 0; /* Remove any margin to reduce the gap */
+  padding: 0; /* Remove any padding to reduce the gap */
+}
+
+
+
+
+#textInput{
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+
+  width:45%;
+}
+
+/* home css */
+a.nav-link.active {
+    background-color: #FF5353 !important;
+    margin-right: 20px;
+    border-radius: 18px;
+    width: 150px;
+    text-align: center;
+  }
+
+  button.nav-link.active {
+    background-color: #FF5353 !important;
+    margin-right: 20px;
+    border-radius: 18px;
+    width: 150px;
+    text-align: center;
+    border: none;
+  }
+
+  .btn.btn-primary {
+    background-color: #FF5353;
+    border-radius: 18px;
+    border: none;
+    width: 100px;
+  }
+

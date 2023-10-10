@@ -3,6 +3,7 @@
 require_once("../session/session.php");
 $yourEmail = $_SESSION['email'];
 ?>
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -88,15 +89,18 @@ $item = $_GET['name'];
 <center>
     <br>
     <br>
-    <div class="message-input">
-        <input type="text" id="message" placeholder="Type your message">
+    <div class="message-input"> 
+    <input type="text" name="message" id="message" placeholder="Type your message">
         <button id="send">Send</button>
-    </div>
+        </div>
+
     </center>
 </div>
 </div>
+
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+ document.addEventListener("DOMContentLoaded", function () {
+  
     const messageContainer = document.querySelector(".message-container");
     const messageInput = document.getElementById("message");
     const sendButton = document.getElementById("send");
@@ -104,37 +108,41 @@ $item = $_GET['name'];
 
     // Function to send a message
     function sendMessage() {
-      const messageText = messageInput.value.trim();
+    const messageText = messageInput.value.trim();
+    console.log("Message Text:", messageText); 
 
-      if (messageText !== "") {
-        const messageElement = document.createElement("div");
+    if (messageText !== "") {
+        const messageElement = document.createElement("div"); // Define messageElement
         messageElement.classList.add("user-message"); // Assuming it's a user message
 
         const messageTextElement = document.createElement("span");
-messageTextElement.classList.add("message-text");
-messageTextElement.textContent = messageText;
+        messageTextElement.classList.add("message-text");
+        messageTextElement.textContent = messageText;
 
-const messageTimeElement = document.createElement("span");
-messageTimeElement.classList.add("message-time");
-const now = new Date();
-const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toLowerCase();
-messageTimeElement.textContent = timeString;
+        const messageTimeElement = document.createElement("span");
+        messageTimeElement.classList.add("message-time");
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toLowerCase();
+        messageTimeElement.textContent = timeString;
 
-messageElement.appendChild(messageTimeElement);
-messageElement.appendChild(messageTextElement);
+        messageElement.appendChild(messageTimeElement);
+        messageElement.appendChild(messageTextElement);
 
-messageContainer.appendChild(messageElement);
+        messageContainer.appendChild(messageElement);
 
         // Scroll to the bottom of the message container to show the latest message
-    messageContainer.scrollTop = messageContainer.scrollHeight;
+        messageContainer.scrollTop = messageContainer.scrollHeight;
 
         // Clear the input field
-    messageInput.value = "";
+        messageInput.value = "";
 
-             // Hide the "Start a new discussion" section
-             startDiscussion.style.display = "none";
-      }
+        // Hide the "Start a new discussion" section
+        startDiscussion.style.display = "none";
+
+        console.log("Sending message to PHP script");
     }
+}
+
 
     // Listen for Enter key press in the message input field
     messageInput.addEventListener("keydown", function (event) {

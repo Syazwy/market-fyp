@@ -8,7 +8,7 @@
 }
 
 
-.message-container {
+/* .message-container {
     flex: 1; /* Allow this div to grow and fill the remaining space */
     overflow-y: auto; /* Enable vertical scrolling when content exceeds the container height */
     padding: none;
@@ -16,7 +16,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     height: 540px;
     border-radius: 20px;
-}
+} */
 #start-discussion {
     text-align: center !important;
     margin: 0 auto !important;
@@ -35,17 +35,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.message-time {
-    margin-right:5px; 
-    color: black;
-}
-.message-text {
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px 15px; /* Padding */
-    background-color: #A174FF; /* Background color for user messages */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    color: white;
-}
+
 
 .message-input input {
     flex: 1;
