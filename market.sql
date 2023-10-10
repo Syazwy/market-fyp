@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 04, 2023 at 05:28 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Oct 10, 2023 at 06:08 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `market2`
+-- Database: `market`
 --
 
 -- --------------------------------------------------------
@@ -48,8 +48,39 @@ CREATE TABLE `account` (
 INSERT INTO `account` (`id`, `username`, `email`, `password`, `membership`, `date`, `verification_code`, `email_verified_at`, `rating`, `status`, `District`) VALUES
 (58, 'Barzun', '21ftt1287@student.pb.edu.bn', '$2y$10$KKerGgOM/mitjc5Iv.mCtOOffP1IVnTVYk0fj0pqlkUJ4TJyd8IIS', ' Basic', '2023-09-27', '293766', '2023-09-27 17:38:47', '', 'Active', ''),
 (59, '21FTT1294', '21ftt1294@student.pb.edu.bn', '$2y$10$ByKhU1eNsJ4ZGE9J9SV3Ze84a9txQbTcAIlEXg97MfQXM18Z.h1Mi', 'Premium Annually', '2023-10-01', '509076', '2023-10-01 23:46:11', NULL, 'Active', ''),
-(60, 'wajid', 'bby-el@hotmail.com', '$2y$10$jl0kdZa2f73C/sOO9wfTW.eusN81dCiFOMAo3dgUeLhib3GQwFv56', ' Basic', '2023-10-01', '192842', '2023-10-02 00:23:46', NULL, 'Active', ''),
-(61, 'mujlir', '21ftt1750@student.pb.edu.bn', '$2y$10$i73QEWM3So1mOnG/xOki9.rZSuqkZbNaN8XdXV4UdZt.LgSoxqbSu', 'Basic', '2023-10-02', '127716', '2023-10-02 14:21:55', NULL, 'Active', '');
+(60, 'wajid', 'bby-el@hotmail.com', '$2y$10$jl0kdZa2f73C/sOO9wfTW.eusN81dCiFOMAo3dgUeLhib3GQwFv56', 'Premium Monthly', '2023-10-01', '192842', '2023-10-02 00:23:46', NULL, 'Active', ''),
+(61, 'mujlir', '21ftt1750@student.pb.edu.bn', '$2y$10$i73QEWM3So1mOnG/xOki9.rZSuqkZbNaN8XdXV4UdZt.LgSoxqbSu', 'Basic', '2022-10-07', '127716', '2023-10-02 14:21:55', NULL, 'Active', ''),
+(62, 'moyen', 'abdulmuinudin28@gmail.com', '$2y$10$FIm.kkJFRjSD08Isn3V9jeseEoOWvgRMz4fYfgMHmJPnJ8dqwL6Me', 'Basic', '2023-09-07', '100538', '2023-10-07 12:46:37', NULL, 'Active', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chat`
+--
+
+CREATE TABLE `chat` (
+  `ID` int(1) NOT NULL,
+  `Message` varchar(255) NOT NULL,
+  `time` varchar(15) NOT NULL,
+  `sender` varchar(255) NOT NULL,
+  `receiver` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `chat`
+--
+
+INSERT INTO `chat` (`ID`, `Message`, `time`, `sender`, `receiver`) VALUES
+(148, 'hi wajid', '10:57 PM', 'mujlir', 'wajid'),
+(149, 'hi mulir', '10:58 PM', 'wajid', 'mujlir'),
+(150, 'hey ', '11:02 PM', 'mujlir', 'wajid'),
+(151, 'oh', '11:02 PM', 'mujlir', 'wajid'),
+(152, 'oh hi', '11:04 PM', 'wajid', 'mujlir'),
+(153, 'hi', '11:24 PM', 'mujlir', 'wajid'),
+(154, 'long time no see hahah', '11:24 PM', 'mujlir', 'wajid'),
+(155, 'how are you', '11:24 PM', 'mujlir', 'wajid'),
+(156, 'im fine thank you', '11:24 PM', 'wajid', 'mujlir'),
+(157, 'great to hear that', '11:24 PM', 'mujlir', 'wajid');
 
 -- --------------------------------------------------------
 
@@ -79,10 +110,8 @@ CREATE TABLE `itemslisting` (
 --
 
 INSERT INTO `itemslisting` (`id`, `category`, `item_condition`, `name`, `price`, `description`, `location`, `item_id`, `username`, `time`, `uploaded_at`, `status`, `email`, `bought`) VALUES
-(142, 'vehicles', 'New', 'dxrfhj', '4646', 'drhrdhrd', 'Belait', NULL, 'mujlir', '08:29:28.000000', '2023-10-02 08:29:28', 'sold', '21ftt1750@student.pb.edu.bn', NULL),
-(143, 'clothing', 'Used - Like New', 'earrings', '18', 'balum pernah pakai', 'Brunei Muara', NULL, 'wajid', '08:50:24.000000', '2023-10-02 08:50:24', 'active', 'bby-el@hotmail.com', NULL),
-(144, 'electronics', 'New', 'awgwag', '255', 'aswtgawtg', 'Brunei Muara', NULL, 'wajid', '09:19:46.000000', '2023-10-02 09:19:46', 'sold', 'bby-el@hotmail.com', '21ftt1750@student.pb.edu.bn'),
-(145, 'clothing', 'Used - Like New', 'awfgawg', '25256', 'aswgawgwag', 'Brunei Muara', NULL, 'mujlir', '09:33:53.000000', '2023-10-02 09:33:53', 'sold', '21ftt1750@student.pb.edu.bn', 'bby-el@hotmail.com');
+(146, 'property', 'Used - Good', 'cabinet', '80', 'new masih lah', 'Temburong', NULL, 'wajid', '10:09:53.000000', '2023-10-02 10:09:53', 'sold', 'bby-el@hotmail.com', '21ftt1750@student.pb.edu.bn'),
+(161, 'electronics', 'Used - Good', 'wafawf', '2525', 'watawtawt', 'Brunei Muara', NULL, 'mujlir', '08:40:07.000000', '2023-10-07 08:40:07', 'active', '21ftt1750@student.pb.edu.bn', NULL);
 
 -- --------------------------------------------------------
 
@@ -101,15 +130,10 @@ CREATE TABLE `item_images` (
 --
 
 INSERT INTO `item_images` (`id`, `item_id`, `image_filename`) VALUES
-(115, 142, '651a6348942b3_cabinet.png'),
-(116, 142, '651a63489443e_car.png'),
-(117, 142, '651a6348945b9_earrings.png'),
-(118, 142, '651a634894716_iphone.png'),
-(119, 142, '651a634894837_necklace.png'),
-(120, 142, '651a634894924_necklace1.png'),
-(121, 143, '651a6830adf10_earrings.png'),
-(122, 144, '651a6f1253296_iphone.png'),
-(123, 145, '651a7261d3c6c_car.png');
+(124, 146, '651a7ad1c213b_cabinet.png'),
+(125, 37991, '../image/logo.png'),
+(126, 17510, '../image/logo.png'),
+(127, 161, '6520fd47bf8d8_0a7ecf24cb08d6e3664b9a3b1e2d9146.jpg');
 
 -- --------------------------------------------------------
 
@@ -135,15 +159,33 @@ CREATE TABLE `report` (
 CREATE TABLE `reportbyusers` (
   `id` int(100) NOT NULL,
   `typeReport` varchar(100) NOT NULL,
-  `reason` varchar(100) NOT NULL
+  `reason` varchar(100) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `reportbyusers`
 --
 
-INSERT INTO `reportbyusers` (`id`, `typeReport`, `reason`) VALUES
-(1, 'ProductQuality', 'something');
+INSERT INTO `reportbyusers` (`id`, `typeReport`, `reason`, `username`, `status`) VALUES
+(10, 'Sales of animals', 'awgawgwagwa', 'wajid', 'Active'),
+(11, 'Sales of animals', 'awgwagwag', 'wajid', 'Active'),
+(12, 'Sales of animals', 'wafgwagaw', 'wajid', 'Active'),
+(13, 'Selling of illegal item', 'fdfxchjdxhjdxj', 'wajid', 'Active'),
+(14, 'Selling of illegal item', 'sdzxhzxsdhdx', 'wajid', 'Active'),
+(15, 'Product quality', 'wagawg', 'wajid', 'Active'),
+(16, 'Sales of animals', 'wagwagwagwag', 'wajid', 'Active'),
+(17, 'Selling of illegal item', 'awtwat', 'wajid', 'Active'),
+(18, 'Sales of animals', 'awgawgwag', 'wajid', 'Active'),
+(19, 'Sales of animals', 'wagwag', 'wajid', 'Active'),
+(20, 'Selling of illegal item', 'wagwagwa', 'wajid', 'Active'),
+(21, 'Selling of illegal item', 'wafwafg', 'wajid', 'Active'),
+(22, 'Selling of illegal item', 'awgawg', 'wajid', 'Active'),
+(23, 'Product quality', 'awgwagawg', 'wajid', 'Active'),
+(24, 'Selling of illegal item', 'awgwagawg', 'wajid', 'Active'),
+(25, 'Sales of animals', 'awgwagawgwa', 'wajid', 'Active'),
+(26, 'No intent to sell', 'fgjkcfjfcj', 'wajid', 'Active');
 
 -- --------------------------------------------------------
 
@@ -165,22 +207,8 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `username`, `content`, `rating`, `time`, `users`) VALUES
-(36, 'hakim', 'Great seller', 4, '2023-08-19 09:59:53.000000', 'syazwy'),
+(36, 'hakim', 'Great seller', 4, '2023-08-19 09:59:53.000000', 'wajid'),
 (37, 'lapik aiman', 'Amazing seller', 3, '2023-08-19 10:01:02.000000', 'syazwy');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `wishlist`
---
-
-CREATE TABLE `wishlist` (
-  `id` int(6) NOT NULL,
-  `name` varchar(30) NOT NULL,
-  `price` int(20) NOT NULL,
-  `description` varchar(50) NOT NULL,
-  `category` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -191,6 +219,12 @@ CREATE TABLE `wishlist` (
 --
 ALTER TABLE `account`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `chat`
+--
+ALTER TABLE `chat`
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indexes for table `itemslisting`
@@ -224,12 +258,6 @@ ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `wishlist`
---
-ALTER TABLE `wishlist`
-  ADD PRIMARY KEY (`id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -237,19 +265,25 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+
+--
+-- AUTO_INCREMENT for table `chat`
+--
+ALTER TABLE `chat`
+  MODIFY `ID` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
 
 --
 -- AUTO_INCREMENT for table `itemslisting`
 --
 ALTER TABLE `itemslisting`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
 
 --
 -- AUTO_INCREMENT for table `item_images`
 --
 ALTER TABLE `item_images`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT for table `report`
@@ -261,19 +295,13 @@ ALTER TABLE `report`
 -- AUTO_INCREMENT for table `reportbyusers`
 --
 ALTER TABLE `reportbyusers`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
   MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
-
---
--- AUTO_INCREMENT for table `wishlist`
---
-ALTER TABLE `wishlist`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
