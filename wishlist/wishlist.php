@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Wishlist</title>
     <link rel="stylesheet" href="wishlist.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -70,7 +70,7 @@
 
     <div class="wishlist-container">
         <div class="wishlist-picture">
-            <img src="../profile/profileimage/hotwheels.jpg" alt="Profile Picture">
+            <img src="../profile/profileimage/wajdi.jpg" alt="Profile Picture">
         </div>   
     </div>
 
@@ -344,48 +344,35 @@ $result = mysqli_query($conn, $query);
   <br>  
   <h3>My Wishlist</h3>
 
-    <script>
-      
-      function removeFromWishlist(item_id) {
-    if (confirm("Are you sure you want to remove this item from your wishlist?")) {
-        // Send an AJAX request to the PHP script to remove the item
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "remove_from_wishlist.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // Handle the response (e.g., display a message)
-                alert(xhr.responseText);
-                // Reload the page or update the wishlist content as needed
+  <script>
+            function removeFromWishlist(item_id) {
+                if (confirm("Are you sure you want to remove this item from your wishlist?")) {
+                    // Send an AJAX request to the PHP script to remove the item
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "remove_from_wishlist.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            // Handle the response (e.g., display a message)
+                            alert(xhr.responseText);
+                            // Reload the page or update the wishlist content as needed
+                            location.reload(); // Refresh the page after removing the item
+                        }
+                    };
+
+                    xhr.send("item_id=" + item_id);
+                }
             }
-        };
-        
-        xhr.send("item_id=" + item_id);
-    }
-}
 
-function payment(item_id) {
-    // Display a confirmation dialog
-    if (confirm("Are you sure you want to proceed to your payment?")) {
-        // Send an AJAX request to the PHP script to add the item to the cart
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "../payment/itemPaypal.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // Handle the response (e.g., display a message)
-                alert(xhr.responseText);
-                // You can also update the cart count or perform other actions as needed
+            function payment(item_id) {
+                // Display a confirmation dialog
+                if (confirm("Are you sure you want to proceed to payment?")) {
+                    // Redirect to the payment page with the selected item's ID
+                    window.location.href = '../order/orderItem.php?id=' + item_id;
+                }
             }
-        };
-
-        xhr.send("item_id=" + item_id);
-    }
-}
-
-    </script>
+        </script>
 
      <!-- to show the wishlist items in database  -->
     <?php
@@ -521,6 +508,8 @@ function payment(item_id) {
   </div>
 </div>
 </div>
+
+
 
 
 <script>
