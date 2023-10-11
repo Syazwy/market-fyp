@@ -29,7 +29,7 @@
   </div>
 
   <div class="dropdown">
-    <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
+    <a href="#" class="btn" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
       <img src="../image/profile.png" width="50" height="50" class="profile">
     </a>
 
@@ -38,8 +38,8 @@
       <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
       <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
       <li><a class="dropdown-item" href="index-guest.php" id="logout-link">Log out</a></li>
-
     </ul>
+    
   </div>
   </div>
 </nav>
@@ -170,6 +170,8 @@
                   <img src="../image/profile.png" width="40" height="40">
                 </a>
               </div>
+
+              <!-- display username & time -->
               <div class="col-md-auto">
                 <h6 class="card-title">
                   <p style="text-transform: capitalize; margin:0px;"><?php echo $row["username"]; ?></p>
@@ -183,35 +185,25 @@
               </div>
             </div>
           </div>
-          <!-- <div class="card-header bg-transparent border border-0">
-            <h6 class="card-title">
-              <a class="navbar-brand" href="index.php">
-                <img src="../image/profile.png" width="40" height="40">
-                <p style="text-transform: capitalize"><?php echo $row["username"]; ?></p>
-              </a>
-              
-            </h6>
-            <p class="card-text"><?php echo $timeAgo; ?></p>
-          </div> -->
+  
+          <!-- display profile picture image -->
           <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
             <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
           
+          <!-- if delete will destroy the design -->
           <div class="card-body">
             <p class="card-title" style="text-transform: capitalize"></p>
             <h5 class="card-title"><b></b></h5>
             <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"></small></p>
-            <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-primary" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button> 
-            </div> -->
-
-            <!-- Your HTML template for displaying items -->
+          
+          <!-- display the name of the item, price, condition & addto wishlist button -->
           <div class="card-body">
               <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
               <h5 class="card-title"><b><?php echo "BND$" . $row["price"]; ?></b></h5>
               <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
               <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button type="button" class="btn btn-primary btn-wider btn-center-text" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist
+              <button type="button" class="btn btn-primary btn-wider btn-center-text" onclick="addToWishlist(<?php echo $row['item_id']; ?>)">Add to Wishlist
               </button>
             </div>
 
@@ -224,72 +216,45 @@
       </div>
     </div>
     
-    <!-- <?php
-// Connect to your MySQL database
-$mysqli = new mysqli('localhost', 'root', '', 'market');
 
-// Check for connection errors
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
-}
+<script>
+    function addToWishlist($itemId) {
+      // Create an XMLHttpRequest object
+      var xhr = new XMLHttpRequest();
 
-// Retrieve the itemId from the POST request
-$itemId = $_POST['itemId'];
+      // Define the PHP script URL
+      var url = 'add_to_wishlist.php';
 
-// Replace 'wishlist' with your actual table name, and adjust the column names accordingly
-$query = "INSERT INTO wishlist (id, name, price, category) SELECT id, name, price, category FROM items WHERE id = ?";
-$stmt = $mysqli->prepare($query);
-$stmt->bind_param('i', $itemId);
+      // Create a FormData object to send data to the server
+      var formData = new FormData();
+      formData.append('itemId', itemId);
 
-if ($stmt->execute()) {
-    echo 'success';
-} else {
-    echo 'error';
-}
+      // Configure the request
+      xhr.open('POST', url, true);
 
-$stmt->close();
-$mysqli->close();
-?> -->
-
-
-    <!-- <script>
-function addToWishlist($itemId) {
-  // Create an XMLHttpRequest object
-  var xhr = new XMLHttpRequest();
-
-  // Define the PHP script URL
-  var url = '../wishlist/wishlist.php';
-
-  // Create a FormData object to send data to the server
-  var formData = new FormData();
-  formData.append('itemId', itemId);
-
-  // Configure the request
-  xhr.open('POST', url, true);
-
-  // Set up the callback function to handle the response
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        // Handle the response here (e.g., show a success message)
-        var response = xhr.responseText;
-        if (response === 'success') {
-          alert('Item added to wishlist successfully!');
-        } else {
-          alert('Failed to add item to wishlist.');
+      // Set up the callback function to handle the response
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            // Handle the response here (e.g., show a success message)
+            var response = xhr.responseText;
+            if (response === 'success') {
+              alert('Item added to wishlist successfully!');
+            } else {
+              alert('Failed to add item to wishlist.');
+            }
+          } else {
+            // Handle other HTTP statuses (e.g., error)
+            alert('Error: ' + xhr.status);
+          }
         }
-      } else {
-        // Handle other HTTP statuses (e.g., error)
-        alert('Error: ' + xhr.status);
-      }
+      };
+
+      // Send the request with the form data
+      xhr.send(formData);
     }
-  };
 
-  // Send the request with the form data
-  xhr.send(formData);
-}
-
-</script> -->
+</script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
