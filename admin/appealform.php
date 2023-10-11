@@ -15,7 +15,7 @@ if(isset($_POST["submit"])){
     // Insert item data into database
     $query = "INSERT INTO `appeals` (username, appeal ) VALUES (?, ?)";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "sss", $username, $appeal);
+    mysqli_stmt_bind_param($stmt, "ss", $username, $appeal);
     mysqli_stmt_execute($stmt);
     $itemId = mysqli_insert_id($conn); // Get the last inserted item ID
     mysqli_stmt_close($stmt);

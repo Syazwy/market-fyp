@@ -103,7 +103,6 @@ require '../connection/connection.php';
                           <td><?php echo $i++; ?></td>
                           
                           <td><?php echo $row["username"]; ?></td>
-                          <td><?php echo $row["date-of-appeal"]; ?></td>
                           <td><?php echo $row["appeal"]; ?></td>                          
                           
                           
@@ -111,7 +110,7 @@ require '../connection/connection.php';
                           
                           <td><a href="appealview2.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">View</td>
                           
-                          <td><a href="status_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Change Status</td>
+                          <td><a href="unban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Unban</td>
                       </tr>
 
                   <?php endforeach; ?>
