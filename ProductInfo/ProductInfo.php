@@ -6,18 +6,86 @@ session_start(); // Start the session
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Info</title>
+    <title>Product Information</title>
     <link rel="stylesheet" href="bootstrap-5.0.2-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="productinfo.css">
     <link rel="stylesheet" href="../home/index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
      .checked {
     color: orange;
   }
-  </style>
+
+  .carousel-inner {
+    background: transparent; /* Make the carousel background clear */
+  }
+
+  .product-container {
+    background-color: white;
+  }
+
+  .product-info.description {
+    background: transparent; /* Make the description box background clear */
+  }
+
+  .product-info.description {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  margin-left: 50px;
+}
+
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn.btn-primary {
+  background-color: #FF5353;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+h2 {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+
+.proInfo .btn {
+  height: 65px; 
+  width: 120px; 
+  margin: 10px;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+
+.report-button {
+  height: 40px; 
+  width: 270px; 
+  border-radius: 10px;
+  padding-bottom: 40px;
+  background-color: #FF5353;
+  font-size: 25px;
+}
+
+</style>
+
   </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
@@ -66,12 +134,8 @@ session_start(); // Start the session
             $result = mysqli_query($conn, $query);
             
             // Check if a product with the specified 'id' exists
-            if ($row = mysqli_fetch_assoc($result)) {
-          
-          
-          
-      ?>
-
+            if ($row = mysqli_fetch_assoc($result)) {          
+          ?>
         <div class="product-container">
             
 
@@ -94,12 +158,10 @@ session_start(); // Start the session
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="">Previous</span>
+                <img src="img/prev.svg" alt="" style="color: black;height:60px;width:60px;">
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="">Next</span>
+                  <img src="img/next.svg" alt="" style="color: black;height:60px;width:60px;">
                 </button>
               </div>
           </div>
@@ -108,29 +170,23 @@ session_start(); // Start the session
 
         <div id="secondhalf">
           <div class="product-info description">
-              <p><h1 class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></h1></p> 
-              <br>
-              <button type="button" class="btn btn-primary" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button>
-              <h1>Price: </h1>
-              <p class="price">$<?php echo $row["price"]; ?></p>
-              <br>
-              <p><b><?php echo $row["category"]; ?></b></p>
-              <br>
-              <p><h2>Description:</h2></p>
-              <p><?php echo $row["description"]; ?></p>
-              <br>
-              <h2>Price:</h2>
-              <p class="price">$<?php echo $row["price"]; ?></p>
-              <br>
-
-              <!-- <button type="button" class="buy-button">Buy Now</button>
-              <button type="button" class="chat-button">Chat Now</button>
-              <a href="../admin/report.php?id=<?php echo $row["id"]; ?>"><button type="button" class="chat-button">Report</button></a> -->
-             
+          <div class="product-header">
+            <h1 class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></h1>
+            <button type="button" class="btn btn-primary" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button>
+          </div>
+          <div>
+          <h1>BND $<?php echo $row["price"]; ?></h1>
+          <br>
+          <h2>Category:</h2><h1><?php echo $row["category"]; ?></h1>
+          <br>
+          <h2>Description:</h2>
+          <h1><?php echo $row["description"]; ?></h1>
+          </div>
             </div>
 
 
-            <div class="proInfo">
+<div class="proInfo">
+<div class="proInfo-header">
     <img width="50px" src="images/pb.png">
     <?php 
         // Assuming you have a session variable $_SESSION['email']
@@ -172,22 +228,47 @@ session_start(); // Start the session
     ?> 
     <p><?php echo $row["username"]; ?></p>
     <br>
+  </div>
+
+  <center>
+    <p style="font-size:22px;"> <img src="img/location-outline.svg" style="height: 60px;width:60px" alt=""> <?php echo $row["location"]; ?></p>
+  </center>
+
+    <br>
+
     <!-- Use JavaScript to conditionally display the buttons -->
     <?php if ($sessionEmail === $row["email"]) { ?>
         <a href="../profile/profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">Edit</a>
     <?php } else { ?>
       <center>
-        <button type="button" class="btn btn-primary" id="chatButton" onclick="chat()" > <img src="img/chatbubble-ellipses-outline.svg" style="height: 30px;width:30px" alt=""></button>
-        <button type="button" class="btn btn-primary" id="buyButton" onclick="buy()">Buy</button>
+        <button type="button" class="btn btn-primary" id="chatButton" onclick="chat()" > <b>Chat</b> </button>
+        <button type="button" class="btn btn-primary" id="buyButton" onclick="buy()"> <b>Buy</b> </button>
       </center>
         <br>
     <?php } ?>
-    <br>
-    <center>
-    <p> <img src="img/location-outline.svg" style="height: 50px;width:50px" alt=""> <?php echo $row["location"]; ?></p>
-    </center>
+
+    <center><button type="button" class=" btn-danger report-button" onclick="report()"><b>REPORT !</b></button></center>
 </div>
-<br>
+
+
+
+
+<!-- functios for button -->
+<script>
+// JavaScript functions
+// function chat() {
+//   // Your chat functionality here
+// }
+
+// function buy() {
+//   // Your buy functionality here
+// }
+
+// function report() {
+//   // Handle the report functionality here, such as opening a modal or sending a request to report the item
+// }
+
+</script>
 
 <script>
     // Check if the session email is the same as the email retrieved from the database
