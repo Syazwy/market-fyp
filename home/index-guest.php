@@ -301,7 +301,7 @@ if ($insertStmt) {
                         <p>Your verification code is:</p>
                         <div class="verification-code">' . $verification_code . '</div>
                         <p>Please enter this code to complete your registration.</p>
-                        <a href="https://www.example.com/verification" class="button">Verify Your Email</a>
+                        <a href="http://localhost/Market/home/index-guest.php?secret='.($email).' class="button">Verify Your Email</a>
                         <p>If you have any questions or need assistance, feel free to contact our support team.</p>
                     </div>
                 </div>
