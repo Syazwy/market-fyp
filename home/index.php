@@ -211,7 +211,8 @@
               <h5 class="card-title"><b><?php echo "BND$" . $row["price"]; ?></b></h5>
               <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
               <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button type="button" class="btn btn-primary btn-wider btn-center-text" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist</button>
+              <button type="button" class="btn btn-primary btn-wider btn-center-text" onclick="addToWishlist(<?php echo $row['id']; ?>)">Add to Wishlist
+              </button>
             </div>
 
 </div>
