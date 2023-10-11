@@ -251,25 +251,6 @@ h2 {
 </div>
 
 
-
-
-<!-- functios for button -->
-<script>
-// JavaScript functions
-// function chat() {
-//   // Your chat functionality here
-// }
-
-// function buy() {
-//   // Your buy functionality here
-// }
-
-// function report() {
-//   // Handle the report functionality here, such as opening a modal or sending a request to report the item
-// }
-
-</script>
-
 <script>
     // Check if the session email is the same as the email retrieved from the database
     if (sessionEmail === '<?php echo $row["email"]; ?>') {
@@ -297,6 +278,10 @@ var url = '../privatemessage/pm.php?' +
 
 window.location.href = url;
 
+    }
+
+    function report(){
+      window.location.href = '../profilereport/profilereport.php?id=<?php echo $row["id"]; ?>';
     }
 </script>
 
