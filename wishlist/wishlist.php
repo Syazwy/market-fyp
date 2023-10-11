@@ -344,6 +344,7 @@ $result = mysqli_query($conn, $query);
   <br>  
   <h3>My Wishlist</h3>
 
+  <!-- TO REMOVE YOUR WISHLIST ITEM -->
   <script>
             function removeFromWishlist(item_id) {
                 if (confirm("Are you sure you want to remove this item from your wishlist?")) {
@@ -372,7 +373,7 @@ $result = mysqli_query($conn, $query);
                     window.location.href = '../order/orderItem.php?id=' + item_id;
                 }
             }
-        </script>
+   </script>
 
      <!-- to show the wishlist items in database  -->
     <?php
@@ -394,8 +395,8 @@ $result = mysqli_query($conn, $query);
                         <p class="card-text">Price: $' . $row['price'] . '</p>
                         <p class="card-text">' . $row['category'] .' - '. $row['description'] . '</p>
                         <div class="float-right">
-                            <button class="btn btn-danger" onclick="removeFromWishlist(' . $row['id'] . ')">Remove</button>
-                            <button class="btn btn-success" onclick="payment(' . $row['id'] . ')">Payment</button>
+                            <button class="btn btn-danger" onclick="removeFromWishlist(' . $row['item_id'] . ')">Remove</button>
+                            <button class="btn btn-success" onclick="payment(' . $row['item_id'] . ')">Payment</button>
                         </div>
                     </div>
                 </div>';
@@ -409,57 +410,6 @@ $result = mysqli_query($conn, $query);
     $conn->close();
     ?>
 
-    
-    <!-- to remove the items from the database -->
-    <?php
-    if (isset($_POST['item_id'])) {
-    $item_id = $_POST['item_id'];
-
-    // Perform the database removal operation here based on the $item_id
-    $conn = new mysqli('localhost', 'root', '', 'market');
-
-    if ($conn->connect_error) {
-        die('Connection Failed : ' . $conn->connect_error);
-    }
-
-    // Assuming your wishlist table structure contains an 'id' column
-    $sql = "DELETE FROM wishlist WHERE id = $item_id";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Item removed successfully";
-    } else {
-        echo "Error removing item: " . $conn->error;
-    }
-
-    $conn->close();
-    }
-    ?>
-
-    <!-- add to cart button to insert the item to add to cart page -->
-    <?php
-    if (isset($_POST['item_id'])) {
-    $item_id = $_POST['item_id'];
-    $username = $_SESSION['username']; // Assuming you have the username in the session
-
-    // Perform the database insertion operation here based on $item_id and $username
-    $conn = new mysqli('localhost', 'root', '', 'market');
-
-    if ($conn->connect_error) {
-        die('Connection Failed : ' . $conn->connect_error);
-    }
-
-    // Assuming your cart table structure contains columns 'item_id', 'username', and 'quantity'
-    $sql = "INSERT INTO cart (item_id, username, quantity) VALUES ($item_id, '$username', 1)";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Item added to cart successfully";
-    } else {
-        echo "Error adding item to cart: " . $conn->error;
-    }
-
-    $conn->close();
-    }
-    ?>
 
   </div>
 </div>
