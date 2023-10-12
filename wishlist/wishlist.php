@@ -396,7 +396,7 @@ $result = mysqli_query($conn, $query);
                         <p class="card-text">' . $row['category'] .' - '. $row['description'] . '</p>
                         <div class="float-right">
                             <button class="btn btn-danger" onclick="removeFromWishlist(' . $row['item_id'] . ')">Remove</button>
-                            <button class="btn btn-success" onclick="payment(' . $row['item_id'] . ')">Payment</button>
+                            <button class="btn btn-success" onclick="payment(' . $row['item_id'] . ')">Buy</button>
                         </div>
                     </div>
                 </div>';

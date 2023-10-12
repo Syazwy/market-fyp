@@ -22,6 +22,10 @@ a.nav-link.active {
     padding: 20px;
   }
 
+  .margin{
+    padding-top: 20px;
+  }
+
   .searchbar {
     width: 80%;
     height: 30px;
@@ -45,8 +49,13 @@ a.nav-link.active {
   }
 
   .card {
-    width: 20px;
-    height: 20px;
+    width: 50px;
+    height: 50px;
+    
+  }
+
+  .card-img-top{
+    border: 1px solid black;
   }
 
   img.image {

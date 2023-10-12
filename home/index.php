@@ -26,7 +26,7 @@
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../wishlist/wishlist.php">Wishlist</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
     </ul>
-  </div>
+  </div>l
 
   <div class="dropdown">
     <a href="#" class="btn" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
@@ -188,7 +188,7 @@
   
           <!-- display profile picture image -->
           <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
-            <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
+            <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="100%" height="150px">
           </a>
           
           <!-- if delete will destroy the design -->
@@ -202,13 +202,14 @@
               <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
               <h5 class="card-title"><b><?php echo "BND$" . $row["price"]; ?></b></h5>
               <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
-              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
               <button type="button" class="btn btn-primary btn-wider btn-center-text" onclick="addToWishlist(<?php echo $row['item_id']; ?>)">Add to Wishlist
               </button>
-            </div>
+              <br>
+            </div> -->
 
 </div>
-
+<br> 
           </div>
         </div>
       </div>
