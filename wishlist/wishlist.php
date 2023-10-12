@@ -76,9 +76,10 @@
 
     <br>
     <center>
-    <button class="no-background no-border " onclick="showListings()"><h5>My Listings</h5></button>
-    <button class="no-background no-border " onclick="showReviews()"><h5>Reviews</h5></button>
+    <button class="no-background no-border " onclick="showListings()"><h5></h5></button>
     <button class="no-background no-border " onclick="showWishlists()"><h5>Wishlists</h5></button>
+    <button class="no-background no-border " onclick="showReviews()"><h5></h5></button>
+    
   </center>
 
 <div class="box">
@@ -202,7 +203,7 @@
   
 <!-- ITEM-LISTING -->
 
-<div class="box" id="box2" style="display: block;">
+<div class="box" id="box4" style="display: block;">
     <?php
 require '../connection/connection.php';
 $i = 1;
