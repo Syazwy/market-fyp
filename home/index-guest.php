@@ -246,10 +246,69 @@ if ($insertStmt) {
 
             // Set email format to HTML
             $mail->isHTML(true);
+            $mail->Subject = 'Your Verification Code for Our Online Store';
+            $mail->Body = '<html>
+            <head>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f7f7f7;
+                        padding: 20px;
+                    }
+                    .container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        background-color: #ffffff;
+                        padding: 20px;
+                        border-radius: 5px;
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                    }
+                    .header {
+                        text-align: center;
+                        background-color: rgb(255, 83, 83); 
+                        color: #fff;
+                        padding: 10px 0;
+                    }
+                    .content {
+                        padding: 20px;
+                    }
+                    .verification-code {
+                        font-size: 30px;
+                        font-weight: bold;
+                        text-align: center;
+                        margin-top: 20px;
+                    }
+                    .button {
+                        display: block;
+                        width: 200px;
+                        margin: 20px auto;
+                        background-color: rgb(255, 83, 83);
+                        color: #fff;
+                        text-align: center;
+                        padding: 10px 20px;
+                        text-decoration: none;
+                        border-radius: 5px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h1>Thank you for joining Market</h1>
+                    </div>
+                    <div class="content">
+                        <p>Dear valued customer,</p>
+                        <p>Your verification code is:</p>
+                        <div class="verification-code">' . $verification_code . '</div>
+                        <p>Please enter this code to complete your registration.</p>
+                        <a href="http://localhost/Market/home/index-guest.php?secret='.($email).' class="button">Verify Your Email</a>
+                        <p>If you have any questions or need assistance, feel free to contact our support team.</p>
+                    </div>
+                </div>
+            </body>
+            </html>';
 
-            $mail->Subject = 'Email verification';
-            $mail->Body    = '<p>Your verification code is: <b style="font-size: 30px;">' . $verification_code . '</b></p>';
-
+            
             $mail->send();
 
             header("Location: index-guest.php?email=" . urlencode($email));
@@ -467,6 +526,7 @@ if ($user->membership === 'Premium Annually') {
   </center>
 
     <div>
+    <br>
       <h4>Newly Listed</h4>
     </div>
 
@@ -523,6 +583,7 @@ if ($user->membership === 'Premium Annually') {
                     <?php echo $timeAgo; ?>
                   </p>
                 </small>
+                <br>
               </div>
             </div>
           </div>
