@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2023 at 05:57 PM
+-- Generation Time: Oct 13, 2023 at 07:04 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -52,37 +52,12 @@ INSERT INTO `account` (`id`, `username`, `email`, `password`, `membership`, `dat
 (60, 'wajid', 'bby-el@hotmail.com', '$2y$10$jl0kdZa2f73C/sOO9wfTW.eusN81dCiFOMAo3dgUeLhib3GQwFv56', ' Basic', '2023-10-01', '192842', '2023-10-02 00:23:46', NULL, 'Active', '', 0),
 (61, 'mujlir', '21ftt1750@student.pb.edu.bn', '$2y$10$i73QEWM3So1mOnG/xOki9.rZSuqkZbNaN8XdXV4UdZt.LgSoxqbSu', 'Basic', '2023-10-02', '127716', '2023-10-02 14:21:55', NULL, 'Active', '', 0),
 (62, '21FTT1753', '21ftt1753@student.pb.edu.bn', '$2y$10$NndjoggDjzIn4Kk9POMjPeR3UUVCZEMFUiQWJx8HBd.X4duVcypAe', 'Basic', '2023-09-08', '601058', '2023-10-08 15:09:08', NULL, 'Active', '', 0),
-(70, 'af1qaiman', '', '', 'Basic', '2023-10-08', '159424', '2023-10-08 20:52:06', NULL, 'Active', '', 0);
+(70, 'af1qaiman', '', '', 'Basic', '2023-10-08', '159424', '2023-10-08 20:52:06', NULL, 'Active', '', 0),
+(71, 'AFIQ', 'abdafiqaiman.aziz@gmail.com', '$2y$10$XznDGxMDha36tp0M4u21mOEqRxPWESZhEKvrDeGFR6Y/mURAKr9li', 'Basic', '2023-10-13', '176572', '2023-10-14 00:16:10', NULL, 'Active', '', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `chat`
---
-
-CREATE TABLE `chat` (
-  `ID` int(1) NOT NULL,
-  `Message` varchar(255) NOT NULL,
-  `time` varchar(15) NOT NULL,
-  `sender` varchar(255) NOT NULL,
-  `receiver` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `chat`
---
-
-INSERT INTO `chat` (`ID`, `Message`, `time`, `sender`, `receiver`) VALUES
-(148, 'hi wajid', '10:57 PM', 'mujlir', 'wajid'),
-(149, 'hi mulir', '10:58 PM', 'wajid', 'mujlir'),
-(150, 'hey ', '11:02 PM', 'mujlir', 'wajid'),
-(151, 'oh', '11:02 PM', 'mujlir', 'wajid'),
-(152, 'oh hi', '11:04 PM', 'wajid', 'mujlir'),
-(153, 'hi', '11:24 PM', 'mujlir', 'wajid'),
-(154, 'long time no see hahah', '11:24 PM', 'mujlir', 'wajid'),
-(155, 'how are you', '11:24 PM', 'mujlir', 'wajid'),
-(156, 'im fine thank you', '11:24 PM', 'wajid', 'mujlir'),
-(157, 'great to hear that', '11:24 PM', 'mujlir', 'wajid');
 -- Table structure for table `appeals`
 --
 
@@ -101,6 +76,20 @@ INSERT INTO `appeals` (`id`, `username`, `appeal`, `status`) VALUES
 (1, 'apik aiman', 'aku nda tau apa2 bro', ''),
 (2, 'syazwy', 'aku teupload black pink sonic ku ', ''),
 (3, 'mujlir', 'sal aku asmara mewangi no 2', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chat`
+--
+
+CREATE TABLE `chat` (
+  `ID` int(1) NOT NULL,
+  `Message` varchar(255) NOT NULL,
+  `time` varchar(15) NOT NULL,
+  `sender` varchar(255) NOT NULL,
+  `receiver` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -201,33 +190,16 @@ INSERT INTO `report` (`id`, `username`, `status`, `item`, `report`, `typeofrepor
 CREATE TABLE `reportbyusers` (
   `id` int(100) NOT NULL,
   `typeReport` varchar(100) NOT NULL,
-  `reason` varchar(100) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `status` varchar(100) NOT NULL
+  `reason` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `reportbyusers`
 --
 
-INSERT INTO `reportbyusers` (`id`, `typeReport`, `reason`, `username`, `status`) VALUES
-(10, 'Sales of animals', 'awgawgwagwa', 'wajid', 'Active'),
-(11, 'Sales of animals', 'awgwagwag', 'wajid', 'Active'),
-(12, 'Sales of animals', 'wafgwagaw', 'wajid', 'Active'),
-(13, 'Selling of illegal item', 'fdfxchjdxhjdxj', 'wajid', 'Active'),
-(14, 'Selling of illegal item', 'sdzxhzxsdhdx', 'wajid', 'Active'),
-(15, 'Product quality', 'wagawg', 'wajid', 'Active'),
-(16, 'Sales of animals', 'wagwagwagwag', 'wajid', 'Active'),
-(17, 'Selling of illegal item', 'awtwat', 'wajid', 'Active'),
-(18, 'Sales of animals', 'awgawgwag', 'wajid', 'Active'),
-(19, 'Sales of animals', 'wagwag', 'wajid', 'Active'),
-(20, 'Selling of illegal item', 'wagwagwa', 'wajid', 'Active'),
-(21, 'Selling of illegal item', 'wafwafg', 'wajid', 'Active'),
-(22, 'Selling of illegal item', 'awgawg', 'wajid', 'Active'),
-(23, 'Product quality', 'awgwagawg', 'wajid', 'Active'),
-(24, 'Selling of illegal item', 'awgwagawg', 'wajid', 'Active'),
-(25, 'Sales of animals', 'awgwagawgwa', 'wajid', 'Active'),
-(26, 'No intent to sell', 'fgjkcfjfcj', 'wajid', 'Active');
+INSERT INTO `reportbyusers` (`id`, `typeReport`, `reason`) VALUES
+(1, 'ProductQuality', 'something'),
+(2, 'Scam', '10');
 
 -- --------------------------------------------------------
 
@@ -288,14 +260,16 @@ ALTER TABLE `account`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `chat`
---
-ALTER TABLE `chat`
-  ADD PRIMARY KEY (`ID`);
 -- Indexes for table `appeals`
 --
 ALTER TABLE `appeals`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `chat`
+--
+ALTER TABLE `chat`
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indexes for table `itemslisting`
@@ -342,13 +316,19 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `appeals`
 --
 ALTER TABLE `appeals`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `chat`
+--
+ALTER TABLE `chat`
+  MODIFY `ID` int(1) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `itemslisting`
