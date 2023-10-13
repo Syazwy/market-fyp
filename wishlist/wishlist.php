@@ -37,7 +37,7 @@
 
     <div class="dropdown">
     <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-      <img src="../image/profile.png" width="50" height="50" class="profile">
+    <img src="../image/profile.png" width="50" height="50" class="profile">
     </a>
 
     <ul class="dropdown-menu">
