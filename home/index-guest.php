@@ -494,6 +494,7 @@ if (isset($_POST["login"])) {
   </center>
 
     <div>
+    <br>
       <h4>Newly Listed</h4>
     </div>
 
