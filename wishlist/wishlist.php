@@ -168,17 +168,10 @@
         } else {
             echo 'Error in preparing the SQL statement.';
         }
-
-       
-                   
-                  
-        
-        
         
         ?>
         
-        
-          
+             
     </div>
     <br>
 
@@ -201,148 +194,11 @@
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
   
-<!-- ITEM-LISTING -->
-
-<div class="box" id="box4" style="display: block;">
-    <?php
-require '../connection/connection.php';
-$i = 1;
-$username = $_SESSION['username']; // Get the logged-in user's username
-$query = "SELECT itemslisting.*, item_images.image_filename 
-          FROM itemslisting 
-          JOIN item_images ON itemslisting.id = item_images.item_id 
-          WHERE itemslisting.username = '$username' 
-          GROUP BY itemslisting.id 
-          ORDER BY itemslisting.id DESC";
-
-$result = mysqli_query($conn, $query);
-?>
-
-
-    <?php if (mysqli_num_rows($result) > 0) : ?>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
-            <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                <div class="card" style="width: 150px; height: 200px; border:none">
-                    <div class="image-container" style="height: 50%;">
-                        <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" alt="Product Image" style="max-height: 100%;">
-                    </div>
-                    <div class="card-content">
-                        <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?php echo $row["name"]; ?></p>
-                        <h5><b>$<?php echo $row["price"]; ?></b></h5>
-                        <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
-                    </div>
-
-
-
-                    <?php
-                          $i = 1;
-                          $rows = mysqli_query($conn, "SELECT * from itemslisting  ORDER BY id DESC ");
-                          
-                    ?>
-                    
-                          <a href="../profile/profile_edit_item.php <?php echo $row["id"]; ?>)" class="btn btn-primary"> Edit Listings </a>
-
-
-                </div>  
-                           
-            <?php endwhile; ?>
-
-            <a href="../sellers/sell.php" style="text-decoration:none">
-    <div class="card" style="width: 150px; height: 170px; border:none; ">
-        <div class="image-container" style="height: 75%;padding:20px; background-color: #FFCBCB; border-radius:20px">
-            <img src="../image/plus.png" alt="Product Image" style="height: 30%;">
-        </div>
-        <div class="card-content">
-            <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></p>
-            <center><p>Add New Listing</p></center>
-            <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></p>
-        </div>
-    </div>
-</a>
-        </div>
-    <?php else : ?>
-        <h4>You have not made any listings.</h4>
-    <?php endif; ?>
-    <br>
-
-</div>
-
-
-<!-- ------------------------------------------------------------------------------------------------------------------- -->
-
-<!-- REVIEWS -->
-
-<div class="box" id="box3" style="display: none;">
-<!-- <button class="btn mb-3" id="addReviewBtn" data-toggle="modal" data-target="#addReviewModal" style="border: 1px solid black; position: fixed; top: 240px; right: 710px; <?php echo $addReviewButtonStyle; ?>">Add New Review</button> -->
-
-<div class="container1" style="">
-<?php
-      $conn = new mysqli('localhost', 'root', '', 'market');
-
-      if ($conn->connect_error) {
-          die('Connection Failed : '.$conn->connect_error);
-      }
-
-      if (isset($_POST['username']) && isset($_POST['content']) && isset($_POST['rating'])) {
-          $username = $_POST['username'];
-          $content = $_POST['content'];
-          $rating = $_POST['rating'];
-          $users = $_POST['users'];
-
-          $currentDateTime = new DateTime();
-          $timedate = $currentDateTime->format('Y-m-d H:i:s');
-
-          $stmt = $conn->prepare("INSERT INTO reviews(username, content, rating, time, user) VALUES (?, ?, ?, ? )");
-          $stmt->bind_param("ssss", $username, $content, $rating, $timedate, );
-          $stmt->execute();
-
-          $stmt->close();
-      } else {
-        $result = $conn->query("SELECT * FROM reviews WHERE users = '$username' ORDER BY time DESC");
-
-
-          if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-              $reviewDate = date('Y-m-d', strtotime($row['time']));
-          
-              echo '
-                  <div class="card mb-4">
-                      <div class="card-body"><center>
-                          <h5 class="card-title">' . $row['username'] . '</h5>
-                          <p class="rating">'; // Open the rating container
-          
-              for ($i = 1; $i <= 5; $i++) {
-                  echo '<span class="fa fa-star ' . ($i <= $row['rating'] ? 'checked' : '') . '"></span>';
-              }
-          
-              echo '</p>'; // Close the rating container
-              
-              echo '<p class="card-text">' . $row['content'] . '</p>
-                    <p class="time">Posted on ' . $reviewDate . '</p>
-                      </center></div>
-                  </div>'; // Close the card
-          }
-          
-          
-             $result->close();
-          } else {
-              echo '<p>No reviews available.</p>';
-          }
-      }
-      $conn->close();
-      
-      ?>
-</div>
-</div>  
-
-
-<!-- ------------------------------------------------------------------------------------------------------------------- -->
-
 <!-- WISHLIST -->
 
-<div class="box" id="box4" style="display: none;">
-<div class="container1" style="">
-  <br>  
+<div class="box" id="wishlistbox" style="display: block;">
+
+<br>  
   <h3>My Wishlist</h3>
 
   <!-- TO REMOVE YOUR WISHLIST ITEM -->
@@ -374,7 +230,7 @@ $result = mysqli_query($conn, $query);
                     window.location.href = '../order/orderItem.php?id=' + item_id;
                 }
             }
-   </script>
+  </script>
 
      <!-- to show the wishlist items in database  -->
     <?php
@@ -411,11 +267,11 @@ $result = mysqli_query($conn, $query);
     $conn->close();
     ?>
 
+    <br>
+</div> 
 
-  </div>
-</div>
 
- <!-- ------------------------------------------------------------------------------------------------------------------- -->
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
 
 <!-- PROFILE -->
 
@@ -460,32 +316,12 @@ $result = mysqli_query($conn, $query);
 </div>
 </div>
 
-
-
-
 <script>
-        // Function to show the Listings (box2) content
-        function showListings() {
-            document.getElementById("box2").style.display = "block";
-            document.getElementById("box3").style.display = "none";
-            document.getElementById("box4").style.display = "none";
-        }
-
-        // Function to show the Reviews (box3) content
-        function showReviews() {
-            document.getElementById("box2").style.display = "none";
-            document.getElementById("box3").style.display = "block";
-            document.getElementById("box4").style.display = "none";
-        }
-
-        // Function to show the Wishlists (box4) content
-        function showWishlists() {
-            document.getElementById("box2").style.display = "none";
-            document.getElementById("box3").style.display = "none";
-            document.getElementById("box4").style.display = "block"; // Corrected the typo here
+// Function to show the Wishlists box content
+function showWishlists() {
+    document.getElementById("wishlistbox").style.display = "block"; // Corrected the typo here 
 }
-
-    </script>
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
