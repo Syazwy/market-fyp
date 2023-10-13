@@ -94,6 +94,10 @@ h2 {
   font-size: 20px;
 }
 
+.carousel-item>img{
+  height: auto;
+  width: 350px;
+}
 </style>
   </head>
 
@@ -203,7 +207,7 @@ h2 {
 
 <div class="proInfo">
 <div class="proInfo-header">
-    <img width="50px" src="images/pb.png">
+    <img width="50px" src="../image/tofu.png">
     <?php 
 
         $conn = new mysqli('localhost', 'root', '', 'market');
@@ -240,7 +244,6 @@ h2 {
 
     ?> 
     <p><?php echo $row["username"]; ?></p>
-    <br>
   </div>
 
     <center>
