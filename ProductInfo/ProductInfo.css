@@ -175,6 +175,10 @@
     margin: auto;
   }
 
+  .btn{
+    border-radius: 18px;
+  }
+  
   #services{
     margin: auto;
   }
