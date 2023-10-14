@@ -175,7 +175,7 @@
           }
           ?>
 
-      <div class="col d-flex align-items-center justify-content-center">
+<div class="col d-flex align-items-center justify-content-center">
         <div class="card item h-100">
           <div class="card-header bg-transparent border border-0">
             <div class="row row-cols-1 row-cols-md-2 g-4">
@@ -184,47 +184,26 @@
                   <img src="../image/profile.png" width="40" height="40">
                 </a>
               </div>
-
-              <!-- display username & time -->
               <div class="col-md-auto">
                 <h6 class="card-title">
-                <p style="text-transform: capitalize; margin: 0px;"><?php echo $row["username"]; ?></p>
+                  <p style="text-transform: capitalize; margin:0px;"><?php echo $row["username"]; ?></p>
                 </h6>
                 <small class="text-body-secondary">
                   <p class="card-text">
                     <?php echo $timeAgo; ?>
                   </p>
                 </small>
-                
+                <br>
               </div>
             </div>
           </div>
-  
-          <!-- display profile picture image -->
-          <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
-            <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="100%" height="150px">
+          <a href="../productinfo/productinfo.php?id=<?php echo $row["id"]; ?>">
+            <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
-          
-          <!-- if delete will destroy the design -->
           <div class="card-body">
-            <p class="card-title" style="text-transform: capitalize"></p>
-            <h5 class="card-title"><b></b></h5>
-            <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"></small></p>
-          
-          <!-- display the name of the item, price, condition & addto wishlist button -->
-          <div class="card-body">
-              <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
-              <h5 class="card-title"><b><?php echo "BND$" . $row["price"]; ?></b></h5>
-              <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
-              
-              <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button type="button" class="btn btn-primary btn-wider btn-center-text" onclick="addToWishlist(<?php echo $row['item_id']; ?>)">Add to Wishlist
-              </button>
-              <br>
-            </div> -->
-
-</div>
-<br> 
+            <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
+            <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
+            <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
           </div>
         </div>
       </div>

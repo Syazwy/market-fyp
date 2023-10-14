@@ -16,29 +16,6 @@
   <link rel="stylesheet" href="index.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
-  <style>
-  .modal-header {
-    text-align: center;
-    border: none;
-  }
-
-  .modal-title {
-    margin: 0 auto;
-  }
-
-  .modal-header .close {
-    position: absolute;
-    right: 15px;
-    top: 15px;
-  }
-
-  .modal-content{
-    padding: 20px; 
-    padding-bottom: 60px;
-    padding-top: 60px;
-    border-radius: 15px;
-  }
-</style>
 
 <script>
 $(document).ready(function() {
