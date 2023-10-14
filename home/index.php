@@ -145,13 +145,14 @@
     <div class="row row-cols-1 row-cols-md-5 g-4">
       <?php
         $i = 1;
-        $query = "SELECT itemslisting.id, MAX(item_images.image_filename) AS image_filename
+        $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename
         FROM itemslisting
         JOIN item_images ON itemslisting.id = item_images.item_id
         JOIN account ON itemslisting.username = account.username
-        WHERE account.status = 'active'
+        WHERE account.status = 'Active'
         GROUP BY itemslisting.id
         ORDER BY itemslisting.id DESC";
+
         $result = mysqli_query($conn, $query);
 
         while ($row = mysqli_fetch_assoc($result)) :
@@ -187,7 +188,7 @@
               <!-- display username & time -->
               <div class="col-md-auto">
                 <h6 class="card-title">
-                  <p style="text-transform: capitalize; margin:0px;"><?php echo $row["username"]; ?></p>
+                <p style="text-transform: capitalize; margin: 0px;"><?php echo $row["username"]; ?></p>
                 </h6>
                 <small class="text-body-secondary">
                   <p class="card-text">

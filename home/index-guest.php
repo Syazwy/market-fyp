@@ -646,7 +646,6 @@ if (isset($_POST["login"])) {
         <form method="POST" >
 
 <?php
-include_once('forgot/connection.php'); // Include the file that initializes the database connection
 
 $msg = ''; // Initialize a message variable
 

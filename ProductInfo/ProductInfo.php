@@ -209,13 +209,7 @@ h2 {
 <div class="proInfo-header">
     <img width="50px" src="../image/tofu.png">
     <?php 
-
-        $conn = new mysqli('localhost', 'root', '', 'market');
         $username = $row["username"];
-        
-        if ($conn->connect_error) {
-            die('Connection Failed : '.$conn->connect_error);
-        }
         
         $reviewResult = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$username'");
         
