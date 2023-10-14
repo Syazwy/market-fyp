@@ -194,7 +194,7 @@
                     <?php echo $timeAgo; ?>
                   </p>
                 </small>
-                <br>
+                
               </div>
             </div>
           </div>
