@@ -480,7 +480,7 @@ if (isset($_POST["login"])) {
     <div class="row row-cols-1 row-cols-md-5 g-4">
       <?php
         $i = 1;
-        $query = "SELECT itemslisting.id, MAX(item_images.image_filename) AS image_filename
+        $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename
         FROM itemslisting
         JOIN item_images ON itemslisting.id = item_images.item_id
         JOIN account ON itemslisting.username = account.username
@@ -532,7 +532,7 @@ if (isset($_POST["login"])) {
               </div>
             </div>
           </div>
-          <a href="../ProductInfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
+          <a href="../productinfo/productinfo-guest.php?id=<?php echo $row["id"]; ?>">
             <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
           </a>
           <div class="card-body">
