@@ -1,9 +1,10 @@
 <?php
-session_start();
+  require_once("../session/session.php");
+  require '../connection/connection.php';
 ?>
 
 <?php
-   $conn = mysqli_connect("localhost", "root", "", "market");
+
 
 // Check if a POST request has been made and if the "complete-button" has been set
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['complete-button'])) {
@@ -182,12 +183,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['complete-button'])) {
 
 <?php
 
-$conn = mysqli_connect("localhost", "root", "", "market");
-
- // Check the connection
- if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Query to select rows with status 'sold' and bought by the user from the itemslisting table
 $email = $_SESSION['email']; // Get the user's email from the session
@@ -270,13 +265,7 @@ window.location.href = url;
 
     <?php
     // Assuming you have a database connection established
-    $conn = mysqli_connect("localhost", "root", "", "market");
-
-    // Check the connection
-    if ($conn->connect_error) {
-       die("Connection failed: " . $conn->connect_error);
-   }
-   
+ 
    // Query to select rows with status 'completed' and bought by the user from the itemslisting table
    $email = $_SESSION['email']; // Get the user's email from the session
    $query = "SELECT itemslisting.id, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, item_images.image_filename 

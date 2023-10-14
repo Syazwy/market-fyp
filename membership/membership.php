@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <?php
 require_once("../session/session.php");
+require '../connection/connection.php';
         $username = $_SESSION['username'];
 ?>
 
     <?php
-    // Database connection information
-    $conn = mysqli_connect("localhost", "root", "", "market");
 
-        if (!$conn) {
-            die("Database connection failed: " . mysqli_connect_error());
-        }
     // username to look up
     $username = $_SESSION['username']; // Assuming this is the username you want to retrieve the membership for
     $membership = "";
