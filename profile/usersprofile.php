@@ -20,11 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
     $currentDateTime = new DateTime();
     $timedate = $currentDateTime->format('Y-m-d H:i:s');
 
-    $conn = new mysqli('localhost', 'root', '', 'market');
-
-    if ($conn->connect_error) {
-        die('Connection Failed : ' . $conn->connect_error);
-    }
 
     // Use a prepared statement to insert the review into the database
     $stmt = $conn->prepare("INSERT INTO reviews (username, content, rating, time, user) VALUES (?, ?, ?, ?, ?)");
@@ -46,14 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // Establish a database connection (you'll need to replace these values with your actual database credentials)
-    $conn = new mysqli("localhost", "root", "", "market");
-    
-    // Check the connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
     
     $user = $_POST['username'];
     $usersemail = $_POST['usersemail'];
@@ -162,11 +149,7 @@ exit; // Make sure to exit the script after redirection
         
       <?php 
       echo "<h3>" . $user . "</h3><br>";
-      $conn = new mysqli('localhost', 'root', '', 'market');
-    
-      if ($conn->connect_error) {
-          die('Connection Failed : '.$conn->connect_error);
-      }
+
       $result = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$user'");
     
       if ($result->num_rows > 0) {
@@ -194,19 +177,12 @@ exit; // Make sure to exit the script after redirection
           echo '- No reviews available.';
       }
    
-      $conn->close();
+   
     
       ?> 
       <br>
         <p></p>  
     <?php
-  
-
-        $conn = new mysqli('localhost', 'root', '', 'market');
-        
-        if ($conn->connect_error) {
-            die('Connection Failed : ' . $conn->connect_error);
-        }
         
         // Query to get the account creation date for the user
         $stmt = $conn->prepare("SELECT date FROM account WHERE username = ?");
@@ -392,7 +368,7 @@ function validateForm() {
     <?php
 require '../connection/connection.php';
 $i = 1;
-$query = "SELECT itemslisting.*, item_images.image_filename 
+$query = "SELECT itemslisting.*, MAX (item_images.image_filename) AS image_filename
           FROM itemslisting 
           JOIN item_images ON itemslisting.id = item_images.item_id 
           WHERE itemslisting.username = '$user' 
@@ -446,11 +422,6 @@ $result = mysqli_query($conn, $query);
 
 <div class="container1" style="">
 <?php
-      $conn = new mysqli('localhost', 'root', '', 'market');
-
-      if ($conn->connect_error) {
-          die('Connection Failed : '.$conn->connect_error);
-      }
 
       if (isset($_POST['username']) && isset($_POST['content']) && isset($_POST['rating'])) {
           $username = $_POST['username'];
@@ -631,6 +602,11 @@ function submitModalRating() {
                 backdrop: "static", // Prevents closing the modal by clicking outside
                 keyboard: false // Prevents closing the modal with the Esc key
             });
+
+            // Show the success modal after a delay (e.g., 1000 milliseconds or 1 second)
+            setTimeout(function() {
+                $("#successModal").modal("show");
+            }, 1000);
             ';
         }
         ?>

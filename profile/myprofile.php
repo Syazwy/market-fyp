@@ -235,7 +235,7 @@ displayContentBasedOnStatus();
 require '../connection/connection.php';
 $i = 1;
 $username = $_SESSION['username']; // Get the logged-in user's username
-$query = "SELECT itemslisting.*, item_images.image_filename 
+$query = "SELECT itemslisting.*, MAX (item_images.image_filename) AS image_filename
           FROM itemslisting 
           JOIN item_images ON itemslisting.id = item_images.item_id 
           WHERE itemslisting.username = '$username' 
