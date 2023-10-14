@@ -1,3 +1,8 @@
+<?php
+  require '../connection/connection.php';
+  session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,23 +70,10 @@ $(document).ready(function() {
     }
 </script>
 
-
-
-<?php
-session_start();
-?>
 <?php
 if (isset($_POST["verify_email"])) {
   $email = $_POST["email"];
   $verification_code = $_POST["verification_code"];
-
-  // connect with the database
-  $conn = mysqli_connect("localhost", "root", "", "market");
-
-  // Check for a successful database connectionMarket
-  if (!$conn) {
-    die("Database connection failed: " . mysqli_connect_error());
-  }
 
   // Prepare and execute the SQL query with parameter binding
   $sql = "UPDATE account SET email_verified_at = NOW() WHERE email = ? AND verification_code = ?";
@@ -143,12 +135,6 @@ if (isset($_POST["register"])) {
     // Hash password
     $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
     // $encrypted_password = $password;
-
-    // Connect to database
-    $conn = mysqli_connect("localhost", "root", "", "market");
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
 
     // Check if email exists
     $emailCheckSql = "SELECT * FROM account WHERE email = ?";
@@ -338,14 +324,6 @@ if (isset($_POST["login"])) {
     $emailOrUsername = $_POST["emailOrUsername"];
     $password = $_POST["password"];
 
-    // Connect to the database (consider using a separate file for database configuration)
-    $conn = mysqli_connect("localhost", "root", "", "market");
-
-    // Check if the connection was successful
-    if (!$conn) {
-        die("Database connection failed: " . mysqli_connect_error());
-    }
-
     // Check if the input name is "admin"
     if ($emailOrUsername === "admin") {
         // Verify the admin password
@@ -501,16 +479,15 @@ if (isset($_POST["login"])) {
     <div class="container">
     <div class="row row-cols-1 row-cols-md-5 g-4">
       <?php
-         require '../connection/connection.php';
-        
         $i = 1;
-        $query = "SELECT itemslisting.*, item_images.image_filename 
-        FROM itemslisting 
-        JOIN item_images ON itemslisting.id = item_images.item_id 
+        $query = "SELECT itemslisting.id, MAX(item_images.image_filename) AS image_filename
+        FROM itemslisting
+        JOIN item_images ON itemslisting.id = item_images.item_id
         JOIN account ON itemslisting.username = account.username
-        WHERE account.status = 'active' 
-        GROUP BY itemslisting.id 
+        WHERE account.status = 'active'
+        GROUP BY itemslisting.id
         ORDER BY itemslisting.id DESC";
+
         $result = mysqli_query($conn, $query);
 
         while ($row = mysqli_fetch_assoc($result)) :
@@ -670,7 +647,7 @@ if (isset($_POST["login"])) {
         <form method="POST" >
         
 <?php
-include_once('forgot/connection.php');
+// include_once('forgot/connection.php');
 if(isset($_REQUEST['pwdrst']))
 {
   $email = $_REQUEST['email'];

@@ -144,15 +144,14 @@
   <div class="container">
     <div class="row row-cols-1 row-cols-md-5 g-4">
       <?php
-         require '../connection/connection.php';
         $i = 1;
-        $query = "SELECT itemslisting.*, item_images.image_filename 
-          FROM itemslisting 
-          JOIN item_images ON itemslisting.id = item_images.item_id 
-          JOIN account ON itemslisting.username = account.username
-          WHERE account.status = 'Active' 
-          GROUP BY itemslisting.id 
-          ORDER BY itemslisting.id DESC";
+        $query = "SELECT itemslisting.id, MAX(item_images.image_filename) AS image_filename
+        FROM itemslisting
+        JOIN item_images ON itemslisting.id = item_images.item_id
+        JOIN account ON itemslisting.username = account.username
+        WHERE account.status = 'active'
+        GROUP BY itemslisting.id
+        ORDER BY itemslisting.id DESC";
         $result = mysqli_query($conn, $query);
 
         while ($row = mysqli_fetch_assoc($result)) :
@@ -231,45 +230,6 @@
       <?php endwhile; ?>
       </div>
     </div>
-    
-
-<script>
-    function addToWishlist($itemId) {
-      // Create an XMLHttpRequest object
-      var xhr = new XMLHttpRequest();
-
-      // Define the PHP script URL
-      var url = 'add_to_wishlist.php';
-
-      // Create a FormData object to send data to the server
-      var formData = new FormData();
-      formData.append('itemId', itemId);
-
-      // Configure the request
-      xhr.open('POST', url, true);
-
-      // Set up the callback function to handle the response
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            // Handle the response here (e.g., show a success message)
-            var response = xhr.responseText;
-            if (response === 'success') {
-              alert('Item added to wishlist successfully!');
-            } else {
-              alert('Failed to add item to wishlist.');
-            }
-          } else {
-            // Handle other HTTP statuses (e.g., error)
-            alert('Error: ' + xhr.status);
-          }
-        }
-      };
-
-      // Send the request with the form data
-      xhr.send(formData);
-    }
-</script>
 
 </body>
 </html>
