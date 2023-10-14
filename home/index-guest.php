@@ -631,8 +631,7 @@ if (isset($_POST["login"])) {
   </div>
 </div>
 
-
-<!-- Forgot Modal -->
+<!-- forgot modal -->
 <div class="modal" id="forgotModal" tabindex="-1" role="dialog" aria-labelledby="forgotModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
   <div class="modal-content">
@@ -645,115 +644,139 @@ if (isset($_POST["login"])) {
       <div class="modal-body">
         <!-- Login form content goes here -->
         <form method="POST" >
-        
+
 <?php
-// include_once('forgot/connection.php');
-if(isset($_REQUEST['pwdrst']))
-{
-  $email = $_REQUEST['email'];
-  $check_email = mysqli_query($connection,"select email from account where email='$email'");
+session_start();
+
+include_once('forgot/connection.php'); // Include the file that initializes the database connection
+
+$msg = ''; // Initialize a message variable
+
+if (isset($_POST['send_verification_code'])) {
+  $email = $_POST['email'];
+  $check_email = mysqli_query($connection, "SELECT email FROM account WHERE email='$email'");
   $res = mysqli_num_rows($check_email);
-  if($res>0)
-  {
-    $message = '<div>
-     <p><b>Hello!</b></p>
-     <p>We are sorry to hear that you are having trouble with logging in to our website. We have received a message that you have forgotten your password. If this was you, you can get straight back into your account or reset your password now.</p>
-     <br>
-     <p><a style="background-color: #FF5353;border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;" href="http://localhost/Market/home/forgot/passwordreset.php?secret='.($email).'"> Click to Reset Your Password </a></p>
-     <br>
-     <p>If you didnt request a login link or password reset, you can ignore this message. </p>
-    <p>Only people who know your password or click the login link in this email can log in to your account </p>
-    </div>';
 
-include_once("forgot/SMTP/class.phpmailer.php");
-include_once("forgot/SMTP/class.smtp.php");
+  if ($res > 0) {
+    // Generate a verification code
+    $verification_code = mt_rand(100000, 999999);
 
-$email = $email; 
+    // Store the verification code in the database (you need to have a column for this)
+    mysqli_query($connection, "UPDATE account SET verification_code = $verification_code WHERE email = '$email'");
 
-// Send verification email 
-$mail = new PHPMailer;
+    // Send the verification code to the user's email
+    $message = "Your verification code is: $verification_code";
 
-// Send using SMTP
-$mail->IsSMTP();
+    include_once("forgot/SMTP/class.phpmailer.php");
+    include_once("forgot/SMTP/class.smtp.php");
 
-//Enable SMTP authentication
-$mail->SMTPAuth = true; 
+    $email = $email;
 
-//Enable TLS encryption;
-$mail->SMTPSecure = "tls";
+    // Send verification email
+    $mail = new PHPMailer;
+    $mail->IsSMTP();
+    $mail->SMTPAuth = true;
+    $mail->SMTPSecure = "tls";
+    $mail->Host = 'smtp.gmail.com';
+    $mail->Port = 587;
+    $mail->Username = 'market51bn@gmail.com';
+    $mail->Password = 'ixcnouumjkoxtcvs';
+    $mail->setFrom('admin.market@gmail.com', 'admin.market');
+    $mail->AddAddress($email);
+    $mail->Subject = "Verification Code";
+    $mail->isHTML(false); // Send plain text message
+    $mail->Body = $message;
 
-//Set the SMTP server to send through
-$mail->Host = 'smtp.gmail.com';
-
-//TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-$mail->Port = 587; 
-
-//SMTP username
-$mail->Username = 'market51bn@gmail.com';
-
-//SMTP password
-$mail->Password = 'ixcnouumjkoxtcvs';
-
-// $mail->FromName = "Tech Area";
-
-//Recipients
-$mail->setFrom('admin.market@gmail.com', 'admin.market');
-
-//Add a recipient
-$mail->AddAddress($email);
-
-$mail->Subject = "Reset Password";
-
-$mail->isHTML( TRUE );
-
-$mail->Body =$message;
-
-if($mail->send())
-{
-  $msg = "We have e-mailed your password reset link!";
-}
-}
-else
-{
-  $msg = "We can't find a user with that email address";
-}
+    if($mail->send()) {
+      $msg = "A verification code has been sent to your email address.";
+    } else {
+      $msg = "Failed to send the verification code. Please try again later.";
+    }
+  } else {
+    $msg = "We can't find a user with that email address";
+  }
 }
 
+if (isset($_POST['verify_code'])) {
+  $email = $_POST['email'];
+  $user_code = $_POST['verification_code'];
+
+  // Retrieve the stored verification code from the database
+  $result = mysqli_query($connection, "SELECT verification_code FROM account WHERE email='$email'");
+  $row = mysqli_fetch_assoc($result);
+
+  if ($row['verification_code'] == $user_code) {
+    // Verification code matches, allow the user to reset their password
+    $newPassword = $_POST['pwd']; // Get the new password
+
+    // Hash the new password securely
+     $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+    //$hashedPassword = $newPassword;
+
+    $reset_pwd = mysqli_query($connection, "UPDATE account SET password='$hashedPassword' WHERE email='$email'");
+
+    if ($reset_pwd) {
+        $msg = 'Your password has been updated successfully.';
+    } else {
+        $msg = "Error while updating password.";
+    }
+  } else {
+    $msg = "Invalid verification code. Please try again.";
+  }
+}
 ?>
-<body>
-<div class="container">  
-    <div class="table-responsive" style="padding: 20px;border-radius: 10px;box-shadow:
-    inset 0 -3em 3em rgba(0, 0, 0, 0.1),
-    0 0 0 2px rgb(255, 83, 83),
-    0.3em 0.3em 1em rgba(0, 0, 0, 0.3);">  
+
+<!-- HTML content goes here -->
+<div class="container">
+  <div class="table-responsive" style="padding: 20px; border-radius: 10px; box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1), 0 0 0 2px rgb(255, 83, 83), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);">
     <br>
     <h3 align="center">Forgot Password</h3><br/>
     <div class="box">
-     <form id="validate_form" method="post" >  
-       <div class="form-group" style="border: 1px solid white">
-       <label for="email">Email Address</label>
-       <br>
-       <input type="text" name="email" id="email" placeholder="Enter Email" required 
-       data-parsley-type="email" data-parsley-trigg
-       er="keyup" class="form-control" />
-      </div>
-      <br>
-      <div class="form-group">
-       <input type="submit" id="login" name="pwdrst" value="Send Password Reset Link" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;" class="btn btn-success" />
-       </div>
-       <br>
-       <p class="error"><?php if(!empty($msg)){ echo $msg; } ?></p>
-     </form>
-     </div>
-   </div>  
-  </div>
-    <br>
-    </form>
-      </div>    
+      <form method="post">
+        <div class="form-group" style="border: 1px solid white">
+          <label for="email">Email Address</label>
+          <br>
+          <input type="text" name="email" id="email" placeholder="Enter Email" required data-parsley-type="email" data-parsley-trigger="keyup" class="form-control" />
+        </div>
+        <br>
+        <div class="form-group">
+          <input type="submit" id="send_verification_code" name="send_verification_code" value="Send Verification Code" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;" class="btn btn-success" />
+        </div>
+      </form>
+      <p class="error"><?php if(!empty($msg)){ echo $msg; } ?></p>
     </div>
+    <br>
+    <?php
+    if (isset($_POST['email'])) {
+    ?>
+    <h3 align="center">Verify Code and Reset Password</h3><br/>
+    <div class="box">
+      <form method="post">
+        <div class="form-group">
+          <label for="verification_code">Verification Code</label>
+          <br>
+          <input type="text" name="verification_code" id="verification_code" placeholder="Enter Verification Code" required class="form-control" />
+          <input type="hidden" name="email" value="<?php if (isset($_POST['email'])) { echo $_POST['email']; } ?>" />
+        </div>
+        <div class="form-group">
+          <label for="pwd">New Password</label>
+          <input type="password" name="pwd" id="pwd" placeholder="Enter New Password" required class="form-control"/>
+        </div>
+        <br>
+        <div class="form-group">
+          <input type="submit" id="verify_code" name="verify_code" value="Verify Code and Reset Password" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;" class="btn btn-success" />
+        </div>
+      </form>
+      <p class="error"><?php if(!empty($msg)){ echo $msg; } ?></p>
+    </div>
+    <?php
+    }
+    ?>
   </div>
 </div>
 
+
+<!-- ---------------------------------------------------------------- -->
 
  <!-- Verification Modal --> 
  
