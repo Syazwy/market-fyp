@@ -235,6 +235,7 @@ mysqli_stmt_close($stmt);
             <h1>List Your Item</h1>
         </section>
         <br>
+        
         <div class="container">
             <br>
                 <div id="imagePreview" class="subcontainer" style="background: #FFEAEA; width: 550px;">
@@ -261,38 +262,36 @@ mysqli_stmt_close($stmt);
                 </div>
                 <br>
                 <div class="subcontainer">
-                    <div class="mb-3">
+                <div class="mb-3">
                     <label>Select Item Category:</label>
-                    <select class="form-select form-select-sm" aria-label="Small select example" name="category" required>
-                        <option value="null"> </option>
+                    <select class="form-select form-select-sm" aria-label="Small select example" name="category" required> 
                         <option value="property"> <img src="../image/property.png"> Property</option>
                         <option value="vehicles"> <img src="../image/vehicle.png"> Vehicles</option>
                         <option value="electronics"> <img src="../image/electronic.png"> Electronics</option>
                         <option value="clothing"> <img src="../image/fashion.png">Clothing</option>
                         <option value="furniture"> <img src="../image/furniture.png"> Furniture</option>
                     </select>
-                    </div>
-                    <label>Condition</label>
-                    <select class="form-select form-select-sm" aria-label="Small select example" name="item_condition" required>
-                        <option value=""> </option>
-                        <option value="New"> <img src="../image/property.png"> New </option>
-                        <option value="Used - Like New"> <img src="../image/vehicle.png"> Used - Like New </option>
-                        <option value="Used - Good"> <img src="../image/electronic.png"> Used - Good</option>
-                        <option value="Used - fair"> <img src="../image/fashion.png">Used - Fair</option>
-                    </select>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder=""required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Price</label>
-                        <input type="number" class="form-control" name="price" id="price" placeholder="" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" name="description" id="description" rows="3"></textarea>
-                    </div>
-                    <div class="mb-3">
+                </div>
+                <label>Condition</label>
+                <select class="form-select form-select-sm" aria-label="Small select example" name="item_condition" required>
+                    <option value="New"> <img src="../image/property.png"> New </option>
+                    <option value="Used - Like New"> <img src="../image/vehicle.png"> Used - Like New </option>
+                    <option value="Used - Good"> <img src="../image/electronic.png"> Used - Good</option>
+                    <option value="Used - fair"> <img src="../image/fashion.png">Used - Fair</option>
+                </select>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="" required>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="text" class="form-control" name="price" id="price" placeholder="" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" name="description" id="description" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
                     <label>Select Your District</label>
                     <select class="form-select form-select-sm" aria-label="Small select example" name="location" required>
                         <option value="Brunei Muara" default>Brunei Muara</option>
@@ -300,11 +299,13 @@ mysqli_stmt_close($stmt);
                         <option value="Temburong">Temburong</option>
                         <option value="Belait">Belait</option>
                     </select>
-                    </div>
-                    <input type="text" class="form-control" name="username" id="username" placeholder="" value="<?php echo $username ?>" hidden>
-                    <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px; color: white;"<?php if ($submissionLimitReached) echo 'disabled'; ?>>Create</button>
                 </div>
+                <input type="text" class="form-control" name="username" id="username" placeholder="" value="<?php echo $username ?>" hidden>
+                <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px; color: white;">Create</button>
+            </div>
             </form>
+
+
         <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
         <script src="dist/image-uploader.min.js"></script>
         <script>
@@ -332,22 +333,41 @@ mysqli_stmt_close($stmt);
     });
 
      // JavaScript function to validate the form
-     function validateForm() {
-        // Check if at least one image is uploaded
-        const imageUploadDiv = document.querySelector('.input-images-2');
-        const uploadedImages = imageUploadDiv.querySelectorAll('img');
-        if (uploadedImages.length === 0) {
-            // Display the error message
-            document.getElementById('imageUploadError').style.display = 'block';
-            return false; // Prevent form submission
-        }
-        return true; // Allow form submission
+    function validateForm() {
+    
+    // Image validation - Check if at least one image is uploaded
+    const imageInput = document.querySelector('.input-images-2');
+    if (imageInput.children.length === 0 || imageInput.children.length > 6) {
+        document.getElementById('imageUploadError').style.display = 'block';
+        return false;
+    } else {
+        document.getElementById('imageUploadError').style.display = 'none';
+    }
+
+    // Price validation
+    const priceInput = document.getElementById('price');
+    const priceValue = priceInput.value.trim();
+    const pricePattern = /^\$\d+(\.\d{2})?$/;
+    if (!pricePattern.test(priceValue) || parseFloat(priceValue.replace('$', '')) <= 0 || parseFloat(priceValue.replace('$', '')) >= 999999) {
+        alert('Price must be in the format $x.xx and between $1 and $999,999.');
+        return false;
+    }
+
+    // Description validation
+    const descriptionInput = document.getElementById('description');
+    if (descriptionInput.value.trim().length < 8) {
+        alert('Description must be at least 8 characters long.');
+        return false; // Prevent form submission
+    }
+
+    return true;// Allow form submission
     }
 
     function closeModal() {
         // Redirect to index.php when closing the modal
         window.location.href = "../home/index.php";
     }
+    
     function upgradeMembership() {
         // Redirect to the membership upgrade page
         window.location.href = "../membership/membership.php";

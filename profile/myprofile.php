@@ -217,8 +217,24 @@ displayContentBasedOnStatus();
                       $rows = mysqli_query($conn, "SELECT * from account WHERE username = '$username' ORDER BY id DESC ");
                   ?>
 
-                  
+                  <?php
 
+
+                  // SQL query to fetch the "membership" field from the 'account' table
+                  $sql = "SELECT membership FROM account";
+                  $result = mysqli_query($conn, $sql);
+
+                  if (mysqli_num_rows($result) > 0) {
+                      // Output data of each row
+                      while ($row = mysqli_fetch_assoc($result)) {
+                          echo "Membership: " . $row["membership"] . "<br>";
+                      }
+                  } else {
+                      echo "No results found.";
+                  }
+
+                  ?>
+  <br>
                   <?php
                     foreach($rows as $row) :
                   ?>
@@ -230,7 +246,8 @@ displayContentBasedOnStatus();
   </div>
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
-  <div class="box" id="box2">
+ 
+<div class="box" id="box2">
     <?php
 require '../connection/connection.php';
 $i = 1;
@@ -245,6 +262,7 @@ $query = "SELECT itemslisting.*, MAX (item_images.image_filename) AS image_filen
 $result = mysqli_query($conn, $query);
 ?>
 
+<!-- --------------------------------------------------------------- -->
 
     <?php if (mysqli_num_rows($result) > 0) : ?>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
@@ -269,7 +287,7 @@ $result = mysqli_query($conn, $query);
                     
                           <a href="profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary"> Edit item </a>
                           
-
+<!-- --------------------------------------------------------------- -->
 
                 </div>  
                            
