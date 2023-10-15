@@ -72,44 +72,56 @@ $yourEmail = $_SESSION['email'];
 </head>
 <body>
     <?php
-    // Assuming $yourName is the username of user1
-    $yourName = $_SESSION['username'];
+   // Assuming $yourName is the username of user1
+$yourName = $_SESSION['username'];
+$username = $_GET['username'];
+$itemid = $_GET['itemid'];
 
-    $sql = "SELECT `Message`, `time`, `sender` FROM chat";
-    $result = $conn->query($sql);
+// Construct the sender and receiver values with item ID
+$yourNameWithItem = $yourName . " ($itemid)";
+$usernameWithItem = $username . " ($itemid)";
 
-    if ($result->num_rows > 0) {
-        echo "<br>";
-        echo "<br>";
+require '../connection/connection.php';
 
-        // Create a wrapper div for the messages with a maximum height
-        echo "<div class=\"message-wrapper\" style=\"max-height: 400px; overflow-y: auto;\">";
+// Filter messages based on both the sender, receiver, and item ID
+$sql = "SELECT `Message`, `time`, `sender`, `receiver`, `itemid` FROM chat WHERE (sender = '$yourNameWithItem' AND receiver = '$usernameWithItem') OR (sender = '$usernameWithItem' AND receiver = '$yourNameWithItem') AND itemid = $itemid";
 
-        while ($row = $result->fetch_assoc()) {
-            $message = $row["Message"];
-            $time = $row["time"];
-            $sender = $row["sender"];
+$result = $conn->query($sql);
 
-            // Determine the message class and time positioning based on the sender
-            $messageClass = ($sender == $yourName) ? 'sender-message' : 'receiver-message';
-            $timeClass = ($sender == $yourName) ? 'message-time-sender' : 'message-time-receiver';
+if ($result->num_rows > 0) {
+    echo "<br>";
+    echo "<br>";
 
-            // Apply the message class to the container
-            echo "<div class=\"message $messageClass\">";
-            echo "<span class=\"$timeClass\">$time</span>";
-            echo "<span class=\"message\">$message</span>";
-            echo "</div>";
-        }
+    // Create a wrapper div for the messages with a maximum height
+    echo "<div class=\"message-wrapper\" style=\"max-height: 400px; overflow-y: auto;\">";
 
-        // Close the message wrapper
-        echo "</div>";
-    } else {
-        echo "<div id=\"centered-text-container\">";
-        echo "<h3>Start Chatting</h3>";
+    while ($row = $result->fetch_assoc()) {
+        $message = $row["Message"];
+        $time = $row["time"];
+        $sender = $row["sender"];
+        $itemid = $row["itemid"];
+
+        // Determine the message class and time positioning based on the sender
+        $messageClass = ($sender == $yourNameWithItem) ? 'sender-message' : 'receiver-message';
+        $timeClass = ($sender == $yourNameWithItem) ? 'message-time-sender' : 'message-time-receiver';
+
+        // Apply the message class to the container
+        echo "<div class=\"message $messageClass\">";
+        echo "<span class=\"$timeClass\">$time</span>";
+        echo "<span class=\"message\">$message</span>";
         echo "</div>";
     }
 
-    $conn->close();
+    // Close the message wrapper
+    echo "</div>";
+} else {
+    echo "<div id=\"centered-text-container\">";
+    echo "<h3>Start Chatting</h3>";
+    echo "</div>";
+}
+
+$conn->close();
+
     ?>
 </body>
 </html>

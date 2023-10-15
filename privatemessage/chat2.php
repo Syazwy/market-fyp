@@ -7,23 +7,27 @@ date_default_timezone_set('Asia/Brunei');
 
 
 $username = $_POST['username'];
-$usersid = $_POST['id'];
+$itemid = $_POST['id'];
 $description = $_POST['description'];
 $price = $_POST['price'];
-$item = $_POST['name'];
+$item_name = $_POST['item_name'];
 $input = $_POST['input'];
 $sender = $_POST['sender'];
 $receiver = $_POST['receiver'];
 
 // Format the time in 12-hour format with AM/PM using PHP
 $formattedTime = date("h:i A"); 
+echo $itemid;
+$sender = $sender . ' (' . $itemid . ')';
+$receiver = $receiver . ' (' . $itemid . ')';
+// Insert the message into the database
 
-// Insert the formatted time into the database
-$sql = "INSERT INTO chat (Message, time, sender, receiver) VALUES ('$input', '$formattedTime', '$sender', '$receiver')";
+require '../connection/connection.php';
+$sql = "INSERT INTO chat (Message, time, sender, receiver, itemid) VALUES ('$input', '$formattedTime', '$sender', '$receiver', '$itemid')";
 
 if ($conn->query($sql) === TRUE) {
     // Redirect to the next page with query parameters
-    header("Location: chat.php?username=$username&id=$usersid&description=$description&price=$price&name=$item");
+    header("Location: chat.php?username=$username&id=$itemid&description=$description&price=$price&name=$item_name");
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }

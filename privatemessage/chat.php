@@ -64,7 +64,7 @@ $yourName = $_SESSION['username'];
 
 <?php
 $username = $_GET['username'];
-$usersid = $_GET['id'];
+$itemid = $_GET['id'];
 $description = $_GET['description'];
 $price = $_GET['price'];
 $item = $_GET['name'];
@@ -81,16 +81,17 @@ $item = $_GET['name'];
         <p><?php echo $description ?></p>  
     </div>
 <center>
-<iframe id="chatFrame" src="chat1.php"></iframe>
+<iframe id="chatFrame" src="chat1.php?username=<?php echo $username; ?>&itemid=<?php echo $itemid; ?>"></iframe>
+
 
 
 <form method="post" action="chat2.php">
     <br>
     <input type="hidden" name="username" value="<?php echo $username; ?>">
-  <input type="hidden" name="id" value="<?php echo $usersid; ?>">
+  <input type="hidden" name="id" value="<?php echo $itemid; ?>">
   <input type="hidden" name="description" value="<?php echo $description; ?>">
   <input type="hidden" name="price" value="<?php echo $price; ?>">
-  <input type="hidden" name="name" value="<?php echo $item; ?>">
+  <input type="hidden" name="item_name" value="<?php echo $item; ?>">
   <input type="hidden" name="sender" value="<?php echo $yourName; ?>">
     <input type="hidden" name="receiver" value="<?php echo $username; ?>">
 <input id="textInput" type="textarea" name = "input" placeholder="Type your message" />
