@@ -1,0 +1,100 @@
+/* Style for the divs */
+.content {
+    display: none;
+    padding: 20px;
+    background-color: white;
+    height: 750px;
+}
+
+/* Style for the active div */
+.active {
+    display: block;
+}
+
+.transparent-button {
+    background: transparent;
+    border: none;
+    color: #000;
+    cursor: pointer;
+}
+
+.card1 {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    height: 450px;
+    width: calc(20% - 20px); /* Adjust the card width and spacing */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    height: 645px;
+    width: calc(20% - 20px); /* Four cards side by side with some spacing */
+    display: flex;
+    flex-direction: column; /* Stack the elements vertically inside the card */
+    justify-content: space-between; /* Space elements evenly vertically */
+    align-items: center; /* Center elements horizontally */
+    text-align: center; /* Center text horizontally */
+}
+
+.card img {
+    max-width: 75%;
+    max-height: 150px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    margin: 10px 0;
+}
+
+
+.complete-button, .cancel-button {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    width: 40%;
+    border-radius: 20px;
+}
+
+.complete-button {
+    background-color: #00A37C;
+    margin-bottom: 20px;
+}
+
+.cancel-button {
+    background-color: #FF5353;
+    margin-bottom: 20px;
+}
+
+/* Add a CSS class for the active button */
+.active-button {
+    border-bottom: 1px solid black;
+}
+
+a.nav-link.active {
+    background-color: #FF5353 !important;
+    margin-right: 20px;
+    border-radius: 18px;
+    width: 150px;
+    text-align: center;
+}
+
+.btn.btn-primary {
+    background-color: #FF5353;
+    border-radius: 18px;
+    border: none;
+    width: 100px;
+}

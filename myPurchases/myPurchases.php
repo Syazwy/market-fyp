@@ -37,92 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['complete-button'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> My Purchases</title>
-    <link rel="stylesheet" href="../profile/profilecss.css">
+    <link rel="stylesheet" href="myPurchases.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         /* Style for the divs */
 
        
-        .content {
-            display: none;
-            padding: 20px;
-            background-color: #white;
-            height: 750px;
-        }
-
-        /* Style for the active div */
-        .active {
-            display: block;
-        }
-
-        .transparent-button {
-            background: transparent;
-            border: none;
-            color: #000; /* You can change the text color to your preference */
-            cursor: pointer;
-            /* You can further style the button as needed */
-        }
-        .card-container {
-            display: flex; /* Use flexbox to arrange cards horizontally */
-            flex-wrap: wrap; /* Allow cards to wrap to the next row if needed */
-        }
-        .card {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px;
-            height: 645px;
-            width: calc(20% - 20px); /* Four cards side by side with some spacing */
-            display: flex;
-            flex-direction: column; /* Stack the elements vertically inside the card */
-            justify-content: space-between; /* Space elements evenly vertically */
-            align-items: center; /* Center elements horizontally */
-            text-align: center; /* Center text horizontally */
-        }
-
-        .card img {
-            max-width: 75%;
-            max-height: 150px;
-            margin-bottom: 10px;
-        }
-
-        .card p {
-            margin: 10px 0; /* Add vertical margin to paragraphs */
-        }
-
-        .complete-button, .cancel-button {
-            padding: 5px 10px;
-            border: none;
-            cursor: pointer;
-            width: 40%;
-            border-radius: 20px;
-        }
-
-        .complete-button {
-            background-color: #00A37C;
-            margin-bottom: 20px;
-        }
-
-        .cancel-button {
-            background-color: #FF5353;
-            margin-bottom: 20px;
-        }
-
-        /* Add a CSS class for the active button */
-        .active-button {
-            border-bottom: 1px solid black;
-        }
-
-        .card-container-horizontal {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-        }
-
-        .card-container-horizontal .card {
-            width: 30%; /* Adjust the width of cards for horizontal layout */
-        }
-
     </style>
 </head>
 <body>
@@ -175,64 +96,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['complete-button'])) {
     <button class="transparent-button" onclick="showDiv('div2')" id="btn2">Completed</button>
 
 </div>
-
 <div id="div1" class="content active">
+    <div class="card-container">
+        <?php
+        // Query to select rows with status 'sold' and bought by the user from the itemslisting table
+        $email = $_SESSION['email']; // Get the user's email from the session
+        $query = "SELECT itemslisting.id, itemslisting.username, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, item_images.image_filename 
+                  FROM itemslisting 
+                  LEFT JOIN item_images ON itemslisting.id = item_images.item_id 
+                  WHERE itemslisting.status = 'sold' AND itemslisting.bought = ?";
 
-    <!-- to display the cards that are sold -->
+        // Prepare the statement
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
 
+        // Get the result
+        $result = $stmt->get_result();
 
-<?php
+        // Check if there are rows with 'sold' status
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                // Get the item ID
+                $itemId = $row['id'];
+                $username = $row['username'];
+                echo '<div class="card">';
+                echo '<p>Name: ' . $row['name'] . '</p>';
+                echo '<center><img src="../sellers/upload/' . $row['image_filename'] . '"></center>';
+                echo '<p>Description: ' . $row['description'] . '</p>';
+                echo '<p>Price: $' . $row['price'] . '</p>';
+                echo '<p>Condition: ' . $row['item_condition'] . '</p>';
 
+                // Add the "Chat" button/link
+                echo '<a href="../privatemessage/chat.php?id=' . $itemId . '&username=' . urlencode($row['username']) . '&name=' . urlencode($row['name']) . '&description=' . urlencode($row['description']) . '&price=' . urlencode($row['price']) . '" class="btn btn-primary">Chat</a>';
 
-// Query to select rows with status 'sold' and bought by the user from the itemslisting table
-$email = $_SESSION['email']; // Get the user's email from the session
-$query = "SELECT itemslisting.id, itemslisting.username, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, item_images.image_filename 
-          FROM itemslisting 
-          LEFT JOIN item_images ON itemslisting.id = item_images.item_id 
-          WHERE itemslisting.status = 'sold' AND itemslisting.bought = ?";
-
-// Prepare the statement
-$stmt = $conn->prepare($query);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-
-// Get the result
-$result = $stmt->get_result();
-
-// Check if there are rows with 'sold' status
-if (mysqli_num_rows($result) > 0) {
-    // Inside the loop where you're generating the "Complete" button
-    while ($row = mysqli_fetch_assoc($result)) {
-        // Get the item ID
-        $itemId = $row['id'];
-        $username = $row['username'];
-        echo '<div class="card-container">';
-        echo '<div class="card">';
-        echo '<p>' . $row['name'] . '</p>';
-        echo '<center><img src="../sellers/upload/' . $row['image_filename'] . '"></center>';
-        echo '<p>' . $row['description'] . '</p>';
-        echo '<p>' . $row['price'] . '</p>';
-        echo '<p>' . $row['item_condition'] . '</p>';
-
-        // Add the "Chat" button/link
-        echo '<a href="../privatemessage/chat.php?id=' . $itemId . '&username=' . urlencode($row['username']) . '&name=' . urlencode($row['name']) . '&description=' . urlencode($row['description']) . '&price=' . urlencode($row['price']) . '" class="btn btn-primary">Chat</a>';
-
-
-        // Display the "Complete" button with an onclick event to trigger the JavaScript function
-        echo '<form method="POST" id="complete-form-' . $itemId . '">';
-        echo '<button class="complete-button" style="width:300px" onclick="confirmMarkCompleted(' . $itemId . ')" name="complete-button" value="' . $itemId . '">Complete</button>';
-        echo '</form>';
-
-        echo '</div></div>';
-    }
-} else {
-    echo '<p>You have not made any purchases that are currently in progress.</p>';
-}
-
-// Close the database connection
-mysqli_close($conn);
-
-    ?>
+                // Display the "Complete" button with an onclick event to trigger the JavaScript function
+                echo '<br><form method="POST" id="complete-form-' . $itemId . '">';
+                echo '<button class="complete-button" style="width:300px" onclick="confirmMarkCompleted(' . $itemId . ')" name="complete-button" value="' . $itemId . '">Complete</button>';
+                echo '</form>';
+                echo '</div>'; // Close the card
+            }
+        } else {
+            echo '<p>You have not made any purchases that are currently in progress.</p>';
+        }
+        ?>
+    </div> <!-- Close the card-container -->
+</div>
 
 
     <!-- closing -->
@@ -259,56 +168,40 @@ window.location.href = url;
 
 </div>
 <div id="div2" class="content">
+    <div class="card-container">
+        <?php
+        // Query to select rows with status 'completed' and bought by the user from the itemslisting table
+        $email = $_SESSION['email']; // Get the user's email from the session
+        $query = "SELECT itemslisting.id, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, item_images.image_filename 
+                  FROM itemslisting 
+                  LEFT JOIN item_images ON itemslisting.id = item_images.item_id 
+                  WHERE itemslisting.status = 'completed' AND itemslisting.bought = ?";
 
-    <!-- to display the cards that are completed -->
+        // Prepare the statement
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
 
+        // Get the result
+        $result = $stmt->get_result();
 
-    <?php
-    // Assuming you have a database connection established
- 
-   // Query to select rows with status 'completed' and bought by the user from the itemslisting table
-   $email = $_SESSION['email']; // Get the user's email from the session
-   $query = "SELECT itemslisting.id, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, item_images.image_filename 
-             FROM itemslisting 
-             LEFT JOIN item_images ON itemslisting.id = item_images.item_id 
-             WHERE itemslisting.status = 'completed' AND itemslisting.bought = ?";
-   
-   // Prepare the statement
-   $stmt = $conn->prepare($query);
-   $stmt->bind_param("s", $email);
-   $stmt->execute();
-   
-   // Get the result
-   $result = $stmt->get_result();
-   
-
-    // Check if there are rows with 'completed' status
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo '<div class="card-container">';
-            echo '<div class="card">';
-            echo '<p>' . $row['name'] . '</p>';
-            echo '<center><img src="../sellers/upload/' . $row['image_filename'] . '"></center>';
-            echo '<p>' . $row['description'] . '</p>';
-            echo '<p>' . $row['price'] . '</p>';
-            echo '<p>' . $row['item_condition'] . '</p>';
-            echo '</div></div>';
+        // Check if there are rows with 'completed' status
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo '<div class="card1">';
+                echo '<p>Name: ' . $row['name'] . '</p>';
+                echo '<center><img src="../sellers/upload/' . $row['image_filename'] . '"></center>';
+                echo '<p>Description: ' . $row['description'] . '</p>';
+                echo '<p>Price: $' . $row['price'] . '</p>';
+                echo '<p>Condition: ' . $row['item_condition'] . '</p>';
+                echo '</div>'; // Close the card1
+            }
+        } else {
+            echo '<p>You have not made any completed purchases.</p>';
         }
-    } else {
-        echo '<p>You have not made any completed purchases.</p>';
-    }
-
-    // Close the database connection
-    mysqli_close($conn);
-    ?>
-
-    <!-- closing -->
-
+        ?>
+    </div> <!-- Close the card-container -->
 </div>
-
-
-
-
 
 <script>
 
