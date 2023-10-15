@@ -1,5 +1,6 @@
 <?php
 require_once("../session/session.php");
+require '../connection/connection.php';
 ?>
 <?php
 date_default_timezone_set('Asia/Brunei');
@@ -13,11 +14,6 @@ $item = $_POST['name'];
 $input = $_POST['input'];
 $sender = $_POST['sender'];
 $receiver = $_POST['receiver'];
-$conn = mysqli_connect("localhost", "root", "", "market");
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Format the time in 12-hour format with AM/PM using PHP
 $formattedTime = date("h:i A"); 

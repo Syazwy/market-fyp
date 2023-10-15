@@ -1,5 +1,6 @@
 <?php
 require_once("../session/session.php");
+require '../connection/connection.php';
 $yourEmail = $_SESSION['email'];
 ?>
 <!DOCTYPE html>
@@ -25,7 +26,7 @@ $yourEmail = $_SESSION['email'];
 
         /* Example in your chat.css file */
         .message-wrapper {
-            max-width: 90%; /* Adjust the maximum width as needed */
+            max-width: 95%; /* Adjust the maximum width as needed */
             margin: 5px auto;
             overflow: hidden;
         }
@@ -73,12 +74,6 @@ $yourEmail = $_SESSION['email'];
     <?php
     // Assuming $yourName is the username of user1
     $yourName = $_SESSION['username'];
-
-    $conn = mysqli_connect("localhost", "root", "", "market");
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
 
     $sql = "SELECT `Message`, `time`, `sender` FROM chat";
     $result = $conn->query($sql);

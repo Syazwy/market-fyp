@@ -196,7 +196,7 @@ var description = "<?php echo $row['description']; ?>";
 var name = "<?php echo $row['name']; ?>";
 var price = "<?php echo $row['price']; ?>";
 
-var url = '../privatemessage/pm.php?' +
+var url = '../privatemessage/chat.php?' +
     'username=' + encodeURIComponent(username) +
     '&id=' + encodeURIComponent(id) +
     '&description=' + encodeURIComponent(description) +
