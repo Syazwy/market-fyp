@@ -11,12 +11,6 @@ require '../connection/connection.php';
     $username = $_SESSION['username']; // Assuming this is the username you want to retrieve the membership for
     $membership = "";
  
-
-    // Check the connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
     // Prepare and execute SQL query to fetch membership for the given username
     $sql = "SELECT membership FROM account WHERE username = ?";
     $stmt = $conn->prepare($sql);

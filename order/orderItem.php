@@ -1,24 +1,16 @@
 <?php
 require_once("../session/session.php");
+require '../connection/connection.php';
 $email = $_SESSION['email'];
 
 ?>
 
 <?php
-    // Database connection information
-    $conn = mysqli_connect("localhost", "root", "", "market");
-
-    if (!$conn) {
-        die("Database connection failed: " . mysqli_connect_error());
-    }
+  
 
     $id = $_GET['id'];
 
-    // Check the connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
+  
     // Prepare and execute SQL query to fetch name, price, and location for the given ID
     $sql = "SELECT name, price, location FROM itemslisting WHERE id = ?";
     $stmt = $conn->prepare($sql);
@@ -53,16 +45,7 @@ $total = $price + $delivery;
   ?>
   <?php
 
-$conn = mysqli_connect("localhost", "root", "", "market");
-
-if (!$conn) {
-    die("Database connection failed: " . mysqli_connect_error());
-}
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require '../connection/connection.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
       // Get form data

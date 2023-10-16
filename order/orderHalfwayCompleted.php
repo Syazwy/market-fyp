@@ -9,6 +9,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 require_once("../session/session.php");
+require '../connection/connection.php';
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 
@@ -16,13 +17,6 @@ $id = $_GET['id'];
 $total = $_GET['total'];
 $deliveryMethod = $_GET['deliveryMethod'];
 $paymentMethod = $_GET['paymentMethod'];
-
-$conn = mysqli_connect("localhost", "root", "", "market");
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 $sql = "SELECT name FROM itemslisting WHERE id = ?";
 $stmt = $conn->prepare($sql);
@@ -46,7 +40,7 @@ $updateStmt->bind_param("ss", $email, $id); // Assuming 'bought' column type is 
         echo "Error updating status: " . $conn->error;
     }
 } else {
-    echo "No data found for the given ID.";
+    
 }
 
 // Send an email using PHPMailer
@@ -170,8 +164,7 @@ $mail->isHTML(true);
         <h3>Your order is halfway done!</h3>
         <p style="color: #8F8F8F">You will receive a receipt from us with the complete order details.</p>
         <p style="color: #8F8F8F">Chat with the seller to complete your order.</p>
-        <button onclick="backtohome()" class="btn btn-primary" style="width:300px"><h4>Back to Home</h4></button>
-    </center>
+        <button onclick="myPurchases()" class="btn btn-primary" style="width:300px"><h4>Check your purchases!</h4></button>    </center>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -179,8 +172,8 @@ $mail->isHTML(true);
     
 </body>
 <script>
-    function backtohome(){
-        window.location.href = '../home/index.php';
+    function myPurchases(){
+        window.location.href = '../myPurchases/myPurchases.php';
     }
     
 </script>

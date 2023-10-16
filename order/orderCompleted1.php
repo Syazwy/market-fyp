@@ -19,11 +19,6 @@ $deliveryMethod = $_GET['deliveryMethod'];
 $paymentMethod = $_GET['paymentMethod'];
 $conn = mysqli_connect("localhost", "root", "", "market");
 
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
 $sql = "SELECT name FROM itemslisting WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $id); 
@@ -46,7 +41,7 @@ $updateStmt->bind_param("ss", $email, $id); // Assuming 'bought' column type is 
         echo "Error updating status: " . $conn->error;
     }
 } else {
-    echo "No data found for the given ID.";
+
 }
 
 // Send an email using PHPMailer
@@ -172,7 +167,7 @@ $mail->isHTML(true);
         <img src="../image/logo.png" alt="market logo" style="height:100px">
         <h3>Your order is complete!</h3>
         <p style="color: #8F8F8F">You will receive a receipt from us with the complete order details.</p>
-        <button onclick="backtohome()" class="btn btn-primary" style="width:300px"><h4>Back to Home</h4></button>
+        <button onclick="myPurchases()" class="btn btn-primary" style="width:300px"><h4>Check your purchases!</h4></button>
     </center>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -181,8 +176,8 @@ $mail->isHTML(true);
     
 </body>
 <script>
-    function backtohome(){
-        window.location.href = '../home/index.php';
+    function myPurchases(){
+        window.location.href = '../myPurchases/myPurchases.php';
     }
     
 </script>

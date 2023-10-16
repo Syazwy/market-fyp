@@ -9,6 +9,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 require_once("../session/session.php");
+require '../connection/connection.php';
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 
@@ -22,15 +23,6 @@ if ($selectedPlan === "Basic") {
     $price = 4.99;
 } elseif ($selectedPlan === "Premium Annually") {
     $price = 49.99;
-}
-
-
-
-$conn = mysqli_connect("localhost", "root", "", "market");
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
 }
 
 // Update the membership plan for the user
