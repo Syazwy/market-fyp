@@ -57,7 +57,6 @@ require '../connection/connection.php';
 
       <main>
         <?php
-         require '../connection/connection.php';
 
         // Check if the 'id' query parameter is set in the URL
         if (isset($_GET['id'])) {
