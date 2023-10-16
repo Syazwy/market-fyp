@@ -4,9 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Info</title>
-    <link rel="stylesheet" href="bootstrap-5.0.2-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="ProductInfo.css">
     <link rel="stylesheet" href="../home/index.css">
+    <link rel="stylesheet" href="bootstrap-5.0.2-dist/css/bootstrap.min.css">
+<style>
+   body {
+    font-family: Arial, sans-serif;
+  }
+  
+  div {
+    margin: 10px;
+  }
+  
+  .rating {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 20px; /* Adjust the font size as needed */
+  }
+  
+  .rating .fa {
+    margin: 0 5px; /* Adjust the spacing between stars */
+  }
+
+  label {
+    margin-right: 5px;
+  }
+  
+  select {
+    padding: 5px;
+  }
+  
+  #products-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .product {
+    width: 200px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 5px;
+  }
+  
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+
+  nav {
+    background-color: #ffffff;
+  }
+  
+
+  nav li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  
+  nav li a {
+    display: block;
+    color: #000000;
+    text-decoration: none;
+    padding: 10px;
+  }
+  
+  nav li a:hover {
+    background-color: #ffb9b9;
+  }
+
+  .product-container {
+    background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        margin: auto;
+        text-align: center;
+        width: 1200px;
+        background-color: #e4e4e4;
+  }
+  
+  .product-info {
+    flex: 1;
+    padding: 0 20px;
+    align-items: center;
+    padding: 20px;
+   width: 100px;
+  }
+  
+  .product-info h1 {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .product-info p {
+    margin: 10px 0;
+  }
+  
+  .price {
+    font-weight: bold;
+  }
+
+  #itemImages {
+    width: 400px;
+  }
+
+ .user{
+  width:400px;
+ }
+
+  #secondhalf{
+    
+    display: flex;
+
+  }
+
+</style>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -22,27 +137,17 @@
     <a class="navbar-brand" href="../home/index.php">
       <img src="../image/logo.png" width="80" height="80">
     </a>
-  
+
     <div class="collapse navbar-collapse justify-content-center">
-      <ul class="nav nav-pills">
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
-      </ul>
-    </div>
-
-    <div class="dropdown">
-      <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-        <img src="../image/profile.png" width="50" height="50" class="profile">
-      </a>
-
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="../profile/myProfile.php">My Profile</a></li>
-        <li><a class="dropdown-item" href="#">Your Listings</a></li>
-        <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
-        <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
-        <li><a class="dropdown-item" href="index-guest.php">Log out</a></li>
-      </ul>
+    <ul class="nav nav-pills">
+      <li class="nav-item"><a class="nav-link active" aria-current="page" data-bs-toggle="offcanvas" href="#offcanvasRight" role="button" aria-controls="offcanvasRight">Categories</a></li>
+      <li class="nav-item"><button id="registerModalTriggerButton" class="nav-link active" aria-current="page" data-toggle="modal" data-target="#registerModal" data-whatever="register">Register</button></li>
+      <li class="nav-item"><button class="nav-link active" aria-current="page"  data-toggle="modal" data-target="#loginModal" data-whatever="login">Login</button></li>
+     
+<li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#sellModal">Sell</a>
+</li>
+   </ul>
     </div>
   </div>
 </nav>
@@ -159,42 +264,6 @@
     echo '</div>';
 
 ?>
-
-
-<script>
-    // Check if the session email is the same as the email retrieved from the database
-    if (sessionEmail === '<?php echo $row["email"]; ?>') {
-        document.getElementById('chatButton').style.display = 'none';
-        document.getElementById('buyButton').style.display = 'none';
-    }
-    
-    function buy() {
-        // Redirect to buyMembership.php with the selected plan as a URL parameter
-        window.location.href = '../order/orderItem.php?id=<?php echo $row["id"]; ?>';
-    }
-    function chat() {
-      var username = "<?php echo $row['username']; ?>";
-var id = "<?php echo $row['id']; ?>";
-var description = "<?php echo $row['description']; ?>";
-var name = "<?php echo $row['name']; ?>";
-var price = "<?php echo $row['price']; ?>";
-
-var url = '../privatemessage/pm.php?' +
-    'username=' + encodeURIComponent(username) +
-    '&id=' + encodeURIComponent(id) +
-    '&description=' + encodeURIComponent(description) +
-    '&name=' + encodeURIComponent(name) +
-    '&price=' + encodeURIComponent(price);
-
-window.location.href = url;
-
-    }
-</script>
-
-
-
-
-          <br>
 
       <?php
 
