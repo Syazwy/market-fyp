@@ -63,7 +63,7 @@ require '../connection/connection.php';
         <ul class="nav nav-pills">
             <li class="nav-item"><a class="nav-link active" aria-current="page" href="admin.php">Overview</a></li>
             <li class="nav-item"><a class="nav-link active" aria-current="page" href="admin_2.php">Reports</a></li>
-            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Appeals</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="appealview.php">Appeals</a></li>
         </ul>
     </div>
 
@@ -84,10 +84,9 @@ require '../connection/connection.php';
                         <td>#</td>
                         <td>Status</td>
                         <td>Username</td>
-                        <td>Email</td>                      
+                                              
                         <td>Membership</td>
-                        <td>Date Joined</td>
-                        <td>Date Verified</td>
+                       
                         
                     </tr>
 
@@ -103,16 +102,14 @@ require '../connection/connection.php';
                       <tr>
                           <td><?php echo $i++; ?></td>
                           <td><?php echo $row["status"]; ?></td>
-                          <td><?php echo $row["username"]; ?></td>
-                          <td><?php echo $row["email"]; ?></td>                          
+                          <td><?php echo $row["username"]; ?></td>           
                           <td><?php echo $row["membership"]; ?></td>
-                          <td><?php echo $row["date"]; ?></td>
-                          <td><?php echo $row["email_verified_at"]; ?></td>
                           
                           
-                          <td><a href="view_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">View</td>
                           
-                          <td><a href="status_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Change Status</td>
+                          <td><a href="view_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">View</td>
+                          <td><a href="ban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Ban</td>
+                          <td><a href="unban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">Unbanned</td>
                       </tr>
 
                   <?php endforeach; ?>

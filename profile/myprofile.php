@@ -50,7 +50,7 @@ mysqli_close($conn);
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../wishlist/wishlist.php">Wishlist</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
+      <li class="nav-item" id="sellButton"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
     </ul>
   </div>
 
@@ -78,6 +78,7 @@ mysqli_close($conn);
   var box2 = document.getElementById("box2");
   var bannedMessage = document.getElementById("bannedMessage");
   var appealButton = document.getElementById("appealButton");
+  var sellButton = document.getElementById("sellButton");
 
   if (accountStatus == "Banned") {
     // Hide the item listing and "Add New Listing" button
@@ -85,12 +86,14 @@ mysqli_close($conn);
     // display the banned message and "Appeal" button
     bannedMessage.style.display = "block";
     appealButton.style.display = "block";
+    sellButton.style.display = "none";
   } else {
     // Show the item listing and "Add New Listing" button
     box2.style.display = "block";
     // Hide the banned message and "Appeal" button
     bannedMessage.style.display = "none";
     appealButton.style.display = "none";
+    sellButton.style.display = "block";
   }
 }
 
@@ -319,8 +322,9 @@ $result = mysqli_query($conn, $query);
 </div>
 
 <div class="box" id="bannedMessage" style="display: none;">
-        <p>Your account is currently banned.</p>
-        <button id="appealButton" class="btn btn-primary">Appeal</button>
+        <br>
+        <h2>Your account is currently banned.</h2>
+        <a href="../admin/appealform.php"><button id="appealButton" class="btn btn-primary">Appeal</button></a>
         </div>
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
