@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="forgot.css">  
 </head>
 <?php
-include_once('connection.php');
+include_once('../../connection/connection.php');
 if(isset($_REQUEST['pwdrst']))
 {
   $email = $_REQUEST['email'];

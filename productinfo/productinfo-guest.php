@@ -33,7 +33,7 @@ $(document).ready(function() {
 });
 </script>
 
-<!-- Add this script to your index-guest.php file -->
+<!-- Add this script to your productinfo-guest.php file -->
 <script>
     // Function to check the URL parameters
     function getURLParameter(name) {
@@ -63,13 +63,13 @@ if (isset($_POST["verify_email"])) {
 
   // Check the affected rows and handle accordingly
   if (mysqli_affected_rows($conn) > 0) {
-    header("Location: index-guest.php?verified=1");
+    header("Location: productinfo-guest.php?verified=1");
     exit();
   } else {
     echo '<script>alert("Verification code failed.");</script>';
     echo '<script>
              setTimeout(function(){
-               window.location = "index-guest.php?email=' . urlencode($email) . '";
+               window.location = "productinfo-guest.php?email=' . urlencode($email) . '";
              }, 500); 
           </script>';
   }
@@ -128,7 +128,7 @@ if (isset($_POST["register"])) {
             echo "<script>alert('Email already exists. Please choose another email.');</script>";
             echo '<script>
              setTimeout(function(){
-               window.location = "index-guest.php?";
+               window.location = "productinfo-guest.php?";
              }, 500); 
           </script>';
             exit;
@@ -152,7 +152,7 @@ if (isset($_POST["register"])) {
             echo "<script>alert('Username already exists. Please choose another username.');</script>";
             echo '<script>
             setTimeout(function(){
-              window.location = "index-guest.php?";
+              window.location = "productinfo-guest.php?";
             }, 500); 
          </script>';
             exit;
@@ -267,7 +267,7 @@ if ($insertStmt) {
                         <p>Your verification code is:</p>
                         <div class="verification-code">' . $verification_code . '</div>
                         <p>Please enter this code to complete your registration.</p>
-                        <a href="http://localhost/Market/home/index-guest.php?secret='.($email).' class="button">Verify Your Email</a>
+                        <a href="http://localhost/Market/home/productinfo-guest.php?secret='.($email).' class="button">Verify Your Email</a>
                         <p>If you have any questions or need assistance, feel free to contact our support team.</p>
                     </div>
                 </div>
@@ -277,7 +277,7 @@ if ($insertStmt) {
             
             $mail->send();
 
-            header("Location: index-guest.php?email=" . urlencode($email));
+            header("Location: productinfo-guest.php?email=" . urlencode($email));
 
             // Now, display the verification modal
             echo '<script>
@@ -333,7 +333,7 @@ if (isset($_POST["login"])) {
             if (!password_verify($password, $user->password)) {
                 $errorMessage = "Password is not correct";
             } elseif ($user->email_verified_at == null) {
-                header("Location: index-guest.php?email=" . urlencode($user->email));
+                header("Location: productinfo-guest.php?email=" . urlencode($user->email));
                 exit();
             } else {
                 // Set session variables for a regular user
@@ -385,7 +385,7 @@ if (isset($_POST["login"])) {
       </div>
       <!-- Move the "Change Email" link outside the form -->
       <div style="text-align: center;">
-      <a id="changeemail" style="text-decoration:none;color: #FF5353; cursor: pointer;" href="index-guest.php?show_register_modal=1">Change Email</a>
+      <a id="changeemail" style="text-decoration:none;color: #FF5353; cursor: pointer;" href="productinfo-guest.php?show_register_modal=1">Change Email</a>
 
       </div>
     </div>
@@ -414,7 +414,7 @@ if (isset($_POST["login"])) {
 
 <nav class="navbar navbar-expand-lg bg-transparent">
   <div class="container">
-    <a class="navbar-brand" href="index.php">
+    <a class="navbar-brand" href="../home/index.php">
       <img src="../image/logo.png" width="80" height="80">
     </a>
 
@@ -589,12 +589,11 @@ if (isset($_POST["login"])) {
                     <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
                     <label for="email">Email </label>
                 </div>
-                <div class="form-floating">
+                <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                     <label for="password">Password</label>
                 </div>
-                <br>
-                <div class="form-floating">
+                <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
                     <label for="confirmPassword">Confirm Password</label>
                 </div>

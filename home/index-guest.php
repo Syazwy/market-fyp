@@ -617,12 +617,11 @@ if (isset($_POST["login"])) {
                     <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
                     <label for="email">Email </label>
                 </div>
-                <div class="form-floating">
+                <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                     <label for="password">Password</label>
                 </div>
-                <br>
-                <div class="form-floating">
+                <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
                     <label for="confirmPassword">Confirm Password</label>
                 </div>
@@ -687,7 +686,7 @@ $msg = ''; // Initialize a message variable
 
 if (isset($_POST['send_verification_code'])) {
   $email = $_POST['email'];
-  $check_email = mysqli_query($connection, "SELECT email FROM account WHERE email='$email'");
+  $check_email = mysqli_query($conn, "SELECT email FROM account WHERE email='$email'");
   $res = mysqli_num_rows($check_email);
 
   if ($res > 0) {
@@ -695,7 +694,7 @@ if (isset($_POST['send_verification_code'])) {
     $verification_code = mt_rand(100000, 999999);
 
     // Store the verification code in the database (you need to have a column for this)
-    mysqli_query($connection, "UPDATE account SET verification_code = $verification_code WHERE email = '$email'");
+    mysqli_query($conn, "UPDATE account SET verification_code = $verification_code WHERE email = '$email'");
 
     // Send the verification code to the user's email
     $message = "Your verification code is: $verification_code";
