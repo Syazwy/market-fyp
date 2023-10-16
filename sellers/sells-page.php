@@ -2,28 +2,8 @@
     require_once("../session/session.php");
     require '../connection/connection.php';
     $username = $_SESSION['username'];
-
-    // Check the user's account status
- $query = "SELECT * FROM account WHERE username = '$username'";
- $result = mysqli_query($conn, $query);
-
- 
-if ($result) {
-  while($row = $result->fetch_assoc()){
-    $accountStatus = $row['status'];
-    $name =  $row['username'];
-   }
-} else {
-    // Handle the query error
-    die("Query Failed: " . mysqli_error($conn));
-}
-
-
 ?>
 <?php
-
-
-
 // Function to get the user's membership level
 function getUserMembership($conn, $username) {
     $query = "SELECT TRIM(membership) FROM account WHERE username = ?";
@@ -160,12 +140,20 @@ mysqli_stmt_close($stmt);
             display: flex;
         }
 
+        .subcontainer1 {
+            margin: auto;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0px 0px 3px black;
+            height: 610px;
+        }
+
         .subcontainer {
             margin: auto;
             border-radius: 10px;
             padding: 10px;
             box-shadow: 0px 0px 3px black;
-            height: 590px;
+            height: auto;
         }
 
         #home {
@@ -176,15 +164,13 @@ mysqli_stmt_close($stmt);
 
         .input-images-2 img {
             max-width: 100%;
-            max-height: 300px;
+            max-height: 500px;
         }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
-
-
-<div class="container">
+  <div class="container">
     <a class="navbar-brand" href="../home/index.php">
       <img src="../image/logo.png" width="80" height="80">
     </a>
@@ -211,7 +197,6 @@ mysqli_stmt_close($stmt);
     </ul>
   </div>
   </div>
-  
 </nav>
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
@@ -254,10 +239,12 @@ mysqli_stmt_close($stmt);
     </header>
 
     <main>
+        <br>
         <section id="home">
             <h1>List Your Item</h1>
         </section>
         <br>
+<<<<<<< Updated upstream
         <?php
 // Check if the user's account is banned
 if ($accountStatus === "Banned") {
@@ -340,7 +327,80 @@ if ($accountStatus === "Banned") {
         </form>';
 }
 ?>
+=======
+>>>>>>> Stashed changes
         
+        <div class="container">
+            <br>
+                <div id="imagePreview" class="subcontainer1" style="background: #FFEAEA; width: 550px;">
+                <div id="imageUploadError" class="alert alert-danger" style="display: none;">
+                    Please upload at least one image.
+                </div>
+
+                <form action="" method="post" autocomplete="off" enctype="multipart/form-data" onsubmit="return validateForm()">
+                    <div class="input-images">
+                        <center>
+                            <br>
+                            <h2>Upload up to 6 Photos</h2>
+                        </center>
+                    </div>
+                    <div class="input-field" style="">
+                        <div class="input-images-2" style="padding-top: .5rem; padding-bottom: .5rem;"></div>
+                    </div>
+                    <!-- Uploaded images will be displayed here -->
+                    
+                    <!-- Add the error message div -->
+                    <div id="imageUploadError" class="alert alert-danger" style="display: none;">
+                        Please upload at least one image.
+                    </div>
+                    <!-- Uploaded images will be displayed here -->
+                </div>
+                <br>
+                <div class="subcontainer">
+                <div class="mb-3">
+                    <label>Select Item Category:</label>
+                    <select class="form-select form-select-sm" aria-label="Small select example" name="category" required> 
+                        <option value="property"> <img src="../image/property.png"> Property</option>
+                        <option value="vehicles"> <img src="../image/vehicle.png"> Vehicles</option>
+                        <option value="electronics"> <img src="../image/electronic.png"> Electronics</option>
+                        <option value="clothing"> <img src="../image/fashion.png">Clothing</option>
+                        <option value="furniture"> <img src="../image/furniture.png"> Furniture</option>
+                    </select>
+                </div>
+                <label>Condition</label>
+                <select class="form-select form-select-sm" aria-label="Small select example" name="item_condition" required>
+                    <option value="New"> <img src="../image/property.png"> New </option>
+                    <option value="Used - Like New"> <img src="../image/vehicle.png"> Used - Like New </option>
+                    <option value="Used - Good"> <img src="../image/electronic.png"> Used - Good</option>
+                    <option value="Used - fair"> <img src="../image/fashion.png">Used - Fair</option>
+                </select>
+                <br>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="" required>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="text" class="form-control" name="price" id="price" placeholder="" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" name="description" id="description" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label>Select Your District</label>
+                    <select class="form-select form-select-sm" aria-label="Small select example" name="location" required>
+                        <option value="Brunei Muara" default>Brunei Muara</option>
+                        <option value="Tutong">Tutong</option>
+                        <option value="Temburong">Temburong</option>
+                        <option value="Belait">Belait</option>
+                    </select>
+                </div>
+                <input type="text" class="form-control" name="username" id="username" placeholder="" value="<?php echo $username ?>" hidden>
+                <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px; color: white;">Create</button>
+            </div>
+            </form>
+
 
         <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
         <script src="dist/image-uploader.min.js"></script>
