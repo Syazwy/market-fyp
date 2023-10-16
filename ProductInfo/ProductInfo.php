@@ -119,7 +119,7 @@ require '../connection/connection.php';
               <h3>Description:</h3>
               <h6><?php echo $row["description"]; ?></h6>
               <br>
-              <button type="button" class="btn btn-primary" id="wishlistButton" onclick="wishlist()">Add to wishlist</button>
+              <button type="button" class="btn btn-primary" id="wishlistButton" <?php echo ($sessionEmail === $row['email']) ? 'style="display: none;"' : ''; ?> onclick="wishlist()">Add to wishlist</button>
 </div>
      <!-- untuk kan ke page usersprofile -->
      <?php 
