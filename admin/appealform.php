@@ -87,6 +87,8 @@ if(isset($_POST["submit"])){
                     <div class="mb-3">
                         
                         <input type="text" name="username" id="username" value="Barzun" hidden>
+                        <!-- <input type="text" name="username" id="username" value="<?php echo $username;?>" hidden> -->
+                        <!-- echo "<h3>" . $username . "</h3><br>"; -->
 
 
                         <input type="hidden" name="status" value="pending">

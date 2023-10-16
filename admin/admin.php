@@ -107,8 +107,8 @@ require '../connection/connection.php';
                           
                           
                           <td><a href="view_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">View</td>
-                          <td><a href="ban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Ban</td>
-                          <td><a href="unban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">Unbanned</td>
+                          <td><a href="ban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger" id="ban">Ban</td>
+                          <td><a href="unban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">Unban</td>
                       </tr>
 
                   <?php endforeach; ?>
@@ -120,6 +120,19 @@ require '../connection/connection.php';
     </div>
     </div>
 
+    <script>
+  document.getElementById('ban').addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent the link from immediately navigating
+
+    // Display a confirmation dialog
+    const confirmLogout = confirm("Are you sure you want to ban this person?");
+
+    // If the user confirms, navigate to the logout page
+    if (confirmLogout) {
+      window.location.href = event.target.href;
+    }
+  });
+</script>
 
         
 
