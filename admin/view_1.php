@@ -1,6 +1,6 @@
 
 <?php
-require 'connection.php';
+require '../connection/connection.php';
 
 $query = "SELECT * FROM `account` ORDER BY Id DESC LIMIT 1";
 $result = mysqli_query($conn, $query);

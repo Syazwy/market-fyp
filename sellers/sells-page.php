@@ -335,7 +335,7 @@ if ($accountStatus === "Banned") {
             </select>
             </div>
             <input type="text" class="form-control" name="username" id="username" placeholder="" value="<?php echo $username ?>" hidden>
-            <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px; color: white;"<?php if ($submissionLimitReached) echo "disabled"; ?>>Create</button>
+            <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px; color: white;"<?php if ($submissionLimitReached) echo "disabled"; ?>Create</button>
         </div>
         </form>';
 }
