@@ -1,3 +1,6 @@
+<?php
+  require '../connection/connection.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,7 +52,6 @@
 
       <main>
         <?php
-         require '../connection/connection.php';
 
         // Check if the 'id' query parameter is set in the URL
         if (isset($_GET['id'])) {

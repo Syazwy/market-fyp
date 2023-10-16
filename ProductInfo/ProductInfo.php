@@ -1,5 +1,6 @@
 <?php
   require_once("../session/session.php");
+  require '../connection/connection.php';
   $sessionEmail = $_SESSION['email'];
 ?>
 <!DOCTYPE html>
@@ -53,7 +54,6 @@
 
       <main>
         <?php
-         require '../connection/connection.php';
 
         // Check if the 'id' query parameter is set in the URL
         if (isset($_GET['id'])) {
