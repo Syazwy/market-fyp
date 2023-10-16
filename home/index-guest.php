@@ -680,83 +680,74 @@ if (isset($_POST["login"])) {
         <!-- Login form content goes here -->
         <form method="POST" >
 
-<?php
-
+      <?php
 $msg = ''; // Initialize a message variable
 
 if (isset($_POST['send_verification_code'])) {
-  $email = $_POST['email'];
-  $check_email = mysqli_query($conn, "SELECT email FROM account WHERE email='$email'");
-  $res = mysqli_num_rows($check_email);
+    $email = mysqli_real_escape_string($conn, $_POST['email']); // Sanitize the input
 
-  if ($res > 0) {
-    // Generate a verification code
-    $verification_code = mt_rand(100000, 999999);
+    $check_email = mysqli_query($conn, "SELECT email FROM account WHERE email='$email'");
+    $res = mysqli_num_rows($check_email);
 
-    // Store the verification code in the database (you need to have a column for this)
-    mysqli_query($conn, "UPDATE account SET verification_code = $verification_code WHERE email = '$email'");
+    if ($res > 0) {
+        $verification_code = mt_rand(100000, 999999);
 
-    // Send the verification code to the user's email
-    $message = "Your verification code is: $verification_code";
+        mysqli_query($conn, "UPDATE account SET verification_code = '$verification_code' WHERE email = '$email'");
 
-    include_once("forgot/SMTP/class.phpmailer.php");
-    include_once("forgot/SMTP/class.smtp.php");
+        // Send the verification code to the user's email
+        $message = "Your verification code is: $verification_code";
 
-    $email = $email;
+        include_once("forgot/SMTP/class.phpmailer.php");
+        include_once("forgot/SMTP/class.smtp.php");
 
-    // Send verification email
-    $mail = new PHPMailer;
-    $mail->IsSMTP();
-    $mail->SMTPAuth = true;
-    $mail->SMTPSecure = "tls";
-    $mail->Host = 'smtp.gmail.com';
-    $mail->Port = 587;
-    $mail->Username = 'market51bn@gmail.com';
-    $mail->Password = 'ixcnouumjkoxtcvs';
-    $mail->setFrom('admin.market@gmail.com', 'admin.market');
-    $mail->AddAddress($email);
-    $mail->Subject = "Verification Code";
-    $mail->isHTML(false); // Send plain text message
-    $mail->Body = $message;
+        $mail = new PHPMailer;
+        $mail->IsSMTP();
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = "tls";
+        $mail->Host = 'smtp.gmail.com';
+        $mail->Port = 587;
+        $mail->Username = 'market51bn@gmail.com';
+        $mail->Password = 'ixcnouumjkoxtcvs';
+        $mail->setFrom('admin.market@gmail.com', 'admin.market');
+        $mail->AddAddress($email);
+        $mail->Subject = "Verification Code";
+        $mail->isHTML(false); // Send plain text message
+        $mail->Body = $message;
 
-    if($mail->send()) {
-      $msg = "A verification code has been sent to your email address.";
+        if ($mail->send()) {
+            $msg = "A verification code has been sent to your email address.";
+        } else {
+            $msg = "Failed to send the verification code. Please try again later.";
+        }
     } else {
-      $msg = "Failed to send the verification code. Please try again later.";
+        $msg = "We can't find a user with that email address";
     }
-  } else {
-    $msg = "We can't find a user with that email address";
-  }
 }
 
 if (isset($_POST['verify_code'])) {
-  $email = $_POST['email'];
-  $user_code = $_POST['verification_code'];
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $user_code = $_POST['verification_code'];
 
-  // Retrieve the stored verification code from the database
-  $result = mysqli_query($connection, "SELECT verification_code FROM account WHERE email='$email'");
-  $row = mysqli_fetch_assoc($result);
+    $result = mysqli_query($conn, "SELECT verification_code FROM account WHERE email='$email'");
+    $row = mysqli_fetch_assoc($result);
 
-  if ($row['verification_code'] == $user_code) {
-    // Verification code matches, allow the user to reset their password
-    $newPassword = $_POST['pwd']; // Get the new password
+    if ($row['verification_code'] == $user_code) {
+        $newPassword = $_POST['pwd'];
+        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
 
-    // Hash the new password securely
-     $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
-    //$hashedPassword = $newPassword;
+        $reset_pwd = mysqli_query($conn, "UPDATE account SET password='$hashedPassword' WHERE email='$email'");
 
-    $reset_pwd = mysqli_query($connection, "UPDATE account SET password='$hashedPassword' WHERE email='$email'");
-
-    if ($reset_pwd) {
-        $msg = 'Your password has been updated successfully.';
+        if ($reset_pwd) {
+            $msg = 'Your password has been updated successfully.';
+        } else {
+            $msg = "Error while updating password: " . mysqli_error($conn); // Debugging
+        }
     } else {
-        $msg = "Error while updating password.";
+        $msg = "Invalid verification code. Please try again.";
     }
-  } else {
-    $msg = "Invalid verification code. Please try again.";
-  }
 }
 ?>
+
 
 <!-- HTML content goes here -->
 <div class="container">

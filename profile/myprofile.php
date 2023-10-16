@@ -162,11 +162,7 @@ displayContentBasedOnStatus();
     <?php
   
 
-        $conn = new mysqli('localhost', 'root', '', 'market');
-        
-        if ($conn->connect_error) {
-            die('Connection Failed : ' . $conn->connect_error);
-        }
+  require '../connection/connection.php';
         
         // Query to get the account creation date for the user
         $stmt = $conn->prepare("SELECT date FROM account WHERE username = ?");
@@ -223,24 +219,21 @@ displayContentBasedOnStatus();
                   <?php
 
 
-                  // SQL query to fetch the "membership" field from the 'account' table
-                  $sql = "SELECT membership FROM account";
-                  $result = mysqli_query($conn, $sql);
+$query = "SELECT membership FROM account WHERE username = '$username'";
+$result = mysqli_query($conn, $query);
 
-                  if (mysqli_num_rows($result) > 0) {
-                      // Output data of each row
-                      while ($row = mysqli_fetch_assoc($result)) {
-                          echo "Membership: " . $row["membership"] . "<br>";
-                      }
-                  } else {
-                      echo "No results found.";
-                  }
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $userMembership = $row['membership'];
+    }
+}
 
                   ?>
-  <br>
                   <?php
                     foreach($rows as $row) :
                   ?>
+                  <h5>Membership: <?php echo $userMembership; ?></h5>
+<br>
                       <a href="profileedit.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary"> Edit Profile </a>
                       <?php endforeach; ?>
 

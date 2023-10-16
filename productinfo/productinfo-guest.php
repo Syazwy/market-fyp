@@ -7,9 +7,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Info</title>
-    <link rel="stylesheet" href="bootstrap-5.0.2-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="ProductInfo.css">
     <link rel="stylesheet" href="../home/index.css">
+    <link rel="stylesheet" href="bootstrap-5.0.2-dist/css/bootstrap.min.css">
+<style>
+   body {
+    font-family: Arial, sans-serif;
+  }
+  
+  div {
+    margin: 10px;
+  }
+  
+  .rating {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 20px; /* Adjust the font size as needed */
+  }
+  
+  .rating .fa {
+    margin: 0 5px; /* Adjust the spacing between stars */
+  }
+
+  label {
+    margin-right: 5px;
+  }
+  
+  select {
+    padding: 5px;
+  }
+  
+  #products-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .product {
+    width: 200px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 5px;
+  }
+  
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+
+  nav {
+    background-color: #ffffff;
+  }
+  
+
+  nav li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  
+  nav li a {
+    display: block;
+    color: #000000;
+    text-decoration: none;
+    padding: 10px;
+  }
+  
+  nav li a:hover {
+    background-color: #ffb9b9;
+  }
+
+  .product-container {
+    background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        margin: auto;
+        text-align: center;
+        width: 1200px;
+        background-color: #e4e4e4;
+  }
+  
+  .product-info {
+    flex: 1;
+    padding: 0 20px;
+    align-items: center;
+    padding: 20px;
+   width: 100px;
+  }
+  
+  .product-info h1 {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .product-info p {
+    margin: 10px 0;
+  }
+  
+  .price {
+    font-weight: bold;
+  }
+
+  #itemImages {
+    width: 400px;
+  }
+
+ .user{
+  width:400px;
+ }
+
+  #secondhalf{
+    
+    display: flex;
+
+  }
+
+</style>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

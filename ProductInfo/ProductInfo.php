@@ -1,8 +1,11 @@
 <?php
-  require_once("../session/session.php");
-  require '../connection/connection.php';
-  $sessionEmail = $_SESSION['email'];
+
+require_once("../session/session.php");
+$sessionEmail = $_SESSION['email'];
+require '../connection/connection.php';
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Info</title>
     <link rel="stylesheet" href="bootstrap-5.0.2-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="productinfo.css">
+    <link rel="stylesheet" href="ProductInfo.css">
     <link rel="stylesheet" href="../home/index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
@@ -111,46 +114,40 @@
               <h6>$<?php echo $row["price"]; ?></h6>
               <h3>Category:</h3>
               <h6><?php echo $row["category"]; ?></h6>
+              <h3>Condition:</h3>
+              <h6><?php echo $row["item_condition"]; ?></h6>
               <h3>Description:</h3>
               <h6><?php echo $row["description"]; ?></h6>
               <br>
-
-              <br>
-              <!-- <button type="button" class="buy-button">Buy Now</button>
-              <button type="button" class="chat-button">Chat Now</button>
-              <a href="../admin/report.php?id=<?php echo $row["id"]; ?>"><button type="button" class="chat-button">Report</button></a> -->
-            </div>
+              <button type="button" class="btn btn-primary" id="wishlistButton" <?php echo ($sessionEmail === $row['email']) ? 'style="display: none;"' : ''; ?> onclick="wishlist()">Add to wishlist</button>
+</div>
      <!-- untuk kan ke page usersprofile -->
      <?php 
 
-        // Assuming you have a session variable $_SESSION['email']
         $sessionEmail = $_SESSION['email'];
   
     $username = $row["username"];
-
-    if ($conn->connect_error) {
-        die('Connection Failed : '.$conn->connect_error);
-    }
 
     $reviewResult = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$username'");
 
     if ($reviewResult->num_rows > 0) {
         $reviewRow = $reviewResult->fetch_assoc();
-        $averageRating = $reviewRow['avg_rating'];
-        $totalReviews = $reviewRow['total_reviews'];
+        $averageRating = $reviewRow['avg_rating'] ?? 0; // Default to 0 if null
+$totalReviews = $reviewRow['total_reviews'];
 
-        // Function to generate star rating based on the average rating
-        function generateStarRating($rating) {
-            $output = '';
-            for ($i = 1; $i <= 5; $i++) {
-                if ($i <= ceil($rating)) { // Use ceil to round up decimal ratings
-                    $output .= '<i class="fa fa-star checked"></i>';
-                } else {
-                    $output .= '<i class="fa fa-star"></i>';
-                }
-            }
-            return $output;
+// Function to generate star rating based on the average rating
+function generateStarRating($rating) {
+    $output = '';
+    for ($i = 1; $i <= 5; $i++) {
+        if ($i <= ceil($rating)) { // Use ceil to round up decimal ratings
+            $output .= '<i class="fa fa-star checked"></i>';
+        } else {
+            $output .= '<i class="fa fa-star"></i>';
         }
+    }
+    return $output;
+}
+
 
         // Determine the href value based on email comparison
         $href = ($row["email"] === $sessionEmail) ? '../profile/myProfile.php' : "../profile/usersprofile.php?email={$row["email"]}&username={$row["username"]}";
@@ -178,7 +175,11 @@
 ?>
 
 
+     
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
 <script>
+    var sessionEmail = "<?php echo $sessionEmail; ?>";
     // Check if the session email is the same as the email retrieved from the database
     if (sessionEmail === '<?php echo $row["email"]; ?>') {
         document.getElementById('chatButton').style.display = 'none';
@@ -195,12 +196,14 @@ var id = "<?php echo $row['id']; ?>";
 var description = "<?php echo $row['description']; ?>";
 var name = "<?php echo $row['name']; ?>";
 var price = "<?php echo $row['price']; ?>";
+var condition = "<?php echo $row['item_condition']; ?>";
 
 var url = '../privatemessage/chat.php?' +
     'username=' + encodeURIComponent(username) +
     '&id=' + encodeURIComponent(id) +
     '&description=' + encodeURIComponent(description) +
     '&name=' + encodeURIComponent(name) +
+    '&condition=' + encodeURIComponent(condition) +
     '&price=' + encodeURIComponent(price);
 
 window.location.href = url;
@@ -208,11 +211,29 @@ window.location.href = url;
     }
 </script>
 
+<script>
 
+function wishlist() {
+      var username = "<?php echo $row['username']; ?>";
+var id = "<?php echo $row['id']; ?>";
+var description = "<?php echo $row['description']; ?>";
+var name = "<?php echo $row['name']; ?>";
+var price = "<?php echo $row['price']; ?>";
+var category = "<?php echo $row['category']; ?>";
+var condition = "<?php echo $row['item_condition']; ?>";
 
+var url = '../wishlist/add_to_wishlist.php?' +
+    '&item_id=' + encodeURIComponent(id) +
+    '&name=' + encodeURIComponent(name) +
+    '&price=' + encodeURIComponent(price) +
+    '&description=' + encodeURIComponent(description) +
+    '&category=' + encodeURIComponent(category) +
+    '&item_condition=' + encodeURIComponent(condition) ;
 
-          <br>
+window.location.href = url;
 
+    }
+      </script>
       <?php
 
             } else {
@@ -224,17 +245,5 @@ window.location.href = url;
             echo "Product ID not specified.";
         }
       ?>
-
-
-
-      </main>
-      
-      <script>
-        function buy(id) {
-    // Redirect to buyMembership.php with the selected plan as a URL parameter
-    window.location.href = '../order/orderItem.php?id=' + <?php echo $row["id"]; ?>
-}
-      </script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>

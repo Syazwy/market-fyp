@@ -101,6 +101,10 @@
     padding: 20px;
    
   }
+
+  .user{
+    width: 400px;
+  }
   
   .product-info h1 {
     font-size: 24px;
@@ -154,44 +158,8 @@
         box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
         margin: auto;
         text-align: left;
-        width: 900px;
-        background-color: #ffffff;
-
-  }
-
-  .proInfo{
-    background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-        text-align: left;
-        width: 400px;
-        background-color: #ffe6e6;
-        margin: 50px ;
-  }
-
-  .itemM {
-
-    margin: auto;
-  }
-
-  #services{
-    margin: auto;
-  }
-
-  /* #contact{
-    position: absolute;
-    right: 0;
-  } */
-
-  #footer1{
-    display: flex;
-
-    width: 100%;
-  }
-
-  #services{
-    margin: 0 400px;
+        width: 700px;
+        background-color: #ffffff;  
   }
 
   #secondhalf{
@@ -199,6 +167,4 @@
     display: flex;
 
   }
-  #pPictures{
-    width: 100px;
-  }
+ 

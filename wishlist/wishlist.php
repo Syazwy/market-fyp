@@ -2,7 +2,7 @@
  require '../connection/connection.php';
  require_once("../session/session.php");
  $username = $_SESSION['username'];
-
+ $yourEmail = $_SESSION['email'];
 ?>
 
 <!DOCTYPE html>
@@ -84,116 +84,6 @@
 
 <div class="box">
 
-  <div  id="box1">
-    <div class="user-info"> 
-        
-      <?php 
-      echo "<h3>" . $username . "</h3><br>";
-      $conn = new mysqli('localhost', 'root', '', 'market');
-    
-      if ($conn->connect_error) {
-          die('Connection Failed : '.$conn->connect_error);
-      }
-      $result = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$username'");
-    
-      if ($result->num_rows > 0) {
-          $row = $result->fetch_assoc();
-          $averageRating = $row['avg_rating'];
-          $totalReviews = $row['total_reviews'];
-          
-          // Function to generate star rating based on the average rating
-          function generateStarRating($rating) {
-            $output = '';
-            for ($i = 1; $i <= 5; $i++) {
-                if ($i <= ceil($rating)) { // Use ceil to round up decimal ratings
-                    $output .= '<i class="fa fa-star checked"></i>';
-                } else {
-                    $output .= '<i class="fa fa-star"></i>';
-                }
-            }
-            return $output;
-        }
-        
-          
-        echo generateStarRating($averageRating) . ' (' . $totalReviews . ' reviews)';
-
-        } else {
-          echo '- No reviews available.';
-      }
-   
-      $conn->close();
-    
-      ?> 
-      <br>
-        <p></p>  
-    <?php
-  
-
-        $conn = new mysqli('localhost', 'root', '', 'market');
-        
-        if ($conn->connect_error) {
-            die('Connection Failed : ' . $conn->connect_error);
-        }
-        
-        // Query to get the account creation date for the user
-        $stmt = $conn->prepare("SELECT date FROM account WHERE username = ?");
-        
-        if ($stmt) {
-            $stmt->bind_param("s", $username);
-            $stmt->execute();
-            $result = $stmt->get_result();
-        
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $accountCreatedDate = new DateTime($row['date']);
-                $currentDate = new DateTime();
-                $interval = $accountCreatedDate->diff($currentDate);
-        
-                // Function to format the interval in days ago
-                function formatDaysAgo($interval) {
-                    if ($interval->d > 0) {
-                        return $interval->format('%ad ago');
-                    } else {
-                        return 'Today';
-                    }
-                }
-        
-                echo 'Joined ' . formatDaysAgo($interval);
-        
-                // Close the database connection
-                $stmt->close();
-            } else {
-                echo '- No account information available.';
-            }
-        } else {
-            echo 'Error in preparing the SQL statement.';
-        }
-        
-        ?>
-        
-             
-    </div>
-    <br>
-
-                  <?php
-                      $i = 1;
-                      $rows = mysqli_query($conn, "SELECT * from account WHERE username = '$username' ORDER BY id DESC ");
-                  ?>
-
-                  
-
-                  <?php
-                    foreach($rows as $row) :
-                  ?>
-                      <a href="../profile/profileedit.php <?php echo $row["id"]; ?>)" class="btn btn-primary"> Edit Profile </a>
-                      <?php endforeach; ?>
-
-                  
-      
-  </div>
-
-<!-- ------------------------------------------------------------------------------------------------------------------- -->
-  
 <!-- WISHLIST -->
 
 <div class="box" id="wishlistbox" style="display: block;">
@@ -201,72 +91,76 @@
 <br>  
   <h3>My Wishlist</h3>
 
+      <!-- to show the wishlist items in database  -->
+
+      <?php
+require '../connection/connection.php';
+
+// Assuming your wishlist table structure contains id, name, and price columns
+// Modify the SQL query to filter by email
+$result = $conn->prepare("SELECT * FROM wishlist WHERE email = ?");
+$result->bind_param("s", $yourEmail);
+$result->execute();
+
+$result = $result->get_result();
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo '
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">' . $row['name'] . ' || ' . $row['item_condition'] . '</h5>
+                    <p class="card-text">Price: $' . $row['price'] . '</p>
+                    <p class="card-text">' . $row['category'] . ' - ' . $row['description'] . '</p>
+                    <div class="float-right">
+                        <button class="btn btn-danger" onclick="removeFromWishlist(' . $row['id'] . ')">Remove</button>
+                        <button class="btn btn-success" onclick="payment(' . $row['item_id'] . ')">Buy</button>
+                    </div>
+                </div>
+            </div>';
+    }
+
+    $result->close();
+} else {
+    echo '<p>No items in your wishlist.</p>';
+}
+
+$conn->close();
+?>
+
   <!-- TO REMOVE YOUR WISHLIST ITEM -->
   <script>
-            function removeFromWishlist(item_id) {
-                if (confirm("Are you sure you want to remove this item from your wishlist?")) {
-                    // Send an AJAX request to the PHP script to remove the item
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "remove_from_wishlist.php", true);
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    function removeFromWishlist(id) {
+        if (confirm("Are you sure you want to remove this item from your wishlist?")) {
+            // Send an AJAX request to the PHP script to remove the item
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "remove_from_wishlist.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            // Handle the response (e.g., display a message)
-                            alert(xhr.responseText);
-                            // Reload the page or update the wishlist content as needed
-                            location.reload(); // Refresh the page after removing the item
-                        }
-                    };
-
-                    xhr.send("item_id=" + item_id);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Handle the response (e.g., display a message)
+                    alert(xhr.responseText);
+                    // Reload the page or update the wishlist content as needed
+                    location.reload(); // Refresh the page after removing the item
                 }
-            }
+            };
 
-            function payment(item_id) {
+            // Send the 'id' parameter in the request
+            xhr.send("id=" + id);
+        }
+    }
+
+            function payment(id) {
                 // Display a confirmation dialog
                 if (confirm("Are you sure you want to proceed to payment?")) {
                     // Redirect to the payment page with the selected item's ID
-                    window.location.href = '../order/orderItem.php?id=' + item_id;
+                    window.location.href = '../order/orderItem.php?id=' + id;
                 }
             }
   </script>
 
-     <!-- to show the wishlist items in database  -->
-    <?php
-    $conn = new mysqli('localhost', 'root', '', 'market');
-
-    if ($conn->connect_error) {
-        die('Connection Failed : ' . $conn->connect_error);
-    }
-
-    // Assuming your wishlist table structure contains id, name, and price columns
-    $result = $conn->query("SELECT * FROM wishlist");
-
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo '
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">' . $row['name'] .' || '. $row['item_condition'] . '</h5>
-                        <p class="card-text">Price: $' . $row['price'] . '</p>
-                        <p class="card-text">' . $row['category'] .' - '. $row['description'] . '</p>
-                        <div class="float-right">
-                            <button class="btn btn-danger" onclick="removeFromWishlist(' . $row['item_id'] . ')">Remove</button>
-                            <button class="btn btn-success" onclick="payment(' . $row['item_id'] . ')">Buy</button>
-                        </div>
-                    </div>
-                </div>';
-        }
-
-        $result->close();
-    } else {
-        echo '<p>No items in your wishlist.</p>';
-    }
-
-    $conn->close();
-    ?>
-
+ 
     <br>
 </div> 
 
@@ -319,7 +213,7 @@
 <script>
 // Function to show the Wishlists box content
 function showWishlists() {
-    document.getElementById("wishlistbox").style.display = "block"; // Corrected the typo here 
+    document.getElementById("wishlistbox").style.display = "block"; 
 }
 </script>
 
