@@ -83,8 +83,7 @@ require '../connection/connection.php';
                     <tr>
                         <td>#</td>
                         <td>Status</td>
-                        <td>Username</td>
-                                              
+                        <td>Username</td>     
                         <td>Membership</td>
                        
                         

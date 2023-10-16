@@ -1,6 +1,6 @@
 <?php 
 require_once("../session/session.php");
-require 'connection.php';
+require '../connection/connection.php';
 ?>
 
 <?php

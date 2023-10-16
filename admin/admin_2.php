@@ -64,7 +64,7 @@ require '../connection/connection.php';
         <ul class="nav nav-pills">
             <li class="nav-item"><a class="nav-link active" aria-current="page" href="admin.php">Overview</a></li>
             <li class="nav-item"><a class="nav-link active" aria-current="page" href="admin_2.php">Reports</a></li>
-            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Appeals</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="appealview.php">Appeals</a></li>
         </ul>
     </div>
     <br>
@@ -91,7 +91,7 @@ require '../connection/connection.php';
 
                   <?php
                       $i = 1;
-                      $rows = mysqli_query($conn, "SELECT * from `reportbyuser` ORDER BY Id DESC");
+                      $rows = mysqli_query($conn, "SELECT * from `reportbyusers` ORDER BY Id DESC");
                   ?>
 
                   <?php
@@ -100,11 +100,10 @@ require '../connection/connection.php';
 
                       <tr>
                           <td><?php echo $i++; ?></td>
-                          <td><?php echo $row["name"]; ?></td>
+                          <td><?php echo $row["username"]; ?></td>
                           <td><?php echo $row["status"]; ?></td>
-                          <td><?php echo $row["item"]; ?></td>
-                          <td><?php echo $row["report"]; ?></td>
-                          <td><?php echo $row["typeofreport"]; ?></td>
+                          <td><?php echo $row["reason"]; ?></td>
+                          <td><?php echo $row["typeReport"]; ?></td>
                           
                           
 

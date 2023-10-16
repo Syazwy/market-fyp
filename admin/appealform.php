@@ -1,6 +1,6 @@
 <?php 
 require_once("../session/session.php");
-require 'connection.php';
+require '../connection/connection.php';
 ?>
 
 <?php
@@ -13,9 +13,10 @@ if(isset($_POST["submit"])){
     
 
     // Insert item data into database
-    $query = "INSERT INTO `appeals` (username, appeal ) VALUES (?, ?)";
+    $status = "pending"; // Get this value from the form or set it as needed
+    $query = "INSERT INTO `appeals` (username, appeal, status) VALUES (?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "ss", $username, $appeal);
+    mysqli_stmt_bind_param($stmt, "sss", $username, $appeal, $status);
     mysqli_stmt_execute($stmt);
     $itemId = mysqli_insert_id($conn); // Get the last inserted item ID
     mysqli_stmt_close($stmt);
@@ -88,7 +89,8 @@ if(isset($_POST["submit"])){
                         <input type="text" name="username" id="username" value="Barzun" hidden>
 
 
-                        
+                        <input type="hidden" name="status" value="pending">
+
                         
                         <label for="report" class="form-label">Appeal</label>
                         <textarea class="form-control" name="appeal" id="report" rows="3"></textarea>
