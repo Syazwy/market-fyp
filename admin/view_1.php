@@ -119,10 +119,10 @@ if (!$result) {
 
                       <?php
                         $i = 1;
-                        $query = "SELECT itemslisting.*, item_images.image_filename 
-                                FROM itemslisting 
-                                JOIN item_images ON itemslisting.id = item_images.item_id 
-                                GROUP BY itemslisting.id 
+                        $query = "SELECT itemslisting.id, MAX(item_images.image_filename) AS image_filename, MAX(itemslisting.name) AS name, MAX(itemslisting.category) AS category, MAX(itemslisting.description) AS description, MAX(itemslisting.price) AS price, MAX(itemslisting.location) AS location
+                                FROM itemslisting
+                                JOIN item_images ON itemslisting.id = item_images.item_id
+                                GROUP BY itemslisting.id
                                 ORDER BY itemslisting.id DESC";
                         $result = mysqli_query($conn, $query);
 
