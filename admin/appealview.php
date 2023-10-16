@@ -77,22 +77,22 @@ require '../connection/connection.php';
                 <table  cellspacing = 0 cellpadding = 10>
 
                     <tr>
-                        <td><h1>Ban Account</h1></td>
+                        <td><h1>Appeals</h1></td>
                     </tr>
 
                     <tr>
                         <td>#</td>
-                        <td>Username</td>
-                        <td>Email</td>                      
-                        <td>Membership</td>
-                        <td>Date Joined</td>
-                        <td>Date Verified</td>
+                        
+                        <td>Username</td> 
+                        <td>Date of appeal</td>
+                        <td>Appeal Letter</td>                   
+                       
                         
                     </tr>
 
                   <?php
                       $i = 1;
-                      $rows = mysqli_query($conn, "SELECT * from `hide_account` ORDER BY Id DESC");
+                      $rows = mysqli_query($conn, "SELECT * from `appeals` ORDER BY Id DESC");
                   ?>
 
                   <?php
@@ -101,14 +101,16 @@ require '../connection/connection.php';
 
                       <tr>
                           <td><?php echo $i++; ?></td>
+                          
                           <td><?php echo $row["username"]; ?></td>
-                          <td><?php echo $row["email"]; ?></td>                          
-                          <td><?php echo $row["membership"]; ?></td>
-                          <td><?php echo $row["date"]; ?></td>
-                          <td><?php echo $row["email_verified_at"]; ?></td>
+                          <td><?php echo $row["appeal"]; ?></td>                          
                           
                           
-                          <td><a href="enable_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Enable</td>
+                          
+                          
+                          <td><a href="appealview2.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">View</td>
+                          
+                          <td><a href="unban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Unban</td>
                       </tr>
 
                   <?php endforeach; ?>
