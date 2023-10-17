@@ -11,7 +11,24 @@ text-decoration: none;
 margin: 4px 1px;
 font-family: Arial, sans-serif;
 }
+.item-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: none;
+  padding: 10px;
+  margin: 10px 0;
+  width: 500px;
+  text-align: center; /* Center-align the content */
+}
 
+.item-details h3 {
+  margin: 0;
+}
+
+.item-details p {
+  margin: 0 10px;
+}
 #send{
   background-color: #FF5353;
     color: white;

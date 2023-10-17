@@ -78,7 +78,7 @@ $yourName = $_SESSION['username'];
 $username = $_GET['username'];
 $itemid = $_GET['itemid'];
 
-$sql = "SELECT `Message`, `time`, `sender`, `receiver` FROM chat WHERE (sender = '$yourName' AND receiver = '$username') OR (sender = '$username' AND receiver = '$yourName')";
+$sql = "SELECT `Message`, `time`, `sender`, `receiver` FROM chat WHERE ((sender = '$yourName' AND receiver = '$username') OR (sender = '$username' AND receiver = '$yourName')) AND `itemid` = '$itemid'";
 
 $result = $conn->query($sql);
 

@@ -3,6 +3,8 @@ require_once("../session/session.php");
 $yourEmail = $_SESSION['email'];
 $yourName = $_SESSION['username'];
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,16 +69,43 @@ $yourName = $_SESSION['username'];
 $username = $_GET['username'];
 $itemid = $_GET['id'];
 ?>
-
+<center>
 <div class="chat">
 
-<center>    
-    <div class="user-info">    
-        
-        <h3><?php echo $username ?></h3>
-<br>
-    </div>
-<center>
+        <h2>Chat with <?php echo $username ?>!</h2>
+<?php
+require '../connection/connection.php';
+// Get the item ID from the URL
+$itemid = $_GET['id'];
+
+// Fetch data from the database
+$sql = "SELECT * FROM itemslisting WHERE id = $itemid";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    echo '<div class="item-details">'; // Start the div for item details
+    while ($row = $result->fetch_assoc()) {
+        $itemName = $row['name'];
+        $price = $row['price'];
+        $condition = $row['item_condition'];
+        $itemDescription = $row['description'];
+
+        // Output the data in a single row within the div
+        echo "<h4>Item: " . $itemName . "</h4> ";
+        echo "<h4>Price: $" . $price . "</h4> ";
+        echo "<p>Condition: " . $condition . "</p>";
+        echo "<p>Description: " . $itemDescription . "</p>";
+    }
+    echo '</div>'; // End the div for item details
+} else {
+    echo "Item not found.";
+}
+
+// Close the database connection
+$conn->close();
+?>
+ 
+
 <iframe id="chatFrame" src="chat1.php?username=<?php echo $username; ?>&itemid=<?php echo $itemid; ?>"></iframe>
 
 
@@ -89,7 +118,7 @@ $itemid = $_GET['id'];
     <input id="textInput" type="textarea" name = "input" placeholder="Type your message" />
 <button class="btn" id="send" type="submit" value="Send" />Send</button> <br /> <br />
 </form>
-
+</div>
 </center>
 
 <script>
