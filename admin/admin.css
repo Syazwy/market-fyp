@@ -181,3 +181,10 @@ a.nav-link.active {
     border-radius: 50%;
   }
 
+  .active-status {
+    color: green;
+}
+
+.banned-status {
+    color: red;
+}

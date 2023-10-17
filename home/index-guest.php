@@ -547,7 +547,7 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
         FROM itemslisting
         JOIN item_images ON itemslisting.id = item_images.item_id
         JOIN account ON itemslisting.username = account.username
-        WHERE account.status = 'active'
+        WHERE account.status = 'Active' && itemslisting.status = 'active'
         GROUP BY itemslisting.id
         ORDER BY itemslisting.id DESC";
 

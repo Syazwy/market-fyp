@@ -145,7 +145,7 @@
         FROM itemslisting
         JOIN item_images ON itemslisting.id = item_images.item_id
         JOIN account ON itemslisting.username = account.username
-        WHERE account.status = 'Active'
+        WHERE account.status = 'Active' && itemslisting.status = 'active'
         GROUP BY itemslisting.id
         ORDER BY itemslisting.id DESC";
 
@@ -204,12 +204,13 @@
           </div>
         <?php endwhile; ?>
       </div>
-    </div>
-  </div>
 
-  <!-- Search Results Section -->
-  <div id="searchResults" class="row row-cols-1 row-cols-md-5 g-4">
-    <!-- Search results will be displayed here -->
+            <!-- Search Results Section -->
+        <div id="searchResults" class="row row-cols-1 row-cols-md-5 g-4">
+          <!-- Search results will be displayed here -->
+        </div>
+
+    </div>
   </div>
 
   <!-- JavaScript for handling the search -->
