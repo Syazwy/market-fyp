@@ -245,8 +245,8 @@ $currentDate = new DateTime();
 $subscriptionDate = new DateTime($subscriptionDate);
 $daysRemaining = $currentDate->diff($subscriptionDate)->days;
 
-echo "Subscription Date: " . $subscriptionDate->format('Y-m-d') . "<br>";
-echo "Current Date: " . $currentDate->format('Y-m-d') . "<br>";
+// echo "Subscription Date: " . $subscriptionDate->format('Y-m-d') . "<br>";
+// echo "Current Date: " . $currentDate->format('Y-m-d') . "<br>";
 
 
 // Check membership type and days remaining
@@ -257,7 +257,6 @@ if ($membership === "Premium Monthly" && $daysRemaining <= 5) {
 } else {
     $message = ""; // No special message
 }
-
 
 // Display the message in your HTML, where appropriate
 if (!empty($message)) {
