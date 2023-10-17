@@ -55,11 +55,7 @@ $username = $_SESSION['username'];
         <?php
 echo "<h2>" . $users ;
 
-  $conn = new mysqli('localhost', 'root', '', 'market');
-
-  if ($conn->connect_error) {
-      die('Connection Failed : '.$conn->connect_error);
-  }
+ 
   $result = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$users'");
 
   if ($result->num_rows > 0) {

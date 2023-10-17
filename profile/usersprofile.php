@@ -71,9 +71,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 header("Location: usersprofile.php?email=" . $usersemail . "&username=" . $user);
 exit; // Make sure to exit the script after redirection
 }
-
-
 ?>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset($_POST['content']) && isset($_POST['rating'])) {
+    $username = $_POST['username'];
+    $content = $_POST['content'];
+    $rating = $_POST['rating'];
+    $users = $_POST['users'];
+
+    $currentDateTime = new DateTime();
+    $timedate = $currentDateTime->format('Y-m-d H:i:s');
+
+    // Use a prepared statement to insert the review into the database
+    $stmt = $conn->prepare("INSERT INTO reviews (username, content, rating, time, user) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssdss", $username, $content, $rating, $timedate, $users);
+
+    if ($stmt->execute()) {
+        // Review submitted successfully
+        // You can choose to display a success message if needed
+    } else {
+        // Error occurred while inserting the review
+        echo "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
+
+// Handle user reporting
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $user = $_POST['username'];
+    $usersemail = $_POST['usersemail'];
+    $item_id = $_POST['item_id'];
+    $typeReport = $_POST['typeReport'];
+    $report_reason = $_POST['report_reason'];
+
+    // Define the SQL query to insert data into the reportbyusers table
+    $sql = "INSERT INTO reportbyusers (typeReport, reason, username, status) VALUES ('$typeReport', '$report_reason', '$user', 'Active')";
+
+    if ($conn->query($sql) === TRUE) {
+        // The report has been successfully submitted, now we trigger the success modal
+        echo '<script type="text/javascript">
+            $(document).ready(function(){
+                $("#successModal").modal("show");
+            });
+        </script>';
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    // Close the database connection
+    $conn->close();
+
+    // Redirect to usersprofile.php with email and username as query parameters
+    header("Location: usersprofile.php?email=" . $usersemail . "&username=" . $user);
+    exit; // Make sure to exit the script after redirection
+}
+?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -84,7 +141,8 @@ exit; // Make sure to exit the script after redirection
     <link rel="stylesheet" href="profilecss.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/flatly/bootstrap.min.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
@@ -329,6 +387,7 @@ function validateForm() {
                                     <form id="reviewForm" method="POST" action="userprofile.php" onsubmit="return validateReviewForm();">
                                         <div class="form-group">
                                             <input type="text" class="form-control" id="username" name="username" value="<?php echo $username ?>" autocomplete="off" hidden>
+                                            <input type="hidden" name="timestamp" id="timestamp">
                                         </div>
                                         <div class="form-group">
                                             <label for="content">Content</label>
@@ -336,30 +395,62 @@ function validateForm() {
                                         </div>
                                         <div class="form-group">
                                             <label for="rating">Rating</label>
-                                            <div class="star-rating-modal">
-                                                <span class="fa fa-star" id="star-modal-1" data-rating="1"></span>
-                                                <span class="fa fa-star" id="star-modal-2" data-rating="2"></span>
-                                                <span class="fa fa-star" id="star-modal-3" data-rating="3"></span>
-                                                <span class="fa fa-star" id="star-modal-4" data-rating="4"></span>
-                                                <span class="fa fa-star" id="star-modal-5" data-rating="5"></span>
+                                            <div class="mb-3">
+                                            <select name="rating" id="" required>
+                                                <option value=""></option>
+                                                <option value="1">1 Star</option>
+                                                <option value="2">2 Star</option>
+                                                <option value="3">3 Star</option>
+                                                <option value="4">4 Star</option>
+                                                <option value="5">5 Star</option>
+                                            </select>
                                             </div>
                                             <input type="hidden" name="rating" id="rating" value="0" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <div id="warningMessage" class="text-danger"></div> <!-- Warning message div -->
                                         </div>
                                         <input type="text" class="form-control" id="users" name="users" hidden value="<?php echo isset($_GET['users']) ? $_GET['users'] : ''; ?>">
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary" onclick="submitModalRating()">Submit</button>
+                                    <button type="button" class="btn btn-primary" id="submitReviewBtn" onclick="submitReviewAndRefresh()">Submit </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
   </div>
+
+  <script>
+
+$('#submitReviewBtn').click(function(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    // Capture the timestamp
+    captureTimestampAndSubmit();
+    
+    // Rest of your code...
+});
+    function captureTimestampAndSubmit() {
+        // Get the current timestamp
+        var currentTimestamp = new Date().getTime();
+
+        // Set the timestamp value in the hidden input field
+        document.getElementById("timestamp").value = currentTimestamp;
+
+        // Submit the form
+        document.getElementById("reviewForm").submit();
+    }
+    
+    function submitReviewAndRefresh() {
+    // Submit the review form
+    
+    // Reload the page after a brief delay (e.g., 1000 milliseconds or 1 second)
+    setTimeout(function() {
+        location.reload();
+    }, 1000);
+}
+
+</script>
 
 
 
@@ -474,48 +565,6 @@ $result = mysqli_query($conn, $query);
       ?>
 </div>
 </div>    
-<div class="modal fade" id="addReviewModal" tabindex="-1" role="dialog" aria-labelledby="addReviewModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <!-- <h5 class="modal-title" id="addReviewModalLabel">Add New Review</h5> -->
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-  <form id="reviewForm" method="POST" action="review.php">
-    <div class="form-group">
-      <input type="text" class="form-control" id="username" name="username" value="<?php echo $username ?>"  autocomplete="off" hidden >
-    </div>
-    <div class="form-group">
-      <label for="content">Content</label> <!-- Change the label text here -->
-      <textarea class="form-control" id="content"name="content" rows="3" required></textarea>
-    </div>
-    <div class="form-group">
-    <label for="rating">Rating</label>
-    <div class="star-rating-modal" id="modal-star-rating">
-        <span class="fa fa-star" data-rating="1"></span>
-        <span class="fa fa-star" data-rating="2"></span>
-        <span class="fa fa-star" data-rating="3"></span>
-        <span class="fa fa-star" data-rating="4"></span>
-        <span class="fa fa-star" data-rating="5"></span>
-    </div>
-    <input type="hidden" name="rating" id="rating" value="0" required>
-</div>
-
-    <input type="text" class="form-control" id="users" name="users" hidden value="<?php echo isset($_GET['users']) ? $_GET['users'] : ''; ?>">
-
-  </form>
-</div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="submit" class="btn btn-primary" id="submitReviewBtn">Submit Review</button>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
 
 <script>
  var box2Content = document.getElementById("box2").innerHTML; // Store the initial content of box2
@@ -527,64 +576,6 @@ $result = mysqli_query($conn, $query);
 function showReviews() {
   document.getElementById("box2").style.display = "none"; // Hide box2
   document.getElementById("box3").style.display = "block"; // Show box3
-}
-
-// Function to set the rating for the modal stars
-function setModalRating(rating) {
-    document.getElementById('rating').value = rating;
-    // Update the star icons in the modal to reflect the selected rating
-    for (let i = 1; i <= 5; i++) {
-        const starIcon = document.getElementById('star-modal-' + i);
-        if (i <= rating) {
-            starIcon.classList.add('checked');
-        } else {
-            starIcon.classList.remove('checked');
-        }
-    }
-}
-
-// Attach click event listeners to modal star icons
-for (let i = 1; i <= 5; i++) {
-    const starIcon = document.getElementById('star-modal-' + i);
-    starIcon.addEventListener('click', function () {
-        setModalRating(i);
-    });
-}
-
-// Function to submit the rating form (modal)
-function submitModalRating() {
-    const username = document.getElementById("username").value;
-    const content = document.getElementById("content").value;
-    const rating = parseInt(document.getElementById("rating").value);
-
-    // Get the value of the hidden input field
-    const users = document.getElementById("users").value;
-
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("content", content);
-    formData.append("rating", rating);
-    formData.append("users", users);
-
-    fetch("userprofile.php", { // Assuming you want to submit to "userprofile.php"
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log(data);
-
-        // Clear form fields and close modal
-        document.getElementById("reviewForm").reset();
-        $('#exampleModal').modal('hide'); // Close the modal using the Bootstrap modal ID
-
-        // If you want to refresh the page after adding a review, use window.location.href
-        // window.location.href = "userprofile.php?users=" + encodeURIComponent(users);
-    })
-    .catch(error => {
-        // Handle errors
-        console.error("Error:", error);
-    });
 }
 
   </script>
