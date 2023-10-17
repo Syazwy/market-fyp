@@ -12,7 +12,6 @@ if (!$result) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +20,13 @@ if (!$result) {
     <title>User Profile</title>
     <link rel="stylesheet" href="admincss.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    
+    <style>
+        .hidden-row {
+    background-color: #242020; /* Gray background color */
+    color:white;
+}
+
+    </style>
 </head>
 <body>
 
@@ -119,33 +124,31 @@ if (!$result) {
 
                       <?php
                         $i = 1;
-                        $query = "SELECT itemslisting.id, MAX(item_images.image_filename) AS image_filename, MAX(itemslisting.name) AS name, MAX(itemslisting.category) AS category, MAX(itemslisting.description) AS description, MAX(itemslisting.price) AS price, MAX(itemslisting.location) AS location
+                        $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename, MAX(itemslisting.name) AS name, MAX(itemslisting.category) AS category, MAX(itemslisting.description) AS description, MAX(itemslisting.price) AS price, MAX(itemslisting.location) AS location
                                 FROM itemslisting
                                 JOIN item_images ON itemslisting.id = item_images.item_id
                                 GROUP BY itemslisting.id
                                 ORDER BY itemslisting.id DESC";
                         $result = mysqli_query($conn, $query);
+while ($row = mysqli_fetch_assoc($result)) :
+?>
 
-                        while ($row = mysqli_fetch_assoc($result)) :
-                        ?>
+<tr <?php if ($row["status"] == 'hidden') echo 'class="hidden-row"'; ?>>
+    <td><?php echo $row["id"]; ?></td>
+    <td><img src="../sellers/upload/<?php echo $row['image_filename']; ?>" width="100px" height="100px" class="POP"></td>
+    <td><?php echo $row["name"]; ?></td>
+    <td><?php echo $row["category"]; ?></td>
+    <td><?php echo $row["description"]; ?></td>
+    <td><?php echo $row["price"]; ?></td>
+    <td><?php echo $row["location"]; ?></td>
+    <?php if ($row["status"] == 'hidden') : ?>
+        <td><a href="remove_2.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to unhide this item?')">Unhide</td>
+    <?php else : ?>
+        <td><a href="remove_3.php?id=<?php echo $row["id"]; ?>" class="btn btn-success" onclick="return confirm('Are you sure you want to hide this item?')">Hide</td>
+    <?php endif; ?>
+</tr>
+<?php endwhile; ?>
 
-                        <tr>
-                            <td><?php echo $row["id"]; ?></td>
-                            <td><img src="../sellers/upload/<?php echo $row['image_filename']; ?>" width="100px" height="100px" class="POP"></td>
-                            <td><?php echo $row["name"]; ?></td>
-                            <td><?php echo $row["category"]; ?></td>
-                            <td><?php echo $row["description"]; ?></td>
-                            <td><?php echo $row["price"]; ?></td>
-                            <td><?php echo $row["location"]; ?></td>
-                            
-
-                            <td><a href="remove_3.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Delete</td>
-                                
-                        </tr>
-
-                        <?php endwhile; ?>
-
-                  
 
                 </table>
         
