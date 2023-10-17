@@ -9,21 +9,18 @@ $myusername = $_SESSION['username'];
 
 <?php
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset($_POST['content']) && isset($_POST['rating'])) {
-    // Check if the request method is POST and all required POST parameters are set
-
-    $username = $_POST['username'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content']) && isset($_POST['rating'])) {
     $content = $_POST['content'];
     $rating = $_POST['rating'];
-    $users = $_POST['users'];
+    $username = $_SESSION['username']; // Assuming the username comes from a session
+    $users = $usersemail; // Use the user's email as 'users'
 
     $currentDateTime = new DateTime();
     $timedate = $currentDateTime->format('Y-m-d H:i:s');
 
-
     // Use a prepared statement to insert the review into the database
-    $stmt = $conn->prepare("INSERT INTO reviews (username, content, rating, time, user) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $username, $content, $rating, $timedate, $users);
+    $stmt = $conn->prepare("INSERT INTO reviews (username, content, rating, time, users) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssdss", $username, $content, $rating, $timedate, $users);
 
     if ($stmt->execute()) {
         // Review submitted successfully
@@ -34,8 +31,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
     }
 
     $stmt->close();
-    $conn->close();
+    // Redirect to usersprofile.php with email and username as query parameters
+header("Location: usersprofile.php?email=" . $usersemail . "&username=" . $user);
 }
+
+// Fetch and display reviews
+$result = $conn->query("SELECT * FROM reviews WHERE users = '$user' ORDER BY time DESC");
+
+
 ?>
 
 <?php
@@ -73,61 +76,7 @@ exit; // Make sure to exit the script after redirection
 }
 ?>
 
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset($_POST['content']) && isset($_POST['rating'])) {
-    $username = $_POST['username'];
-    $content = $_POST['content'];
-    $rating = $_POST['rating'];
-    $users = $_POST['users'];
 
-    $currentDateTime = new DateTime();
-    $timedate = $currentDateTime->format('Y-m-d H:i:s');
-
-    // Use a prepared statement to insert the review into the database
-    $stmt = $conn->prepare("INSERT INTO reviews (username, content, rating, time, user) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssdss", $username, $content, $rating, $timedate, $users);
-
-    if ($stmt->execute()) {
-        // Review submitted successfully
-        // You can choose to display a success message if needed
-    } else {
-        // Error occurred while inserting the review
-        echo "Error: " . $stmt->error;
-    }
-
-    $stmt->close();
-}
-
-// Handle user reporting
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user = $_POST['username'];
-    $usersemail = $_POST['usersemail'];
-    $item_id = $_POST['item_id'];
-    $typeReport = $_POST['typeReport'];
-    $report_reason = $_POST['report_reason'];
-
-    // Define the SQL query to insert data into the reportbyusers table
-    $sql = "INSERT INTO reportbyusers (typeReport, reason, username, status) VALUES ('$typeReport', '$report_reason', '$user', 'Active')";
-
-    if ($conn->query($sql) === TRUE) {
-        // The report has been successfully submitted, now we trigger the success modal
-        echo '<script type="text/javascript">
-            $(document).ready(function(){
-                $("#successModal").modal("show");
-            });
-        </script>';
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-
-    // Close the database connection
-    $conn->close();
-
-    // Redirect to usersprofile.php with email and username as query parameters
-    header("Location: usersprofile.php?email=" . $usersemail . "&username=" . $user);
-    exit; // Make sure to exit the script after redirection
-}
-?>
 
 
 
@@ -370,91 +319,47 @@ function validateForm() {
 </script>
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
-                      <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Review
-                        </button>
+  
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">Review</button>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Review</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form id="reviewForm" method="POST" action="userprofile.php" onsubmit="return validateReviewForm();">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="username" name="username" value="<?php echo $username ?>" autocomplete="off" hidden>
-                                            <input type="hidden" name="timestamp" id="timestamp">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="content">Content</label>
-                                            <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="rating">Rating</label>
-                                            <div class="mb-3">
-                                            <select name="rating" id="" required>
-                                                <option value=""></option>
-                                                <option value="1">1 Star</option>
-                                                <option value="2">2 Star</option>
-                                                <option value="3">3 Star</option>
-                                                <option value="4">4 Star</option>
-                                                <option value="5">5 Star</option>
-                                            </select>
-                                            </div>
-                                            <input type="hidden" name="rating" id="rating" value="0" required>
-                                        </div>
-                                        <input type="text" class="form-control" id="users" name="users" hidden value="<?php echo isset($_GET['users']) ? $_GET['users'] : ''; ?>">
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary" id="submitReviewBtn" onclick="submitReviewAndRefresh()">Submit </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="reviewModalLabel">Review</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form method="post" action="usersprofile.php">
+    <div class="modal-body">
+        <div class="mb-3">
+            <label for="message-text" class="col-form-label">Content</label>
+            <textarea class="form-control" id="message-text" name="content" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="rating">Rating:</label>
+            <select class="form-control" name="rating" id="rating" required>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+      </div>
+    </div>
   </div>
-
-  <script>
-
-$('#submitReviewBtn').click(function(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
-
-    // Capture the timestamp
-    captureTimestampAndSubmit();
-    
-    // Rest of your code...
-});
-    function captureTimestampAndSubmit() {
-        // Get the current timestamp
-        var currentTimestamp = new Date().getTime();
-
-        // Set the timestamp value in the hidden input field
-        document.getElementById("timestamp").value = currentTimestamp;
-
-        // Submit the form
-        document.getElementById("reviewForm").submit();
-    }
-    
-    function submitReviewAndRefresh() {
-    // Submit the review form
-    
-    // Reload the page after a brief delay (e.g., 1000 milliseconds or 1 second)
-    setTimeout(function() {
-        location.reload();
-    }, 1000);
-}
-
-</script>
-
-
+</div>                    
+  
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
+</div>
   <div class="box" id="box2" style="display: block;">
     <?php
 require '../connection/connection.php';
@@ -580,7 +485,6 @@ function showReviews() {
 
   </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
