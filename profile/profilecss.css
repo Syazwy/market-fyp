@@ -150,18 +150,15 @@ a.nav-link.active {
   object-fit: contain; /* Use "contain" to maintain aspect ratio and fit the image inside the container without overflowing */
 }
 
-
-/* Style for the star icons in the modal */
-.star-rating-modal {
-    font-size: 24px;
-    color: #ffd700; /* Yellow color for selected stars */
-    cursor: pointer;
+.star-rating-modal .fa-star {
+  color: grey; /* Initially grey stars */
+  cursor: pointer;
 }
 
-/* Style for the selected stars */
-.star-rating-modal .fa-star.checked {
-    color: #ffd700; /* Yellow color for selected stars */
+.star-rating-modal .fa-star.selected {
+  color: yellow; /* Yellow stars when selected */
 }
+
 
 
 
