@@ -1,8 +1,6 @@
 <?php
 require_once("../session/session.php");
-
-// Establish a database connection
-$conn = mysqli_connect("localhost", "root", "", "market");
+require '../connection/connection.php';
 
 if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());

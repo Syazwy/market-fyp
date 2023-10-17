@@ -119,6 +119,7 @@ mysqli_stmt_close($stmt);
     // Redirect to data.php
     header("Location: ../home/index.php");
     exit(); // Make sure to exit after sending the header
+    
 }
 ?>
 
@@ -348,10 +349,10 @@ mysqli_stmt_close($stmt);
     const priceInput = document.getElementById('price');
     const priceValue = priceInput.value.trim();
     const pricePattern = /^\$\d+(\.\d{2})?$/;
-    if (!pricePattern.test(priceValue) || parseFloat(priceValue.replace('$', '')) <= 0 || parseFloat(priceValue.replace('$', '')) >= 999999) {
-        alert('Price must be in the format $x.xx and between $1 and $999,999.');
-        return false;
-    }
+    // if (!pricePattern.test(priceValue) || parseFloat(priceValue.replace('$', '')) <= 0 || parseFloat(priceValue.replace('$', '')) >= 999999) {
+    //     alert('Price must be in the format $x.xx and between $1 and $999,999.');
+    //     return false;
+    // }
 
     // Description validation
     const descriptionInput = document.getElementById('description');

@@ -9,6 +9,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 require_once("../session/session.php");
+require '../connection/connection.php';
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 
@@ -17,7 +18,6 @@ $id = $_GET['id'];
 $total = $_GET['price'];
 $deliveryMethod = $_GET['deliveryMethod'];
 $paymentMethod = $_GET['paymentMethod'];
-$conn = mysqli_connect("localhost", "root", "", "market");
 
 $sql = "SELECT name FROM itemslisting WHERE id = ?";
 $stmt = $conn->prepare($sql);

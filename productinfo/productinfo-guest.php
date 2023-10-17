@@ -619,11 +619,6 @@ if (isset($_POST["login"])) {
               <h3>Description:</h3>
               <h6><?php echo $row["description"]; ?></h6>
               <br>
-
-              <br>
-              <!-- <button type="button" class="buy-button">Buy Now</button>
-              <button type="button" class="chat-button">Chat Now</button>
-              <a href="../admin/report.php?id=<?php echo $row["id"]; ?>"><button type="button" class="chat-button">Report</button></a> -->
             </div>
      <!-- untuk kan ke page usersprofile -->
      <?php 

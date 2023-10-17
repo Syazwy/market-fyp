@@ -6,8 +6,6 @@ $email = $_SESSION['email'];
 ?>
 
 <?php
-  
-
     $id = $_GET['id'];
 
   
@@ -39,13 +37,11 @@ $total = $price + $delivery;
     } else {
         echo "No data found for the given ID.";
     }
-
-    $stmt->close();
-  $conn->close();
+    
   ?>
   <?php
 
-require '../connection/connection.php';
+
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
       // Get form data
