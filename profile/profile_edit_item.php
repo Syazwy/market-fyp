@@ -20,6 +20,19 @@
 
     <div class="collapse navbar-collapse justify-content-center">
     <ul class="nav nav-pills">
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../login-register/register.php">Register</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../login-register/login.php">Login</a></li>
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Sell</a></li>
+  
+    </ul>
+    </div>
+    <div class="dropdown">
+    <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
+      <img src="../image/profile.png" width="50" height="50" class="profile">
+    </a>
+
+    <ul class="dropdown-menu">
     <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
                 <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
                 <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
@@ -27,7 +40,7 @@
                 <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
 
     </ul>
-    </div>
+  </div>
   </div>
 </nav>
 
@@ -143,6 +156,8 @@ if(isset($_POST['submit'])){
 </div>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
 
