@@ -42,6 +42,7 @@ $yourName = $_SESSION['username'];
                 <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
                 <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
                 <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
+                <li><a class="dropdown-item" href="../privatemessage/myChat.php">Messages</a></li>
                 <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
 
             </ul>
@@ -62,8 +63,8 @@ $yourName = $_SESSION['username'];
         }
     });
 </script>
-<br>
 
+<p></p>
 <?php
 
 $username = $_GET['username'];
@@ -72,7 +73,7 @@ $itemid = $_GET['id'];
 <center>
 <div class="chat">
 
-        <h2>Chat with <?php echo $username ?>!</h2>
+        <h2><?php echo $username ?></h2>
 <?php
 require '../connection/connection.php';
 // Get the item ID from the URL
@@ -91,10 +92,10 @@ if ($result->num_rows > 0) {
         $itemDescription = $row['description'];
 
         // Output the data in a single row within the div
-        echo "<h4>Item: " . $itemName . "</h4> ";
-        echo "<h4>Price: $" . $price . "</h4> ";
-        echo "<p>Condition: " . $condition . "</p>";
-        echo "<p>Description: " . $itemDescription . "</p>";
+        echo "<h4> " . $itemName . " </h4><p></p> ";
+        echo "<h4> $" . $price . " </h4> <p></p>";
+        echo "<h4> " . $condition . " <h4><p></p>";
+        echo "<h4> " . $itemDescription . " <h4><p></p>";
     }
     echo '</div>'; // End the div for item details
 } else {
