@@ -1,3 +1,8 @@
+<?php
+
+require_once("../session/session.php");
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,16 +10,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-    /* styles.css */
-    .table-like-div {
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin: 10px;
-        width: 350px;
-    }
-    .clickable-row {
-        cursor: pointer;
-    }
+        /* styles.css */
+        .table-like-div {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            width: 350px;
+        }
+        .clickable-row {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -24,91 +29,70 @@
     <table>
         <thead>
             <tr>
-                <th>Sender Username</th>
-                <th>Receiver Username</th>
-                <th>Item Name</th>
-                <th>Price</th>
-                <th>Description</th>              
+                <th>User:</th>
+                <th>Item:</th>
+                <th>Price:</th>
+
             </tr>
         </thead>
         <tbody>
         <?php
-require_once("../session/session.php");
+
+error_reporting(E_ALL);
+ini_set('display_errors', 'on');
+
 require '../connection/connection.php';
-$yourEmail = $_SESSION['email'];
 $yourUsername = $_SESSION['username'];
 
-// Create an array to store unique item IDs
-$processedItemIds = [];
-
 // Step 1: Find the itemids based on yourUsername in the 'chat' table for the receiver
-$sql = "SELECT itemid, receiver, sender FROM chat WHERE receiver LIKE '%$yourUsername%' OR sender LIKE '%$yourUsername%'";
+$sql = "SELECT sender, receiver, itemid FROM chat WHERE receiver = '$yourUsername' OR sender = '$yourUsername'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $receiver = $row['receiver'];
-        $sender = $row['sender'];
+        echo "<tr class='clickable-row' data-item-id='" . $row['itemid'] . "'>";
+        echo "<td>" . (($row['sender'] === $yourUsername) ? $row['receiver'] : $row['sender']) . "</td>";
 
-        // Extract the item ID from the "receiver" column using a regular expression
-        preg_match('/\((\d+)\)/', $receiver, $receiverMatches);
-        preg_match('/\((\d+)\)/', $sender, $senderMatches);
-        if (isset($receiverMatches[1]) && isset($senderMatches[1])) {
-            $receiverItemId = $receiverMatches[1];
-            $senderItemId = $senderMatches[1];
-            
-            if (!in_array($receiverItemId, $processedItemIds)) {
-                $processedItemIds[] = $receiverItemId;
-                
-                // Fetch and display the corresponding row from 'itemslisting' for receiverItemId
-                $sql = "SELECT * FROM itemslisting WHERE id = $receiverItemId";
-                $result2 = $conn->query($sql);
-                
-                if ($result2->num_rows > 0) {
-                    while ($row2 = $result2->fetch_assoc()) {
-                        // Add a data attribute to store the item ID
-                        echo "<tr class='clickable-row' data-item-id='" . $row2['id'] . "'>";
-                        echo "<td>" . preg_replace('/\(\d+\)/', '', $sender) . "</td>"; // Display sender's username without [itemid]
-                        echo "<td>" . preg_replace('/\(\d+\)/', '', $receiver) . "</td>"; // Display receiver's username without [itemid]                        
-                        echo "<td>" . $row2['username'] . "</td>"; // Display item owner's username
-                        echo "<td>" . $row2['name'] . "</td>";
-                        echo "<td>$" . $row2['price'] . "</td>";
-                        echo "<td>" . $row2['description'] . "</td>";
-                        echo "</tr>";
-                    }
-                }
-            }
-        }  
-    } 
+        // Fetch and display "itemname" and "price" columns from the 'itemslisting' table
+        $itemId = $row['itemid'];
+        $itemDetailsSql = "SELECT name, price FROM itemslisting WHERE id = $itemId";
+        $itemDetailsResult = $conn->query($itemDetailsSql);
+
+        if ($itemDetailsResult->num_rows > 0) {
+            $itemDetailsRow = $itemDetailsResult->fetch_assoc();
+            echo "<td>" . $itemDetailsRow['name'] . "</td>";
+            echo "<td>$" . $itemDetailsRow['price'] . "</td>";
+        } else {
+            echo "<td>No item details found.</td>";
+        }
+
+        echo "</tr>";
+    }
 } else {
     echo "No matching records found.";
 }
 
 $conn->close();
+
 ?>
-   </tbody>
-    </table>
+</tbody>
+</table>
 </div>
 </div>
 </center>
 <script>
 // Add a click event listener to the table rows
 document.addEventListener('DOMContentLoaded', function() {
-    var rows = document.querySelectorAll('.clickable-row');
-    rows.forEach(function(row) {
-        row.addEventListener('click', function() {
-            var itemId = row.getAttribute('data-item-id');
-            var username = row.querySelector('td:nth-child(1)').textContent;
-            var itemName = row.querySelector('td:nth-child(2)').textContent; // Assuming name is in the second column
-            var itemPrice = row.querySelector('td:nth-child(3)').textContent; // Assuming price is in the third column
-            var itemDescription = row.querySelector('td:nth-child(4)').textContent; // Assuming description is in the fourth column
+var rows = document.querySelectorAll('.clickable-row');
+rows.forEach(function(row) {
+row.addEventListener('click', function() {
+var itemId = row.getAttribute('data-item-id');
+var username = row.querySelector('td:nth-child(1)').textContent;
 
-      
-
-            // Redirect to 'chat.php' with all the information as query parameters
-            window.location.href = 'chat.php?id=' + itemId + '&name=' + itemName + '&price=' + itemPrice + '&description=' + itemDescription + '&username=' + username;
-        });
-    });
+// Redirect to 'chat.php' with 'username' and 'id' as query parameters
+window.location.href = 'chat.php?id=' + itemId + '&username=' + encodeURIComponent(username);
+});
+});
 });
 </script>
 </body>

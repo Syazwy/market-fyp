@@ -190,25 +190,17 @@ function generateStarRating($rating) {
         // Redirect to buyMembership.php with the selected plan as a URL parameter
         window.location.href = '../order/orderItem.php?id=<?php echo $row["id"]; ?>';
     }
-    function chat() {
+    function chat(username, id) {
+
       var username = "<?php echo $row['username']; ?>";
-var id = "<?php echo $row['id']; ?>";
-var description = "<?php echo $row['description']; ?>";
-var name = "<?php echo $row['name']; ?>";
-var price = "<?php echo $row['price']; ?>";
-var condition = "<?php echo $row['item_condition']; ?>";
+      var id = "<?php echo $row['id']; ?>";
+    var url = '../privatemessage/chat.php?' +
+        'username=' + encodeURIComponent(username) +
+        '&id=' + encodeURIComponent(id);
 
-var url = '../privatemessage/chat.php?' +
-    'username=' + encodeURIComponent(username) +
-    '&id=' + encodeURIComponent(id) +
-    '&description=' + encodeURIComponent(description) +
-    '&name=' + encodeURIComponent(name) +
-    '&condition=' + encodeURIComponent(condition) +
-    '&price=' + encodeURIComponent(price);
+    window.location.href = url;
+}
 
-window.location.href = url;
-
-    }
 </script>
 
 <script>

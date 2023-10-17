@@ -74,17 +74,11 @@ $yourEmail = $_SESSION['email'];
     <?php
    // Assuming $yourName is the username of user1
 $yourName = $_SESSION['username'];
+// Remove any parameters you don't want to use in the SQL query
 $username = $_GET['username'];
 $itemid = $_GET['itemid'];
 
-// Construct the sender and receiver values with item ID
-$yourNameWithItem = $yourName . " ($itemid)";
-$usernameWithItem = $username . " ($itemid)";
-
-require '../connection/connection.php';
-
-// Filter messages based on both the sender, receiver, and item ID
-$sql = "SELECT `Message`, `time`, `sender`, `receiver`, `itemid` FROM chat WHERE (sender = '$yourNameWithItem' AND receiver = '$usernameWithItem') OR (sender = '$usernameWithItem' AND receiver = '$yourNameWithItem') AND itemid = $itemid";
+$sql = "SELECT `Message`, `time`, `sender`, `receiver` FROM chat WHERE (sender = '$yourName' AND receiver = '$username') OR (sender = '$username' AND receiver = '$yourName')";
 
 $result = $conn->query($sql);
 
@@ -94,24 +88,22 @@ if ($result->num_rows > 0) {
 
     // Create a wrapper div for the messages with a maximum height
     echo "<div class=\"message-wrapper\" style=\"max-height: 400px; overflow-y: auto;\">";
-
     while ($row = $result->fetch_assoc()) {
         $message = $row["Message"];
         $time = $row["time"];
         $sender = $row["sender"];
-        $itemid = $row["itemid"];
-
+    
         // Determine the message class and time positioning based on the sender
-        $messageClass = ($sender == $yourNameWithItem) ? 'sender-message' : 'receiver-message';
-        $timeClass = ($sender == $yourNameWithItem) ? 'message-time-sender' : 'message-time-receiver';
-
+        $messageClass = ($sender == $yourName) ? 'sender-message' : 'receiver-message';
+        $timeClass = ($sender == $yourName) ? 'message-time-sender' : 'message-time-receiver';
+    
         // Apply the message class to the container
         echo "<div class=\"message $messageClass\">";
         echo "<span class=\"$timeClass\">$time</span>";
         echo "<span class=\"message\">$message</span>";
         echo "</div>";
     }
-
+    
     // Close the message wrapper
     echo "</div>";
 } else {
