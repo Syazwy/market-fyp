@@ -124,11 +124,8 @@ displayContentBasedOnStatus();
         
       <?php 
       echo "<h3>" . $username . "</h3><br>";
-      $conn = new mysqli('localhost', 'root', '', 'market');
-    
-      if ($conn->connect_error) {
-          die('Connection Failed : '.$conn->connect_error);
-      }
+      require '../connection/connection.php';
+
       $result = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$username'");
     
       if ($result->num_rows > 0) {
