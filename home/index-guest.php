@@ -166,12 +166,12 @@ if (isset($_POST["register"])) {
     $date = $currentDateTime->format('Y-m-d');
     $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
 
-   $insertSql = "INSERT INTO account(username, email, password, membership, date, verification_code, email_verified_at, status) VALUES (?, ?, ?, ?, ?, ?, NULL, 'Active')";
+   $insertSql = "INSERT INTO account(username, email, password, membership, subscriptionDate, date, verification_code, email_verified_at, status) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, 'Active')";
 $insertStmt = mysqli_prepare($conn, $insertSql);
 
 if ($insertStmt) {
     $membership = "Basic"; // Note: removed the extra space before "Basic"
-    mysqli_stmt_bind_param($insertStmt, "ssssss", $username, $email, $encrypted_password, $membership, $date, $verification_code);
+    mysqli_stmt_bind_param($insertStmt, "sssssss", $username, $email, $encrypted_password, $membership, $date, $date, $verification_code);
     mysqli_stmt_execute($insertStmt);
 
         // Send verification email
@@ -333,6 +333,35 @@ if (isset($_POST["login"])) {
                 header("Location: index-guest.php?email=" . urlencode($user->email));
                 exit();
             } else {
+
+              // Check membership and date for 'Premium Monthly'
+if ($user->membership === 'Premium Monthly') {
+  // Calculate the date 30 days ago from today
+  $thirtyDaysAgo = date('Y-m-d', strtotime('-30 days'));
+
+  // Compare the 'date' column in the database with the date 30 days ago
+  if (strtotime($user->subscriptionDate) <= strtotime($thirtyDaysAgo)) {
+      // Update the membership to 'Basic'
+      $updateSql = "UPDATE account SET membership = 'Basic' WHERE email = ?";
+      $updateStmt = mysqli_prepare($conn, $updateSql);
+      mysqli_stmt_bind_param($updateStmt, "s", $user->email);
+      mysqli_stmt_execute($updateStmt);
+  }
+}
+// Check membership and date for 'Premium Annually'
+if ($user->membership === 'Premium Annually') {
+// Calculate the date 365 days ago from today
+$threeHundredSixtyFiveDaysAgo = date('Y-m-d', strtotime('-365 days'));
+
+// Compare the 'date' column in the database with the date 365 days ago
+if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAgo)) {
+    // Update the membership to 'Basic'
+    $updateSql = "UPDATE account SET membership = 'Basic' WHERE email = ?";
+    $updateStmt = mysqli_prepare($conn, $updateSql);
+    mysqli_stmt_bind_param($updateStmt, "s", $user->email);
+    mysqli_stmt_execute($updateStmt);
+}
+}
                 // Set session variables for a regular user
                 $_SESSION['member'] = true;
                 $_SESSION['email'] = $user->email;
