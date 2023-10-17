@@ -470,11 +470,10 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
 
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasRightLabel">All Categories</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <!-- <div class="offcanvas-body"> -->
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasRightLabel">All Categories</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Property</a></li>
       <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Vehicles</a></li>
@@ -482,8 +481,7 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
       <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Electronics</a></li>
       <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Fashion</a></li>
     </ul>
-  <!-- </div> -->
-</div>
+  </div>
 
     <div class="search">
         <input class="searchbar" type="text" placeholder="Search for anything and everything" style="padding-left: 20px;">
@@ -495,45 +493,45 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
     </div>
 
     <center>
-  <div class="container">
-  <div class="row row-cols-1 row-cols-md-5 g-4">
-      <div class="col">
-        <div class="card">
-          <a href="">
-            <img class="image" src="../image/property.png" alt="">
-          </a>
+    <div class="container">
+      <div class="row row-cols-1 row-cols-md-5 g-4">
+        <div class="col">
+          <div class="card">
+            <a href="">
+              <img class="image" src="../image/property.png" alt="">
+            </a>
+          </div>
         </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <a href="">
-            <img class="image" src="../image/vehicle.png" alt="">
-          </a>
+        <div class="col">
+          <div class="card">
+            <a href="">
+              <img class="image" src="../image/vehicle.png" alt="">
+            </a>
+          </div>
         </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <a href="">
-            <img class="image" src="../image/furniture.png" alt="">
-          </a>
+        <div class="col">
+          <div class="card">
+            <a href="">
+              <img class="image" src="../image/furniture.png" alt="">
+            </a>
+          </div>
         </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <a href="">
-            <img class="image" src="../image/electronic.png" alt="">
-          </a>
+        <div class="col">
+          <div class="card">
+            <a href="">
+              <img class="image" src="../image/electronic.png" alt="">
+            </a>
+          </div>
         </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <a href="">
-            <img class="image" src="../image/fashion.png" alt="">
-          </a>
+        <div class="col">
+          <div class="card">
+            <a href="">
+              <img class="image" src="../image/fashion.png" alt="">
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   </center>
 
     <div>
