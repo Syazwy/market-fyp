@@ -86,9 +86,22 @@ $mail->isHTML(true);
 // The rest of your email sending code remains the same
 
     $mail->send();
-    
+ // Update subscriptionDate for the user in the account table
+ $sqlUpdateSubscriptionDate = "UPDATE account SET subscriptionDate = NOW() WHERE email = ?";
+ $stmtUpdateSubscriptionDate = $conn->prepare($sqlUpdateSubscriptionDate);
+
+ if ($stmtUpdateSubscriptionDate) {
+     $stmtUpdateSubscriptionDate->bind_param("s", $email);
+     $stmtUpdateSubscriptionDate->execute();
+     $stmtUpdateSubscriptionDate->close();
+ } else {
+     // Handle the case where the SQL statement preparation fails
+     echo "Failed to prepare the SQL statement for updating subscriptionDate.";
+ }
+
+ // ... (the rest of your code)
 } catch (Exception $e) {
-    echo "Email could not be sent. Error: " . $mail->ErrorInfo;
+ echo "Email could not be sent. Error: " . $mail->ErrorInfo;
 }
 ?>
 

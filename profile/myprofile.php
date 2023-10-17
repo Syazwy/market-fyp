@@ -7,24 +7,18 @@
  $query = "SELECT * FROM account WHERE username = '$username'";
  $result = mysqli_query($conn, $query);
 
- 
 if ($result) {
   while($row = $result->fetch_assoc()){
     $accountStatus = $row['status'];
     $name =  $row['username'];
    }
 } else {
-    // Handle the query error
     die("Query Failed: " . mysqli_error($conn));
 }
 
 // Close the result and database connection
 mysqli_free_result($result);
 mysqli_close($conn);
-
-
-
-
 
 ?>
 
@@ -124,8 +118,14 @@ displayContentBasedOnStatus();
         
       <?php 
       echo "<h3>" . $username . "</h3><br>";
+<<<<<<< Updated upstream
       require '../connection/connection.php';
 
+=======
+
+      require '../connection/connection.php';
+ 
+>>>>>>> Stashed changes
       $result = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$username'");
     
       if ($result->num_rows > 0) {
@@ -160,7 +160,6 @@ displayContentBasedOnStatus();
         <p></p>  
     <?php
   
-
   require '../connection/connection.php';
         
         // Query to get the account creation date for the user
@@ -197,12 +196,6 @@ displayContentBasedOnStatus();
             echo 'Error in preparing the SQL statement.';
         }
 
-       
-                   
-                  
-        
-        
-        
         ?>
         
         
@@ -233,18 +226,62 @@ if ($result) {
                   ?>
                   <h5>Membership: <?php echo $userMembership; ?></h5>
 <br>
-                      <a href="profileedit.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary"> Edit Profile </a>
-                      <?php endforeach; ?>
+<?php
 
-                  
+require '../connection/connection.php';
+
+// Check the user's account status
+$query = "SELECT * FROM account WHERE username = '$username'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $accountStatus = $row['status'];
+        $name = $row['username'];
+        $membership = $row['membership'];
+        $subscriptionDate = $row['subscriptionDate'];
+    }
+} else {
+    // Handle the query error
+    die("Query Failed: " . mysqli_error($conn));
+}
+
+// Close the result and database connection
+mysqli_free_result($result);
+mysqli_close($conn);
+
+// Calculate the difference in days between the current date and the subscription date
+$currentDate = new DateTime();
+$subscriptionDate = new DateTime($subscriptionDate);
+$daysRemaining = $currentDate->diff($subscriptionDate)->days;
+
+// Check membership type and days remaining
+if ($membership === "Premium Monthly" && $daysRemaining == 25) {
+    $message = "Your plan is about to expire in 5 days.";
+} elseif ($membership === "Premium Annually" && $daysRemaining == 360) {
+    $message = "Your plan is about to expire in 5 days.";
+} else {
+    $message = ""; // No special message
+}
+
+// Display the message in your HTML, where appropriate
+if (!empty($message)) {
+    echo '<div class="alert alert-warning">' . $message . '</div>';
+}
+?>
+
+                      <a href="profileedit.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary"> Edit Profile </a>
+                      <?php endforeach; ?>           
       
   </div>
+<!--------------------------------------------------------------------------------------------------------------------- --> 
 
-<!-- ------------------------------------------------------------------------------------------------------------------- -->
- 
 <div class="box" id="box2">
-    <?php
+
+<?php
+
 require '../connection/connection.php';
+
 $i = 1;
 $username = $_SESSION['username']; // Get the logged-in user's username
 $query = "SELECT itemslisting.*, MAX (item_images.image_filename) AS image_filename
@@ -272,8 +309,6 @@ $result = mysqli_query($conn, $query);
                         <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
                     </div>
 
-
-
                     <?php
                           $i = 1;
                           $rows = mysqli_query($conn, "SELECT * from itemslisting  ORDER BY id DESC ");
@@ -284,10 +319,8 @@ $result = mysqli_query($conn, $query);
                           
 <!-- --------------------------------------------------------------- -->
 
-                </div>  
-                           
+                </div>                             
             <?php endwhile; ?>
-
             <a href="../sellers/sells-page.php" style="text-decoration:none">
     <div class="card" style="width: 150px; height: 170px; border:none;">
         <div class="image-container" style="height: 75%;padding:20px; background-color: #FFCBCB; border-radius:20px">
@@ -302,37 +335,27 @@ $result = mysqli_query($conn, $query);
 </a>
         </div>
 
-        
-
     <?php else : ?>
         <h4>You have not made any listings.</h4>
     <?php endif; ?>
     <br>
-
-
-
 </div>
 
 <div class="box" id="bannedMessage" style="display: none;">
         <br>
         <h2>Your account is currently banned.</h2>
         <a href="../admin/appealform.php"><button id="appealButton" class="btn btn-primary">Appeal</button></a>
-        </div>
+</div>
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
 
 <div class="box" id="box3" style="display: none;">
 <!-- <button class="btn mb-3" id="addReviewBtn" data-toggle="modal" data-target="#addReviewModal" style="border: 1px solid black; position: fixed; top: 240px; right: 710px; <?php echo $addReviewButtonStyle; ?>">Add New Review</button> -->
 
-
-
 <div class="container1" style="">
 <?php
-      $conn = new mysqli('localhost', 'root', '', 'market');
 
-      if ($conn->connect_error) {
-          die('Connection Failed : '.$conn->connect_error);
-      }
+      require '../connection/connection.php';
 
       if (isset($_POST['username']) && isset($_POST['content']) && isset($_POST['rating'])) {
           $username = $_POST['username'];
