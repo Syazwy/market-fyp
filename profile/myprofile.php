@@ -31,7 +31,6 @@ mysqli_close($conn);
     <link rel="stylesheet" href="profilecss.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
@@ -59,14 +58,10 @@ mysqli_close($conn);
                 <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
                 <li><a class="dropdown-item" href="../privatemessage/myChat.php">Messages</a></li>
                 <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
-
     </ul>
   </div>
   </div>
-  
 </nav>
-
-
 <script>
   var accountStatus = "<?php echo $accountStatus; ?>"; // Get the account status from PHP
 
@@ -118,14 +113,9 @@ displayContentBasedOnStatus();
         
       <?php 
       echo "<h3>" . $username . "</h3><br>";
-<<<<<<< Updated upstream
-      require '../connection/connection.php';
-
-=======
 
       require '../connection/connection.php';
  
->>>>>>> Stashed changes
       $result = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$username'");
     
       if ($result->num_rows > 0) {
@@ -255,14 +245,19 @@ $currentDate = new DateTime();
 $subscriptionDate = new DateTime($subscriptionDate);
 $daysRemaining = $currentDate->diff($subscriptionDate)->days;
 
+echo "Subscription Date: " . $subscriptionDate->format('Y-m-d') . "<br>";
+echo "Current Date: " . $currentDate->format('Y-m-d') . "<br>";
+
+
 // Check membership type and days remaining
-if ($membership === "Premium Monthly" && $daysRemaining == 25) {
+if ($membership === "Premium Monthly" && $daysRemaining <= 5) {
     $message = "Your plan is about to expire in 5 days.";
-} elseif ($membership === "Premium Annually" && $daysRemaining == 360) {
+} elseif ($membership === "Premium Annually" && $daysRemaining <= 5) {
     $message = "Your plan is about to expire in 5 days.";
 } else {
     $message = ""; // No special message
 }
+
 
 // Display the message in your HTML, where appropriate
 if (!empty($message)) {
