@@ -88,13 +88,11 @@ $email = $_SESSION["email"];
 $category = mysqli_real_escape_string($conn, $_POST["category"]);
 $item_condition = mysqli_real_escape_string($conn, $_POST["item_condition"]);
 $name = mysqli_real_escape_string($conn, $_POST["name"]);
-$price = floatval($_POST["price"]);
-// Get the price input as a string
-$priceInput = $_POST["price"];
 
+$price = floatval($_POST["price"]);
+$priceInput = $_POST["price"];
 // Extract the numerical part of the price (excluding "$" and any other non-numeric characters)
 $priceValue = preg_replace("/[^0-9.]/", "", $priceInput);
-
 // Convert the numerical part to a float
 $price = floatval($priceValue);
 
