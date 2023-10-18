@@ -1,6 +1,24 @@
 <?php
     require_once("../session/session.php");
     require '../connection/connection.php';
+    $username = $_SESSION['username'];
+
+    // Check the user's account status
+ $query = "SELECT * FROM account WHERE username = '$username'";
+ $result = mysqli_query($conn, $query);
+
+ 
+if ($result) {
+  while($row = $result->fetch_assoc()){
+    $accountStatus = $row['status'];
+    $name =  $row['username'];
+   }
+} else {
+    // Handle the query error
+    die("Query Failed: " . mysqli_error($conn));
+}
+
+
 ?>
 <?php
 // Function to get the user's membership level
