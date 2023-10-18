@@ -89,6 +89,15 @@ $category = mysqli_real_escape_string($conn, $_POST["category"]);
 $item_condition = mysqli_real_escape_string($conn, $_POST["item_condition"]);
 $name = mysqli_real_escape_string($conn, $_POST["name"]);
 $price = floatval($_POST["price"]);
+// Get the price input as a string
+$priceInput = $_POST["price"];
+
+// Extract the numerical part of the price (excluding "$" and any other non-numeric characters)
+$priceValue = preg_replace("/[^0-9.]/", "", $priceInput);
+
+// Convert the numerical part to a float
+$price = floatval($priceValue);
+
 $description = mysqli_real_escape_string($conn, $_POST["description"]);
 $location = mysqli_real_escape_string($conn, $_POST["location"]);
 $username = mysqli_real_escape_string($conn, $_POST["username"]);
@@ -368,10 +377,10 @@ mysqli_stmt_close($stmt);
     const priceInput = document.getElementById('price');
     const priceValue = priceInput.value.trim();
     const pricePattern = /^\$\d+(\.\d{2})?$/;
-    // if (!pricePattern.test(priceValue) || parseFloat(priceValue.replace('$', '')) <= 0 || parseFloat(priceValue.replace('$', '')) >= 999999) {
-    //     alert('Price must be in the format $x.xx and between $1 and $999,999.');
-    //     return false;
-    // }
+    if (!pricePattern.test(priceValue) || parseFloat(priceValue.replace('$', '')) <= 0 || parseFloat(priceValue.replace('$', '')) >= 999999) {
+        alert('Price must be in the format $x.xx and between $1 and $999,999.');
+        return false;
+    }
 
     // Description validation
     const descriptionInput = document.getElementById('description');
