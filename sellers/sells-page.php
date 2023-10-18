@@ -164,6 +164,7 @@ mysqli_stmt_close($stmt);
             padding: 10px;
             box-shadow: 0px 0px 3px black;
             height: 590px;
+            margin-bottom: 30px;
         }
 
         #home {
