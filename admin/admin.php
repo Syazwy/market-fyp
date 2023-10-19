@@ -79,26 +79,31 @@ $rows = mysqli_query($conn, "SELECT * from `account` ORDER BY Id DESC");
                     <td>Username</td>
                     <td>Membership</td>
                 </tr>
-
                 <?php
-                foreach ($rows as $row) :
-                    $statusClass = '';
-                    if ($row["status"] == "Active") {
-                        $statusClass = 'active-status';
-                    } elseif ($row["status"] == "Banned") {
-                        $statusClass = 'banned-status';
-                    }
-                ?>
-                    <tr>
-                        <td><?php echo $i++; ?></td>
-                        <td class="<?php echo $statusClass; ?>"><strong><?php echo $row["status"]; ?></strong></td>
-                        <td><?php echo $row["username"]; ?></td>
-                        <td><?php echo $row["membership"]; ?></td>
-                        <td><a href="view_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">View</td>
-                        <td><a href="ban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to ban this person?')">Ban</td>
-                        <td><a href="unban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success" onclick="return confirm('Are you sure you want to unban this person?')">Unban</td>
-                    </tr>
-                <?php endforeach; ?>
+foreach ($rows as $row) :
+    $statusClass = '';
+    if ($row["status"] == "Active") {
+        $statusClass = 'active-status';
+    } elseif ($row["status"] == "Banned") {
+        $statusClass = 'banned-status';
+    }
+?>
+    <tr>
+        <td><?php echo $i++; ?></td>
+        <td class="<?php echo $statusClass; ?>"><strong><?php echo $row["status"]; ?></strong></td>
+        <td><?php echo $row["username"]; ?></td>
+        <td><?php echo $row["membership"]; ?></td>
+        <td><a href="view_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">View</td>
+        <td>
+            <?php if ($row["status"] == "Active") : ?>
+                <a href="ban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to ban this person?">Ban</a>
+            <?php elseif ($row["status"] == "Banned") : ?>
+                <a href="unban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success" onclick="return confirm('Are you sure you want to unban this person?">Unban</a>
+            <?php endif; ?>
+        </td>
+    </tr>
+<?php endforeach;
+?>
 
             </table>
         </div>

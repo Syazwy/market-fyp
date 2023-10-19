@@ -1,0 +1,20 @@
+<?php require '../connection/connection.php'; ?>
+
+<?php
+
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+}
+
+$newStatus = 'Active'; // New status you want to set
+
+$query = "UPDATE `account` SET `status` = '$newStatus' WHERE `id` = '$id'";
+
+$result = mysqli_query($conn, $query);
+
+if (!$result) {
+    die("Query Failed: " . mysqli_error($conn));
+} else {
+    header('location: admin_2.php?update_msg=The status has been set to "Banned".');
+}
+?>

@@ -1,32 +1,29 @@
 <?php 
 require_once("../session/session.php");
 require '../connection/connection.php';
+$id = $_SESSION['id'];
 ?>
 
 <?php
+
 if(isset($_POST["submit"])){
     // Get form data and sanitize
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
-    $status = mysqli_real_escape_string($conn, $_POST["status"]);
     $item = mysqli_real_escape_string($conn, $_POST["item"]);
     $report = mysqli_real_escape_string($conn, $_POST["report"]);
     $typeofreport = mysqli_real_escape_string($conn, $_POST["typeofreport"]);
-    
 
     // Insert item data into database
-    $query = "INSERT INTO `report` (name, status, item, report, typeofreport ) VALUES (?, ?, ?, ?, ?)";
+    $query = "INSERT INTO `report` (name, item, report, typeofreport ) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "sssss", $name, $status, $item, $report, $typeofreport);
+    mysqli_stmt_bind_param($stmt, "ssss", $name, $item, $report, $typeofreport);
     mysqli_stmt_execute($stmt);
-    $itemId = mysqli_insert_id($conn); // Get the last inserted item ID
+    $itemId = mysqli_insert_id($conn); 
     mysqli_stmt_close($stmt);
 
-    
-
-
-    // Redirect to data.php
     header("Location: ../home/index.php");
-    exit(); // Make sure to exit after sending the header
+    exit(); 
+
 }
 
 ?>
@@ -34,13 +31,16 @@ if(isset($_POST["submit"])){
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="report.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
 </head>
 <body>
+
 <nav class="navbar navbar-expand-lg bg-transparent">
   <div class="container">
     <a class="navbar-brand" href="#">
@@ -58,7 +58,6 @@ if(isset($_POST["submit"])){
     </div>
   </div>
 </nav>
-
     
     <div class="container">
         <div class="box1">
@@ -89,15 +88,10 @@ if(isset($_POST["submit"])){
                         <option value="CustomerService"> Customer Service</option>
                         <option value="PNAE">  Product Not as Expected</option>
                     </select>
-
-
-                    
+    
                     <div class="mb-3">
-                        
+                    <input type="text" name="name" id="username" value="Muin" hidden>
                         <input type="text" name="name" id="username" value="Muin" hidden>
-
-
-                        <input type="text" name="status" id="status" value="Active" hidden>
                         <input type="text" name="item" id="item" value="Barang" hidden>
                         <label for="report" class="form-label">Report</label>
                         <textarea class="form-control" name="report" id="report" rows="3"></textarea>

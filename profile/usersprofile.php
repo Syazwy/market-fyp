@@ -5,15 +5,16 @@ require_once("../session/session.php");
 $usersemail = $_GET['email'];
 $user = $_GET['username'];
 $myusername = $_SESSION['username'];
+
 ?>
 
-<?php
+<?php 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content']) && isset($_POST['rating'])) {
     $content = $_POST['content'];
     $rating = $_POST['rating'];
     $username = $_SESSION['username']; // Assuming the username comes from a session
-    $users = $usersemail; // Use the user's email as 'users'
+    $users = $usersemail; 
 
     $currentDateTime = new DateTime();
     $timedate = $currentDateTime->format('Y-m-d H:i:s');
@@ -24,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content']) && isset($_
 
     if ($stmt->execute()) {
         // Review submitted successfully
-        // You can choose to display a success message if needed
+        
     } else {
         // Error occurred while inserting the review
         echo "Error: " . $stmt->error;
@@ -38,7 +39,6 @@ header("Location: usersprofile.php?email=" . $usersemail . "&username=" . $user)
 // Fetch and display reviews
 $result = $conn->query("SELECT * FROM reviews WHERE users = '$user' ORDER BY time DESC");
 
-
 ?>
 
 <?php
@@ -47,12 +47,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $user = $_POST['username'];
     $usersemail = $_POST['usersemail'];
+    
     $item_id = $_POST['item_id'];
     $typeReport = $_POST['typeReport'];
     $report_reason = $_POST['report_reason'];
- 
+    
     // Define the SQL query to insert data into the reportbyusers table
-    $sql = "INSERT INTO reportbyusers (typeReport, reason, username, status) VALUES ('$typeReport', '$report_reason', '$user', 'Active')";
+    $sql = "INSERT INTO reportbyusers (typeReport, reason, usersid, username ) VALUES ('$typeReport', '$report_reason', '$myid', '$user')";
     
     if ($conn->query($sql) === TRUE) {
         // The report has been successfully submitted, now we trigger the success modal
@@ -67,19 +68,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Close the database connection
     $conn->close();
-
-
-    
+   
 // Redirect to usersprofile.php with email and username as query parameters
 header("Location: usersprofile.php?email=" . $usersemail . "&username=" . $user);
-exit; // Make sure to exit the script after redirection
+exit; 
 }
 ?>
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -138,7 +132,6 @@ exit; // Make sure to exit the script after redirection
   });
 </script>
 
-
     <div class="profile-container">
         <div class="profile-picture">
             <img src="../image/profile.png" alt="Profile Picture">
@@ -185,9 +178,7 @@ exit; // Make sure to exit the script after redirection
         } else {
           echo '- No reviews available.';
       }
-   
-   
-    
+       
       ?> 
       <br>
         <p></p>  
@@ -228,8 +219,7 @@ exit; // Make sure to exit the script after redirection
         }       
         
         ?>
-        
-                  
+                          
     </div>
     <br>
 
@@ -358,8 +348,7 @@ function validateForm() {
     </div>
   </div>
 </div>                    
-  
-
+ 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
 </div>
   <div class="box" id="box2" style="display: block;">
@@ -376,7 +365,6 @@ $query = "SELECT itemslisting.*, MAX (item_images.image_filename) AS image_filen
 $result = mysqli_query($conn, $query);
 ?>
 
-
     <?php if (mysqli_num_rows($result) > 0) : ?>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
             <?php while ($row = mysqli_fetch_assoc($result)) : ?>
@@ -389,8 +377,6 @@ $result = mysqli_query($conn, $query);
                         <h5><b>$<?php echo $row["price"]; ?></b></h5>
                         <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
                     </div>
-
-
 
                     <?php
                           $i = 1;
@@ -407,16 +393,12 @@ $result = mysqli_query($conn, $query);
     <?php endif; ?>
     <br>
 
-
-
 </div>
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
 
 <div class="box" id="box3" style="display: none;">
 <!-- <button class="btn mb-3" id="addReviewBtn" data-toggle="modal" data-target="#addReviewModal" style="border: 1px solid black; position: fixed; top: 240px; right: 710px; <?php echo $addReviewButtonStyle; ?>">Add New Review</button> -->
-
-
 
 <div class="container1" style="">
 <?php
@@ -438,7 +420,6 @@ $result = mysqli_query($conn, $query);
       } else {
         $result = $conn->query("SELECT * FROM reviews WHERE users = '$user' ORDER BY time DESC");
 
-
           if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
               $reviewDate = date('Y-m-d', strtotime($row['time']));
@@ -453,15 +434,14 @@ $result = mysqli_query($conn, $query);
                   echo '<span class="fa fa-star ' . ($i <= $row['rating'] ? 'checked' : '') . '"></span>';
               }
           
-              echo '</p>'; // Close the rating container
+              echo '</p>'; 
               
               echo '<p class="card-text">' . $row['content'] . '</p>
                     <p class="time">Posted on ' . $reviewDate . '</p>
                       </center></div>
-                  </div>'; // Close the card
+                  </div>'; 
           }
-          
-          
+                   
              $result->close();
           } else {
               echo '<h4>No reviews available.</h4>';

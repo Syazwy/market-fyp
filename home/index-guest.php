@@ -334,9 +334,10 @@ if (isset($_POST["login"])) {
                 exit();
             } else {
 
-              // Check membership and date for 'Premium Monthly'
+  // Check membership and date for 'Premium Monthly'
 if ($user->membership === 'Premium Monthly') {
   // Calculate the date 30 days ago from today
+
   $thirtyDaysAgo = date('Y-m-d', strtotime('-30 days'));
 
   // Compare the 'date' column in the database with the date 30 days ago
@@ -348,6 +349,7 @@ if ($user->membership === 'Premium Monthly') {
       mysqli_stmt_execute($updateStmt);
   }
 }
+
 // Check membership and date for 'Premium Annually'
 if ($user->membership === 'Premium Annually') {
 // Calculate the date 365 days ago from today
@@ -362,10 +364,11 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
     mysqli_stmt_execute($updateStmt);
 }
 }
-                // Set session variables for a regular user
+
                 $_SESSION['member'] = true;
                 $_SESSION['email'] = $user->email;
                 $_SESSION['username'] = $user->username;
+                $_SESSION['id'] = $user->id;
 
                 header("Location: ../home/index.php");
                 exit();

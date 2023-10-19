@@ -6,7 +6,7 @@ if(isset($_GET['id'])){
     $id = $id = $_GET['id'];
 }
 
-$query = "delete from `report` where `id` = '$id'";
+$query = "delete from `reportbyusers` where `id` = '$id'";
 
 $result = mysqli_query($conn, $query);
 

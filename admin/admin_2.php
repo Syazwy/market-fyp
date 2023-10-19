@@ -46,7 +46,7 @@ require '../connection/connection.php';
 <div class="profile-container">
         <div class="profile-picture">
             <img src="image/admin.png" alt="Profile Picture">
-            
+           
         </div>
         <div class="admin">
         <h1>Admin</h1>
@@ -55,9 +55,6 @@ require '../connection/connection.php';
 
     <br>
 
-    
-        
-      
     <div class="container">
 
     <div class="justify-content-center">
@@ -78,15 +75,14 @@ require '../connection/connection.php';
                     <tr>
                         <td><h1>Report</h1></td>
                     </tr>
-
                     <tr>
                         <td>#</td>
                         <td>Name</td>
                         <td>Status</td>
-                        <td>Item</td>
-                        <td>Report</td>
+                        <td>Reason</td>        
                         <td>Type of report</td>
-                        
+                        <td>Action:</td>
+
                     </tr>
 
                   <?php
@@ -101,22 +97,17 @@ require '../connection/connection.php';
                       <tr>
                           <td><?php echo $i++; ?></td>
                           <td><?php echo $row["username"]; ?></td>
-                          <td><?php echo $row["status"]; ?></td>
+                          <td>status</td>
                           <td><?php echo $row["reason"]; ?></td>
-                          <td><?php echo $row["typeReport"]; ?></td>
-                          
-                          
-
-                          <td><a href="remove_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Remove Report</td>
+                          <td><?php echo $row["typeReport"]; ?></td>                    
+                          <td><a href="remove_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-warning">Remove</td>
+                          <td><a href="ban_2.php?id=<?php echo $row["usersid"]; ?>" class="btn btn-danger">Ban</td>
+                          <td><a href="unban_2.php?id=<?php echo $row["usersid"]; ?>" class="btn btn-success">Unban</td>
                       </tr>
 
-                  <?php endforeach; ?>
-
-                </table>
-              </div>
-
-          
-      
+                  <?php endforeach; ?>               
+            </table>
+            </div>   
       </div>
     </div>
 </body>
