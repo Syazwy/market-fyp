@@ -21,15 +21,12 @@ if (!$result) {
 }
 
 $row = mysqli_fetch_array($result);
-if ($row[0] > 0) {
-    // The same item_id is already in the wishlist for the same email
-    echo "<script>alert('This item has already been added to your wishlist');</script>";
-    
-    // Close the database connection
+
+// Check if the user's wishlist count is within the limit (e.g., 5 for basic members)
+if ($row[0] >= 5) {
+    echo "<script>alert('You have reached the maximum wishlist limit (5 items)');</script>";
     mysqli_close($conn);
-    
-    // Redirect back to the previous page
-    echo "<script>window.history.back();</script>";
+    header("Location: wishlist.php"); // Redirect to wishlist.php
     exit();
 }
 
@@ -45,10 +42,14 @@ if (mysqli_query($conn, $insertQuery)) {
     echo "Error: " . mysqli_error($conn);
 }
 
+// Update the user's wishlist count in the 'wishlist_count' table
+$updateCountQuery = "UPDATE account SET wishlist_count = wishlist_count + 1 
+WHERE email = '$yourEmail'";
+
+mysqli_query($conn, $updateCountQuery);
+
 // Close the database connection and redirect to wishlist.php
 mysqli_close($conn);
 header("Location: wishlist.php");
 exit();
 ?>
-
-
