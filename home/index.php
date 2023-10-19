@@ -3,6 +3,8 @@
   require '../connection/connection.php';
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +36,13 @@
 
       <div class="dropdown">
         <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-          <img src="../image/profile.png" width="50" height="50" class="profile">
+          <?php
+        if (isset($row['profile_image'])) {
+            echo '<img src="' . $row['profile_image'] . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        } else {
+            echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        }
+        ?>
         </a>
 
         <ul class="dropdown-menu">
