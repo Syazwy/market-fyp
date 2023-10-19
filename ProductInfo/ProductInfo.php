@@ -20,7 +20,137 @@
      .checked {
     color: orange;
   }
-  </style>
+
+  .carousel-inner {
+    background: transparent; /* Make the carousel background clear */
+  }
+
+  .product-container {
+    background-color: white;
+  }
+
+  .product-info.description {
+    background: transparent; /* Make the description box background clear */
+  }
+
+  .product-info.description {
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-left: 50px;
+}
+
+/* .product-info.description {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  margin-left: 50px;
+} */
+
+.product-info{
+width: 200px;
+}
+
+.itemdetail {
+  background-color: white;
+  width: 1000px;
+  margin: auto;
+  height: 400px;
+margin-top: 40px;
+position: relative;
+margin-right: 100px;
+}
+
+.userdetail{
+background-color: #FFEAEA;
+width: 500px;
+margin: auto;
+height: 500px;
+margin-top: 20px;
+margin-bottom: 20px;
+border-radius: 40px;
+padding: auto;
+}
+
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn.btn-primary {
+  background-color: #FF5353;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 18px;
+  cursor: pointer;
+  margin: 10px;
+  height: 85px; 
+  width: 160px;
+  font-size: 2em;
+}
+
+#wishlistButton {
+    background-color: #FF5353;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 18px;
+  cursor: pointer;
+  margin: 10px;
+  height: auto; 
+  width: 180px;
+  align-self: flex-start; 
+}
+
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+h2 {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+
+.proInfo .btn {
+  height: 65px; 
+  width: 120px; 
+  margin: 20px;
+  font-size: 20px;
+  border-radius: 18px;
+}
+
+
+.report-button {
+  height: 40px; 
+  width: 270px; 
+  border-radius: 18px;
+  padding-bottom: 20px;
+  background-color: #FF5353;
+  font-size: 20px;
+}
+
+.action-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.wishlist-button-container {
+    position: absolute;
+    top: 10px; /* Adjust this value to your desired top position */
+    right: 10px; /* Adjust this value to your desired right position */
+}
+
+
+</style>
   </head>
 
   <body>
@@ -68,6 +198,7 @@
             if ($row = mysqli_fetch_assoc($result)) {
         ?>
         <div class="container1">
+        <center><h6>Category - <?php echo $row["category"]; ?></h6></center>
             <div class="product-container">
                 <div id="carouselExampleIndicators" class="carousel slide w-100" data-bs-ride="carousel">
                     <div class="carousel-indicators">
@@ -102,25 +233,33 @@
                 </div>
             </div>
         </div>
-        <div id="secondhalf">
-            <div class="product-info description">
-                <h3>Item Name:</h3>
-                <h6 style="text-transform: capitalize"><?php echo $row["name"]; ?></h6>
-                <h3>Price:</h3>
-                <h6>$<?php echo $row["price"]; ?></h6>
-                <h3>Category:</h3>
-                <h6><?php echo $row["category"]; ?></h6>
-                <h3>Condition:</h3>
-                <h6><?php echo $row["item_condition"]; ?></h6>
-                <h3>Description:</h3>
-                <h6><?php echo $row["description"]; ?></h6>
+ 
+        <!-- ------------------------------------------------------------------------------------ -->
                 <br>
-                <button type="button" class="btn btn-primary"
+        <div id="secondhalf">
+            <div class="itemdetail">
+                <br>
+                <h1  style="font: size 60px;font-weight:thin"><?php echo $row["name"]; ?></h1>
+                <h1 style="font: size 20px;font-weight:bolder">$<?php echo $row["price"]; ?></h1>
+
+                <br>
+
+                <!-- <h3>Details:</h3>
+                <h6>condition <?php echo $row["item_condition"]; ?></h6>
+                <br> -->
+                
+                <h3>Description:</h3>
+                <br>
+                <h5><?php echo $row["description"]; ?></h5>
+                <br>
+                <div class="wishlist-button-container">
+                <button type="button"
                     id="wishlistButton" <?php echo ($sessionEmail === $row['email']) ? 'style="display: none;"' : ''; ?>
-                    onclick="wishlist()">Add to wishlist</button>
+                    onclick="wishlist()">Add to wishlist</button></div>
             </div>
 
-            <div class="product-info description">
+            <div class=" userdetail">
+                <center>
               <?php
               $sessionEmail = $_SESSION['email'];
               $username = $row["username"];
@@ -148,11 +287,19 @@
 
                   echo '<a href="' . $href . '" style="text-decoration: none; color: black;">';
                   echo '<div class="user">';
-                  echo '<img width="50px" src="../image/profile.png">';
-                  echo generateStarRating($averageRating) . ' (' . $totalReviews . ' reviews)';
-                  echo '<p>' . $row["username"] . '</p>';
-                  echo '<p>' . $row["location"] . '</p>';
+                  echo '<br>';
 
+                  echo '<h2 style="font-size:20px;font-weight:thin"><img width="70px" src="../image/profile.png">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)'. 
+                  '<small>'.
+                  generateStarRating($averageRating)
+                  .'<small></h2>';
+                  
+                  echo '<br>';
+                  echo '<br>';
+                  echo '<center><h2 style="font-size:30px;font-weight:thin"> <img src="img/location-outline.svg" alt="location" style="width:80px;height:80px;margin-right:40px"> ' . $row["location"] . '</h2></center>';
+                  echo '<br>';
+                  echo '<br>';
+                  
                   echo '</a>';
               } else {
                   echo '- No reviews available.';
@@ -161,12 +308,13 @@
               if ($sessionEmail === $row["email"]) {
                   echo '<a href="../profile/profile_edit_item.php?id=' . $row["id"] . '" class="btn btn-primary">Edit</a>';
               } else {
+                  echo '<br>';
                   echo '<button type="button" class="btn btn-primary" id="chatButton" onclick="chat()">Chat</button>';
                   echo '<button type="button" class="btn btn-primary" id="buyButton" onclick="buy()">Buy</button>';
               }
               echo '</div>';
               ?>
-              </div>
+              </center></div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
                 crossorigin="anonymous"></script>
