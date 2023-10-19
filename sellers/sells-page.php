@@ -292,11 +292,11 @@ mysqli_stmt_close($stmt);
                 <div class="mb-3">
                     <label>Select Item Category:</label>
                     <select class="form-select form-select-sm" aria-label="Small select example" name="category" required> 
-                        <option value="property"> <img src="../image/property.png"> Property</option>
-                        <option value="vehicles"> <img src="../image/vehicle.png"> Vehicles</option>
-                        <option value="electronics"> <img src="../image/electronic.png"> Electronics</option>
-                        <option value="clothing"> <img src="../image/fashion.png">Clothing</option>
-                        <option value="furniture"> <img src="../image/furniture.png"> Furniture</option>
+                        <option value="Property"> <img src="../image/property.png"> Property</option>
+                        <option value="Vehicles"> <img src="../image/vehicle.png"> Vehicles</option>
+                        <option value="Electronics"> <img src="../image/electronic.png"> Electronics</option>
+                        <option value="Clothing"> <img src="../image/fashion.png">Clothing</option>
+                        <option value="Furniture"> <img src="../image/furniture.png"> Furniture</option>
                     </select>
                 </div>
                 <label>Condition</label>
