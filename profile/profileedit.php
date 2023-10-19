@@ -44,53 +44,10 @@ if (isset($_FILES['newProfileImage'])) {
     header('Location: profileedit.php?id=' . $id);
     exit();
 }
-?>
 
-<?php
-
-if(isset($_GET['id'])){
-    $id = $_GET['id'];
-    
-    $query = "SELECT * FROM `account` WHERE `id` = '$id'";
-
-    $result = mysqli_query($conn, $query);
-
-    if(!$result){
-        die("Query Failed: " . mysqli_error($conn));
-    }else{
-        $row = mysqli_fetch_assoc($result);
-    }
-
-}
-
+// ...
 
 ?>
-
-<?php
-if (isset($_POST['submit'])) {
-    $Nusername = $_POST['username'];
-    $Nemail = $_SESSION['email'];
-    $Npassword = $_POST['newPassword']; // Get the new password from the form
-
-    // Hash the new password
-    $hashedPassword = password_hash($Npassword, PASSWORD_DEFAULT);
-
-    // Update the user's information in the database, including the new hashed password
-    $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail', `password` = '$hashedPassword' WHERE `username` = '".$_SESSION['username']."'";
-
-    $result = mysqli_query($conn, $query);
-
-    if (!$result) {
-        die("Query Failed: " . mysqli_error($conn)); // Added a closing parenthesis here
-    } else {
-        $_SESSION['username'] = $Nusername;
-        header('location: myprofile.php?update_msg=You have successfully updated the data.');
-    }
-}
-?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -156,42 +113,22 @@ if (isset($_POST['submit'])) {
 <div class="container">
     <div class="row row-cols-1 row-cols-md-1 g-4">
         <div class="col border1">
-        <form action="profileedit.php?id=<?php echo $id; ?>" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" name="username" id="username" value="<?php echo isset($row['username']) ? $row['username'] : ''; ?>">
-            </div>
-            <div class="mb-3">
-            <label for="newPassword" class="form-label">New Password</label>
-            <div class="input-group">
-                <input type="password" class="form-control" name="newPassword" id="newPassword">
-                <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('newPassword')">
-                    <i class="bi bi-eye">Show password</i> <!-- This is a sample icon; you can use your own icon or text -->
-                </button>
-            </div>
-        </div>
-            <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px; color: white ;">Confirm</button>
-        </form>
+            <form action="profileedit.php?id=<?php echo $id; ?>" method="post" autocomplete="off" enctype="multipart/form-data">
+                <div class="subcontainer">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" value="<?php echo isset($row['username']) ? $row['username'] : ''; ?>">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <textarea class="form-control" name="password" id="password" rows="3"></textarea>
+                </div>
+                <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px;">Submit</button>
+            </form>
         </div>
     </div>
 </div>
-
-
-<script>
-function togglePasswordVisibility(inputId) {
-    const passwordInput = document.getElementById(inputId);
-
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text"; // Change to text to reveal the password
-    } else {
-        passwordInput.type = "password"; // Change back to password to hide the password
-    }
-}
-
-</script>
-
-<!--=========================-->
-
 
 <!-- Profile Picture Modal -->
 <div class="modal fade" id="changeProfileImageModal" tabindex="-1" aria-labelledby="changeProfileImageModalLabel" aria-hidden="true">

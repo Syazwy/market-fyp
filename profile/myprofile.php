@@ -11,7 +11,6 @@ if ($result) {
   while($row = $result->fetch_assoc()){
     $accountStatus = $row['status'];
     $name =  $row['username'];
-    $id = $row['id'];
    }
 } else {
     die("Query Failed: " . mysqli_error($conn));
@@ -19,51 +18,9 @@ if ($result) {
 
 // Close the result and database connection
 mysqli_free_result($result);
-
-
-?>
-
-<?php
-// Retrieve the user's profile image from the database
-$query = "SELECT profile_image FROM `account` WHERE `id` = '$id'";
-$result = mysqli_query($conn, $query);
-if ($result) {
-    $row = mysqli_fetch_assoc($result);
-}
-
-// Handle the image upload and database update here
-if (isset($_FILES['newProfileImage'])) {
-  // Define the folder where uploaded images will be stored
-  $uploadDir = 'profileimage/';
-
-  // Create the folder if it doesn't exist
-  if (!is_dir($uploadDir)) {
-      mkdir($uploadDir, 0755, true);
-  }
-
-  // Generate a unique filename for the uploaded image
-  $newProfileImage = $uploadDir . uniqid() . '_' . $_FILES['newProfileImage']['name'];
-
-  // Move the uploaded image to the folder
-  if (move_uploaded_file($_FILES['newProfileImage']['tmp_name'], $newProfileImage)) {
-      // Update the user's profile image in the database
-      $query = "UPDATE `account` SET `profile_image` = '$newProfileImage' WHERE `id` = '$id'";
-      $result = mysqli_query($conn, $query);
-      if (!$result) {
-          die("Query Failed: " . mysqli_error($conn));
-      }
-
-      // Call the JavaScript function to update the profile image on the page
-      echo '<script>updateProfileImage("' . $newProfileImage . '");</script>';
-  }
-
-
-  exit();
-}
 mysqli_close($conn);
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -92,13 +49,7 @@ mysqli_close($conn);
 
   <div class="dropdown">
     <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-    <?php
-        if (isset($row['profile_image'])) {
-            echo '<img src="' . $row['profile_image'] . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
-        } else {
-            echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
-        }
-        ?>
+      <img src="../image/profile.png" width="50" height="50" class="profile">
     </a>
 
     <ul class="dropdown-menu">
@@ -144,15 +95,9 @@ displayContentBasedOnStatus();
 
 
     <div class="profile-container">
-    <div class="profile-picture">
-            <?php
-            if (isset($row['profile_image'])) {
-                echo '<img id="profileImage" src="' . $row['profile_image'] . '" alt="Profile Picture">';
-            } else {
-                echo '<img id="profileImage" src="../image/profile.png" alt="Profile Picture">';
-            }
-            ?>
-    </div>
+        <div class="profile-picture">
+            <img src="../image/profile.png" alt="Profile Picture">
+        </div>   
     </div>
 
     <br>
@@ -319,8 +264,7 @@ if (!empty($message)) {
 }
 ?>
 
-
-<a href="profileedit.php?id=<?php echo $id; ?>" class="btn btn-primary"> Edit Profile </a>
+                      <a href="profileedit.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary"> Edit Profile </a>
                       <?php endforeach; ?>           
       
   </div>
@@ -450,7 +394,7 @@ $result = mysqli_query($conn, $query);
           
              $result->close();
           } else {
-              echo '<h4>No reviews available.</h4>';
+              echo '<p>No reviews available.</p>';
           }
       }
       $conn->close();
