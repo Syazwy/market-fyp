@@ -25,6 +25,12 @@
     background: transparent; /* Make the carousel background clear */
   }
 
+  .carousel-item img {
+    width: 600px;
+    height: 300px;
+}
+
+
   .product-container {
     background-color: white;
   }
@@ -39,16 +45,6 @@
   margin-top: 20px;
   margin-left: 50px;
 }
-
-/* .product-info.description {
-  background-color: white;
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  margin-top: 20px;
-  margin-left: 50px;
-} */
 
 .product-info{
 width: 200px;
@@ -66,10 +62,10 @@ margin-right: 100px;
 
 .userdetail{
 background-color: #FFEAEA;
-width: 500px;
+width: 400px;
 margin: auto;
-height: 500px;
-margin-top: 20px;
+height: 5auto;
+margin-top: 40px;
 margin-bottom: 20px;
 border-radius: 40px;
 padding: auto;
@@ -89,9 +85,9 @@ padding: auto;
   border-radius: 18px;
   cursor: pointer;
   margin: 10px;
-  height: 85px; 
-  width: 160px;
-  font-size: 2em;
+  height: 60px; 
+  width: 120px;
+  font-size: 1.5em;
 }
 
 #wishlistButton {
@@ -105,6 +101,17 @@ padding: auto;
   height: auto; 
   width: 180px;
   align-self: flex-start; 
+}
+
+.edit {
+background-color: #FF5353;
+  color: #fff;
+  border: none;
+  padding: 20px;
+  border-radius: 18px;
+  font-size: 1.5em;
+  margin: 10px;
+  height: auto; 
 }
 
 .price {
@@ -128,14 +135,17 @@ h2 {
 }
 
 
-.report-button {
-  height: 40px; 
-  width: 270px; 
-  border-radius: 18px;
-  padding-bottom: 20px;
-  background-color: #FF5353;
-  font-size: 20px;
-}
+h1 {
+            font-size: 30px;
+        }
+
+h5 {
+            font-size: 20px;
+        }
+
+
+
+
 
 .action-container {
     display: flex;
@@ -148,7 +158,6 @@ h2 {
     top: 10px; /* Adjust this value to your desired top position */
     right: 10px; /* Adjust this value to your desired right position */
 }
-
 
 </style>
   </head>
@@ -235,7 +244,7 @@ h2 {
         </div>
  
         <!-- ------------------------------------------------------------------------------------ -->
-                <br>
+                
         <div id="secondhalf">
             <div class="itemdetail">
                 <br>
@@ -295,9 +304,9 @@ h2 {
                   .'<small></h2>';
                   
                   echo '<br>';
-                  echo '<br>';
-                  echo '<center><h2 style="font-size:30px;font-weight:thin"> <img src="img/location-outline.svg" alt="location" style="width:80px;height:80px;margin-right:40px"> ' . $row["location"] . '</h2></center>';
-                  echo '<br>';
+                  
+                  echo '<center><h2 style="font-size:20px;font-weight:thin"> <img src="img/location-outline.svg" alt="location" style="width:60px;height:60px;margin-right:20px"> ' . $row["location"] . '</h2></center>';
+                  
                   echo '<br>';
                   
                   echo '</a>';
@@ -306,7 +315,8 @@ h2 {
               }
 
               if ($sessionEmail === $row["email"]) {
-                  echo '<a href="../profile/profile_edit_item.php?id=' . $row["id"] . '" class="btn btn-primary">Edit</a>';
+                echo '<br>';
+                  echo '<a href="../profile/profile_edit_item.php?id=' . $row["id"] . '" class="edit">Edit</a>';
               } else {
                   echo '<br>';
                   echo '<button type="button" class="btn btn-primary" id="chatButton" onclick="chat()">Chat</button>';
