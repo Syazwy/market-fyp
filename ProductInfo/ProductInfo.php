@@ -17,95 +17,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-      .checked {
+     .checked {
     color: orange;
   }
-
-  .carousel-inner {
-    background: transparent; /* Make the carousel background clear */
-  }
-
-  .product-container {
-    background-color: white;
-  }
-
-  .product-info.description {
-    background: transparent; /* Make the description box background clear */
-  }
-
-  .product-info.description {
-  padding: 20px;
-  border-radius: 5px;
-  margin-top: 20px;
-  margin-left: 50px;
-}
-
-/* .product-info.description {
-  background-color: white;
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  margin-top: 20px;
-  margin-left: 50px;
-} */
-
-.product-info.description.itemdetail {
-  background-color: white;
-}
-
-.product-info.description.userdetail{
-background-color: #FFEAEA;
-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-border: 1px solid #ddd;
-}
-
-.product-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.btn.btn-primary {
-  background-color: #FF5353;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 18px;
-  cursor: pointer;
-}
-
-.price {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 10px 0;
-}
-
-h2 {
-  font-size: 16px;
-  margin: 10px 0;
-}
-
-
-.proInfo .btn {
-  height: 65px; 
-  width: 120px; 
-  margin: 10px;
-  font-size: 20px;
-  border-radius: 18px;
-}
-
-
-.report-button {
-  height: 40px; 
-  width: 270px; 
-  border-radius: 18px;
-  padding-bottom: 20px;
-  background-color: #FF5353;
-  font-size: 20px;
-}
-
-</style>
+  </style>
   </head>
 
   <body>
@@ -187,11 +102,8 @@ h2 {
                 </div>
             </div>
         </div>
- 
-        <!-- ------------------------------------------------------------------------------------ -->
-
         <div id="secondhalf">
-            <div class="product-info description itemdetail">
+            <div class="product-info description">
                 <h3>Item Name:</h3>
                 <h6 style="text-transform: capitalize"><?php echo $row["name"]; ?></h6>
                 <h3>Price:</h3>
@@ -208,7 +120,7 @@ h2 {
                     onclick="wishlist()">Add to wishlist</button>
             </div>
 
-            <div class="product-info description userdetail">
+            <div class="product-info description">
               <?php
               $sessionEmail = $_SESSION['email'];
               $username = $row["username"];

@@ -99,7 +99,7 @@ if ($result->num_rows > 0) {
     }
     echo '</div>'; // End the div for item details
 } else {
-    echo "<center><h3>Item is no longer available.</h3></center>";
+    echo "Item not found.";
 }
 
 // Close the database connection
