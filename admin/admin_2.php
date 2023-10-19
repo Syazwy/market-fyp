@@ -13,6 +13,41 @@ require '../connection/connection.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     
 </head>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ccc;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .border1 {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .active-status {
+        color: green;
+    }
+
+    .banned-status {
+        color: red;
+    }
+
+    .btn {
+        margin: 5px;
+    }
+</style>
+
 <body>
 
 <nav class="navbar navbar-expand-lg bg-transparent">
@@ -84,33 +119,53 @@ require '../connection/connection.php';
                         <td>Action:</td>
 
                     </tr>
+                    <?php
+                    error_reporting(E_ALL);
+                    ini_set('display_errors', 1);
+                    
+require '../connection/connection.php';
 
-                  <?php
-                      $i = 1;
-                      $rows = mysqli_query($conn, "SELECT * from `reportbyusers` ORDER BY Id DESC");
-                  ?>
+$i = 1;
+$rows = mysqli_query($conn, "SELECT * FROM `reportbyusers` ORDER BY Id DESC");
 
-                  <?php
-                    foreach($rows as $row) :
-                  ?>
+foreach ($rows as $row) :
+    // Fetch the user's status from the 'account' table
+    $userEmail = $row["usersemail"];
+    
+    $statusQuery = mysqli_query($conn, "SELECT status FROM `account` WHERE BINARY email = '$userEmail'");
+    var_dump($statusQuery);  // Debug the query
+    // Check if the query was successful
+    if ($statusQuery) {
+        $statusRow = mysqli_fetch_assoc($statusQuery);
 
-                      <tr>
-                          <td><?php echo $i++; ?></td>
-                          <td><?php echo $row["username"]; ?></td>
-                          <td>status</td>
-                          <td><?php echo $row["reason"]; ?></td>
-                          <td><?php echo $row["typeReport"]; ?></td>                    
-                          <td><a href="remove_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-warning">Remove</td>
-                          <td><a href="ban_2.php?id=<?php echo $row["usersid"]; ?>" class="btn btn-danger">Ban</td>
-                          <td><a href="unban_2.php?id=<?php echo $row["usersid"]; ?>" class="btn btn-success">Unban</td>
-                      </tr>
+        if ($statusRow) {
+            $userStatus = $statusRow['status'];
 
-                  <?php endforeach; ?>               
-            </table>
-            </div>   
-      </div>
-    </div>
+            // Now, you can display the status in the table
+            ?>
+
+            <tr>
+                <td><?php echo $i++; ?></td>
+                <td><?php echo $row["username"]; ?></td>
+                <td><?php echo $userStatus; ?></td> <!-- Display the status -->
+                <td><?php echo $row["reason"]; ?></td>
+                <td><?php echo $row["typeReport"]; ?></td>
+                <td><a href="remove_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-warning">Remove</td>
+                <td><a href="ban_2.php?id=<?php echo $row["usersemail"]; ?>" class="btn btn-danger">Ban</td>
+                <td><a href="unban_2.php?id=<?php echo $row["usersemail"]; ?>" class="btn btn-success">Unban</td>
+            </tr>
+    <?php
+        } else {
+            // Handle the case where the user's status was not found
+        }
+    } else {
+        // Handle the case where the query failed
+    }
+endforeach; ?>             
+</table>
+</div>   
+</div>
+</div>
 </body>
 </html>
-
 

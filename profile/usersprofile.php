@@ -47,13 +47,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $user = $_POST['username'];
     $usersemail = $_POST['usersemail'];
-    
     $item_id = $_POST['item_id'];
     $typeReport = $_POST['typeReport'];
     $report_reason = $_POST['report_reason'];
     
     // Define the SQL query to insert data into the reportbyusers table
-    $sql = "INSERT INTO reportbyusers (typeReport, reason, usersid, username ) VALUES ('$typeReport', '$report_reason', '$myid', '$user')";
+    $sql = "INSERT INTO reportbyusers (typeReport, reason, usersemail, username ) VALUES ('$typeReport', '$report_reason', '$usersemail ', '$user')";
     
     if ($conn->query($sql) === TRUE) {
         // The report has been successfully submitted, now we trigger the success modal

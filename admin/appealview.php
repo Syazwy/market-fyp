@@ -14,6 +14,41 @@ require '../connection/connection.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     
 </head>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ccc;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .border1 {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .active-status {
+        color: green;
+    }
+
+    .banned-status {
+        color: red;
+    }
+
+    .btn {
+        margin: 5px;
+    }
+</style>
+
 <body>
 
 <nav class="navbar navbar-expand-lg bg-transparent">
@@ -84,8 +119,8 @@ require '../connection/connection.php';
                         <td>#</td>
                         
                         <td>Username</td> 
-                        <td>Date of appeal</td>
-                        <td>Appeal Letter</td>                   
+                        <td>Appeal Letter</td>
+                        <td>Action</td>                   
                        
                         
                     </tr>

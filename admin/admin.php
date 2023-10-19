@@ -16,6 +16,41 @@ $rows = mysqli_query($conn, "SELECT * from `account` ORDER BY Id DESC");
     <link rel="stylesheet" href="admin.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ccc;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .border1 {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .active-status {
+        color: green;
+    }
+
+    .banned-status {
+        color: red;
+    }
+
+    .btn {
+        margin: 5px;
+    }
+</style>
+
 <body>
 
 <nav class="navbar navbar-expand-lg bg-transparent">
@@ -78,6 +113,8 @@ $rows = mysqli_query($conn, "SELECT * from `account` ORDER BY Id DESC");
                     <td>Status</td>
                     <td>Username</td>
                     <td>Membership</td>
+                    <td>Items Listed</td>
+                    <td>Action</td>
                 </tr>
                 <?php
 foreach ($rows as $row) :
@@ -93,12 +130,13 @@ foreach ($rows as $row) :
         <td class="<?php echo $statusClass; ?>"><strong><?php echo $row["status"]; ?></strong></td>
         <td><?php echo $row["username"]; ?></td>
         <td><?php echo $row["membership"]; ?></td>
-        <td><a href="view_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary">View</td>
+        <td><a href="view_1.php?id=<?php echo $row["id"]; ?>&email=<?php echo $row["email"]; ?>" class="btn btn-primary">View</td>
         <td>
             <?php if ($row["status"] == "Active") : ?>
-                <a href="ban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to ban this person?">Ban</a>
+                <a href="ban_1.php?id=<?php echo $row["id"]; ?>&email=<?php echo $row["email"]; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to ban this person?')">Ban</a>
+
             <?php elseif ($row["status"] == "Banned") : ?>
-                <a href="unban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-success" onclick="return confirm('Are you sure you want to unban this person?">Unban</a>
+                <a href="unban_1.php?id=<?php echo $row["id"]; ?>&email=<?php echo $row["email"]; ?>" class="btn btn-success" onclick="return confirm('Are you sure you want to unban this person?">Unban</a>
             <?php endif; ?>
         </td>
     </tr>

@@ -90,7 +90,7 @@ if(isset($_POST["submit"])){
                     </select>
     
                     <div class="mb-3">
-                    <input type="text" name="name" id="username" value="Muin" hidden>
+                    <input type="text" name="id" id="username" value="Muin" hidden>
                         <input type="text" name="name" id="username" value="Muin" hidden>
                         <input type="text" name="item" id="item" value="Barang" hidden>
                         <label for="report" class="form-label">Report</label>
