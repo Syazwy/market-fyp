@@ -146,16 +146,20 @@ require_once("../session/session.php");
                 echo "<tr class='clickable-row' data-item-id='" . $chatId . "'>";
                 echo "<td>" . $otherUser . "</td>";
 
+                
                 // Fetch and display "itemname" and "price" columns from the 'itemslisting' table
                 $itemDetailsSql = "SELECT name, price FROM itemslisting WHERE id = $chatId";
                 $itemDetailsResult = $conn->query($itemDetailsSql);
 
+if (!$itemDetailsResult) {
+    die("Error: " . $conn->error); // Display the MySQL error if the query fails
+}
                 if ($itemDetailsResult->num_rows > 0) {
                     $itemDetailsRow = $itemDetailsResult->fetch_assoc();
                     echo "<td>" . $itemDetailsRow['name'] . "</td>";
                     echo "<td>$" . $itemDetailsRow['price'] . "</td>";
                 } else {
-                    echo "<td>No item details found.</td>";
+                    echo "<td>Item is no longer available.</td>";
                 }
 
                 echo "</tr>";

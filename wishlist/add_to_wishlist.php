@@ -15,20 +15,26 @@ $checkQuery = "SELECT COUNT(*) FROM wishlist WHERE item_id = '$item_id' AND emai
 $result = mysqli_query($conn, $checkQuery);
 
 if (!$result) {
-    echo "Error: " . mysqli_error($conn);
+    echo "Error checking the wishlist count: " . mysqli_error($conn);
     mysqli_close($conn);
     exit();
 }
 
 $row = mysqli_fetch_array($result);
 
-// Check if the user's wishlist count is within the limit (e.g., 5 for basic members)
-if ($row[0] >= 5) {
-    echo "<script>alert('You have reached the maximum wishlist limit (5 items)');</script>";
+// Debugging output
+echo "Membership status: " . $membershipRow[0] . "<br>";
+echo "Wishlist count: " . $row[0] . "<br>";
+
+// Check if the user's wishlist count is within the limit for their membership
+if ($membershipRow[0] === 'basic' && $row[0] >= 5) {
+    echo "<script>alert('You have reached the maximum wishlist limit (5 items for basic members)');</script>";
     mysqli_close($conn);
     header("Location: wishlist.php"); // Redirect to wishlist.php
     exit();
 }
+
+// ...
 
 // If the item is not in the wishlist, insert it
 $insertQuery = "INSERT INTO wishlist (id, name, item_id, description, price, category, item_condition, email)
@@ -43,8 +49,7 @@ if (mysqli_query($conn, $insertQuery)) {
 }
 
 // Update the user's wishlist count in the 'wishlist_count' table
-$updateCountQuery = "UPDATE account SET wishlist_count = wishlist_count + 1 
-WHERE email = '$yourEmail'";
+$updateCountQuery = "UPDATE account SET wishlist_count = wishlist_count + 1 WHERE email = '$yourEmail'";
 
 mysqli_query($conn, $updateCountQuery);
 
