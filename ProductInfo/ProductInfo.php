@@ -2,6 +2,18 @@
   require_once("../session/session.php");
   $sessionEmail = $_SESSION['email'];
   require '../connection/connection.php';
+  
+  $query = "SELECT * FROM account WHERE email = '$sessionEmail'";
+ $result = mysqli_query($conn, $query);
+
+ 
+if ($result) {
+  while($row = $result->fetch_assoc()){
+    $accountStatus = $row['status'];
+    $name =  $row['username'];
+    $profileimage = $row['profile_image'];
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -179,7 +191,18 @@ h5 {
 
             <div class="dropdown">
                 <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-                    <img src="../image/profile.png" width="50" height="50" class="profile">
+                <?php 
+                $profileimage = "SELECT * FROM account WHERE username = '$name'";
+                $result = $conn-> query($profileimage);
+                while ($profileimage = $result->fetch_assoc()) {
+                    $pimage = $profileimage['profile_image'];
+                }    
+                    if (isset($pimage)) {
+                        echo '<img src="../profile/' .$pimage . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+                    } else {
+                        echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+                    }
+                    ?>
                 </a>
 
                 <ul class="dropdown-menu">

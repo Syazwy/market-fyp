@@ -3,6 +3,18 @@
  require_once("../session/session.php");
  $username = $_SESSION['username'];
  $yourEmail = $_SESSION['email'];
+
+ $query = "SELECT * FROM account WHERE username = '$username'";
+ $result = mysqli_query($conn, $query);
+
+ 
+if ($result) {
+  while($row = $result->fetch_assoc()){
+    $accountStatus = $row['status'];
+    $name =  $row['username'];
+    $profileimage = $row['profile_image'];
+   }
+}
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +49,13 @@
 
     <div class="dropdown">
     <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-    <img src="../image/profile.png" width="50" height="50" class="profile">
+    <?php 
+      if (isset($profileimage)) {
+            echo '<img src="../profile/' .$profileimage . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        } else {
+            echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        }
+        ?>
     </a>
 
     <ul class="dropdown-menu">
@@ -72,7 +90,13 @@
 
     <div class="wishlist-container">
         <div class="wishlist-picture">
-            <img src="../profile/profileimage/wajdi.jpg" alt="Profile Picture">
+        <?php 
+          if (isset($profileimage)) {
+                echo '<img src="../profile/' .$profileimage . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+            } else {
+                echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+            }
+            ?>
         </div>   
     </div>
 

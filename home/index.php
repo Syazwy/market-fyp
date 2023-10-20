@@ -1,6 +1,22 @@
 <?php
   require_once("../session/session.php");
   require '../connection/connection.php';
+ $username = $_SESSION['username'];
+  $query = "SELECT * FROM account WHERE username = '$username'";
+ $result = mysqli_query($conn, $query);
+
+if ($result) {
+  while($row = $result->fetch_assoc()){
+    $accountStatus = $row['status'];
+    $name =  $row['username'];
+    $id = $row['id'];
+   }
+} else {
+    die("Query Failed: " . mysqli_error($conn));
+}
+
+// Close the result and database connection
+mysqli_free_result($result);
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +50,18 @@
 
       <div class="dropdown">
         <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-          <img src="../image/profile.png" width="50" height="50" class="profile">
+        <?php 
+      $profileimage = "SELECT * FROM account WHERE id = '$id'";
+      $result = $conn-> query($profileimage);
+      while ($profileimage = $result->fetch_assoc()) {
+        $pimage = $profileimage['profile_image'];
+    }    
+        if (isset($pimage)) {
+            echo '<img src="../profile/' .$pimage . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        } else {
+            echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        }
+        ?>
         </a>
 
         <ul class="dropdown-menu">
@@ -139,44 +166,63 @@
   <!-- Newly Listed Items Section -->
   <div class="container">
     <div class="row row-cols-1 row-cols-md-5 g-4">
-      <?php
-        $i = 1;
-        $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename
-        FROM itemslisting
-        JOIN item_images ON itemslisting.id = item_images.item_id
-        JOIN account ON itemslisting.username = account.username
-        WHERE account.status = 'Active' && itemslisting.status = 'active'
-        GROUP BY itemslisting.id
-        ORDER BY itemslisting.id DESC";
 
-        $result = mysqli_query($conn, $query);
 
-        while ($row = mysqli_fetch_assoc($result)) :
-          $uploadedAt = strtotime($row["uploaded_at"]); // Convert uploaded_at datetime to a timestamp
-          $currentTime = time(); // Current time timestamp
-          $timeDiff = $currentTime - $uploadedAt;
+    <?php
+$i = 1;
+$query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename 
+FROM itemslisting
+JOIN item_images ON itemslisting.id = item_images.item_id
+JOIN account ON itemslisting.username = account.username
+WHERE account.status = 'Active' && itemslisting.status = 'active'
+GROUP BY itemslisting.id
+ORDER BY itemslisting.id DESC";
 
-          // Calculate time difference in human-readable format
-          if ($timeDiff < 60) {
-              $timeAgo = $timeDiff . " seconds ago";
-          } elseif ($timeDiff < 3600) {
-              $minutes = floor($timeDiff / 60);
-              $timeAgo = $minutes . " minutes ago";
-          } elseif ($timeDiff < 86400) {
-              $hours = floor($timeDiff / 3600);
-              $timeAgo = $hours . " hours ago";
-          } else {
-              $days = floor($timeDiff / 86400);
-              $timeAgo = $days . " days ago";
-          }
-          ?>
+$result = mysqli_query($conn, $query);
+
+while ($row = mysqli_fetch_assoc($result)) :
+    $uploadedAt = strtotime($row["uploaded_at"]); // Convert uploaded_at datetime to a timestamp
+    $currentTime = time(); // Current time timestamp
+    $timeDiff = $currentTime - $uploadedAt;
+    $sellerid = $row['id'];
+    $item_image = $row['image_filename'];
+    
+    $id = $row['id'];
+    $profileimage = "SELECT * FROM account WHERE id = '$id'";
+    $profileResult = $conn->query($profileimage);
+    $profileimage = $profileResult->fetch_assoc();
+    $sellerimg = isset($profileimage['profile_image']) ? $profileimage['profile_image'] : NULL;
+   
+
+    echo $sellerimg;
+
+    // Calculate time difference in human-readable format
+    if ($timeDiff < 60) {
+        $timeAgo = $timeDiff . " seconds ago";
+    } elseif ($timeDiff < 3600) {
+        $minutes = floor($timeDiff / 60);
+        $timeAgo = $minutes . " minutes ago";
+    } elseif ($timeDiff < 86400) {
+        $hours = floor($timeDiff / 3600);
+        $timeAgo = $hours . " hours ago";
+    } else {
+        $days = floor($timeDiff / 86400);
+        $timeAgo = $days . " days ago";
+    }
+    ?>
           <div class="col d-flex align-items-center justify-content-center">
             <div class="card item h-100">
               <div class="card-header bg-transparent border border-0">
                 <div class="row row-cols-1 row-cols-md-2 g-4">
                   <div class="col col-lg-3">
                     <a href="">
-                      <img src="../image/profile.png" width="40" height="40">
+                    <?php 
+                          if (isset($row['profile_image'])&&$row['profile_image']!= null ) {
+                              echo '<img src="../profile/' .$row['profile_image'] . '" width="40" height="40" class="profile rounded-circle" alt="Profile Picture">';
+                          } else {
+                              echo '<img src="../image/profile.png" width="40" height="40" class="profile rounded-circle" alt="Profile Picture">';
+                          }
+                          ?>
                     </a>
                   </div>
                   <div class="col-md-auto">
@@ -193,7 +239,7 @@
                 </div>
               </div>
               <a href="../productinfo/productinfo.php?id=<?php echo $row["id"]; ?>">
-                <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" class="card-img-top" width="150px" height="150px">
+                <img src="../sellers/upload/<?php echo $item_image; ?>" class="card-img-top" width="150px" height="150px">
               </a>
               <div class="card-body">
                 <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
@@ -202,7 +248,7 @@
               </div>
             </div>
           </div>
-        <?php endwhile; ?>
+        <?php endwhile;  ?>
       </div>
 
             <!-- Search Results Section -->
