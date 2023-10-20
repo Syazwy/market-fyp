@@ -67,34 +67,53 @@ if(isset($_GET['id'])){
 ?>
 
 <?php
+require '../connection/connection.php';
 if (isset($_POST['submit'])) {
     $Nusername = $_POST['username'];
     $Nemail = $_SESSION['email'];
     $Npassword = $_POST['newPassword']; // Get the new password from the form
     // Hash the new password
     $hashedPassword = password_hash($Npassword, PASSWORD_DEFAULT);
-    // Update the user's information in the database, including the new hashed password
-    if ($Npassword){
-        $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail', `password` = '$hashedPassword' WHERE `username` = '".$_SESSION['username']."'";
-    $result = mysqli_query($conn, $query);
-    if (!$result) {
-        die("Query Failed: " . mysqli_error($conn)); // Added a closing parenthesis here
-    } else {
-        $_SESSION['username'] = $Nusername;
-        header('location: myprofile.php?update_msg=You have successfully updated the data.');
-    }
-    } else {
-        $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail' WHERE `username` = '".$_SESSION['username']."'";
-    $result = mysqli_query($conn, $query);
-    if (!$result) {
-        die("Query Failed: " . mysqli_error($conn)); // Added a closing parenthesis here
-    } else {
-        $_SESSION['username'] = $Nusername;
-        header('location: myprofile.php?update_msg=You have successfully updated the data.');
-    }
-    }
     
+    // Update the 'account' table
+    if ($Npassword) {
+        $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail', `password` = '$hashedPassword' WHERE `username` = '" . $_SESSION['username'] . "'";
+    } else {
+        $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail' WHERE `username` = '" . $_SESSION['username'] . "'";
+    }
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        die("Query Failed: " . mysqli_error($conn));
+    } else {
+        $_SESSION['username'] = $Nusername;
+    }
+
+    mysqli_begin_transaction($conn);
+
+try {
+
+    // Update other tables with username references
+    $tablesToUpdate = ['appeals', 'itemslisting', 'reportbyusers', 'reviews'];
+
+    foreach ($tablesToUpdate as $table) {
+        $query = "UPDATE `$table` SET `username` = '$Nusername' WHERE `username` = '" . $_SESSION['username'] . "'";
+        $result = mysqli_query($conn, $query);
+        if (!$result) {
+            die("Query Failed: " . mysqli_error($conn));
+        } else {
+            echo "Updated $table with new username: $Nusername<br>";
+        }
+    }
+    mysqli_commit($conn);
+} catch (Exception $e) {
+    // Roll back the transaction if any query fails
+    mysqli_rollback($conn);
+    echo "Transaction failed: " . $e->getMessage();
+} 
+    // header('location: myprofile.php?update_msg=You have successfully updated the data.');
 }
+
+
 ?>
 
 <!DOCTYPE html>
