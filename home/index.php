@@ -106,8 +106,8 @@ mysqli_free_result($result);
 
   <!-- Search Bar and Button -->
   <div class="search">
-    <input class="searchbar" type="text" id="searchInput" placeholder="Search for anything and everything" style="padding-left: 20px;">
-    <button type="button" id="searchButton" class="btn btn-primary">Search</button>
+    <input class="searchbar" type="text" id="searchInput" placeholder="Search for anything" style="padding-left: 20px;">
+    <!-- <button type="button" id="searchButton" class="btn btn-primary">Search</button> -->
   </div>
 
   <!-- "What would you like to find?" Section -->
@@ -166,49 +166,47 @@ mysqli_free_result($result);
   <!-- Newly Listed Items Section -->
   <div class="container">
     <div class="row row-cols-1 row-cols-md-5 g-4">
-
-
     <?php
-$i = 1;
-$query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename 
-FROM itemslisting
-JOIN item_images ON itemslisting.id = item_images.item_id
-JOIN account ON itemslisting.username = account.username
-WHERE account.status = 'Active' && itemslisting.status = 'active'
-GROUP BY itemslisting.id
-ORDER BY itemslisting.id DESC";
+      $i = 1;
+      $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename 
+      FROM itemslisting
+      JOIN item_images ON itemslisting.id = item_images.item_id
+      JOIN account ON itemslisting.username = account.username
+      WHERE account.status = 'Active' && itemslisting.status = 'active'
+      GROUP BY itemslisting.id
+      ORDER BY itemslisting.id DESC";
 
-$result = mysqli_query($conn, $query);
+      $result = mysqli_query($conn, $query);
 
-while ($row = mysqli_fetch_assoc($result)) :
-    $uploadedAt = strtotime($row["uploaded_at"]); // Convert uploaded_at datetime to a timestamp
-    $currentTime = time(); // Current time timestamp
-    $timeDiff = $currentTime - $uploadedAt;
-    $sellerid = $row['id'];
-    $item_image = $row['image_filename'];
-    
-    $id = $row['id'];
-    $profileimage = "SELECT * FROM account WHERE id = '$id'";
-    $profileResult = $conn->query($profileimage);
-    $profileimage = $profileResult->fetch_assoc();
-    $sellerimg = isset($profileimage['profile_image']) ? $profileimage['profile_image'] : NULL;
+      while ($row = mysqli_fetch_assoc($result)) :
+          $uploadedAt = strtotime($row["uploaded_at"]); // Convert uploaded_at datetime to a timestamp
+          $currentTime = time(); // Current time timestamp
+          $timeDiff = $currentTime - $uploadedAt;
+          $sellerid = $row['id'];
+          $item_image = $row['image_filename'];
+          
+          $id = $row['id'];
+          $profileimage = "SELECT * FROM account WHERE id = '$id'";
+          $profileResult = $conn->query($profileimage);
+          $profileimage = $profileResult->fetch_assoc();
+          $sellerimg = isset($profileimage['profile_image']) ? $profileimage['profile_image'] : NULL;
    
 
-    echo $sellerimg;
+      echo $sellerimg;
 
-    // Calculate time difference in human-readable format
-    if ($timeDiff < 60) {
-        $timeAgo = $timeDiff . " seconds ago";
-    } elseif ($timeDiff < 3600) {
-        $minutes = floor($timeDiff / 60);
-        $timeAgo = $minutes . " minutes ago";
-    } elseif ($timeDiff < 86400) {
-        $hours = floor($timeDiff / 3600);
-        $timeAgo = $hours . " hours ago";
-    } else {
-        $days = floor($timeDiff / 86400);
-        $timeAgo = $days . " days ago";
-    }
+      // Calculate time difference in human-readable format
+      if ($timeDiff < 60) {
+          $timeAgo = $timeDiff . " seconds ago";
+      } elseif ($timeDiff < 3600) {
+          $minutes = floor($timeDiff / 60);
+          $timeAgo = $minutes . " minutes ago";
+      } elseif ($timeDiff < 86400) {
+          $hours = floor($timeDiff / 3600);
+          $timeAgo = $hours . " hours ago";
+      } else {
+          $days = floor($timeDiff / 86400);
+          $timeAgo = $days . " days ago";
+      }
     ?>
           <div class="col d-flex align-items-center justify-content-center">
             <div class="card item h-100">
@@ -234,7 +232,6 @@ while ($row = mysqli_fetch_assoc($result)) :
                         <?php echo $timeAgo; ?>
                       </p>
                     </small>
-                    <br>
                   </div>
                 </div>
               </div>
@@ -251,10 +248,10 @@ while ($row = mysqli_fetch_assoc($result)) :
         <?php endwhile;  ?>
       </div>
 
-            <!-- Search Results Section -->
-        <div id="searchResults" class="row row-cols-1 row-cols-md-5 g-4">
-          <!-- Search results will be displayed here -->
-        </div>
+      <!-- Search Results Section -->
+      <div id="searchResults" class="row row-cols-1 row-cols-md-5 g-4">
+        <!-- Search results will be displayed here -->
+      </div>
 
     </div>
   </div>
@@ -262,23 +259,40 @@ while ($row = mysqli_fetch_assoc($result)) :
   <!-- JavaScript for handling the search -->
   <script>
     $(document).ready(function() {
-      // When the search button is clicked
-      $("#searchButton").click(function() {
-        // Get the search query from the input field
-        var query = $("#searchInput").val();
+      // Function to display search results and toggle item visibility
+      function displaySearchResults(query) {
+        var url = "search.php";
+        var data = { query: query };
 
-        // Make an Ajax request to search.php with the query parameter
         $.ajax({
           type: "GET",
-          url: "search.php", // Create a search.php file to handle the search logic
-          data: { query: query },
+          url: url,
+          data: data,
           success: function(response) {
-            // Hide the existing items and show the search results
-            $(".col.d-flex.align-items-center.justify-content-center").hide();
+            // Hide newly listed items
+            $(".card.item.h-100").hide();
+            
+            // Display search results
             $("#searchResults").html(response).show();
           }
         });
-      });
+      }
+
+      // Function to handle input changes and trigger search
+      function handleSearchInput() {
+        var query = $("#searchInput").val();
+        if (query) {
+          displaySearchResults(query);
+        } else {
+          // Show all newly listed items when the search input is empty
+          $(".card.item.h-100").show();
+          $("#searchResults").hide();
+        }
+      }
+
+
+      // Automatically update search results as the user types
+      $("#searchInput").on("input", handleSearchInput);
     });
   </script>
 </body>

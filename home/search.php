@@ -2,11 +2,19 @@
 require_once("../session/session.php");
 require '../connection/connection.php';
 
+
 // Get the search query from the Ajax request
 $query = $_GET['query'];
 
-// Perform the search query
-$query = "SELECT * FROM itemslisting WHERE name LIKE '%$query%'";
+// Perform the search query and retrieve the image filename
+$query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename
+          FROM itemslisting
+          JOIN item_images ON itemslisting.id = item_images.item_id
+          JOIN account ON itemslisting.username = account.username
+          WHERE account.status = 'Active' && itemslisting.status = 'active' && itemslisting.name LIKE '%$query%'
+          GROUP BY itemslisting.id
+          ORDER BY itemslisting.uploaded_at DESC";
+
 $result = mysqli_query($conn, $query);
 
 // Process the search results

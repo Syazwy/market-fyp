@@ -303,7 +303,7 @@ $daysRemaining = $currentDate->diff($subscriptionDate)->days;
 
 
 // Check membership type and days remaining
-if ($membership === "Premium Monthly" && $daysRemaining <= 5) {
+if ($membership === "Premium Monthly" && $daysRemaining <= 25) {
     $message = "Your plan is about to expire in 5 days.";
 } elseif ($membership === "Premium Annually" && $daysRemaining <= 5) {
     $message = "Your plan is about to expire in 5 days.";
