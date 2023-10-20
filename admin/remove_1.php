@@ -1,22 +1,16 @@
-<?php require '../connection/connection.php'; ?>
+<?php
+require '../connection/connection.php';
 
-<?php 
+if(isset($_POST['rowId'])){ // Use POST instead of GET
+    $id = $_POST['rowId']; // Corrected the assignment here
+    $query = "DELETE FROM `reportbyusers` WHERE `id` = '$id'";
+    $result = mysqli_query($conn, $query);
 
-if(isset($_GET['id'])){
-    $id = $id = $_GET['id'];
-}
+    if(!$result){
+        die("Query Failed: " . mysqli_error($conn));
+    }
 
-$query = "delete from `reportbyusers` where `id` = '$id'";
-
-$result = mysqli_query($conn, $query);
-
-if(!$result){
-    die("Query Failed: " . mysqli_error($conn));
-
-}
-
-else{
+    // Redirect to admin_2.php after deletion
     header('location: admin_2.php?delete_msg=You have deleted the record.');
 }
-
 ?>

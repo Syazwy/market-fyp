@@ -136,8 +136,8 @@ foreach ($rows as $row) :
                 <a href="ban_1.php?id=<?php echo $row["id"]; ?>&email=<?php echo $row["email"]; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to ban this person?')">Ban</a>
 
             <?php elseif ($row["status"] == "Banned") : ?>
-                <a href="unban_1.php?id=<?php echo $row["id"]; ?>&email=<?php echo $row["email"]; ?>" class="btn btn-success" onclick="return confirm('Are you sure you want to unban this person?">Unban</a>
-            <?php endif; ?>
+                <a href="unban_1.php?id=<?php echo $row["id"]; ?>&email=<?php echo $row["email"]; ?>" class="btn btn-success" onclick="return confirm('Are you sure you want to unban this person?')">Unban</a>
+ <?php endif; ?>
         </td>
     </tr>
 <?php endforeach;

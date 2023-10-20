@@ -2,25 +2,35 @@
 require '../connection/connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $userEmail = $_POST['userEmail'];
+    if (isset($_POST['action']) && isset($_POST['userEmail'])) {
+        $userEmail = $_POST['userEmail'];
+        echo "Action: " . $_POST['action'] . "<br>";
+        echo "User Email: " . $userEmail . "<br>";
+        if ($_POST['action'] === 'ban') {
+            $updateQuery = "UPDATE `account` SET status = 'Banned' WHERE email = '$userEmail'";
+        } elseif ($_POST['action'] === 'unban') {
+            $updateQuery = "UPDATE `account` SET status = 'Active' WHERE email = '$userEmail'";
+        }
+        
+        echo "Update Query: " . $updateQuery . "<br>";
 
-    if (isset($_POST['ban'])) {
-        // Logic to update user status to "Banned" in the account table
-        $updateQuery = "UPDATE `account` SET status = 'Banned' WHERE email = '$userEmail'";
-    } elseif (isset($_POST['unban'])) {
-        // Logic to update user status to "Active" in the account table
-        $updateQuery = "UPDATE `account` SET status = 'Active' WHERE email = '$userEmail'";
-    }
-
-    if (mysqli_query($conn, $updateQuery)) {
-        // Get the URL of the previous page (the referrer)
-        $previousPage = $_SERVER['HTTP_REFERER'];
-
-        // Redirect back to the previous page (admin_2.php)
-        header("Location: $previousPage");
-        exit();
+        if (mysqli_query($conn, $updateQuery)) {
+            $previousPage = $_SERVER['HTTP_REFERER'];
+            echo "Status updated successfully.";
+            header("Location: $previousPage");
+            exit();
+        } else {
+            echo "Status update failed: " . mysqli_error($conn);
+        }
+        
     } else {
-        echo "Status update failed: " . mysqli_error($conn);
+        echo "Action or user email not set.";
     }
+} else {
+    echo "Invalid request method.";
 }
+
+echo "SQL Query: " . $updateQuery . "<br>";
+echo "User Email: " . $userEmail . "<br>";
+
 ?>
