@@ -28,37 +28,33 @@ if ($result2) {
 
 ?>
 
-<?php 
+<?php
+
+require_once("../session/session.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content']) && isset($_POST['rating'])) {
     $content = $_POST['content'];
     $rating = $_POST['rating'];
-    $username = $_SESSION['username']; // Assuming the username comes from a session
-    $users = $usersemail; 
-
+    $users = $_POST['username']; // Retrieve username from the form
+    $usersemail = $_POST['email'];
+    $myusername = $_SESSION['username']; // Assuming the username comes from a session
     $currentDateTime = new DateTime();
     $timedate = $currentDateTime->format('Y-m-d H:i:s');
 
     // Use a prepared statement to insert the review into the database
     $stmt = $conn->prepare("INSERT INTO reviews (username, content, rating, time, users) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssdss", $username, $content, $rating, $timedate, $users);
-
+    $stmt->bind_param("ssdss", $myusername, $content, $rating, $timedate, $users);
+    
     if ($stmt->execute()) {
         // Review submitted successfully
-        
     } else {
         // Error occurred while inserting the review
         echo "Error: " . $stmt->error;
     }
 
     $stmt->close();
-    // Redirect to usersprofile.php with email and username as query parameters
-header("Location: usersprofile.php?email=" . $usersemail . "&username=" . $user);
+    
 }
-
-// Fetch and display reviews
-$result = $conn->query("SELECT * FROM reviews WHERE users = '$user' ORDER BY time DESC");
-
 ?>
 
 <?php
@@ -258,6 +254,7 @@ exit;
                       $i = 1;
                       $rows = mysqli_query($conn, "SELECT * from account WHERE username = '$user' ORDER BY id DESC ");
                   ?>
+                  
 
 <button class="report-button btn btn-primary" onclick="openReportModal(' . $itemId . ')">Report</button>
 
@@ -354,11 +351,15 @@ function validateForm() {
       </div>
       <div class="modal-body">
       <form method="post" action="usersprofile.php">
+      <input type="hidden" name="email" value="<?php echo $usersemail; ?>">
+    <input type="hidden" name="username" value="<?php echo $user; ?>">
+       
     <div class="modal-body">
         <div class="mb-3">
             <label for="message-text" class="col-form-label">Content</label>
             <textarea class="form-control" id="message-text" name="content" rows="4" required></textarea>
         </div>
+     
         <div class="form-group">
             <label for="rating">Rating:</label>
             <select class="form-control" name="rating" id="rating" required>
@@ -425,101 +426,67 @@ $result = mysqli_query($conn, $query);
     <br>
 
 </div>
+    </div>
 
 <!-- ------------------------------------------------------------------------------------------------------------------- -->
 
 <div class="box" id="box3" style="display: none;">
-<!-- <button class="btn mb-3" id="addReviewBtn" data-toggle="modal" data-target="#addReviewModal" style="border: 1px solid black; position: fixed; top: 240px; right: 710px; <?php echo $addReviewButtonStyle; ?>">Add New Review</button> -->
+
 
 <div class="container1" style="">
 <?php
+require '../connection/connection.php';
 
-      if (isset($_POST['username']) && isset($_POST['content']) && isset($_POST['rating'])) {
-          $username = $_POST['username'];
-          $content = $_POST['content'];
-          $rating = $_POST['rating'];
-          $users = $_POST['users'];
 
-          $currentDateTime = new DateTime();
-          $timedate = $currentDateTime->format('Y-m-d H:i:s');
+// Fetch and display reviews
+$result = $conn->query("SELECT * FROM reviews WHERE users = '$user' ORDER BY time DESC");
 
-          $stmt = $conn->prepare("INSERT INTO reviews(username, content, rating, time, user) VALUES (?, ?, ?, ? )");
-          $stmt->bind_param("ssss", $username, $content, $rating, $timedate, );
-          $stmt->execute();
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $reviewDate = date('Y-m-d', strtotime($row['time']));
 
-          $stmt->close();
-      } else {
-        $result = $conn->query("SELECT * FROM reviews WHERE users = '$user' ORDER BY time DESC");
+        echo '
+            <div class="card mb-4">
+                <div class="card-body"><center>
+                    <h5 class="card-title">' . $row['username'] . '</h5>
+                    <p class="rating">'; // Open the rating container
 
-          if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-              $reviewDate = date('Y-m-d', strtotime($row['time']));
-          
-              echo '
-                  <div class="card mb-4">
-                      <div class="card-body"><center>
-                          <h5 class="card-title">' . $row['username'] . '</h5>
-                          <p class="rating">'; // Open the rating container
-          
-              for ($i = 1; $i <= 5; $i++) {
-                  echo '<span class="fa fa-star ' . ($i <= $row['rating'] ? 'checked' : '') . '"></span>';
-              }
-          
-              echo '</p>'; 
-              
-              echo '<p class="card-text">' . $row['content'] . '</p>
-                    <p class="time">Posted on ' . $reviewDate . '</p>
-                      </center></div>
-                  </div>'; 
-          }
-                   
-             $result->close();
-          } else {
-              echo '<h4>No reviews available.</h4>';
-          }
-      }
-      $conn->close();
-      
-      ?>
+        for ($i = 1; $i <= 5; $i++) {
+            echo '<span class="fa fa-star ' . ($i <= $row['rating'] ? 'checked' : '') . '"></span>';
+        }
+
+        echo '</p>'; // Close the rating container
+
+        echo '<p class="card-text">' . $row['content'] . '</p>
+                <p class="time">Posted on ' . $reviewDate . '</p>
+                    </center></div>
+            </div>'; // Close the card
+    }
+} else {
+    echo '<h4>No reviews available.</h4>';
+}
+
+$conn->close();
+?>
+
 </div>
 </div>    
 
 <script>
- var box2Content = document.getElementById("box2").innerHTML; // Store the initial content of box2
- function showListings() {
-  document.getElementById("box2").style.display = "block"; // Show box2
-  document.getElementById("box3").style.display = "none"; // Hide box3
-}
+    function showListings() {
+        document.getElementById("box2").style.display = "block"; // Show box2
+        document.getElementById("box3").style.display = "none"; // Hide box3
+    }
 
-function showReviews() {
-  document.getElementById("box2").style.display = "none"; // Hide box2
-  document.getElementById("box3").style.display = "block"; // Show box3
-}
+    function showReviews() {
+        document.getElementById("box2").style.display = "none"; // Hide box2
+        document.getElementById("box3").style.display = "block"; // Show box3
+    }
+</script>
 
-  </script>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // JavaScript code to trigger the report modal
-    $(document).ready(function() {
-        <?php
-        if (isset($_POST['typeReport']) && isset($_POST['report_reason'])) {
-            echo '
-            $("#reportModal").modal({
-                backdrop: "static", // Prevents closing the modal by clicking outside
-                keyboard: false // Prevents closing the modal with the Esc key
-            });
-
-            // Show the success modal after a delay (e.g., 1000 milliseconds or 1 second)
-            setTimeout(function() {
-                $("#successModal").modal("show");
-            }, 1000);
-            ';
-        }
-        ?>
-    });
-</script>
-
 </body>
 </html>
