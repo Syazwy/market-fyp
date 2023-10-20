@@ -270,7 +270,6 @@ if ($result) {
                   <h5>Membership: <?php echo $userMembership; ?></h5>
 <br>
 <?php
-
 require '../connection/connection.php';
 
 // Check the user's account status
@@ -298,15 +297,45 @@ $currentDate = new DateTime();
 $subscriptionDate = new DateTime($subscriptionDate);
 $daysRemaining = $currentDate->diff($subscriptionDate)->days;
 
-// echo "Subscription Date: " . $subscriptionDate->format('Y-m-d') . "<br>";
-// echo "Current Date: " . $currentDate->format('Y-m-d') . "<br>";
-
-
 // Check membership type and days remaining
-if ($membership === "Premium Monthly" && $daysRemaining <= 25) {
-    $message = "Your plan is about to expire in 5 days.";
-} elseif ($membership === "Premium Annually" && $daysRemaining <= 5) {
-    $message = "Your plan is about to expire in 5 days.";
+if ($membership === "Premium Monthly" && $daysRemaining <= 30 && $daysRemaining >= 1) {
+    // Calculate the number of days until the subscription expires
+    $daysUntilExpiry = 30 - $daysRemaining;
+
+    // Define the message based on the number of days
+    if ($daysUntilExpiry >= 5) {
+        $message = "Your Premium Monthly subscription will expire in $daysUntilExpiry days.";
+    } else if ($daysUntilExpiry == 4) {
+        $message = "Your Premium Monthly subscription will expire in 4 days.";
+    } else if ($daysUntilExpiry == 3) {
+        $message = "Your Premium Monthly subscription will expire in 3 days.";
+    } else if ($daysUntilExpiry == 2) {
+        $message = "Your Premium Monthly subscription will expire in 2 days.";
+    } else if ($daysUntilExpiry == 1) {
+        $message = "Your Premium Monthly subscription will expire tomorrow.";
+    } else {
+        $message = "Your Premium Monthly subscription will expire today.";
+    }
+} elseif ($membership === "Premium Annually" && $daysRemaining <= 365 && $daysRemaining >= 1) {
+    // Calculate the number of days until the subscription expires
+    $daysUntilExpiry = 365 - $daysRemaining;
+
+    // Define the message based on the number of days
+    if ($daysUntilExpiry >= 30) {
+        $message = "Your Premium Annually subscription will expire in " . ceil($daysUntilExpiry / 30) . " months.";
+    } else if ($daysUntilExpiry >= 5) {
+        $message = "Your Premium Annually subscription will expire in $daysUntilExpiry days.";
+    } else if ($daysUntilExpiry == 4) {
+        $message = "Your Premium Annually subscription will expire in 4 days.";
+    } else if ($daysUntilExpiry == 3) {
+        $message = "Your Premium Annually subscription will expire in 3 days.";
+    } else if ($daysUntilExpiry == 2) {
+        $message = "Your Premium Annually subscription will expire in 2 days.";
+    } else if ($daysUntilExpiry == 1) {
+        $message = "Your Premium Annually subscription will expire tomorrow.";
+    } else {
+        $message = "Your Premium Annually subscription will expire today.";
+    }
 } else {
     $message = ""; // No special message
 }
@@ -316,7 +345,6 @@ if (!empty($message)) {
     echo '<div class="alert alert-warning">' . $message . '</div>';
 }
 ?>
-
 
 <a href="profileedit.php?id=<?php echo $id; ?>" class="btn btn-primary"> Edit Profile </a>
                       <?php endforeach; ?>           
