@@ -2,19 +2,25 @@
   require '../connection/connection.php';
   session_start();
 ?>
+<?php
+// Check if a message parameter is present in the URL
+if (isset($_GET["message"])) {
+    $message = urldecode($_GET["message"]);
+    // Use JavaScript to display the message as an alert
+    echo '<script>alert("' . $message . '");</script>';
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Market</title>
-  <link rel="stylesheet" href="forgot/forgot.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
 </head>
 
 <script>
@@ -292,7 +298,6 @@ if ($insertStmt) {
 ?>
 
 <!-- Login Database -->
-
 <?php
 
 $errorMessage = ""; // Initialize an empty error message
@@ -327,7 +332,15 @@ if (isset($_POST["login"])) {
             $errorMessage = "Email or username not found.";
         } else {
             $user = mysqli_fetch_object($result);
-            if (!password_verify($password, $user->password)) {
+
+            if ($user->status === 'Banned') {
+                // User is banned, display a modal popup with JavaScript
+                echo '<script>
+                $(document).ready(function() {
+                    $("#bannedModal").modal("show");
+                });
+            </script>';
+            } elseif (!password_verify($password, $user->password)) {
                 $errorMessage = "Password is not correct";
             } elseif ($user->email_verified_at == null) {
                 header("Location: index-guest.php?email=" . urlencode($user->email));
@@ -381,6 +394,35 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
 
 
 <body>
+
+<!-- The Bootstrap Modal for Banned Users -->
+<div class="modal fade" id="bannedModal" tabindex="-1" role="dialog" aria-labelledby="bannedModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <center>
+      <div class="modal-header">
+        <h5 class="modal-title" id="bannedModalLabel">Account Banned</h5>   
+      </div>
+      </center>
+      <div class="modal-body">
+        <p>Your account has been banned. You can submit an appeal below:</p>
+        <p></p>
+        <form id="appealForm" method="post" action="process_appeal.php">
+          <input type="hidden" name="username" value="<?php echo $user->username; ?>">
+          <div class="form-group">
+            <label for="appealText">Appeal Message:</label>
+            <textarea class="form-control" id="appealText" name="appeal" rows="4" required></textarea>
+          </div>
+          <br>
+          <center>
+          <button type="submit" class="btn btn-primary">Submit Appeal</button>
+          </center>        
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
   <!-- Verification Modal --> 
  
  <div class="modal fade" id="verificationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="verificationModalLabel" aria-hidden="true">
@@ -913,8 +955,11 @@ if (isset($_POST['verify_code'])) {
             </script>
         <?php endif; ?>
 
-        
-        </body>
+
+<!-- JavaScript files (jQuery is required) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
 <?php
 session_destroy();
