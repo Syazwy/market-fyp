@@ -4,7 +4,7 @@ require '../connection/connection.php';
 $yourEmail = $_SESSION['email'];
 $yourName = $_SESSION['username'];
 
-$query = "SELECT * FROM account WHERE username = '$username'";
+$query = "SELECT * FROM account WHERE username = '$yourName'";
 $result = mysqli_query($conn, $query);
 
 
@@ -93,6 +93,7 @@ $itemid = $_GET['id'];
 <div class="chat">
 
         <h2><?php echo $username ?></h2>
+        <br>
 <?php
 require '../connection/connection.php';
 // Get the item ID from the URL
@@ -118,7 +119,7 @@ if ($result->num_rows > 0) {
     }
     echo '</div>'; // End the div for item details
 } else {
-    echo "Item not found.";
+    echo "<center><h3>Item is no longer available.</h3></center>";
 }
 
 // Close the database connection

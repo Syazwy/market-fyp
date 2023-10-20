@@ -176,7 +176,7 @@ if ($result) {
                     echo "<td>" . $itemDetailsRow['name'] . "</td>";
                     echo "<td>$" . $itemDetailsRow['price'] . "</td>";
                 } else {
-                    echo "<td>No item details found.</td>";
+                    echo "<td>Item is no longer available.</td>";
                 }
 
                 echo "</tr>";
