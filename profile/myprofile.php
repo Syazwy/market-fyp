@@ -2,6 +2,7 @@
  require '../connection/connection.php';
  require_once("../session/session.php");
  $username = $_SESSION['username'];
+ 
 
  // Check the user's account status
  $query = "SELECT * FROM account WHERE username = '$username'";
@@ -30,20 +31,16 @@ $result = mysqli_query($conn, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
 }
-
 // Handle the image upload and database update here
 if (isset($_FILES['newProfileImage'])) {
   // Define the folder where uploaded images will be stored
   $uploadDir = 'profileimage/';
-
   // Create the folder if it doesn't exist
   if (!is_dir($uploadDir)) {
       mkdir($uploadDir, 0755, true);
   }
-
   // Generate a unique filename for the uploaded image
   $newProfileImage = $uploadDir . uniqid() . '_' . $_FILES['newProfileImage']['name'];
-
   // Move the uploaded image to the folder
   if (move_uploaded_file($_FILES['newProfileImage']['tmp_name'], $newProfileImage)) {
       // Update the user's profile image in the database
@@ -52,15 +49,11 @@ if (isset($_FILES['newProfileImage'])) {
       if (!$result) {
           die("Query Failed: " . mysqli_error($conn));
       }
-
       // Call the JavaScript function to update the profile image on the page
       echo '<script>updateProfileImage("' . $newProfileImage . '");</script>';
   }
-
-
   exit();
 }
-mysqli_close($conn);
 
 ?>
 
@@ -92,9 +85,14 @@ mysqli_close($conn);
 
   <div class="dropdown">
     <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-    <?php
-        if (isset($row['profile_image'])) {
-            echo '<img src="' . $row['profile_image'] . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+    <?php 
+      $profileimage = "SELECT * FROM account WHERE id = '$id'";
+      $result = $conn-> query($profileimage);
+      while ($profileimage = $result->fetch_assoc()) {
+        $pimage = $profileimage['profile_image'];
+    }    
+        if (isset($pimage)) {
+            echo '<img src="' .$pimage . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
         } else {
             echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
         }

@@ -651,7 +651,11 @@ if (isset($_POST["login"])) {
 
         // Determine the href value based on email comparison        
         echo '<div class="user">';
-        echo '<img width="50px" src="../image/profile.png">';
+        if (isset($row['profile_image'])) {
+          echo '<img src="../profile/' .$row['profile_image'] . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+      } else {
+          echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+      }
         echo generateStarRating($averageRating) . ' (' . $totalReviews . ' reviews)';
         echo '<p>' . $row["username"] . '</p>';
         echo '<p>' . $row["location"] . '</p>';

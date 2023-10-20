@@ -8,10 +8,12 @@ if (isset($_GET['id'])) {
 }
 
 // Retrieve the user's profile image from the database
-$query = "SELECT profile_image FROM `account` WHERE `id` = '$id'";
+$query = "SELECT * FROM `account` WHERE `id` = '$id'";
 $result = mysqli_query($conn, $query);
 if ($result) {
-    $row = mysqli_fetch_assoc($result);
+    while($row = $result -> fetch_assoc()){
+        $username = $row['username'];
+    }
 }
 
 // Handle the image upload and database update here
@@ -32,6 +34,8 @@ if (isset($_FILES['newProfileImage'])) {
         // Update the user's profile image in the database
         $query = "UPDATE `account` SET `profile_image` = '$newProfileImage' WHERE `id` = '$id'";
         $result = mysqli_query($conn, $query);
+        $query2 = "UPDATE `itemslisting` SET `profile_image` = '$newProfileImage' WHERE `username` = '$username'";
+        $result2 = mysqli_query($conn, $query2);
         if (!$result) {
             die("Query Failed: " . mysqli_error($conn));
         }
@@ -48,27 +52,6 @@ if (isset($_FILES['newProfileImage'])) {
 
 
 ?>
-
-
-<?php
-if (isset($_POST['submit'])) {
-    $Nusername = $_POST['username'];
-    $Nemail = $_SESSION['email'];
-    $Npassword = $_POST['newPassword']; // Get the new password from the form
-    // Hash the new password
-    $hashedPassword = password_hash($Npassword, PASSWORD_DEFAULT);
-    // Update the user's information in the database, including the new hashed password
-    $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail', `password` = '$hashedPassword' WHERE `username` = '".$_SESSION['username']."'";
-    $result = mysqli_query($conn, $query);
-    if (!$result) {
-        die("Query Failed: " . mysqli_error($conn)); // Added a closing parenthesis here
-    } else {
-        $_SESSION['username'] = $Nusername;
-        header('location: myprofile.php?update_msg=You have successfully updated the data.');
-    }
-}
-?>
-
 <?php
 if(isset($_GET['id'])){
     $id = $_GET['id'];
@@ -82,6 +65,39 @@ if(isset($_GET['id'])){
     }
 }
 ?>
+
+<?php
+if (isset($_POST['submit'])) {
+    $Nusername = $_POST['username'];
+    $Nemail = $_SESSION['email'];
+    $Npassword = $_POST['newPassword']; // Get the new password from the form
+    // Hash the new password
+    $hashedPassword = password_hash($Npassword, PASSWORD_DEFAULT);
+    // Update the user's information in the database, including the new hashed password
+    if ($Npassword){
+        $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail', `password` = '$hashedPassword' WHERE `username` = '".$_SESSION['username']."'";
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        die("Query Failed: " . mysqli_error($conn)); // Added a closing parenthesis here
+    } else {
+        $_SESSION['username'] = $Nusername;
+        header('location: myprofile.php?update_msg=You have successfully updated the data.');
+    }
+    } else {
+        $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail' WHERE `username` = '".$_SESSION['username']."'";
+    $result = mysqli_query($conn, $query);
+    if (!$result) {
+        die("Query Failed: " . mysqli_error($conn)); // Added a closing parenthesis here
+    } else {
+        $_SESSION['username'] = $Nusername;
+        header('location: myprofile.php?update_msg=You have successfully updated the data.');
+    }
+    }
+    
+}
+?>
+
+
 
 
 <!DOCTYPE html>

@@ -1,6 +1,7 @@
 <?php
   require '../connection/connection.php';
   session_start();
+  
 ?>
 <?php
 // Check if a message parameter is present in the URL
@@ -602,7 +603,8 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
           $uploadedAt = strtotime($row["uploaded_at"]); // Convert uploaded_at datetime to a timestamp
           $currentTime = time(); // Current time timestamp
           $timeDiff = $currentTime - $uploadedAt;
-      
+          $sellerimg = $row['profile_image'];
+
           // Calculate time difference in human-readable format
           if ($timeDiff < 60) {
               $timeAgo = $timeDiff . " seconds ago";
@@ -624,7 +626,13 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
             <div class="row row-cols-1 row-cols-md-2 g-4">
               <div class="col col-lg-3">
                 <a href="">
-                  <img src="../image/profile.png" width="40" height="40">
+                <?php 
+                          if (isset($row['profile_image'])&&$row['profile_image']!= null ) {
+                              echo '<img src="../profile/' .$row['profile_image'] . '" width="40" height="40" class="profile rounded-circle" alt="Profile Picture">';
+                          } else {
+                              echo '<img src="../image/profile.png" width="40" height="40" class="profile rounded-circle" alt="Profile Picture">';
+                          }
+                          ?>
                 </a>
               </div>
               <div class="col-md-auto">

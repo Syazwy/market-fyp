@@ -12,6 +12,7 @@ if ($result) {
   while($row = $result->fetch_assoc()){
     $accountStatus = $row['status'];
     $name =  $row['username'];
+    $profileimage = $row['profile_image'];
    }
 } else {
     // Handle the query error
@@ -103,9 +104,9 @@ $currentDateTime = new DateTime();
 $timedate = $currentDateTime->format('Y-m-d H:i:s');
 
 // Insert item data into the database
-$query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location, username, time, uploaded_at, status, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'active', ?)";
+$query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location, username, time, uploaded_at, status, email, profile_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'active',?,?)";
 $stmt = mysqli_prepare($conn, $query);
-mysqli_stmt_bind_param($stmt, "sssdssssss", $category, $item_condition, $name, $price, $description, $location, $username, $timedate, $timedate, $email);
+mysqli_stmt_bind_param($stmt, "sssdsssssss", $category, $item_condition, $name, $price, $description, $location, $username, $timedate, $timedate, $email, $profileimage);
 mysqli_stmt_execute($stmt);
 $itemId = mysqli_insert_id($conn); // Get the last inserted item ID
 mysqli_stmt_close($stmt);
@@ -203,7 +204,19 @@ mysqli_stmt_close($stmt);
 
   <div class="dropdown">
     <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-      <img src="../image/profile.png" width="50" height="50" class="profile">
+    <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
+        <?php 
+      $profileimage = "SELECT * FROM account WHERE username = '$name'";
+      $result = $conn-> query($profileimage);
+      while ($profileimage = $result->fetch_assoc()) {
+        $pimage = $profileimage['profile_image'];
+    }    
+        if (isset($pimage)) {
+            echo '<img src="../profile/' .$pimage . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        } else {
+            echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        }
+        ?>
     </a>
 
     <ul class="dropdown-menu">
