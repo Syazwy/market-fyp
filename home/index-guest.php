@@ -8,7 +8,7 @@
 if (isset($_GET["message"])) {
     $message = urldecode($_GET["message"]);
     // Use JavaScript to display the message as an alert
-    echo '<script>alert("' . $message . '");</script>';
+ 
 }
 ?>
 
@@ -963,6 +963,17 @@ if (isset($_POST['verify_code'])) {
             </script>
         <?php endif; ?>
 
+        <script type="text/javascript">
+    // Check if a message parameter is present in the URL
+    if (window.location.search.indexOf('message') > -1) {
+        var message = decodeURIComponent(window.location.search.split('message=')[1].replace(/\+/g, ' '));
+        alert(message);
+
+        // Clear the message parameter from the URL
+        var newURL = window.location.href.replace(/\?message=.*$/, "");
+        history.replaceState(null, document.title, newURL);
+    }
+</script>
 
 <!-- JavaScript files (jQuery is required) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
