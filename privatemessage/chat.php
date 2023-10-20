@@ -13,6 +13,27 @@ $yourName = $_SESSION['username'];
 <meta charset="UTF-8">
 <title> Message</title>
 <link rel="stylesheet" href="chat.css">
+<script>
+function initMap() {
+    var userLocation = { lat: 0, lng: 0 }; // Default coordinates, will be updated when the user shares their location
+
+    var map = new google.maps.Map(document.getElementById('mapContainer'), {
+        center: userLocation,
+        zoom: 14
+    });
+
+    var marker = new google.maps.Marker({
+        position: userLocation,
+        map: map,
+        title: 'Your Location'
+    });
+
+    // Your geolocation code can go here
+}
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7jZG6lbcD72B5TauLbfM0eoRn313nu6Y&libraries=places&callback=initMap"></script>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <style>
 
@@ -63,6 +84,8 @@ $yourName = $_SESSION['username'];
         }
     });
 </script>
+<button id="shareLocationButton" class="btn btn-primary">Share My Location</button>
+<div id="mapContainer" style="width: 100%; height: 400px;"></div>
 
 <p></p>
 <?php
@@ -152,6 +175,32 @@ document.querySelector("form").addEventListener("submit", function () {
 
 
 </script>
+<script>
+    document.getElementById('shareLocationButton').addEventListener('click', function () {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                var map = new google.maps.Map(document.getElementById('mapContainer'), {
+                    center: userLocation,
+                    zoom: 14
+                });
+
+                var marker = new google.maps.Marker({
+                    position: userLocation,
+                    map: map,
+                    title: 'Your Location'
+                });
+            });
+        } else {
+            alert('Geolocation is not supported in your browser.');
+        }
+    });
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
