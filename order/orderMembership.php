@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <?php
 require_once("../session/session.php");
+require '../connection/connection.php';
+
 $selectedPlan = $_GET['plan'];
 $price = 0; // Default price
 if ($selectedPlan === "Basic") {
@@ -9,6 +11,21 @@ if ($selectedPlan === "Basic") {
     $price = 4.99;
 } elseif ($selectedPlan === "Premium Annually") {
     $price = 49.99;
+}
+
+$username = $_SESSION['username'];
+$yourEmail = $_SESSION['email'];
+
+$query = "SELECT * FROM account WHERE username = '$username'";
+$result = mysqli_query($conn, $query);
+
+
+if ($result) {
+ while($row = $result->fetch_assoc()){
+   $accountStatus = $row['status'];
+   $name =  $row['username'];
+   $profileimage = $row['profile_image'];
+  }
 }
 ?>
 
@@ -41,7 +58,13 @@ if ($selectedPlan === "Basic") {
 
   <div class="dropdown">
     <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-      <img src="../image/profile.png" width="50" height="50" class="profile">
+    <?php 
+      if (isset($profileimage)) {
+            echo '<img src="../profile/' .$profileimage . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        } else {
+            echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        }
+        ?>
     </a>
 
     <ul class="dropdown-menu">
