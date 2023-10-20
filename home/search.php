@@ -1,5 +1,4 @@
 <?php
-require_once("../session/session.php");
 require '../connection/connection.php';
 
 
@@ -44,7 +43,12 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo '<div class="row row-cols-1 row-cols-md-2 g-4">';
     echo '<div class="col col-lg-3">';
     echo '<a href="">';
-    echo '<img src="../image/profile.png" width="40" height="40">';
+    // Update the profile image section to match the updated code
+    if (isset($row['profile_image']) && $row['profile_image'] != null) {
+        echo '<img src="../profile/' . $row['profile_image'] . '" width="40" height="40" class="profile rounded-circle" alt="Profile Picture">';
+    } else {
+        echo '<img src="../image/profile.png" width="40" height="40" class="profile rounded-circle" alt="Profile Picture">';
+    }
     echo '</a>';
     echo '</div>';
     echo '<div class="col-md-auto">';
@@ -54,7 +58,6 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo '<small class="text-body-secondary">';
     echo '<p class="card-text">' . $timeAgo . '</p>';
     echo '</small>';
-    echo '<br>';
     echo '</div>';
     echo '</div>';
     echo '</div>';
@@ -68,7 +71,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         // You can show a default image or leave it empty, depending on your requirements
         echo '<img src="path_to_default_image.jpg" class="card-img-top" width="150px" height="150px">';
     }
-    
+
     echo '</a>';
     echo '<div class="card-body">';
     echo '<p class="card-title" style="text-transform: capitalize">' . $row["name"] . '</p>';

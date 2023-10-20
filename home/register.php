@@ -211,46 +211,6 @@ if ($insertStmt) {
 }
 ?>
 
-<!-- Register Modal -->
-
-<div class="modal" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-  <div class="modal-content" >
-  <div class="modal-header justify-content-center" style="border: none;">
-  <h3 class="modal-title d-flex justify-content-center text-center" id="registerModalLabel">Create Account</h3>
-  <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-      <div class="modal-body">
-        <form method="post" onsubmit="return validateForm();" >
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
-                    <label for="username">Username</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
-                    <label for="email">Email </label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                    <label for="password">Password</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
-                    <label for="confirmPassword">Confirm Password</label>
-                </div>
-                <br>
-               <input type="submit" name="register" value="Create" class="btn btn-primary" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;">
-            </form>
-      </div>
-     
-    </div>
-  </div>
-</div>
-
-
-
 <script>
  
     function validateForm() {
@@ -293,14 +253,4 @@ if ($insertStmt) {
         return true;
     }
     
-</script>
-
-<script>
-  // Check if the 'show_register_modal' parameter is set to 1
-  const showRegisterModalParam = getURLParameter('show_register_modal');
-  if (showRegisterModalParam === '1') {
-    $(document).ready(function() {
-      $("#registerModal").modal("show"); // Show the register modal
-    });
-  }
 </script>

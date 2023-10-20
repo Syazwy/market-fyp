@@ -1,1038 +1,371 @@
 <?php
-  require '../connection/connection.php';
-  session_start();
-  
+session_start();
+require '../connection/connection.php';
+include 'register.php';
+include 'verification.php';
+include 'login.php';
 ?>
-<?php
-// Check if a message parameter is present in the URL
-if (isset($_GET["message"])) {
-    $message = urldecode($_GET["message"]);
-    // Use JavaScript to display the message as an alert
- 
-}
-?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="index.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market</title>
+    <link rel="stylesheet" href="forgot/forgot.css">
+    <link rel="stylesheet" href="index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
-
-<script>
-$(document).ready(function() {
-    // Check if the email parameter is present in the URL
-    var emailParam = "<?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?>";
-    console.log("Email parameter from URL: " + emailParam);
-
-    // Check if emailParam is not empty before showing the modal
-    if (emailParam) {
-        $("#verificationModal").modal("show"); // Show the verification modal
-    }
-});
-</script>
-
-<!-- Add this script to your index-guest.php file -->
-<script>
-    // Function to check the URL parameters
-    function getURLParameter(name) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(name);
-    }
-
-    // Check if the 'verified' parameter is set to 1
-    const verifiedParam = getURLParameter('verified');
-    if (verifiedParam === '1') {
-        $(document).ready(function() {
-            $("#verifiedModal").modal("show"); // Show the 'verifiedModal'
-        });
-    }
-</script>
-
-<?php
-if (isset($_POST["verify_email"])) {
-  $email = $_POST["email"];
-  $verification_code = $_POST["verification_code"];
-
-  // Prepare and execute the SQL query with parameter binding
-  $sql = "UPDATE account SET email_verified_at = NOW() WHERE email = ? AND verification_code = ?";
-  $stmt = mysqli_prepare($conn, $sql);
-  mysqli_stmt_bind_param($stmt, "ss", $email, $verification_code);
-  mysqli_stmt_execute($stmt);
-
-  // Check the affected rows and handle accordingly
-  if (mysqli_affected_rows($conn) > 0) {
-    header("Location: index-guest.php?verified=1");
-    exit();
-  } else {
-    echo '<script>alert("Verification code failed.");</script>';
-    echo '<script>
-             setTimeout(function(){
-               window.location = "index-guest.php?email=' . urlencode($email) . '";
-             }, 500); 
-          </script>';
-  }
-
-  // Close the database connection
-  mysqli_close($conn);
-
-  exit();
-}
-?>
-
-<!-- Register Database --> 
-
-<?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
-if (isset($_POST["register"])) {
-    $email = $_POST["email"];
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $confirmPassword = $_POST["confirmPassword"];
-
-    // Validate input
-    if (empty($email) || empty($username) || empty($password) || empty($confirmPassword)) {
-        echo "All fields are required.";
-        exit;
-    }
-
-    if ($password !== $confirmPassword) {
-        echo "Passwords do not match.";
-        exit;
-    }
-
-    // Hash password
-    $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
-    // $encrypted_password = $password;
-
-    // Check if email exists
-    $emailCheckSql = "SELECT * FROM account WHERE email = ?";
-    $emailCheckStmt = mysqli_prepare($conn, $emailCheckSql);
-    if ($emailCheckStmt) {
-        mysqli_stmt_bind_param($emailCheckStmt, "s", $email);
-        mysqli_stmt_execute($emailCheckStmt);
-        $emailResult = mysqli_stmt_get_result($emailCheckStmt);
-
-        if (mysqli_num_rows($emailResult) > 0) {
-            echo "<script>alert('Email already exists. Please choose another email.');</script>";
-            echo '<script>
-             setTimeout(function(){
-               window.location = "index-guest.php?";
-             }, 500); 
-          </script>';
-            exit;
-        }
-
-        mysqli_stmt_close($emailCheckStmt);
-    } else {
-        echo "Error: " . mysqli_error($conn);
-        exit;
-    }
-
-    // Check if username exists
-    $usernameCheckSql = "SELECT * FROM account WHERE username = ?";
-    $usernameCheckStmt = mysqli_prepare($conn, $usernameCheckSql);
-    if ($usernameCheckStmt) {
-        mysqli_stmt_bind_param($usernameCheckStmt, "s", $username);
-        mysqli_stmt_execute($usernameCheckStmt);
-        $usernameResult = mysqli_stmt_get_result($usernameCheckStmt);
-
-        if (mysqli_num_rows($usernameResult) > 0) {
-            echo "<script>alert('Username already exists. Please choose another username.');</script>";
-            echo '<script>
-            setTimeout(function(){
-              window.location = "index-guest.php?";
-            }, 500); 
-         </script>';
-            exit;
-        }
-
-        mysqli_stmt_close($usernameCheckStmt);
-    } else {
-        echo "Error: " . mysqli_error($conn);
-        exit;
-    }
-
-    // Insert new user into database
-    $currentDateTime = new DateTime();
-    $date = $currentDateTime->format('Y-m-d');
-    $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
-
-   $insertSql = "INSERT INTO account(username, email, password, membership, subscriptionDate, date, verification_code, email_verified_at, status) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, 'Active')";
-$insertStmt = mysqli_prepare($conn, $insertSql);
-
-if ($insertStmt) {
-    $membership = "Basic"; // Note: removed the extra space before "Basic"
-    mysqli_stmt_bind_param($insertStmt, "sssssss", $username, $email, $encrypted_password, $membership, $date, $date, $verification_code);
-    mysqli_stmt_execute($insertStmt);
-
-        // Send verification email
-        $mail = new PHPMailer(true);
-        try {
-            // Enable verbose debug output
-            $mail->SMTPDebug = 0; // SMTP::DEBUG_SERVER;
-
-            // Send using SMTP
-            $mail->isSMTP();
-
-            // Set the SMTP server to send through
-            $mail->Host = 'smtp.gmail.com';
-
-            // Enable SMTP authentication
-            $mail->SMTPAuth = true;
-
-            // SMTP username
-            $mail->Username = 'market51bn@gmail.com';
-
-            // SMTP password
-            $mail->Password = 'ixcnouumjkoxtcvs';
-
-            // Enable TLS encryption;
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-
-            // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-            $mail->Port = 587;
-
-            // Recipients
-            $mail->setFrom('admin.market@gmail.com', 'MarketBN');
-
-            // Add a recipient
-            $mail->addAddress($email);
-
-            // Set email format to HTML
-            $mail->isHTML(true);
-            $mail->Subject = 'Your Verification Code for Our Online Store';
-            $mail->Body = '<html>
-            <head>
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        background-color: #f7f7f7;
-                        padding: 20px;
-                    }
-                    .container {
-                        max-width: 600px;
-                        margin: 0 auto;
-                        background-color: #ffffff;
-                        padding: 20px;
-                        border-radius: 5px;
-                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                    }
-                    .header {
-                        text-align: center;
-                        background-color: rgb(255, 83, 83); 
-                        color: #fff;
-                        padding: 10px 0;
-                    }
-                    .content {
-                        padding: 20px;
-                    }
-                    .verification-code {
-                        font-size: 30px;
-                        font-weight: bold;
-                        text-align: center;
-                        margin-top: 20px;
-                    }
-                    .button {
-                        display: block;
-                        width: 200px;
-                        margin: 20px auto;
-                        background-color: rgb(255, 83, 83);
-                        color: #fff;
-                        text-align: center;
-                        padding: 10px 20px;
-                        text-decoration: none;
-                        border-radius: 5px;
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <div class="header">
-                        <h1>Thank you for joining Market</h1>
-                    </div>
-                    <div class="content">
-                        <p>Dear valued customer,</p>
-                        <p>Your verification code is:</p>
-                        <div class="verification-code">' . $verification_code . '</div>
-                        <p>Please enter this code to complete your registration.</p>
-                        <a href="http://localhost/Market/home/index-guest.php?secret='.($email).' class="button">Verify Your Email</a>
-                        <p>If you have any questions or need assistance, feel free to contact our support team.</p>
-                    </div>
-                </div>
-            </body>
-            </html>';
-
-            
-            $mail->send();
-
-            header("Location: index-guest.php?email=" . urlencode($email));
-
-            // Now, display the verification modal
-            echo '<script>
-                $("#verificationModal").modal("show"); // Show the verification modal
-            </script>';
-        } catch (Exception $e) {
-          echo '<script>alert("Account not registered: ' . $mail->ErrorInfo . '");</script>';
-        }
-    } else {
-        echo "Error: " . mysqli_error($conn);
-        mysqli_close($conn);
-        exit;
-    }
-}
-?>
-
-<!-- Login Database -->
-<?php
-
-$errorMessage = ""; // Initialize an empty error message
-
-if (isset($_POST["login"])) {
-    $emailOrUsername = $_POST["emailOrUsername"];
-    $password = $_POST["password"];
-
-    // Check if the input name is "admin"
-    if ($emailOrUsername === "admin") {
-        // Verify the admin password
-        if ($password === "123") {
-            // Set session variables to indicate the user is logged in as admin
-            $_SESSION['member'] = true;
-            $_SESSION['email'] = ""; // Set as needed
-            $_SESSION['username'] = "admin";
-
-            header("Location: ../admin/admin.php");
-            exit();
-        } else {
-            $errorMessage = "Password is not correct";
-        }
-    } else {
-        // Use prepared statements to prevent SQL injection
-        $sql = "SELECT * FROM account WHERE email = ? OR username = ?";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ss", $emailOrUsername, $emailOrUsername);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-
-        if (mysqli_num_rows($result) == 0) {
-            $errorMessage = "Email or username not found.";
-        } else {
-            $user = mysqli_fetch_object($result);
-
-            if ($user->status === 'Banned') {
-                // User is banned, display a modal popup with JavaScript
-                echo '<script>
-                $(document).ready(function() {
-                    $("#bannedModal").modal("show");
-                });
-            </script>';
-            } elseif (!password_verify($password, $user->password)) {
-                $errorMessage = "Password is not correct";
-            } elseif ($user->email_verified_at == null) {
-                header("Location: index-guest.php?email=" . urlencode($user->email));
-                exit();
-            } else {
-
-  // Check membership and date for 'Premium Monthly'
-if ($user->membership === 'Premium Monthly') {
-  // Calculate the date 30 days ago from today
-
-  $thirtyDaysAgo = date('Y-m-d', strtotime('-30 days'));
-
-  // Compare the 'date' column in the database with the date 30 days ago
-  if (strtotime($user->subscriptionDate) <= strtotime($thirtyDaysAgo)) {
-      // Update the membership to 'Basic'
-      $updateSql = "UPDATE account SET membership = 'Basic' WHERE email = ?";
-      $updateStmt = mysqli_prepare($conn, $updateSql);
-      mysqli_stmt_bind_param($updateStmt, "s", $user->email);
-      mysqli_stmt_execute($updateStmt);
-  }
-}
-
-// Check membership and date for 'Premium Annually'
-if ($user->membership === 'Premium Annually') {
-// Calculate the date 365 days ago from today
-$threeHundredSixtyFiveDaysAgo = date('Y-m-d', strtotime('-365 days'));
-
-// Compare the 'date' column in the database with the date 365 days ago
-if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAgo)) {
-    // Update the membership to 'Basic'
-    $updateSql = "UPDATE account SET membership = 'Basic' WHERE email = ?";
-    $updateStmt = mysqli_prepare($conn, $updateSql);
-    mysqli_stmt_bind_param($updateStmt, "s", $user->email);
-    mysqli_stmt_execute($updateStmt);
-}
-}
-
-                $_SESSION['member'] = true;
-                $_SESSION['email'] = $user->email;
-                $_SESSION['username'] = $user->username;
-                $_SESSION['id'] = $user->id;
-
-                header("Location: ../home/index.php");
-                exit();
-            }
-        }
-    }
-}
-
-?>
-
-
 <body>
-
-<!-- The Bootstrap Modal for Banned Users -->
-<div class="modal fade" id="bannedModal" tabindex="-1" role="dialog" aria-labelledby="bannedModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-    <center>
-      <div class="modal-header">
-        <h5 class="modal-title" id="bannedModalLabel">Account Banned</h5>   
-      </div>
-      </center>
-      <div class="modal-body">
-        <p>Your account has been banned. You can submit an appeal below:</p>
-        <p></p>
-        <form id="appealForm" method="post" action="process_appeal.php">
-          <input type="hidden" name="username" value="<?php echo $user->username; ?>">
-          <div class="form-group">
-            <label for="appealText">Appeal Message:</label>
-            <textarea class="form-control" id="appealText" name="appeal" rows="4" required></textarea>
-          </div>
-          <br>
-          <center>
-          <button type="submit" class="btn btn-primary">Submit Appeal</button>
-          </center>        
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-  <!-- Verification Modal --> 
- 
- <div class="modal fade" id="verificationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="verificationModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <!-- Remove the button to close the modal -->
-        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
-        <div style="text-align: center;">
-          <img src="../image/email.png" alt="mail logo" style="width: 70px;">
-          <h4>Verify your email address</h4>
-          <h5 class="modal-title" id="exampleModalLabel">
-            Please enter the 6-digit code sent to
-            <span style="color: #FF5353;"><?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?></span>
-          </h5>
-        </div>
-      </div>
-      <div class="modal-body">
-        <form method="POST">
-          <div class="form-group">
-            <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>" required>
-            <input type="text" class="form-control" name="verification_code" id="verification_code" placeholder="Enter verification code" required />
-            <br>
-            <div style="text-align: center;">
-              <input type="submit" name="verify_email" value="Verify" style="background-color:#FF5353 ; width: 50%; border-radius: 10px; padding: 5px;">
+    <nav class="navbar navbar-expand-lg bg-transparent">
+        <div class="container">
+            <a class="navbar-brand" href="index-guest.php">
+                <img src="../image/logo.png" width="80" height="80">
+            </a>
+            <div class="collapse navbar-collapse justify-content-center">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" data-bs-toggle="offcanvas" href="#offcanvasRight" role="button" aria-controls="offcanvasRight">Categories</a></li>
+                    <li class="nav-item"><button class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#registerModal" data-whatever="register">Register</button></li>
+                    <li class="nav-item"><button class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#loginModal" data-whatever="login">Login</button></li>
+                    <li class="nav-item">
+                        <a id="sellLink" class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#sellModal">Sell</a>
+                    </li>
+                </ul>
             </div>
-          </div>
-        </form>
-      </div>
-      <!-- Move the "Change Email" link outside the form -->
-      <div style="text-align: center;">
-      <a id="changeemail" style="text-decoration:none;color: #FF5353; cursor: pointer;" href="index-guest.php?show_register_modal=1">Change Email</a>
+        </div>
+    </nav>
 
-      </div>
-    </div>
-  </div>
-</div>
-
-
- <!-- Verified modal --> 
- 
- <div class="modal fade" id="verifiedModal"  tabindex="-1" role="dialog" aria-labelledby="verifiedModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content" style="width: 400px;">
-      <div class="modal-body">
-        <center>
-      <img src="../image/check.png" alt="" style="width: 100px;">
-      <br>
-      <p></p>
-      <h3>Verified!</h3>
-      </center>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<nav class="navbar navbar-expand-lg bg-transparent">
-  <div class="container">
-    <a class="navbar-brand" href="index.php">
-      <img src="../image/logo.png" width="80" height="80">
-    </a>
-
-    <div class="collapse navbar-collapse justify-content-center">
-      <ul class="nav nav-pills">
-        <li class="nav-item"><a class="nav-link active" aria-current="page" data-bs-toggle="offcanvas" href="#offcanvasRight" role="button" aria-controls="offcanvasRight">Categories</a></li>
-        <li class="nav-item"><button id="registerModalTriggerButton" class="nav-link active" aria-current="page" data-toggle="modal" data-target="#registerModal" data-whatever="register">Register</button></li>
-        <li class="nav-item"><button class="nav-link active" aria-current="page"  data-toggle="modal" data-target="#loginModal" data-whatever="login">Login</button></li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#sellModal">Sell</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<!-- Modal -->
-<div class="modal fade" id="sellModal" tabindex="-1" aria-labelledby="sellModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-           
-            <div class="modal-body text-center"> 
-               <h3>Please log in or create an account first.</h3>
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center" style="border: none;">
+                    <h3 class="modal-title d-flex justify-content-center text-center" id="registerModalLabel">Create Account</h3>
+                    <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" onsubmit="return validateForm();">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                            <label for="username">Username</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                            <label for "email">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                            <label for="password">Password</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+                            <label for="confirmPassword">Confirm Password</label>
+                        </div>
+                        <br>
+                        <input type="submit" name="register" value="Create" class="btn btn-primary" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;">
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasRightLabel">All Categories</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <!-- Verification Modal -->
+    <div class="modal fade" id="verificationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="verificationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div style="text-align: center;">
+                        <img src="../image/email.png" alt="mail logo" style="width: 70px;">
+                        <h4>Verify your email address</h4>
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Please enter the 6-digit code sent to
+                            <span style="color: #FF5353;"><?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?></span>
+                        </h5>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        <div class="form-group">
+                            <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>" required>
+                            <input type="text" class="form-control" name="verification_code" id="verification_code" placeholder="Enter verification code" required />
+                            <br>
+                            <div style="text-align: center;">
+                                <input type="submit" name="verify_email" value="Verify" style="background-color:#FF5353 ; width: 50%; border-radius: 10px; padding: 5px;">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div style="text-align: center;">
+                    <a id="changeemail" style="text-decoration:none;color: #FF5353; cursor: pointer;" href="index-guest.php?show_register_modal=1">Change Email</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Property</a></li>
-      <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Vehicles</a></li>
-      <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Furnitures</a></li>
-      <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Electronics</a></li>
-      <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Fashion</a></li>
-    </ul>
-  </div>
-
+    <!-- Verified modal -->
+    <div class="modal fade" id="verifiedModal" tabindex="-1" role="dialog" aria-labelledby="verifiedModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="width: 400px;">
+                <div class="modal-body">
+                    <center>
+                        <img src="../image/check.png" alt="" style="width: 100px;">
+                        <br>
+                        <p></p>
+                        <h3>Verified!</h3>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center" style="border: none;">
+                    <h3 class="modal-title d-flex justify-content-center text-center" id="loginModalLabel">Login</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border: 1px solid white;background-color:white">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="emailOrUsername" name="emailOrUsername" placeholder="Email or Username" required>
+                            <label for="emailOrUsername">Email or Username</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                            <label for="password">Password</label>
+                        </div>
+                        <br>
+                        <center>
+                            <p><a class="active" aria-current="page" data-toggle="modal" data-target="#forgotModal" data-whatever="login" href="forgot.php" id="" style="color: rgb(255, 83, 83);">Forgot password?</a></p>
+                        </center>
+                        <input type="submit" name="login" value="Log In" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Sell Modal -->
+    <div class="modal fade" id="sellModal" tabindex="-1" aria-labelledby="sellModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <h3>Please log in or create an account first.</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasRightLabel">All Categories</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Property</a></li>
+            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Vehicles</a></li>
+            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Furnitures</a></li>
+            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Electronics</a></li>
+            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Fashion</a></li>
+        </ul>
+    </div>
     <div class="search">
-      <input class="searchbar" type="text" id="searchInput" placeholder="Search for anything" style="padding-left: 20px;">
-      <!-- <button type="button" class="btn btn-primary">Search</button> -->
+        <input class="searchbar" type="text" id="searchInput" placeholder="Search for anything" style="padding-left: 20px;">
     </div>
-
     <div>
-      <h4>What would you like to find?</h4>
+        <h4>What would you like to find?</h4>
     </div>
-
     <center>
-    <div class="container">
-      <div class="row row-cols-1 row-cols-md-5 g-4">
-        <div class="col">
-          <div class="card">
-            <a href="">
-              <img class="image" src="../image/property.png" alt="">
-            </a>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <a href="">
-              <img class="image" src="../image/vehicle.png" alt="">
-            </a>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <a href="">
-              <img class="image" src="../image/furniture.png" alt="">
-            </a>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <a href="">
-              <img class="image" src="../image/electronic.png" alt="">
-            </a>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <a href="">
-              <img class="image" src="../image/fashion.png" alt="">
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </center>
-
-    <div>
-    <br>
-      <h4>Newly Listed</h4>
-    </div>
-
-    <div class="container">
-    <div class="row row-cols-1 row-cols-md-5 g-4">
-    <?php
-      $i = 1;
-      $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename 
-      FROM itemslisting
-      JOIN item_images ON itemslisting.id = item_images.item_id
-      JOIN account ON itemslisting.username = account.username
-      WHERE account.status = 'Active' && itemslisting.status = 'active'
-      GROUP BY itemslisting.id
-      ORDER BY itemslisting.id DESC";
-
-      $result = mysqli_query($conn, $query);
-
-      while ($row = mysqli_fetch_assoc($result)) :
-          $uploadedAt = strtotime($row["uploaded_at"]); // Convert uploaded_at datetime to a timestamp
-          $currentTime = time(); // Current time timestamp
-          $timeDiff = $currentTime - $uploadedAt;
-          $sellerid = $row['id'];
-          $item_image = $row['image_filename'];
-          
-          $id = $row['id'];
-          $profileimage = "SELECT * FROM account WHERE id = '$id'";
-          $profileResult = $conn->query($profileimage);
-          $profileimage = $profileResult->fetch_assoc();
-          $sellerimg = isset($profileimage['profile_image']) ? $profileimage['profile_image'] : NULL;
-   
-
-      echo $sellerimg;
-
-      // Calculate time difference in human-readable format
-      if ($timeDiff < 60) {
-          $timeAgo = $timeDiff . " seconds ago";
-      } elseif ($timeDiff < 3600) {
-          $minutes = floor($timeDiff / 60);
-          $timeAgo = $minutes . " minutes ago";
-      } elseif ($timeDiff < 86400) {
-          $hours = floor($timeDiff / 3600);
-          $timeAgo = $hours . " hours ago";
-      } else {
-          $days = floor($timeDiff / 86400);
-          $timeAgo = $days . " days ago";
-      }
-    ?>
-          <div class="col d-flex align-items-center justify-content-center">
-            <div class="card item h-100">
-              <div class="card-header bg-transparent border border-0">
-                <div class="row row-cols-1 row-cols-md-2 g-4">
-                  <div class="col col-lg-3">
-                    <a href="">
-                    <?php 
-                          if (isset($row['profile_image'])&&$row['profile_image']!= null ) {
-                              echo '<img src="../profile/' .$row['profile_image'] . '" width="40" height="40" class="profile rounded-circle" alt="Profile Picture">';
-                          } else {
-                              echo '<img src="../image/profile.png" width="40" height="40" class="profile rounded-circle" alt="Profile Picture">';
-                          }
-                          ?>
-                    </a>
-                  </div>
-                  <div class="col-md-auto">
-                    <h6 class="card-title">
-                      <p style="text-transform: capitalize; margin:0px;"><?php echo $row["username"]; ?></p>
-                    </h6>
-                    <small class="text-body-secondary">
-                      <p class="card-text">
-                        <?php echo $timeAgo; ?>
-                      </p>
-                    </small>
-                  </div>
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-5 g-4">
+                <div class="col">
+                    <div class="card">
+                        <a href="">
+                            <img class="image" src="../image/property.png" alt="">
+                        </a>
+                    </div>
                 </div>
-              </div>
-              <a href="../productinfo/productinfo-guest.php?id=<?php echo $row["id"]; ?>">
-                <img src="../sellers/upload/<?php echo $item_image; ?>" class="card-img-top" width="150px" height="150px">
-              </a>
-              <div class="card-body">
-                <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
-                <h5 class="card-title"><b><?php echo "BND$".$row["price"]; ?></b></h5>
-                <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
-              </div>
+                <div class="col">
+                    <div class="card">
+                        <a href="">
+                            <img class="image" src="../image/vehicle.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <a href="">
+                            <img class="image" src="../image/furniture.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <a href="">
+                            <img class="image" src="../image/electronic.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <a href="">
+                            <img class="image" src="../image/fashion.png" alt="">
+                        </a>
+                    </div>
+                </div>
             </div>
-          </div>
-        <?php endwhile;  ?>
-      </div>
-
-      <!-- Search Results Section -->
-      <div id="searchResults" class="row row-cols-1 row-cols-md-5 g-4">
-        <!-- Search results will be displayed here -->
-      </div>
-
-    </div>
-  </div>
-
-  <!-- JavaScript for handling the search -->
-  <script>
-    $(document).ready(function() {
-      // Function to display search results and toggle item visibility
-      function displaySearchResults(query) {
-        var url = "search.php";
-        var data = { query: query };
-
-        $.ajax({
-          type: "GET",
-          url: url,
-          data: data,
-          success: function(response) {
-            // Hide newly listed items
-            $(".card.item.h-100").hide();
-            
-            // Display search results
-            $("#searchResults").html(response).show();
-          }
-        });
-      }
-
-      // Function to handle input changes and trigger search
-      function handleSearchInput() {
-        var query = $("#searchInput").val();
-        if (query) {
-          displaySearchResults(query);
-        } else {
-          // Show all newly listed items when the search input is empty
-          $(".card.item.h-100").show();
-          $("#searchResults").hide();
-        }
-      }
-
-
-      // Automatically update search results as the user types
-      $("#searchInput").on("input", handleSearchInput);
-    });
-  </script>
-
-<script>
-  $('#myModal').on('shown.bs.modal', function () {
-  $('#myInput').trigger('focus')
-})
-  $('#exampleModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = button.data('whatever') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var modal = $(this)
-  modal.find('.modal-title').text('New message to ' + recipient)
-  modal.find('.modal-body input').val(recipient)
-})
-</script>
-
-<!-- Register Modal -->
-<div class="modal" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-  <div class="modal-content" >
-  <div class="modal-header justify-content-center" style="border: none;">
-  <h3 class="modal-title d-flex justify-content-center text-center" id="registerModalLabel">Create Account</h3>
-  <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-      <div class="modal-body">
-        <form method="post" onsubmit="return validateForm();" >
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
-                    <label for="username">Username</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
-                    <label for="email">Email </label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                    <label for="password">Password</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
-                    <label for="confirmPassword">Confirm Password</label>
-                </div>
-                <br>
-               <input type="submit" name="register" value="Create" class="btn btn-primary" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;">
-            </form>
-      </div>
-     
-    </div>
-  </div>
-</div>
-
-<!-- Login Modal -->
-<div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-  <div class="modal-content">
-  <div class="modal-header justify-content-center" style="border: none;">
-      <h3 class="modal-title d-flex justify-content-center text-center" id="loginModalLabel">Login</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border: 1px solid white;background-color:white">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Login form content goes here -->
-        <form method="POST" >
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="emailOrUsername" name="emailOrUsername" placeholder="Email or Username" required>
-        <label for="emailOrUsername">Email or Username</label>
-    </div>
-    <div class="form-floating">
-        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-        <label for="password">Password</label>
-    </div>
-    <br>
-    <center>
-    <p><a class="active" aria-current="page"  data-toggle="modal" data-target="#forgotModal" data-whatever="login" href="forgot/forgot.php" id="" style="color: rgb(255, 83, 83);">Forgot password?</a></p>
+        </div>
     </center>
-    <input type="submit" name="login" value="Log In" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;">
-</form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- forgot modal -->
-<div class="modal" id="forgotModal" tabindex="-1" role="dialog" aria-labelledby="forgotModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-  <div class="modal-content">
-  <div class="modal-header justify-content-center" style="border: none;">
-      <!-- <h3 class="modal-title d-flex justify-content-center text-center" id="forgotModalLabel">Login</h3> -->
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border: 1px solid white;background-color:white">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Login form content goes here -->
-        <form method="POST" >
-
-      <?php
-$msg = ''; // Initialize a message variable
-
-if (isset($_POST['send_verification_code'])) {
-    $email = mysqli_real_escape_string($conn, $_POST['email']); // Sanitize the input
-
-    $check_email = mysqli_query($conn, "SELECT email FROM account WHERE email='$email'");
-    $res = mysqli_num_rows($check_email);
-
-    if ($res > 0) {
-        $verification_code = mt_rand(100000, 999999);
-
-        mysqli_query($conn, "UPDATE account SET verification_code = '$verification_code' WHERE email = '$email'");
-
-        // Send the verification code to the user's email
-        $message = "Your verification code is: $verification_code";
-
-        include_once("forgot/SMTP/class.phpmailer.php");
-        include_once("forgot/SMTP/class.smtp.php");
-
-        $mail = new PHPMailer;
-        $mail->IsSMTP();
-        $mail->SMTPAuth = true;
-        $mail->SMTPSecure = "tls";
-        $mail->Host = 'smtp.gmail.com';
-        $mail->Port = 587;
-        $mail->Username = 'market51bn@gmail.com';
-        $mail->Password = 'ixcnouumjkoxtcvs';
-        $mail->setFrom('admin.market@gmail.com', 'admin.market');
-        $mail->AddAddress($email);
-        $mail->Subject = "Verification Code";
-        $mail->isHTML(false); // Send plain text message
-        $mail->Body = $message;
-
-        if ($mail->send()) {
-            $msg = "A verification code has been sent to your email address.";
-        } else {
-            $msg = "Failed to send the verification code. Please try again later.";
-        }
-    } else {
-        $msg = "We can't find a user with that email address";
-    }
-}
-
-if (isset($_POST['verify_code'])) {
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $user_code = $_POST['verification_code'];
-
-    $result = mysqli_query($conn, "SELECT verification_code FROM account WHERE email='$email'");
-    $row = mysqli_fetch_assoc($result);
-
-    if ($row['verification_code'] == $user_code) {
-        $newPassword = $_POST['pwd'];
-        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
-
-        $reset_pwd = mysqli_query($conn, "UPDATE account SET password='$hashedPassword' WHERE email='$email'");
-
-        if ($reset_pwd) {
-            $msg = 'Your password has been updated successfully.';
-        } else {
-            $msg = "Error while updating password: " . mysqli_error($conn); // Debugging
-        }
-    } else {
-        $msg = "Invalid verification code. Please try again.";
-    }
-}
-?>
-
-
-<!-- HTML content goes here -->
-<div class="container">
-  <div class="table-responsive" style="padding: 20px; border-radius: 10px; box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1), 0 0 0 2px rgb(255, 83, 83), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);">
-    <br>
-    <h3 align="center">Forgot Password</h3><br/>
-    <div class="box">
-      <form method="post">
-        <div class="form-group" style="border: 1px solid white">
-          <label for="email">Email Address</label>
-          <br>
-          <input type="text" name="email" id="email" placeholder="Enter Email" required data-parsley-type="email" data-parsley-trigger="keyup" class="form-control" />
-        </div>
+    <div>
         <br>
-        <div class="form-group">
-          <input type="submit" id="send_verification_code" name="send_verification_code" value="Send Verification Code" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;" class="btn btn-success" />
-        </div>
-      </form>
-      <p class="error"><?php if(!empty($msg)){ echo $msg; } ?></p>
+        <h4 id="sectionTitle">Newly Listed</h4>
     </div>
-    <br>
-    <?php
-    if (isset($_POST['email'])) {
-    ?>
-    <h3 align="center">Verify Code and Reset Password</h3><br/>
-    <div class="box">
-      <form method="post">
-        <div class="form-group">
-          <label for="verification_code">Verification Code</label>
-          <br>
-          <input type="text" name="verification_code" id="verification_code" placeholder="Enter Verification Code" required class="form-control" />
-          <input type="hidden" name="email" value="<?php if (isset($_POST['email'])) { echo $_POST['email']; } ?>" />
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-5 g-4">
+          <?php
+          $i = 1;
+          $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename 
+          FROM itemslisting
+          JOIN item_images ON itemslisting.id = item_images.item_id
+          JOIN account ON itemslisting.username = account.username
+          WHERE account.status = 'Active' && itemslisting.status = 'active'
+          GROUP BY itemslisting.id
+          ORDER BY itemslisting.id DESC";
+
+          $result = mysqli_query($conn, $query);
+
+          while ($row = mysqli_fetch_assoc($result)) :
+              $uploadedAt = strtotime($row["uploaded_at"]);
+              $currentTime = time();
+              $timeDiff = $currentTime - $uploadedAt;
+              $sellerid = $row['id'];
+              $item_image = $row['image_filename'];
+              $id = $row['id'];
+              $profileimage = "SELECT * FROM account WHERE id = '$id'";
+              $profileResult = $conn->query($profileimage);
+              $profileimage = $profileResult->fetch_assoc();
+              $sellerimg = isset($profileimage['profile_image']) ? $profileimage['profile_image'] : NULL;
+
+              // Calculate time difference in human-readable format
+              if ($timeDiff < 60) {
+                  $timeAgo = $timeDiff . " seconds ago";
+              } elseif ($timeDiff < 3600) {
+                  $minutes = floor($timeDiff / 60);
+                  $timeAgo = $minutes . " minutes ago";
+              } elseif ($timeDiff < 86400) {
+                  $hours = floor($timeDiff / 3600);
+                  $timeAgo = $hours . " hours ago";
+              } else {
+                  $days = floor($timeDiff / 86400);
+                  $timeAgo = $days . " days ago";
+              }
+          ?>
+
+                <div class="col d-flex align-items-center justify-content-center">
+                    <div class="card item h-100">
+                        <div class="card-header bg-transparent border border-0">
+                            <div class="row row-cols-1 row-cols-md-2 g-4">
+                                <div class="col col-lg-3">
+                                    <a href="">
+                                        <?php
+                                        if (isset($row['profile_image']) && $row['profile_image'] != null) {
+                                            echo '<img src="../profile/' . $row['profile_image'] . '" width="40" height="40" class="profile rounded-circle" alt="Profile Picture">';
+                                        } else {
+                                            echo '<img src="../image/profile.png" width="40" height="40" class="profile rounded-circle" alt="Profile Picture">';
+                                        }
+                                        ?>
+                                    </a>
+                                </div>
+                                <div class="col-md-auto">
+                                    <h6 class="card-title">
+                                        <p style="text-transform: capitalize; margin:0px;"><?php echo $row["username"]; ?></p>
+                                    </h6>
+                                    <small class="text-body-secondary">
+                                        <p class="card-text">
+                                            <?php echo $timeAgo; ?>
+                                        </p>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="../productinfo/productinfo-guest.php?id=<?php echo $row["id"]; ?>">
+                            <img src="../sellers/upload/<?php echo $item_image; ?>" class="card-img-top" width="150px" height="150px">
+                        </a>
+                        <div class="card-body">
+                            <p class="card-title" style="text-transform: capitalize"><?php echo $row["name"]; ?></p>
+                            <h5 class="card-title"><b><?php echo "BND$" . $row["price"]; ?></b></h5>
+                            <p class="card-text" style="text-transform: capitalize"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
+                        </div>
+                    </div>
+                </div>
+            <?php endwhile;  ?>
         </div>
-        <div class="form-group">
-          <label for="pwd">New Password</label>
-          <input type="password" name="pwd" id="pwd" placeholder="Enter New Password" required class="form-control"/>
+        <!-- Search Results Section -->
+        <div id="searchResults" class="row row-cols-1 row-cols-md-5 g-4">
+            <!-- Search results will be displayed here -->
         </div>
-        <br>
-        <div class="form-group">
-          <input type="submit" id="verify_code" name="verify_code" value="Verify Code and Reset Password" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;" class="btn btn-success" />
-        </div>
-      </form>
-      <p class="error"><?php if(!empty($msg)){ echo $msg; } ?></p>
     </div>
-    <?php
-    }
-    ?>
-  </div>
-</div>
+    <!-- JavaScript for handling the search -->
+    <script>
+        $(document).ready(function() {
+            // Function to display search results and toggle item visibility
+            function displaySearchResults(query) {
+                var url = "search.php";
+                var data = {
+                    query: query
+                };
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: data,
+                    success: function(response) {
+                        // Hide newly listed items
+                        $(".card.item.h-100").hide();
+                        // Display search results
+                        $("#searchResults").html(response).show();
+                        // Update the section title
+                        $("#sectionTitle").text("Searched Item");
+                    }
+                });
+            }
 
+            // Function to handle input changes and trigger search
+            function handleSearchInput() {
+                var query = $("#searchInput").val();
+                if (query) {
+                    displaySearchResults(query);
+                } else {
+                    // Show all newly listed items when the search input is empty
+                    $(".card.item.h-100").show();
+                    $("#searchResults").hide();
+                    // Restore the section title
+                    $("#sectionTitle").text("Newly Listed");
+                }
+            }
 
-<!-- ---------------------------------------------------------------- -->
-
- 
-
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
-</script>
-
-<script>
-  // Check if the 'show_register_modal' parameter is set to 1
-  const showRegisterModalParam = getURLParameter('show_register_modal');
-  if (showRegisterModalParam === '1') {
-    $(document).ready(function() {
-      $("#registerModal").modal("show"); // Show the register modal
-    });
-  }
-</script>
-
-<script>
- 
-    function validateForm() {
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
-        var email = document.getElementById("email").value;
-        var confirmPassword = document.getElementById("confirmPassword").value;
-
-        if (username === "" || password === "" || email === "" || confirmPassword === "") {
-            alert("All fields are required");
-            return false;
-        }
-
-        if (password !== confirmPassword) {
-            alert("Passwords do not match");
-            return false;
-        }
-
-        // if (password === confirmPassword) {
-        //     if (password.length < 8) {
-        //         alert("Password must be at least 8 characters");
-        //         return false;
-        //     }
-        //     if (password.search(/[a-z]/i) < 0) {
-        //         alert("Password must contain at least one letter");
-        //         return false;
-        //     }
-        //     if (password.search(/[0-9]/) < 0) {
-        //         alert("Password must contain at least one digit");
-        //         return false;
-        //     }
-        //     if (password.search(/[!@#$%^&*]/) < 0) {
-        //         alert("Password must contain at least one special character");
-        //         return false;
-        //     }
-        // }
-       
-        localStorage.setItem("email", email);
-
-        return true;
-    }
-    
-</script>
-<script>
-  $(document).ready(function () {
-    $('#myModal').on('shown.bs.modal', function () {
-      $('#myInput').trigger('focus');
-    });
-
-    $('#exampleModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget); // Button that triggered the modal
-      var recipient = button.data('whatever'); // Extract info from data-* attributes
-      
-    });
-  });
-</script>
-
-        <?php if (!empty($errorMessage)) : ?>
-            <script>
-                alert("<?php echo $errorMessage; ?>");
-            </script>
-        <?php endif; ?>
-
-        <script type="text/javascript">
-    // Check if a message parameter is present in the URL
-    if (window.location.search.indexOf('message') > -1) {
-        var message = decodeURIComponent(window.location.search.split('message=')[1].replace(/\+/g, ' '));
-        alert(message);
-
-        // Clear the message parameter from the URL
-        var newURL = window.location.href.replace(/\?message=.*$/, "");
-        history.replaceState(null, document.title, newURL);
-    }
-</script>
-
-<!-- JavaScript files (jQuery is required) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            // Automatically update search results as the user types
+            $("#searchInput").on("input", handleSearchInput);
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Handle the click event on the "Sell" link
+            $("#sellLink").click(function(e) {
+                e.preventDefault();
+                // Show the "sellModal" modal
+                $("#sellModal").modal("show");
+            });
+        });
+    </script>
+    <?php if (!empty($errorMessage)) : ?>
+        <script>
+            alert("<?php echo $errorMessage; ?>");
+        </script>
+    <?php endif; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
 <?php

@@ -1,62 +1,3 @@
-  <!-- Verification Modal --> 
- 
-  <div class="modal fade" id="verificationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="verificationModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <!-- Remove the button to close the modal -->
-        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
-        <div style="text-align: center;">
-          <img src="../image/email.png" alt="mail logo" style="width: 70px;">
-          <h4>Verify your email address</h4>
-          <h5 class="modal-title" id="exampleModalLabel">
-            Please enter the 6-digit code sent to
-            <span style="color: #FF5353;"><?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?></span>
-          </h5>
-        </div>
-      </div>
-      <div class="modal-body">
-        <form method="POST">
-          <div class="form-group">
-            <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>" required>
-            <input type="text" class="form-control" name="verification_code" id="verification_code" placeholder="Enter verification code" required />
-            <br>
-            <div style="text-align: center;">
-              <input type="submit" name="verify_email" value="Verify" style="background-color:#FF5353 ; width: 50%; border-radius: 10px; padding: 5px;">
-            </div>
-          </div>
-        </form>
-      </div>
-      <!-- Move the "Change Email" link outside the form -->
-      <div style="text-align: center;">
-      <a id="changeemail" style="text-decoration:none;color: #FF5353; cursor: pointer;" href="index-guest.php?show_register_modal=1">Change Email</a>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-
- <!-- Verified modal --> 
- 
- <div class="modal fade" id="verifiedModal"  tabindex="-1" role="dialog" aria-labelledby="verifiedModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content" style="width: 400px;">
-      <div class="modal-body">
-        <center>
-      <img src="../image/check.png" alt="" style="width: 100px;">
-      <br>
-      <p></p>
-      <h3>Verified!</h3>
-      </center>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 <script>
 $(document).ready(function() {
     // Check if the email parameter is present in the URL
@@ -70,7 +11,7 @@ $(document).ready(function() {
 });
 </script>
 
-<!-- Add this script to your index-guest.php file -->
+
 <script>
     // Function to check the URL parameters
     function getURLParameter(name) {

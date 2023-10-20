@@ -82,35 +82,3 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
 }
 
 ?>
-
-<!-- Login Modal -->
-<div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-  <div class="modal-content">
-  <div class="modal-header justify-content-center" style="border: none;">
-      <h3 class="modal-title d-flex justify-content-center text-center" id="loginModalLabel">Login</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border: 1px solid white;background-color:white">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Login form content goes here -->
-        <form method="POST" >
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="emailOrUsername" name="emailOrUsername" placeholder="Email or Username" required>
-        <label for="emailOrUsername">Email or Username</label>
-    </div>
-    <div class="form-floating">
-        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-        <label for="password">Password</label>
-    </div>
-    <br>
-    <center>
-    <p><a class="active" aria-current="page"  data-toggle="modal" data-target="#forgotModal" data-whatever="login" href="forgot/forgot.php" id="" style="color: rgb(255, 83, 83);">Forgot password?</a></p>
-    </center>
-    <input type="submit" name="login" value="Log In" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;">
-</form>
-      </div>
-    </div>
-  </div>
-</div>
