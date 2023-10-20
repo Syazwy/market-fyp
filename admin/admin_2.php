@@ -49,13 +49,11 @@ require '../connection/connection.php';
 </style>
 
 <body>
-
 <nav class="navbar navbar-expand-lg bg-transparent">
   <div class="container">
     <a class="navbar-brand" href="#">
       <img src="../image/logo.png" width="80" height="80">
     </a>
-
     <div class="collapse navbar-collapse">
     <ul class="nav nav-pills">
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../home/index-guest.php" id="logout-link">Logout</a></li>
@@ -77,7 +75,6 @@ require '../connection/connection.php';
     }
   });
 </script>
-
 <div class="profile-container">
         <div class="profile-picture">
             <img src="image/admin.png" alt="Profile Picture">
@@ -100,72 +97,64 @@ require '../connection/connection.php';
         </ul>
     </div>
     <br>
-      <div class="row row-cols-1 row-cols-md-1 g-4">
-      
+    <div class="row row-cols-1 row-cols-md-1 g-4">
+      <div class="col border1">
 
-        
-              <div class="col border1">
-                <table  cellspacing = 0 cellpadding = 20>
-
-                    <tr>
-                        <td><h1>Report</h1></td>
-                    </tr>
-                    <tr>
-                        <td>#</td>
-                        <td>Name</td>
-                        <td>Status</td>
-                        <td>Reason</td>        
-                        <td>Type of report</td>
-                        <td>Action:</td>
-
-                    </tr>
-                    <?php
-                    error_reporting(E_ALL);
-                    ini_set('display_errors', 1);
-                    
-require '../connection/connection.php';
+<?php
+echo "<table cellspacing='0' cellpadding='20'>";
+echo "<tr><td><h1>Report</h1></td></tr>";
+echo "<tr><td>#</td><td>Name</td><td>Status</td><td>Reason</td><td>Type of report</td><td>Action:</td></tr>";
 
 $i = 1;
-$rows = mysqli_query($conn, "SELECT * FROM `reportbyusers` ORDER BY Id DESC");
+$query = "SELECT ru.*, a.status AS account_status 
+          FROM `reportbyusers` AS ru 
+          JOIN `account` AS a ON ru.usersemail = a.email 
+          ORDER BY ru.Id DESC";
+$rows = mysqli_query($conn, $query);
 
-foreach ($rows as $row) :
-    // Fetch the user's status from the 'account' table
-    $userEmail = $row["usersemail"];
-    
-    $statusQuery = mysqli_query($conn, "SELECT status FROM `account` WHERE BINARY email = '$userEmail'");
-    var_dump($statusQuery);  // Debug the query
-    // Check if the query was successful
-    if ($statusQuery) {
-        $statusRow = mysqli_fetch_assoc($statusQuery);
+if (!$rows) {
+  die("Query failed: " . mysqli_error($conn));
+}
 
-        if ($statusRow) {
-            $userStatus = $statusRow['status'];
+if ($rows) {
+  if (mysqli_num_rows($rows) > 0) {
+      foreach ($rows as $row) {
+      
+          
+          $userEmail = $row["usersemail"];
+          $userStatus = $row["account_status"];
 
-            // Now, you can display the status in the table
-            ?>
+          echo "<tr>";
+          echo "<td>" . $i++ . "</td>";
+          echo "<td>" . $row["username"] . "</td>";
+          echo '<td><strong style="color: ' . ($userStatus === "Banned" ? 'red' : 'green') . ';">' . $userStatus . '</strong></td>';
+          echo "<td>" . $row["reason"] . "</td>";
+          echo "<td>" . $row["typeReport"] . "</td>";
+          echo "<td>";
+          echo "<form action='ban_2.php' method='POST'>";
+          echo "<input type='hidden' name='userEmail' value='" . $userEmail . "'>";
+          
+          if ($userStatus === "Active") {
+              echo "<input type='submit' name='ban' value='Ban' class='btn btn-danger' onclick='return confirm(\"Are you sure you want to ban this person?\");'>";
+          } else {
+              echo "<input type='submit' name='unban' value='Unban' class='btn btn-success' onclick='return confirm(\"Are you sure you want to unban this person?\");'>";
+          }
 
-            <tr>
-                <td><?php echo $i++; ?></td>
-                <td><?php echo $row["username"]; ?></td>
-                <td><?php echo $userStatus; ?></td> <!-- Display the status -->
-                <td><?php echo $row["reason"]; ?></td>
-                <td><?php echo $row["typeReport"]; ?></td>
-                <td><a href="remove_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-warning">Remove</td>
-                <td><a href="ban_2.php?id=<?php echo $row["usersemail"]; ?>" class="btn btn-danger">Ban</td>
-                <td><a href="unban_2.php?id=<?php echo $row["usersemail"]; ?>" class="btn btn-success">Unban</td>
-            </tr>
-    <?php
-        } else {
-            // Handle the case where the user's status was not found
-        }
-    } else {
-        // Handle the case where the query failed
-    }
-endforeach; ?>             
-</table>
-</div>   
-</div>
-</div>
+          echo "</form></td></tr>";
+      }
+  } else {
+      echo "No rows found in the reportbyusers table.";
+  }
+} else {
+  echo "Report query failed: " . mysqli_error($conn);
+}
+
+
+echo "</table>";
+?>
+
+      </div>
+    </div>
+  </div>
 </body>
 </html>
-

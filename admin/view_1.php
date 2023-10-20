@@ -131,7 +131,9 @@ if (isset($_GET['email'])) {
 
 
       <div  class="col border1">
-      
+        <center>
+      <td><h1><?php echo $row["username"]; ?></h1></td>
+      </center>
                 <table  cellspacing = 0 cellpadding = 10>
 
                 
