@@ -21,7 +21,7 @@ if ($result) {
 <!DOCTYPE html>
 <html lang="en">
 
-<meta http-equiv="refresh" content="5" >
+<!-- <meta http-equiv="refresh" content="5" > -->
 <head>
 <meta charset="UTF-8">
 <title> Message</title>
@@ -142,36 +142,54 @@ $conn->close();
 </div>
 </center>
 
+<!-- Add this script tag inside your HTML <head> section -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Add this JavaScript code at the end of your HTML body -->
 <script>
-window.addEventListener("load", function() {
-  var iframe = document.getElementById("chatFrame");
-  iframe.contentWindow.scrollTo(0, iframe.contentDocument.body.scrollHeight);
-  inputElement.focus();
-});
+  function loadMessages() {
+    var username = "<?php echo $username; ?>";
+    var itemid = "<?php echo $itemid; ?>";
 
-// Get the input element
-var inputElement = document.getElementById("textInput");
+    $.ajax({
+      type: "POST",
+      url: "fetch_messages.php", // Create a PHP script to fetch messages
+      data: { username: username, itemid: itemid },
+      dataType: "json",
+      success: function (response) {
+        if (response && response.length > 0) {
+          // Append new messages to the chat interface
+          for (var i = 0; i < response.length; i++) {
+            var message = response[i];
+            var messageText = message.text;
+            var sender = message.sender;
 
-// Check if there is a stored value in local storage
-var storedValue = localStorage.getItem("inputValue");
+            // Append the message to the chat interface
+            var chatMessage = '<div class="message"><strong>' + sender + ':</strong> ' + messageText + '</div>';
+            $(".chat").append(chatMessage);
+          }
 
-// If there is a stored value, set it as the input's value
-if (storedValue !== null) {
-  inputElement.value = storedValue;
-}
+          // Scroll to the bottom of the chat
+          $(".chat").animate({ scrollTop: $(".chat")[0].scrollHeight }, "fast");
+        }
+      },
+      complete: function () {
+        // Schedule the next message retrieval in 2 seconds
+        setTimeout(loadMessages, 2000);
+      },
+    });
+  }
 
-// Add an event listener to the input element to save its value in local storage
-inputElement.addEventListener("input", function () {
-  localStorage.setItem("inputValue", inputElement.value);
-});
+  $(document).ready(function () {
+    loadMessages(); // Start loading messages when the page is ready
+  });
 
-// Add an event listener to the form to clear the stored value when it is submitted
-document.querySelector("form").addEventListener("submit", function () {
-  localStorage.removeItem("inputValue");
-});
-
-
+  // Add an event listener to the form to clear the stored value when it is submitted
+  $("form").on("submit", function () {
+    localStorage.removeItem("inputValue");
+  });
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
