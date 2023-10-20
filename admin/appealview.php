@@ -127,7 +127,7 @@ require '../connection/connection.php';
 
                   <?php
                       $i = 1;
-                      $rows = mysqli_query($conn, "SELECT * from `appeals` ORDER BY Id DESC");
+                      $rows = mysqli_query($conn, "SELECT * from `appeals` ORDER BY appeal_id DESC");
                   ?>
 
                   <?php
@@ -139,13 +139,8 @@ require '../connection/connection.php';
                           
                           <td><?php echo $row["username"]; ?></td>
                           <td><?php echo $row["appeal"]; ?></td>                          
-                          
-                          
-                          
-                          
-                          <td><a href="appealview2.php?id=<?php echo $row["id"]; ?>" class="btn btn-success">View</td>
-                          
-                          <td><a href="unban_1.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">Unban</td>
+                       
+                          <td><a href="unban_2.php?username=<?php echo $row["username"]; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to unban this person?')">Unban</td>
                       </tr>
 
                   <?php endforeach; ?>
