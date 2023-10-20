@@ -91,12 +91,12 @@ if ($result) {
     <div class="wishlist-container">
         <div class="wishlist-picture">
         <?php 
-          if (isset($profileimage)) {
-                echo '<img src="../profile/' .$profileimage . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
-            } else {
-                echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
-            }
-            ?>
+      if (isset($profileimage)) {
+            echo '<img src="../profile/' .$profileimage . '" width="150" height="150" class="profile rounded-circle" alt="Profile Picture">';
+        } else {
+            echo '<img src="../image/profile.png" width="150" height="150" class="profile rounded-circle" alt="Profile Picture">';
+        }
+        ?>
         </div>   
     </div>
 

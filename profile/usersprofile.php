@@ -5,6 +5,26 @@ require_once("../session/session.php");
 $usersemail = $_GET['email'];
 $user = $_GET['username'];
 $myusername = $_SESSION['username'];
+$username = $_SESSION['username'];
+
+$query = "SELECT * FROM account WHERE username = '$user'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+ while($row = $result->fetch_assoc()){
+   $accountStatus = $row['status'];
+   $name =  $row['username'];
+   $profileimage = $row['profile_image'];
+  }
+}
+
+$query2 = "SELECT * FROM account WHERE username = '$username'";
+$result2 = mysqli_query($conn, $query2);
+if ($result2) {
+    while($row = $result2->fetch_assoc()){
+      $profileimage2 = $row['profile_image'];
+     }
+   }
 
 ?>
 
@@ -103,7 +123,13 @@ exit;
 
   <div class="dropdown">
     <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-      <img src="../image/profile.png" width="50" height="50" class="profile">
+    <?php 
+      if (isset($profileimage2)) {
+            echo '<img src="../profile/' .$profileimage2 . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        } else {
+            echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        }
+        ?>
     </a>
 
     <ul class="dropdown-menu">
@@ -133,7 +159,13 @@ exit;
 
     <div class="profile-container">
         <div class="profile-picture">
-            <img src="../image/profile.png" alt="Profile Picture">
+        <?php 
+      if (isset($profileimage   )) {
+            echo '<img src="../profile/' .$profileimage . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        } else {
+            echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        }
+        ?>
         </div>   
     </div>
 

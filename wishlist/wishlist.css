@@ -67,11 +67,11 @@ a.nav-link.active {
 /* Adjust the column width for larger screens */
 
 .wishlist-picture {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: 10px 0px 0px 5%;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 10px 0px 0px 5%;
 }
 
 .profile-picture img {

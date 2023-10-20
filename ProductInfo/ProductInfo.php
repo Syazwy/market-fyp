@@ -320,8 +320,12 @@ h5 {
                   echo '<a href="' . $href . '" style="text-decoration: none; color: black;">';
                   echo '<div class="user">';
                   echo '<br>';
-
-                  echo '<h2 style="font-size:20px;font-weight:thin"><img width="70px" src="../image/profile.png">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)'. 
+                  if (isset($row['profile_image'])) {
+                    echo '<h2 style="font-size:20px;font-weight:thin"><img src="../profile/' .$row['profile_image'] . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+                } else {
+                    echo '<h2 style="font-size:20px;font-weight:thin"><img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+                }
+                  echo '' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)'. 
                   '<small>'.
                   generateStarRating($averageRating)
                   .'<small></h2>';
