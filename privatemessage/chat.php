@@ -8,7 +8,7 @@ $yourName = $_SESSION['username'];
 <!DOCTYPE html>
 <html lang="en">
 
-<meta http-equiv="refresh" content="5" >
+<meta http-equiv="refresh" content="10" >
 <head>
 <meta charset="UTF-8">
 <title> Message</title>
