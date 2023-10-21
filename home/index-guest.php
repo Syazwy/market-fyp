@@ -430,7 +430,7 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
         $(document).ready(function() {
             // Function to display search results and toggle item visibility
             function displaySearchResults(query) {
-                var url = "search.php";
+                var url = "search-guest.php";
                 var data = {
                     query: query
                 };

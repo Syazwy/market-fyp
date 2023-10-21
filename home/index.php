@@ -75,7 +75,7 @@ mysqli_free_result($result);
                 <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
                 <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
                 <li><a class="dropdown-item" href="../privatemessage/myChat.php">Messages</a></li>
-                <li><a class="dropdown-item" href="index-guest.php" id="logout-link">Log out</a></li>
+                <li><a class="dropdown-item" href="index-guest.php" onclick="return confirm('Are you sure you want to logout?')">Log out</a></li>
             </ul>
         </div>
     </div>
@@ -88,9 +88,9 @@ mysqli_free_result($result);
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Property</a>
+        <li class="list-group-item" id="property-category"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Property</a>
         </li>
-        <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Vehicles</a>
+        <li class="list-group-item" id="vehicles-category"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Vehicles</a>
         </li>
         <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Furnitures</a>
         </li>
@@ -100,20 +100,6 @@ mysqli_free_result($result);
         </li>
     </ul>
 </div>
-
-<script>
-    document.getElementById('logout-link').addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent the link from immediately navigating
-
-        // Display a confirmation dialog
-        const confirmLogout = confirm("Are you sure you want to log out?");
-
-        // If the user confirms, navigate to the logout page
-        if (confirmLogout) {
-            window.location.href = event.target.href;
-        }
-    });
-</script>
 
 <!-- Search Bar and Button -->
 <div class="search">
@@ -178,13 +164,14 @@ mysqli_free_result($result);
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <?php
         $i = 1;
-        $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename 
+        $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename, account.category AS category
         FROM itemslisting
         JOIN item_images ON itemslisting.id = item_images.item_id
         JOIN account ON itemslisting.username = account.username
+        JOIN categories ON itemslisting.category_id = categories.id
         WHERE account.status = 'Active' && itemslisting.status = 'active'
         GROUP BY itemslisting.id
-        ORDER BY itemslisting.id DESC";
+        ORDER BY itemslisting.id DESC";        
 
         $result = mysqli_query($conn, $query);
 
@@ -194,7 +181,6 @@ mysqli_free_result($result);
             $timeDiff = $currentTime - $uploadedAt;
             $sellerid = $row['id'];
             $item_image = $row['image_filename'];
-
             $id = $row['id'];
             $profileimage = "SELECT * FROM account WHERE id = '$id'";
             $profileResult = $conn->query($profileimage);
@@ -259,6 +245,12 @@ mysqli_free_result($result);
     <div id="searchResults" class="row row-cols-1 row-cols-md-5 g-4">
         <!-- Search results will be displayed here -->
     </div>
+
+    <div class="col d-flex align-items-center justify-content-center">
+        <div class="card item h-100" data-category="<?php echo $row['category']; ?>">
+            <!-- Your card content -->
+        </div>
+    </div>
 </div>
 
 <!-- JavaScript for handling the search -->
@@ -305,5 +297,36 @@ mysqli_free_result($result);
         $("#searchInput").on("input", handleSearchInput);
     });
 </script>
+
+<!-- JavaScript for handling the category clicks -->
+<script>
+    $(document).ready(function () {
+        // Function to handle category clicks and filter listings
+        function handleCategoryClick(category) {
+            // Hide all listings
+            $(".card.item.h-100").hide();
+
+            // Display listings from the selected category
+            $(".card.item.h-100[data-category='" + category + "']").show();
+
+            // Update the section title
+            $("#sectionTitle").text("Category: " + category);
+        }
+
+        // Event handler for category clicks
+        $("#property-category").click(function () {
+            handleCategoryClick("Property");
+        });
+
+        $("#vehicles-category").click(function () {
+            handleCategoryClick("Vehicles");
+        });
+
+        // Add event handlers for other categories in a similar manner
+
+        // ...
+    });
+</script>
+
 </body>
 </html>

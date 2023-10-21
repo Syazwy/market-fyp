@@ -1,16 +1,18 @@
 <!-- forgot modal -->
 <div class="modal" id="forgotModal" tabindex="-1" role="dialog" aria-labelledby="forgotModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-  <div class="modal-content">
-  <div class="modal-header justify-content-center" style="border: none;">
-      <!-- <h3 class="modal-title d-flex justify-content-center text-center" id="forgotModalLabel">Login</h3> -->
+    <div class="modal-content">
+      <div class="modal-header justify-content-center" style="border: none;">
+        <!-- <h3 class="modal-title d-flex justify-content-center text-center" id="forgotModalLabel">Login</h3> -->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border: 1px solid white;background-color:white">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <!-- Login form content goes here -->
-        <form method="POST" >
+        <div class="modal-body">
+          <!-- Login form content goes here -->
+          <form method="POST" >
+
+
 
       <?php
 $msg = ''; // Initialize a message variable
