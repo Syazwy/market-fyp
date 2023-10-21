@@ -13,7 +13,7 @@ if ($result) {
     $name =  $row['username'];
     $profileimage = $row['profile_image'];
     $membership = $row['membership'];
-    $wishlistCount = $row['wishlist_count'];
+    // $wishlistCount = $row['wishlist_count'];
   }
 }
 ?>

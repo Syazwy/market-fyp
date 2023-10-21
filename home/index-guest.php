@@ -281,11 +281,11 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Property</a></li>
-            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Vehicles</a></li>
-            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Furnitures</a></li>
-            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Electronics</a></li>
-            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Fashion</a></li>
+            <li class="list-group-item"><a id="property" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Property</a></li>
+            <li class="list-group-item"><a id="vehicle" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Vehicle</a></li>
+            <li class="list-group-item"><a id="furniture" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Furniture</a></li>
+            <li class="list-group-item"><a id="electronic" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Electronic</a></li>
+            <li class="list-group-item"><a id="clothing" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Clothing</a></li>
         </ul>
     </div>
     <div class="search">
@@ -299,37 +299,42 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
             <div class="row row-cols-1 row-cols-md-5 g-4">
                 <div class="col">
                     <div class="card">
-                        <a href="">
+                        <a data-category="Property">
                             <img class="image" src="../image/property.png" alt="">
                         </a>
+                        <p>Property</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
-                        <a href="">
+                        <a data-category="Vehicle">
                             <img class="image" src="../image/vehicle.png" alt="">
                         </a>
+                        <p>Vehicle</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
-                        <a href="">
+                        <a data-category="Furniture">
                             <img class="image" src="../image/furniture.png" alt="">
                         </a>
+                        <p>Furniture</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
-                        <a href="">
+                        <a data-category="Electronic">
                             <img class="image" src="../image/electronic.png" alt="">
                         </a>
+                        <p>Electronic</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
-                        <a href="">
+                        <a data-category="Clothing">
                             <img class="image" src="../image/fashion.png" alt="">
                         </a>
+                        <p>Clothing</p>
                     </div>
                 </div>
             </div>
@@ -466,6 +471,60 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
             // Automatically update search results as the user types
             $("#searchInput").on("input", handleSearchInput);
         });
+    </script>
+
+    <!-- JavaScript for handling the category clicks -->
+    <script>
+    $(document).ready(function() {
+        // Function to handle category clicks and filter listings
+        function handleCategoryClick(category) {
+            var url = "category-guest.php";
+            var data = { category: category };
+
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: data,
+                success: function(response) {
+                    // Hide newly listed items
+                    $(".card.item.h-100").hide();
+
+                    // Display category-specific results
+                    $("#searchResults").html(response).show();
+
+                    // Update the section title
+                    $("#sectionTitle").text("Category: " + category);
+                }
+            });
+        }
+
+        // Event handler for category clicks
+        $("#property").click(function() {
+            handleCategoryClick("Property");
+        });
+
+        $("#vehicle").click(function() {
+            handleCategoryClick("Vehicle");
+        });
+
+        $("#furniture").click(function() {
+            handleCategoryClick("Furniture");
+        });
+
+        $("#electronic").click(function() {
+            handleCategoryClick("Electronic");
+        });
+
+        $("#clothing").click(function() {
+            handleCategoryClick("Clothing");
+        });
+
+        // Event handler for category clicks
+        $("a[data-category]").click(function() {
+            var category = $(this).data("category");
+            handleCategoryClick(category);
+        });
+    });
     </script>
 
 

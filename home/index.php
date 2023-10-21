@@ -50,7 +50,9 @@ mysqli_free_result($result);
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php">Sell</a></li>
             </ul>
         </div>
-   <?php echo "Hello,&nbsp<b style=\"text-transform: capitalize;\"> " . $username . "</b>"; ?>
+
+        <?php echo "Hello,&nbsp<b style=\"text-transform: capitalize;\"> " . $username . "</b>"; ?>
+        
         <div class="dropdown">
             <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
                style="border: none;">
@@ -88,15 +90,15 @@ mysqli_free_result($result);
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item" id="property-category"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Property</a>
+        <li class="list-group-item"><a id="property" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Property</a>
         </li>
-        <li class="list-group-item" id="vehicles-category"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Vehicles</a>
+        <li class="list-group-item"><a id="vehicle" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Vehicle</a>
         </li>
-        <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Furnitures</a>
+        <li class="list-group-item"><a id="furniture" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Furniture</a>
         </li>
-        <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Electronics</a>
+        <li class="list-group-item"><a id="electronic" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Electronic</a>
         </li>
-        <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Fashion</a>
+        <li class="list-group-item"><a id="clothing" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Clothing</a>
         </li>
     </ul>
 </div>
@@ -116,37 +118,42 @@ mysqli_free_result($result);
         <div class="row row-cols-1 row-cols-md-5 g-4">
             <div class="col">
                 <div class="card">
-                    <a href="">
+                    <a data-category="Property">
                         <img class="image" src="../image/property.png" alt="">
                     </a>
+                    <p>Property</p>
                 </div>
             </div>
             <div class="col">
                 <div class="card">
-                    <a href="">
+                    <a data-category="Vehicle">
                         <img class="image" src="../image/vehicle.png" alt="">
                     </a>
+                    <p>Vehicle</p>
                 </div>
             </div>
             <div class="col">
                 <div class="card">
-                    <a href="">
+                    <a data-category="Furniture">
                         <img class="image" src="../image/furniture.png" alt="">
                     </a>
+                    <p>Furniture</p>
                 </div>
             </div>
             <div class="col">
                 <div class="card">
-                    <a href="">
+                    <a data-category="Electronic">
                         <img class="image" src="../image/electronic.png" alt="">
                     </a>
+                    <p>Electronic</p>
                 </div>
             </div>
             <div class="col">
                 <div class="card">
-                    <a href="">
+                    <a data-category="Clothing">
                         <img class="image" src="../image/fashion.png" alt="">
                     </a>
+                    <p>Clothing</p>
                 </div>
             </div>
         </div>
@@ -164,14 +171,13 @@ mysqli_free_result($result);
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <?php
         $i = 1;
-        $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename, account.category AS category
+        $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename
         FROM itemslisting
         JOIN item_images ON itemslisting.id = item_images.item_id
         JOIN account ON itemslisting.username = account.username
-        JOIN categories ON itemslisting.category_id = categories.id
         WHERE account.status = 'Active' && itemslisting.status = 'active'
         GROUP BY itemslisting.id
-        ORDER BY itemslisting.id DESC";        
+        ORDER BY itemslisting.id DESC";
 
         $result = mysqli_query($conn, $query);
 
@@ -300,32 +306,56 @@ mysqli_free_result($result);
 
 <!-- JavaScript for handling the category clicks -->
 <script>
-    $(document).ready(function () {
-        // Function to handle category clicks and filter listings
-        function handleCategoryClick(category) {
-            // Hide all listings
-            $(".card.item.h-100").hide();
+$(document).ready(function() {
+    // Function to handle category clicks and filter listings
+    function handleCategoryClick(category) {
+        var url = "category.php";
+        var data = { category: category };
 
-            // Display listings from the selected category
-            $(".card.item.h-100[data-category='" + category + "']").show();
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: data,
+            success: function(response) {
+                // Hide newly listed items
+                $(".card.item.h-100").hide();
 
-            // Update the section title
-            $("#sectionTitle").text("Category: " + category);
-        }
+                // Display category-specific results
+                $("#searchResults").html(response).show();
 
-        // Event handler for category clicks
-        $("#property-category").click(function () {
-            handleCategoryClick("Property");
+                // Update the section title
+                $("#sectionTitle").text("Category: " + category);
+            }
         });
+    }
 
-        $("#vehicles-category").click(function () {
-            handleCategoryClick("Vehicles");
-        });
-
-        // Add event handlers for other categories in a similar manner
-
-        // ...
+    // Event handler for category clicks
+    $("#property").click(function() {
+        handleCategoryClick("Property");
     });
+
+    $("#vehicle").click(function() {
+        handleCategoryClick("Vehicle");
+    });
+
+    $("#furniture").click(function() {
+        handleCategoryClick("Furniture");
+    });
+
+    $("#electronic").click(function() {
+        handleCategoryClick("Electronic");
+    });
+
+    $("#clothing").click(function() {
+        handleCategoryClick("Clothing");
+    });
+
+    // Event handler for category clicks
+    $("a[data-category]").click(function() {
+        var category = $(this).data("category");
+        handleCategoryClick(category);
+    });
+});
 </script>
 
 </body>
