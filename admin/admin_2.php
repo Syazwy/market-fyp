@@ -158,7 +158,7 @@ require '../connection/connection.php';
            echo "</tr>";
          }
        } else {
-         echo "No rows found in the reportbyusers table.";
+        //  echo "No rows found in the reportbyusers table.";
        }
      } else {
        echo "Report query failed: " . mysqli_error($conn);
