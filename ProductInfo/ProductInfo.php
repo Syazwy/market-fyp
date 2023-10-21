@@ -2,16 +2,18 @@
   require_once("../session/session.php");
   $sessionEmail = $_SESSION['email'];
   require '../connection/connection.php';
-  
+
   $query = "SELECT * FROM account WHERE email = '$sessionEmail'";
  $result = mysqli_query($conn, $query);
 
- 
+
 if ($result) {
   while($row = $result->fetch_assoc()){
     $accountStatus = $row['status'];
     $name =  $row['username'];
     $profileimage = $row['profile_image'];
+    $membership = $row['membership'];
+    $wishlistCount = $row['wishlist_count'];
   }
 }
 ?>
@@ -64,23 +66,20 @@ width: 200px;
 
 .itemdetail {
   background-color: white;
-  width: 1000px;
+  width: 800px;
   margin: auto;
   height: 400px;
 margin-top: 40px;
 position: relative;
-margin-right: 100px;
 }
 
 .userdetail{
 background-color: #FFEAEA;
-width: 400px;
+width: 450px;
 margin: auto;
 height: 5auto;
-margin-top: 40px;
-margin-bottom: 20px;
 border-radius: 40px;
-padding: auto;
+padding-bottom: 20px;
 }
 
 .product-header {
@@ -121,9 +120,11 @@ background-color: #FF5353;
   border: none;
   padding: 20px;
   border-radius: 18px;
-  font-size: 1.5em;
+  font-size: 2em;
   margin: 10px;
-  height: auto; 
+  height: 100px; 
+  width: 100px;
+  padding-bottom: 20px;
 }
 
 .price {
@@ -267,7 +268,7 @@ h5 {
         </div>
  
         <!-- ------------------------------------------------------------------------------------ -->
-                
+
         <div id="secondhalf">
             <div class="itemdetail">
                 <br>
@@ -288,6 +289,36 @@ h5 {
                 <button type="button"
                     id="wishlistButton" <?php echo ($sessionEmail === $row['email']) ? 'style="display: none;"' : ''; ?>
                     onclick="wishlist()">Add to wishlist</button></div>
+
+                    
+            <div class="wishlist-button-container">
+            <?php
+            // ... (previous code)
+
+            // Assuming you have a table 'wishlist' with columns 'user_id' and 'item_id'
+            $wishlistQuery = "SELECT COUNT(*) as wishlist_count FROM wishlist WHERE id = '$sessionEmail'";
+            $wishlistResult = mysqli_query($conn, $wishlistQuery);
+
+            if ($wishlistResult) {
+                $wishlistCountRow = mysqli_fetch_assoc($wishlistResult);
+                $wishlistCount = $wishlistCountRow['wishlist_count'];
+            } else {
+                $wishlistCount = 0; // Default to 0 if there's an error in the query
+            }
+
+            // Check the user's membership and wishlist count
+            if ($membership === 'basic' && $wishlistCount >= 5) {
+                echo '<p>You have reached your wishlist limit.</p>';
+            } else {
+                echo '<button type="button" id="wishlistButton" ';
+                echo ($sessionEmail === $row['email']) ? 'style="display: none;"' : '';
+                echo ' onclick="wishlist()">Add to wishlist</button>';
+            }
+            ?>
+
+                
+      </div>
+
             </div>
 
             <div class=" userdetail">
@@ -320,12 +351,8 @@ h5 {
                   echo '<a href="' . $href . '" style="text-decoration: none; color: black;">';
                   echo '<div class="user">';
                   echo '<br>';
-                  if (isset($row['profile_image'])) {
-                    echo '<h2 style="font-size:20px;font-weight:thin"><img src="../profile/' .$row['profile_image'] . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
-                } else {
-                    echo '<h2 style="font-size:20px;font-weight:thin"><img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
-                }
-                  echo '' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)'. 
+
+                  echo '<h2 style="font-size:20px;font-weight:thin"><img width="70px" src="../image/profile.png">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)'. 
                   '<small>'.
                   generateStarRating($averageRating)
                   .'<small></h2>';
@@ -344,6 +371,7 @@ h5 {
               if ($sessionEmail === $row["email"]) {
                 echo '<br>';
                   echo '<a href="../profile/profile_edit_item.php?id=' . $row["id"] . '" class="edit">Edit</a>';
+                  echo '<br>'; 
               } else {
                   echo '<br>';
                   echo '<button type="button" class="btn btn-primary" id="chatButton" onclick="chat()">Chat</button>';
@@ -351,7 +379,8 @@ h5 {
               }
               echo '</div>';
               ?>
-              </center></div>
+              </center>
+            </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
                 crossorigin="anonymous"></script>
@@ -399,7 +428,8 @@ h5 {
                     window.location.href = url;
                 }
             </script>
-        </div>
+    </div>
+
         <?php
             } else {
                 echo "Product not found.";
