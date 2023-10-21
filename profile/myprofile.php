@@ -346,7 +346,9 @@ if (!empty($message)) {
 }
 ?>
 
+<center>
 <a href="profileedit.php?id=<?php echo $id; ?>" class="btn btn-primary"> Edit Profile </a>
+</center>
                       <?php endforeach; ?>           
       
   </div>
@@ -391,8 +393,12 @@ $result = mysqli_query($conn, $query);
                           
                     ?>
                     
-                          <a href="profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary"> Edit item </a>
-                          
+                    <center>
+                    <div>
+                          <a href="profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary edit"> Edit </a>
+                          <a href="profile_delete_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary delete"><img style="height: 20px;" src="../image/trash.png"></img></a>
+                    </div>
+                    </center>
 <!-- --------------------------------------------------------------- -->
 
                 </div>                             

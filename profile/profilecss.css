@@ -34,9 +34,23 @@ a.nav-link.active {
   }
   .btn.btn-primary {
     background-color: #FF5353;
+    border-radius: 10px;
+    border: none;
+    width: 200px;
+  }
+  .btn.btn-primary.edit {
+    background-color: #FF5353;
     border-radius: 18px;
     border: none;
-    width: 100px;
+    width: 70px;
+    height: 40px;
+  }
+  .btn.btn-primary.delete {
+    background-color: #FF5353;
+    border-radius: 18px;
+    border: none;
+    width: 50px;
+    height: 40px;
   }
   body {
     font-family: Arial, sans-serif;

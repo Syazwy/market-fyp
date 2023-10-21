@@ -108,9 +108,11 @@ require '../connection/connection.php';
      $i = 1;
      $query = "SELECT ru.*, a.status AS account_status 
                FROM `reportbyusers` AS ru 
-               JOIN `account` AS a ON ru.usersemail = a.email 
+               JOIN `account` AS a ON TRIM(ru.usersemail) = TRIM(a.email) 
                ORDER BY ru.Id DESC";
+     
      $rows = mysqli_query($conn, $query);
+     
      
      if (!$rows) {
        die("Query failed: " . mysqli_error($conn));
