@@ -386,19 +386,23 @@ mysqli_stmt_close($stmt);
 
     // Price validation
     const priceInput = document.getElementById('price');
-    const priceValue = priceInput.value.trim();
-    const pricePattern = /^\$\d+(\.\d{2})?$/;
-    if (!pricePattern.test(priceValue) || parseFloat(priceValue.replace('$', '')) <= 0 || parseFloat(priceValue.replace('$', '')) >= 999999) {
-        alert('Price must be in the format $x.xx and between $1 and $999,999.');
-        return false;
+    priceInput.addEventListener('input', validatePrice);
+
+    function validatePrice() {
+        const priceValue = priceInput.value.trim();
+
+        // Remove any commas and dollar signs and then validate
+        const numericPrice = parseFloat(priceValue.replace(/,/g, '').replace('$', ''));
+
+        if (isNaN(numericPrice) || numericPrice < 0 || numericPrice > 100000) {
+            alert('Price must be a valid number between $0 and $100,000.');
+            priceInput.value = ''; // Clear the input field if the input is invalid
+        } else {
+            // Restrict to 2 decimal places
+            priceInput.value = numericPrice.toFixed(2);
+        }
     }
 
-    // Description validation
-    const descriptionInput = document.getElementById('description');
-    if (descriptionInput.value.trim().length < 8) {
-        alert('Description must be at least 8 characters long.');
-        return false; // Prevent form submission
-    }
 
     return true;// Allow form submission
     }
