@@ -393,8 +393,8 @@ h5 {
                 }
 
                 function buy() {
-                    window.location.href = '../order/orderItem.php?id=<?php echo $row["id"]; ?>';
-                }
+                    window.location.href = '../order/orderItem.php?id=<?php echo $row["id"]; ?>&email=<?php echo $row["email"]; ?>';
+    }
 
                 function chat(username, id) {
                     var username = "<?php echo $row['username']; ?>";
