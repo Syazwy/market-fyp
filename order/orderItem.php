@@ -3,6 +3,7 @@ require_once("../session/session.php");
 require '../connection/connection.php';
 $email = $_SESSION['email'];
 $username = $_SESSION['username'];
+$usersemail = $_GET['email'];
 
 $query = "SELECT * FROM account WHERE username = '$username'";
 $result = mysqli_query($conn, $query);
@@ -377,7 +378,7 @@ console.log("Postal Code:", postalCodeInput.value.trim());
         // Check payment method and redirect accordingly
         if (paymentMethod.id === 'cash') {
           // Redirect to a page for cash payment with pickup
-          window.location.href = `orderHalfwayCompleted.php?id=${id}&total=<?php echo $total; ?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
+          window.location.href = `orderHalfwayCompleted.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
         } else if (paymentMethod.id === 'paypal') {
           // Redirect to a page for PayPal payment with pickup
          window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
