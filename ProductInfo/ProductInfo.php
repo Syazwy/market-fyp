@@ -30,149 +30,244 @@ if ($result) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <style>
-     .checked {
+    <style>
+  /* Styles from the first <style> section */
+
+  .checked {
     color: orange;
   }
 
   .carousel-inner {
-    background: transparent; /* Make the carousel background clear */
+    background: white; /* Make the carousel background clear */
   }
 
   .carousel-item img {
     width: 600px;
-    height: 300px;
-}
-
-
-  .product-container {
-    background-color: white;
+    height: 400px;
   }
 
   .product-info.description {
     background: transparent; /* Make the description box background clear */
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-left: 100px;
   }
 
-  .product-info.description {
-  padding: 20px;
-  border-radius: 5px;
-  margin-top: 20px;
-  margin-left: 50px;
-}
+  .product-info {
+    width: 200px;
+  }
 
-.product-info{
-width: 200px;
-}
+  .itemdetail {
+    background-color: white;
+    width: 800px;
+    height: 400px;
+    padding-top: 50px;
+    margin: auto;
+    position: relative;
+  }
 
-.itemdetail {
-  background-color: white;
-  width: 800px;
-  margin: auto;
-  height: 400px;
-margin-top: 40px;
-position: relative;
-}
+  .userdetail {
+    background-color: #FFEAEA;
+    width: auto;
+    margin: auto;
+    height: auto;
+    border-radius: 40px;
+    padding-top: 10px;
+    margin-right: 250px;
+  }
 
-.userdetail{
-background-color: #FFEAEA;
-width: 450px;
-margin: auto;
-height: 5auto;
-border-radius: 40px;
-padding-bottom: 20px;
-}
-
-.product-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.btn.btn-primary {
-  background-color: #FF5353;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 18px;
-  cursor: pointer;
-  margin: 10px;
-  height: 60px; 
-  width: 120px;
-  font-size: 1.5em;
-}
-
-#wishlistButton {
-    background-color: #FF5353;
-  color: #fff;
-  border: none;
-  padding: 12px;
-  border-radius: 18px;
-  cursor: pointer;
-  margin: 10px;
-  height: auto; 
-  width: 180px;
-  align-self: flex-start; 
-}
-
-.edit {
-background-color: #FF5353;
-  color: #fff;
-  border: none;
-  padding: 20px;
-  border-radius: 18px;
-  font-size: 2em;
-  margin: 10px;
-  height: 100px; 
-  width: 100px;
-  padding-bottom: 20px;
-}
-
-.price {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 10px 0;
-}
-
-h2 {
-  font-size: 16px;
-  margin: 10px 0;
-}
-
-
-.proInfo .btn {
-  height: 65px; 
-  width: 120px; 
-  margin: 20px;
-  font-size: 20px;
-  border-radius: 18px;
-}
-
-
-h1 {
-            font-size: 30px;
-        }
-
-h5 {
-            font-size: 20px;
-        }
-
-
-
-
-
-.action-container {
+  .product-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-}
+    align-items: center;
+  }
 
-.wishlist-button-container {
+  .btn.btn-primary {
+    background-color: #FF5353;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 18px;
+    cursor: pointer;
+    margin: 10px;
+    height: 60px;
+    width: 120px;
+    font-size: 1.5em;
+  }
+
+  #wishlistButton {
+    background-color: #FF5353;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 18px;
+    cursor: pointer;
+    margin: 10px;
+    height: auto;
+    width: 180px;
+   margin-top: 10px;
+    align-self: flex-start;
+  }
+
+  .edit {
+    background-color: #FF5353;
+    color: #fff;
+    border: none;
+    padding: 20px;
+    border-radius: 18px;
+    font-size: 2em;
+    margin: 10px;
+    height: 100px;
+    width: 100px;
+    padding-bottom: 20px;
+  }
+
+  .price {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  h2 {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+
+  .proInfo .btn {
+    height: 65px;
+    width: 120px;
+    margin: 20px;
+    font-size: 20px;
+    border-radius: 18px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  h5 {
+    font-size: 20px;
+  }
+
+  .action-container {
+    display: flex;
+    justify-content: space between;
+    align-items: flex-start;
+  }
+
+  .wishlist-button-container {
     position: absolute;
     top: 10px; /* Adjust this value to your desired top position */
     right: 10px; /* Adjust this value to your desired right position */
-}
+   
+    padding: 50px;
+  }
 
+  /* Styles from the second <style> section */
+
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  div {
+    margin: 10px;
+  }
+
+  .rating {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 20px; /* Adjust the font size as needed */
+  }
+
+  .rating .fa {
+    margin: 0 5px; /* Adjust the spacing between stars */
+  }
+
+  label {
+    margin-right: 5px;
+  }
+
+  select {
+    padding: 5px;
+  }
+
+  #products-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .product {
+    width: 200px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 5px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav {
+    background-color: #ffffff;
+  }
+
+  nav li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  nav li a {
+    display: block;
+    color: #000000;
+    text-decoration: none;
+    padding: 10px;
+  }
+
+  nav li a:hover {
+    background-color: #ffb9b9;
+  }
+
+  .product-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    text-align: center;
+    width: 1200px;
+  }
+
+  .product-info h1 {
+    font-size: 24px;
+    margin: 0;
+  }
+
+  .product-info p {
+    margin: 10px 0;
+  }
+
+  .price {
+    font-weight: bold;
+  }
+
+  #itemImages {
+    width: 400px;
+  }
+
+  .user {
+    width: 400px;
+  }
+
+  #secondhalf {
+    display: flex;
+    margin: auto;
+  }
 </style>
+
   </head>
 
   <body>
@@ -256,12 +351,12 @@ h5 {
                     <button class="carousel-control-prev" type="button"
                         data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="">Previous</span>
+                        <span class="" style="color:black;">< Previous</span>
                     </button>
                     <button class="carousel-control-next" type="button"
                         data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
                         <span class="carousel-control-next-icon" ariahidden="true"></span>
-                        <span class="">Next</span>
+                        <span class="" style="color:black;">Next ></span>
                     </button>
                 </div>
             </div>
@@ -350,7 +445,7 @@ h5 {
 
                   echo '<a href="' . $href . '" style="text-decoration: none; color: black;">';
                   echo '<div class="user">';
-                  echo '<br>';
+                  
 
                   echo '<h2 style="font-size:20px;font-weight:thin"><img width="70px" src="../image/profile.png">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)'. 
                   '<small>'.
@@ -361,7 +456,7 @@ h5 {
                   
                   echo '<center><h2 style="font-size:20px;font-weight:thin"> <img src="img/location-outline.svg" alt="location" style="width:60px;height:60px;margin-right:20px"> ' . $row["location"] . '</h2></center>';
                   
-                  echo '<br>';
+                  
                   
                   echo '</a>';
               } else {
@@ -369,7 +464,7 @@ h5 {
               }
 
               if ($sessionEmail === $row["email"]) {
-                echo '<br>';
+                
                   echo '<a href="../profile/profile_edit_item.php?id=' . $row["id"] . '" class="edit">Edit</a>';
                   echo '<br>'; 
               } else {
