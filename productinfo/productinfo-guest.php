@@ -9,22 +9,155 @@
     <title>Product Info</title>
     <link rel="stylesheet" href="../home/index.css">
     <link rel="stylesheet" href="bootstrap-5.0.2-dist/css/bootstrap.min.css">
-<style>
-   body {
+   
+   <style>
+  /* Styles from the first <style> section */
+
+  .checked {
+    color: orange;
+  }
+
+  .carousel-inner {
+    background: white; /* Make the carousel background clear */
+  }
+
+  .carousel-item img {
+    width: 600px;
+    height: 400px;
+  }
+
+  .product-info.description {
+    background: transparent; /* Make the description box background clear */
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-left: 50px;
+  }
+
+  .product-info {
+    width: 200px;
+  }
+
+  .itemdetail {
+    background-color: white;
+    width: 800px;
+    height: 400px;
+    margin-top: 40px;
+    margin: auto;
+  }
+
+  .userdetail {
+    
+    background-color: #FFEAEA;
+    width: auto;
+    margin: auto;
+    height: auto;
+    border-radius: 40px;
+    padding: 20px;
+    margin-right: 250px;
+  }
+
+  .product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .btn.btn-primary {
+    background-color: #FF5353;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 18px;
+    cursor: pointer;
+    margin: 10px;
+    height: 60px;
+    width: 120px;
+    font-size: 1.5em;
+  }
+
+  #wishlistButton {
+    background-color: #FF5353;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 18px;
+    cursor: pointer;
+    margin: 10px;
+    height: auto;
+    width: 180px;
+    align-self: flex-start;
+  }
+
+  .edit {
+    background-color: #FF5353;
+    color: #fff;
+    border: none;
+    padding: 20px;
+    border-radius: 18px;
+    font-size: 2em;
+    margin: 10px;
+    height: 100px;
+    width: 100px;
+    padding-bottom: 20px;
+  }
+
+  .price {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  h2 {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+
+  .proInfo .btn {
+    height: 65px;
+    width: 120px;
+    margin: 20px;
+    font-size: 20px;
+    border-radius: 18px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  h5 {
+    font-size: 20px;
+  }
+
+  .action-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .wishlist-button-container {
+    position: absolute;
+    top: 10px; /* Adjust this value to your desired top position */
+    right: 10px; /* Adjust this value to your desired right position */
+  }
+
+  /* Styles from the second <style> section */
+
+  body {
     font-family: Arial, sans-serif;
   }
-  
+
   div {
     margin: 10px;
   }
-  
+
   .rating {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
     font-size: 20px; /* Adjust the font size as needed */
   }
-  
+
   .rating .fa {
     margin: 0 5px; /* Adjust the spacing between stars */
   }
@@ -32,79 +165,77 @@
   label {
     margin-right: 5px;
   }
-  
+
   select {
     padding: 5px;
   }
-  
+
   #products-list {
     display: flex;
     flex-wrap: wrap;
   }
-  
+
   .product {
     width: 200px;
     border: 1px solid #ddd;
     padding: 10px;
     margin: 5px;
   }
-  
+
   ul {
     list-style: none;
     margin: 0;
     padding: 0;
   }
-  
 
   nav {
     background-color: #ffffff;
   }
-  
 
   nav li {
     display: inline-block;
     margin: 0 10px;
   }
-  
+
   nav li a {
     display: block;
     color: #000000;
     text-decoration: none;
     padding: 10px;
   }
-  
+
   nav li a:hover {
     background-color: #ffb9b9;
   }
 
   .product-container {
-    background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-        margin: auto;
-        text-align: center;
-        width: 1200px;
-        background-color: #e4e4e4;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    text-align: center;
+    width: 1200px;
+    
   }
-  
+
   .product-info {
     flex: 1;
     padding: 0 20px;
     align-items: center;
     padding: 20px;
-   width: 100px;
+    width: 100px;
   }
-  
+
   .product-info h1 {
     font-size: 24px;
     margin: 0;
   }
-  
+
   .product-info p {
     margin: 10px 0;
   }
-  
+
   .price {
     font-weight: bold;
   }
@@ -113,16 +244,14 @@
     width: 400px;
   }
 
- .user{
-  width:400px;
- }
-
-  #secondhalf{
-    
-    display: flex;
-
+  .user {
+    width: 400px;
   }
 
+  #secondhalf {
+    display: flex;
+    margin: auto;
+  }
 </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -598,29 +727,37 @@ if (isset($_POST["login"])) {
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="">Previous</span>
+                  <span class="" style="color:black;">< Previous</span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="">Next</span>
+                  <span class="" style="color:black;">Next ></span>
                 </button>
               </div>
           </div>
           </div>
+          <br>
+          <br>
 
         <div id="secondhalf">
-          <div class="product-info description">
-              <h3>Item Name:</h3>
-              <h6 style="text-transform: capitalize"><?php echo $row["name"]; ?></h6>
-              <h3>Price:</h3>
-              <h6>$<?php echo $row["price"]; ?></h6>
-              <h3>Category:</h3>
-              <h6><?php echo $row["category"]; ?></h6>
-              <h3>Description:</h3>
-              <h6><?php echo $row["description"]; ?></h6>
-              <br>
+          <div class="itemdetail">
+              
+                <h1  style="font: size 60px;font-weight:thin"><?php echo $row["name"]; ?></h1>
+                <h1 style="font: size 20px;font-weight:bolder">$<?php echo $row["price"]; ?></h1>
+
+                <br>
+
+                <!-- <h3>Details:</h3>
+                <h6>condition <?php echo $row["item_condition"]; ?></h6>
+                <br> -->
+                
+                <h3>Description:</h3>
+                <br>
+                <h5><?php echo $row["description"]; ?></h5>
+                <br>
             </div>
-     <!-- untuk kan ke page usersprofile -->
+   
+     <center>
      <?php 
   
     $username = $row["username"];
@@ -650,15 +787,23 @@ if (isset($_POST["login"])) {
         }
 
         // Determine the href value based on email comparison        
-        echo '<div class="user">';
+        echo '<div class="userdetail">';
+        echo '<br>';
         if (isset($row['profile_image'])) {
-          echo '<img src="../profile/' .$row['profile_image'] . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+          echo '';
+          echo '<h2 style="font-size:20px;font-weight:thin">'.' <img src="../profile/profileimage/hotwheels.jpg' .$row['profile_image'] . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)'. 
+          '<small>'.
+          generateStarRating($averageRating)
+          .'<small></h2>';
       } else {
-          echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+        echo '<h2 style="font-size:20px;font-weight:thin">'.' <img src="../profile/profileimage/hotwheels.jpg' .$row['profile_image'] . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)'. 
+        '<small>'.
+        generateStarRating($averageRating)
+        .'<small></h2>';
       }
-        echo generateStarRating($averageRating) . ' (' . $totalReviews . ' reviews)';
-        echo '<p>' . $row["username"] . '</p>';
-        echo '<p>' . $row["location"] . '</p>';
+
+        echo '<br>';
+        echo '<h2><img src="img/location-outline.svg" alt="" width="50" height="50">' . $row["location"] . '</h2>';
         
     } else {
         echo '- No reviews available.';
@@ -667,7 +812,7 @@ if (isset($_POST["login"])) {
     echo '</div>';
 
 ?>
-
+</center>
 <script>
   $('#myModal').on('shown.bs.modal', function () {
   $('#myInput').trigger('focus')
