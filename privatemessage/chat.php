@@ -13,7 +13,7 @@ $yourName = $_SESSION['username'];
 <meta charset="UTF-8">
 <title> Message</title>
 <link rel="stylesheet" href="chat.css">
-<script>
+<!-- <script>
 function initMap() {
     var userLocation = { lat: 0, lng: 0 }; // Default coordinates, will be updated when the user shares their location
 
@@ -32,7 +32,7 @@ function initMap() {
 }
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7jZG6lbcD72B5TauLbfM0eoRn313nu6Y&libraries=places&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7jZG6lbcD72B5TauLbfM0eoRn313nu6Y&libraries=places&callback=initMap"></script> -->
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <style>
@@ -84,8 +84,8 @@ function initMap() {
         }
     });
 </script>
-<button id="shareLocationButton" class="btn btn-primary">Share My Location</button>
-<div id="mapContainer" style="width: 100%; height: 400px;"></div>
+<!-- <button id="shareLocationButton" class="btn btn-primary">Share My Location</button>
+<div id="mapContainer" style="width: 100%; height: 400px;"></div> -->
 
 <p></p>
 <?php
