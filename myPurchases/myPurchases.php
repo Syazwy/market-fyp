@@ -152,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['complete-button'])) {
 
                 // Display the "Complete" button with an onclick event to trigger the JavaScript function
                 echo '<br><form method="POST" id="complete-form-' . $itemId . '">';
-                echo '<button class="complete-button" style="width:300px" onclick="confirmMarkCompleted(' . $itemId . ')" name="complete-button" value="' . $itemId . '">Complete</button>';
+                echo '<button class="complete-button" style="width:300px; color:white;" onclick="confirmMarkCompleted(' . $itemId . ')" name="complete-button" value="' . $itemId . '">Complete</button>';
                 echo '</form>';
                 echo '</div>'; // Close the card
             }
@@ -162,6 +162,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['complete-button'])) {
         ?>
     </div> <!-- Close the card-container -->
 </div>
+
 
 
     <!-- closing -->
