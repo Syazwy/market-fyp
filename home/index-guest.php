@@ -4,13 +4,6 @@ require '../connection/connection.php';
 include 'register.php';
 include 'verification.php';
 include 'login.php';
-
-// Check if a message parameter is present in the URL
-if (isset($_GET["message"])) {
-    $message = urldecode($_GET["message"]);
-    // Use JavaScript to display the message as an alert
- 
-}
 ?>
 
 <!DOCTYPE html>
@@ -42,115 +35,6 @@ if (isset($_GET["message"])) {
             </div>
         </div>
     </nav>
-
-    <!-- Login Database -->
-<?php
-$errorMessage = ""; // Initialize an empty error message
-if (isset($_POST["login"])) {
-    $emailOrUsername = $_POST["emailOrUsername"];
-    $password = $_POST["password"];
-    // Check if the input name is "admin"
-    if ($emailOrUsername === "admin") {
-        // Verify the admin password
-        if ($password === "123") {
-            // Set session variables to indicate the user is logged in as admin
-            $_SESSION['member'] = true;
-            $_SESSION['email'] = ""; // Set as needed
-            $_SESSION['username'] = "admin";
-            header("Location: ../admin/admin.php");
-            exit();
-        } else {
-            $errorMessage = "Password is not correct";
-        }
-    } else {
-        // Use prepared statements to prevent SQL injection
-        $sql = "SELECT * FROM account WHERE email = ? OR username = ?";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ss", $emailOrUsername, $emailOrUsername);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        if (mysqli_num_rows($result) == 0) {
-            $errorMessage = "Email or username not found.";
-        } else {
-            $user = mysqli_fetch_object($result);
-            if ($user->status === 'Banned') {
-                // User is banned, display a modal popup with JavaScript
-                echo '<script>
-                $(document).ready(function() {
-                    $("#bannedModal").modal("show");
-                });
-            </script>';
-            } elseif (!password_verify($password, $user->password)) {
-                $errorMessage = "Password is not correct";
-            } elseif ($user->email_verified_at == null) {
-                header("Location: index-guest.php?email=" . urlencode($user->email));
-                exit();
-            } else {
-  // Check membership and date for 'Premium Monthly'
-if ($user->membership === 'Premium Monthly') {
-  // Calculate the date 30 days ago from today
-  $thirtyDaysAgo = date('Y-m-d', strtotime('-30 days'));
-  // Compare the 'date' column in the database with the date 30 days ago
-  if (strtotime($user->subscriptionDate) <= strtotime($thirtyDaysAgo)) {
-      // Update the membership to 'Basic'
-      $updateSql = "UPDATE account SET membership = 'Basic' WHERE email = ?";
-      $updateStmt = mysqli_prepare($conn, $updateSql);
-      mysqli_stmt_bind_param($updateStmt, "s", $user->email);
-      mysqli_stmt_execute($updateStmt);
-  }
-}
-// Check membership and date for 'Premium Annually'
-if ($user->membership === 'Premium Annually') {
-// Calculate the date 365 days ago from today
-$threeHundredSixtyFiveDaysAgo = date('Y-m-d', strtotime('-365 days'));
-// Compare the 'date' column in the database with the date 365 days ago
-if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAgo)) {
-    // Update the membership to 'Basic'
-    $updateSql = "UPDATE account SET membership = 'Basic' WHERE email = ?";
-    $updateStmt = mysqli_prepare($conn, $updateSql);
-    mysqli_stmt_bind_param($updateStmt, "s", $user->email);
-    mysqli_stmt_execute($updateStmt);
-}
-}
-                $_SESSION['member'] = true;
-                $_SESSION['email'] = $user->email;
-                $_SESSION['username'] = $user->username;
-                $_SESSION['id'] = $user->id;
-                header("Location: ../home/index.php");
-                exit();
-            }
-        }
-    }
-}
-?>
-
-    <!-- The Bootstrap Modal for Banned Users -->
-    <div class="modal fade" id="bannedModal" tabindex="-1" role="dialog" aria-labelledby="bannedModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                    <center>
-                <div class="modal-header">
-                    <h5 class="modal-title" id="bannedModalLabel">Account Banned</h5>   
-        </div>
-                    </center>
-                <div class="modal-body">
-        <p>Your account has been banned. You can submit an appeal below:</p>
-        <p></p>
-        <form id="appealForm" method="post" action="process_appeal.php">
-          <input type="hidden" name="username" value="<?php echo $user->username; ?>">
-          <div class="form-group">
-            <label for="appealText">Appeal Message:</label>
-            <textarea class="form-control" id="appealText" name="appeal" rows="4" required></textarea>
-                        </div>
-                        <br>
-          <center>
-          <button type="submit" class="btn btn-primary">Submit Appeal</button>
-          </center>        
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Register Modal -->
     <div class="modal" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
@@ -281,11 +165,11 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item"><a id="property" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Property</a></li>
-            <li class="list-group-item"><a id="vehicle" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Vehicle</a></li>
-            <li class="list-group-item"><a id="furniture" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Furniture</a></li>
-            <li class="list-group-item"><a id="electronic" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Electronic</a></li>
-            <li class="list-group-item"><a id="clothing" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Clothing</a></li>
+            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Property</a></li>
+            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Vehicles</a></li>
+            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Furnitures</a></li>
+            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Electronics</a></li>
+            <li class="list-group-item"><a href="#" class="list-group-item list-group-item-action" style="border:none;">Fashion</a></li>
         </ul>
     </div>
     <div class="search">
@@ -299,42 +183,37 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
             <div class="row row-cols-1 row-cols-md-5 g-4">
                 <div class="col">
                     <div class="card">
-                        <a data-category="Property">
+                        <a href="">
                             <img class="image" src="../image/property.png" alt="">
                         </a>
-                        <p>Property</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
-                        <a data-category="Vehicle">
+                        <a href="">
                             <img class="image" src="../image/vehicle.png" alt="">
                         </a>
-                        <p>Vehicle</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
-                        <a data-category="Furniture">
+                        <a href="">
                             <img class="image" src="../image/furniture.png" alt="">
                         </a>
-                        <p>Furniture</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
-                        <a data-category="Electronic">
+                        <a href="">
                             <img class="image" src="../image/electronic.png" alt="">
                         </a>
-                        <p>Electronic</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
-                        <a data-category="Clothing">
+                        <a href="">
                             <img class="image" src="../image/fashion.png" alt="">
                         </a>
-                        <p>Clothing</p>
                     </div>
                 </div>
             </div>
@@ -369,7 +248,6 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
               $profileResult = $conn->query($profileimage);
               $profileimage = $profileResult->fetch_assoc();
               $sellerimg = isset($profileimage['profile_image']) ? $profileimage['profile_image'] : NULL;
-
               // Calculate time difference in human-readable format
               if ($timeDiff < 60) {
                   $timeAgo = $timeDiff . " seconds ago";
@@ -429,13 +307,12 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
             <!-- Search results will be displayed here -->
         </div>
     </div>
-    
     <!-- JavaScript for handling the search -->
     <script>
         $(document).ready(function() {
             // Function to display search results and toggle item visibility
             function displaySearchResults(query) {
-                var url = "search-guest.php";
+                var url = "search.php";
                 var data = {
                     query: query
                 };
@@ -472,102 +349,6 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
             $("#searchInput").on("input", handleSearchInput);
         });
     </script>
-
-    <!-- JavaScript for handling the category clicks -->
-    <script>
-    $(document).ready(function() {
-        // Function to handle category clicks and filter listings
-        function handleCategoryClick(category) {
-            var url = "category-guest.php";
-            var data = { category: category };
-
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: data,
-                success: function(response) {
-                    // Hide newly listed items
-                    $(".card.item.h-100").hide();
-
-                    // Display category-specific results
-                    $("#searchResults").html(response).show();
-
-                    // Update the section title
-                    $("#sectionTitle").text("Category: " + category);
-                }
-            });
-        }
-
-        // Event handler for category clicks
-        $("#property").click(function() {
-            handleCategoryClick("Property");
-        });
-
-        $("#vehicle").click(function() {
-            handleCategoryClick("Vehicle");
-        });
-
-        $("#furniture").click(function() {
-            handleCategoryClick("Furniture");
-        });
-
-        $("#electronic").click(function() {
-            handleCategoryClick("Electronic");
-        });
-
-        $("#clothing").click(function() {
-            handleCategoryClick("Clothing");
-        });
-
-        // Event handler for category clicks
-        $("a[data-category]").click(function() {
-            var category = $(this).data("category");
-            handleCategoryClick(category);
-        });
-    });
-    </script>
-
-
-<script>
-$(document).ready(function() {
-    // Check if the email parameter is present in the URL
-    var emailParam = "<?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?>";
-    console.log("Email parameter from URL: " + emailParam);
-
-    // Check if emailParam is not empty before showing the modal
-    if (emailParam) {
-        $("#verificationModal").modal("show"); // Show the verification modal
-    }
-});
-</script>
-
-<script>
-    // Function to check the URL parameters
-    function getURLParameter(name) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(name);
-    }
-
-    // Check if the 'verified' parameter is set to 1
-    const verifiedParam = getURLParameter('verified');
-    if (verifiedParam === '1') {
-        $(document).ready(function() {
-            $("#verifiedModal").modal("show"); // Show the 'verifiedModal'
-        });
-    }
-</script>
-
-    <script type="text/javascript">
-        // Check if a message parameter is present in the URL
-        if (window.location.search.indexOf('message') > -1) {
-            var message = decodeURIComponent(window.location.search.split('message=')[1].replace(/\+/g, ' '));
-            alert(message);
-            // Clear the message parameter from the URL
-            var newURL = window.location.href.replace(/\?message=.*$/, "");
-            history.replaceState(null, document.title, newURL);
-        }
-    </script>
-
     <script>
         $(document).ready(function() {
             // Handle the click event on the "Sell" link
