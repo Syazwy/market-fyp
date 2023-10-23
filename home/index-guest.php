@@ -444,6 +444,7 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
                                     </small>
                                 </div>
                             </div>
+                            <br>
                         </div>
                         <a href="../productinfo/productinfo-guest.php?id=<?php echo $row["id"]; ?>">
                             <img src="../sellers/upload/<?php echo $item_image; ?>" class="card-img-top" width="150px" height="150px">
