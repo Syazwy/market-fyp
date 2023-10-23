@@ -99,32 +99,31 @@ mysqli_free_result($result);
 
     <ul class="list-group list-group-flush" style="background-color: #ffd7d7;">
         <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="property" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
-                <h6><img class="image imagecat" src="../image/property.png" alt="" style="width: 60px;height:40px;margin-bottom:20px;margin-right:90px;"> Property
-                </h6></a>
+                <h5><img class="image imagecat" src="../image/property.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Property
+                </h5></a>
         </li>
 
         <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="vehicle" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
-                <h6><img class="image imagecat" src="../image/vehicle.png" alt="" style="width: 60px;height:60px;margin-bottom:20px;margin-right:90px;"> Vehicle
-                </h6></a>
+                <h5><img class="image imagecat" src="../image/vehicle.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Vehicle
+                </h5></a>
         </li>
 
         <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="furniture" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
-                <h6><img class="image imagecat" src="../image/furniture.png" alt="" style="width: 60px;height:60px;margin-bottom:20px;margin-right:90px;"> Furniture
-                </h6></a>
+                <h5><img class="image imagecat" src="../image/furniture.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Furniture
+                </h5></a>
         </li>
 
         <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="electronic" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
-                <h6><img class="image imagecat" src="../image/electronic.png" alt="" style="width: 60px;height:60px;margin-bottom:20px;margin-right:90px;"> Electronic
-                </h6></a>
+                <h5><img class="image imagecat" src="../image/electronic.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Electronic
+                </h5></a>
         </li>
 
         <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="clothing" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
-                <h6>
-                    <img class="image imagecat" src="../image/fashion.png" alt="" style="width: 60px;height:60px;margin-bottom:20px;margin-right:90px;"> Clothing
-                </h6></a>
+                <h5>
+                    <img class="image imagecat" src="../image/fashion.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Clothing
+                </h5></a>
         </li>
     </ul>
-    <br>
 </div>
 
 
@@ -258,7 +257,6 @@ mysqli_free_result($result);
                                 </small>
                             </div>
                         </div>
-                        <br>
                     </div>
                     <a href="../productinfo/productinfo.php?id=<?php echo $row["id"]; ?>">
                         <img src="../sellers/upload/<?php echo $item_image; ?>" class="card-img-top" width="150px" height="150px">
