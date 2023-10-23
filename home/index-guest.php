@@ -265,6 +265,7 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
             </div>
         </div>
     </div>
+
     <!-- Sell Modal -->
     <div class="modal fade" id="sellModal" tabindex="-1" aria-labelledby="sellModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -275,19 +276,51 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
             </div>
         </div>
     </div>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasRightLabel">All Categories</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><a id="property" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Property</a></li>
-            <li class="list-group-item"><a id="vehicle" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Vehicle</a></li>
-            <li class="list-group-item"><a id="furniture" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Furniture</a></li>
-            <li class="list-group-item"><a id="electronic" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Electronic</a></li>
-            <li class="list-group-item"><a id="clothing" class="list-group-item list-group-item-action" style="border:none;" data-bs-dismiss="offcanvas">Clothing</a></li>
-        </ul>
+
+<!-- Categories -->
+<div class="offcanvas offcanvas-end catcol" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="background-color: #ffd7d7; padding: 20px;">
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title" id="offcanvasRightLabel"><b>All Categories</b></h4>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
+
+    <!-- Search Bar and Button -->
+    <div>
+        <center>
+            <input class="sidesearchbar" type="text" id="searchInput" placeholder="Search for anything" style="width: 100%; padding: 10px;">
+        </center>
+    </div>
+
+    <ul class="list-group list-group-flush" style="background-color: #ffd7d7;">
+        <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="property" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
+                <h5><img class="image imagecat" src="../image/property.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Property
+                </h5></a>
+        </li>
+
+        <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="vehicle" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
+                <h5><img class="image imagecat" src="../image/vehicle.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Vehicle
+                </h5></a>
+        </li>
+
+        <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="furniture" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
+                <h5><img class="image imagecat" src="../image/furniture.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Furniture
+                </h5></a>
+        </li>
+
+        <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="electronic" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
+                <h5><img class="image imagecat" src="../image/electronic.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Electronic
+                </h5></a>
+        </li>
+
+        <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="clothing" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
+                <h5>
+                    <img class="image imagecat" src="../image/fashion.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Clothing
+                </h5></a>
+        </li>
+    </ul>
+</div>
+
+    <!-- SEARCH INPUT -->
     <div class="search">
         <input class="searchbar" type="text" id="searchInput" placeholder="Search for anything" style="padding-left: 20px;">
     </div>
