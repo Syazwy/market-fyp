@@ -447,7 +447,7 @@ if ($result) {
                   echo '<div class="user">';
                   
 
-                  echo '<h2 style="font-size:20px;font-weight:thin"><img width="70px" src="../image/profile.png">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)'. 
+                  echo '<h2 style="font-size:20px;font-weight:thin"><img width="70px" height="auto" src="img/wajdi.jpg" style="border-radius:50%;">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)'. 
                   '<small>'.
                   generateStarRating($averageRating)
                   .'<small></h2>';
@@ -464,8 +464,10 @@ if ($result) {
               }
 
               if ($sessionEmail === $row["email"]) {
-                
+                echo '<br>';
+                echo '<br>'; 
                   echo '<a href="../profile/profile_edit_item.php?id=' . $row["id"] . '" class="edit">Edit</a>';
+                  echo '<br>'; 
                   echo '<br>'; 
               } else {
                   echo '<br>';
