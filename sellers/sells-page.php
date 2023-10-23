@@ -325,7 +325,7 @@ mysqli_stmt_close($stmt);
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
-                    <input type="text" class="form-control" name="price" id="price" placeholder="" required>
+                    <input type="number" class="form-control" name="price" id="price" placeholder="" required>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
