@@ -114,9 +114,10 @@ if ($result) {
 
 <div class="box" id="wishlistbox" style="display: block;">
 
+<br>
 <br>  
-  <h3>My Wishlist</h3>
-
+  <h2>My Wishlist</h2>
+  <br>
       <!-- to show the wishlist items in database  -->
 
       <?php
@@ -135,10 +136,13 @@ if ($result->num_rows > 0) {
         echo '
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">' . $row['name'] . ' || ' . $row['item_condition'] . '</h5>
-                    <p class="card-text">Price: $' . $row['price'] . '</p>
-                    <p class="card-text">' . $row['category'] . ' - ' . $row['description'] . '</p>
+                    <h4 class="card-title">' . $row['name'] .'</h4>
+                    <br>
+                    <h5 class="card-text">Price: $' . $row['price'] . '</h5>
+                    <br>
+                    <p class="card-text" style="font-size:20px;">' . $row['category'] . ' - ' . $row['description'] . '</p>
                     <div class="float-right">
+                    <br>
                         <button class="btn btn-danger" onclick="removeFromWishlist(' . $row['id'] . ')">Remove</button>
                         <button class="btn btn-success" onclick="payment(' . $row['item_id'] . ')">Buy</button>
                     </div>
