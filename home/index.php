@@ -99,7 +99,7 @@ mysqli_free_result($result);
 
     <ul class="list-group list-group-flush" style="background-color: #ffd7d7;">
         <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="property" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
-                <h6><img class="image imagecat" src="../image/property.png" alt="" style="width: 60px;height:40px;margin-bottom:20px;margin-right:90px;"> Property
+                <h6><img class="image imagecat" src="../image/property.png" alt="" style="width: 60px;height:60px;margin-bottom:20px;margin-right:90px;"> Property
                 </h6></a>
         </li>
 

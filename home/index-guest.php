@@ -293,32 +293,34 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
 
     <ul class="list-group list-group-flush" style="background-color: #ffd7d7;">
         <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="property" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
-                <h5><img class="image imagecat" src="../image/property.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Property
-                </h5></a>
+                <h6><img class="image imagecat" src="../image/property.png" alt="" style="width: 60px;height:60px;margin-bottom:20px;margin-right:90px;"> Property
+                </h6></a>
         </li>
 
         <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="vehicle" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
-                <h5><img class="image imagecat" src="../image/vehicle.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Vehicle
-                </h5></a>
+                <h6><img class="image imagecat" src="../image/vehicle.png" alt="" style="width: 60px;height:60px;margin-bottom:20px;margin-right:90px;"> Vehicle
+                </h6></a>
         </li>
 
         <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="furniture" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
-                <h5><img class="image imagecat" src="../image/furniture.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Furniture
-                </h5></a>
+                <h6><img class="image imagecat" src="../image/furniture.png" alt="" style="width: 60px;height:60px;margin-bottom:20px;margin-right:90px;"> Furniture
+                </h6></a>
         </li>
 
         <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="electronic" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
-                <h5><img class="image imagecat" src="../image/electronic.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Electronic
-                </h5></a>
+                <h6><img class="image imagecat" src="../image/electronic.png" alt="" style="width: 60px;height:60px;margin-bottom:20px;margin-right:90px;"> Electronic
+                </h6></a>
         </li>
 
         <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="clothing" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
-                <h5>
-                    <img class="image imagecat" src="../image/fashion.png" alt="" style="width: 60px;height:60px;margin-bottom:30px;margin-right:90px;"> Clothing
-                </h5></a>
+                <h6>
+                    <img class="image imagecat" src="../image/fashion.png" alt="" style="width: 60px;height:60px;margin-bottom:20px;margin-right:90px;"> Clothing
+                </h6></a>
         </li>
     </ul>
+    <br>
 </div>
+
 
     <!-- SEARCH INPUT -->
     <div class="search">
