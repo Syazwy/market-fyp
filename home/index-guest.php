@@ -4,7 +4,7 @@ require '../connection/connection.php';
 include 'register.php';
 include 'verification.php';
 include 'login.php';
-include 'forgot.php';
+// include 'forgot.php';
 
 // Check if a message parameter is present in the URL
 if (isset($_GET["message"])) {
