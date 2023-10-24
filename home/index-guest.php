@@ -4,6 +4,7 @@ require '../connection/connection.php';
 include 'register.php';
 include 'verification.php';
 include 'login.php';
+include 'forgot.php';
 
 // Check if a message parameter is present in the URL
 if (isset($_GET["message"])) {
@@ -42,87 +43,6 @@ if (isset($_GET["message"])) {
             </div>
         </div>
     </nav>
-
-    <!-- Login Database -->
-<?php
-$errorMessage = ""; // Initialize an empty error message
-if (isset($_POST["login"])) {
-    $emailOrUsername = $_POST["emailOrUsername"];
-    $password = $_POST["password"];
-    // Check if the input name is "admin"
-    if ($emailOrUsername === "admin") {
-        // Verify the admin password
-        if ($password === "123") {
-            // Set session variables to indicate the user is logged in as admin
-            $_SESSION['member'] = true;
-            $_SESSION['email'] = ""; // Set as needed
-            $_SESSION['username'] = "admin";
-            header("Location: ../admin/admin.php");
-            exit();
-        } else {
-            $errorMessage = "Password is not correct";
-        }
-    } else {
-        // Use prepared statements to prevent SQL injection
-        $sql = "SELECT * FROM account WHERE email = ? OR username = ?";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ss", $emailOrUsername, $emailOrUsername);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        if (mysqli_num_rows($result) == 0) {
-            $errorMessage = "Email or username not found.";
-        } else {
-            $user = mysqli_fetch_object($result);
-            if ($user->status === 'Banned') {
-                // User is banned, display a modal popup with JavaScript
-                echo '<script>
-                $(document).ready(function() {
-                    $("#bannedModal").modal("show");
-                });
-            </script>';
-            } elseif (!password_verify($password, $user->password)) {
-                $errorMessage = "Password is not correct";
-            } elseif ($user->email_verified_at == null) {
-                header("Location: index-guest.php?email=" . urlencode($user->email));
-                exit();
-            } else {
-  // Check membership and date for 'Premium Monthly'
-if ($user->membership === 'Premium Monthly') {
-  // Calculate the date 30 days ago from today
-  $thirtyDaysAgo = date('Y-m-d', strtotime('-30 days'));
-  // Compare the 'date' column in the database with the date 30 days ago
-  if (strtotime($user->subscriptionDate) <= strtotime($thirtyDaysAgo)) {
-      // Update the membership to 'Basic'
-      $updateSql = "UPDATE account SET membership = 'Basic' WHERE email = ?";
-      $updateStmt = mysqli_prepare($conn, $updateSql);
-      mysqli_stmt_bind_param($updateStmt, "s", $user->email);
-      mysqli_stmt_execute($updateStmt);
-  }
-}
-// Check membership and date for 'Premium Annually'
-if ($user->membership === 'Premium Annually') {
-// Calculate the date 365 days ago from today
-$threeHundredSixtyFiveDaysAgo = date('Y-m-d', strtotime('-365 days'));
-// Compare the 'date' column in the database with the date 365 days ago
-if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAgo)) {
-    // Update the membership to 'Basic'
-    $updateSql = "UPDATE account SET membership = 'Basic' WHERE email = ?";
-    $updateStmt = mysqli_prepare($conn, $updateSql);
-    mysqli_stmt_bind_param($updateStmt, "s", $user->email);
-    mysqli_stmt_execute($updateStmt);
-}
-}
-                $_SESSION['member'] = true;
-                $_SESSION['email'] = $user->email;
-                $_SESSION['username'] = $user->username;
-                $_SESSION['id'] = $user->id;
-                header("Location: ../home/index.php");
-                exit();
-            }
-        }
-    }
-}
-?>
 
     <!-- The Bootstrap Modal for Banned Users -->
     <div class="modal fade" id="bannedModal" tabindex="-1" role="dialog" aria-labelledby="bannedModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -220,6 +140,7 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
             </div>
         </div>
     </div>
+
     <!-- Verified modal -->
     <div class="modal fade" id="verifiedModal" tabindex="-1" role="dialog" aria-labelledby="verifiedModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -235,6 +156,7 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
             </div>
         </div>
     </div>
+
     <!-- Login Modal -->
     <div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -314,14 +236,15 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
     <br>
 </div>
 
-
     <!-- SEARCH INPUT -->
     <div class="search">
         <input class="searchbar" type="text" id="searchInput" placeholder="Search for anything" style="padding-left: 20px;">
     </div>
+
     <div>
         <h4>What would you like to find?</h4>
     </div>
+
     <center>
         <div class="container">
             <div class="row row-cols-1 row-cols-md-5 g-4">
@@ -368,10 +291,12 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
             </div>
         </div>
     </center>
+
     <div>
         <br>
         <h4 id="sectionTitle">Newly Listed</h4>
     </div>
+
     <div class="container">
         <div class="row row-cols-1 row-cols-md-5 g-4">
           <?php
@@ -452,6 +377,7 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
                 </div>
             <?php endwhile;  ?>
         </div>
+
         <!-- Search Results Section -->
         <div id="searchResults" class="row row-cols-1 row-cols-md-5 g-4">
             <!-- Search results will be displayed here -->
@@ -555,7 +481,6 @@ if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAg
     });
     </script>
 
-
 <script>
 $(document).ready(function() {
     // Check if the email parameter is present in the URL
@@ -606,11 +531,15 @@ $(document).ready(function() {
             });
         });
     </script>
+
     <?php if (!empty($errorMessage)) : ?>
+
         <script>
             alert("<?php echo $errorMessage; ?>");
         </script>
+
     <?php endif; ?>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
