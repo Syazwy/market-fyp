@@ -86,17 +86,17 @@ try {
     $mailUser->Port = 587;
 
     $mailUser->setFrom('admin.market@gmail.com', 'MarketBN');
-    $mailUser->addAddress($usersemail);
+    $mailUser->addAddress($email);
 
     // Construct the email body with a different message
-    $sellerEmail->Subject = 'New Order Notification';
-    $sellerEmail->Body = "You have a new order for your item.<br><br>";
-    $sellerEmail->Body .= "Order details:<br>";
-    $sellerEmail->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
-    $sellerEmail->Body .= "Item Name: <b>" . $itemname . "</b><br>";
-    $sellerEmail->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
-    $sellerEmail->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
-    $sellerEmail->Body .= "Total: $<b>" . $total . "</b><br>";
+    $mailUser->Subject = 'Receipt Number: ' . $receiptNumber;
+    $mailUser->Body = "Thank you for your order,<br><br>";
+    $mailUser->Body .= "Here is your order details:<br>";
+    $mailUser->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
+    $mailUser->Body .= "Item Name: <b>" . $itemname . "</b><br>";
+    $mailUser->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
+    $mailUser->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
+    $mailUser->Body .= "Total: $<b>" . $total . "</b><br>";
 
     $mailUser->isHTML(true);
 
@@ -124,17 +124,19 @@ try {
     $sellerEmail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $sellerEmail->Port = 587;
     $sellerEmail->setFrom('admin.market@gmail.com', 'MarketBN');
-    $sellerEmail->addAddress($email);
+    $sellerEmail->addAddress($usersemail);
 
     // Construct the email body for the seller
     $sellerEmail->Subject = 'New Order Notification';
     $sellerEmail->Body = "You have a new order for your item.<br><br>";
-    $sellerEmail->Body .= "Order details:<br>";
+    $sellerEmail->Body .= "Here is your order details:<br>";
     $sellerEmail->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
     $sellerEmail->Body .= "Item Name: <b>" . $itemname . "</b><br>";
     $sellerEmail->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
     $sellerEmail->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
     $sellerEmail->Body .= "Total: $<b>" . $total . "</b><br>";
+    $sellerEmail->Body .= "Bought by: <b>" . $email . "</b><br>";
+  
 
 // Set the email content type to HTML
 $sellerEmail->isHTML(true);

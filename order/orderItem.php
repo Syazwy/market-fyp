@@ -320,10 +320,10 @@ console.log("Postal Code:", postalCodeInput.value.trim());
   const id = <?php echo $id; ?>;
   if (paymentMethod.id === 'paypal') {
     // Redirect to PayPal payment page with all parameters
-    window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}&District=${districtInput.value}&City=${cityInput.value}&StreetAddress=${streetAddressInput.value}&PostalCode=${postalCodeInput.value}`;
+    window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}&District=${districtInput.value}&City=${cityInput.value}&StreetAddress=${streetAddressInput.value}&PostalCode=${postalCodeInput.value}`;
   } else if (paymentMethod.id === 'cash') {
     // Redirect to Cash payment page with all parameters
-    window.location.href = `orderCompleted1.php?id=${id}&price=<?php echo $total; ?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}&District=${districtInput.value}&City=${cityInput.value}&StreetAddress=${streetAddressInput.value}&PostalCode=${postalCodeInput.value}`;
+    window.location.href = `orderCompleted1.php?id=${id}&price=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}&District=${districtInput.value}&City=${cityInput.value}&StreetAddress=${streetAddressInput.value}&PostalCode=${postalCodeInput.value}`;
   }
 } else {
   alert("Please select both payment and delivery methods before confirming delivery.");
@@ -382,7 +382,7 @@ console.log("Postal Code:", postalCodeInput.value.trim());
           window.location.href = `orderHalfwayCompleted.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
         } else if (paymentMethod.id === 'paypal') {
           // Redirect to a page for PayPal payment with pickup
-         window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
+         window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
         } else {
           alert("Invalid payment method selected.");
         }
