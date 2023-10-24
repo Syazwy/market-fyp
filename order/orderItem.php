@@ -184,7 +184,7 @@ $total = $price + $delivery;
 
         <div>
             <input type="radio" class="btn-check" name="deliveryMethod" id="pickUp" autocomplete="off">
-            <label class="btn btn-outline-secondary" for="pickUp">Pick-up</label>
+            <label class="btn btn-outline-primary" for="pickUp">Pick-up</label>
         </div>
         <p style="color:#8F8F8F">Chat with the seller to get address</p>
         <br>
@@ -192,7 +192,7 @@ $total = $price + $delivery;
         <div>
             <h4>Payment Method</h4>
             <input type="radio" class="btn-check" name="paymentMethod" id="paypal" autocomplete="off">
-            <label class="btn btn-outline-primary" for="paypal">Paypal</label>
+            <label class="btn btn-outline-secondary" for="paypal">Paypal</label>
         </div>
         <p style="color:#8F8F8F">Pay using PayPal directly to user</p>
 
@@ -331,7 +331,6 @@ console.log("Postal Code:", postalCodeInput.value.trim());
 
 }
 
-
   // Attach an event listener to each input field to enable/disable the Confirm button
   districtInput.addEventListener('input', function () {
     confirmDeliveryButton.disabled = !areAllFieldsFilled();
@@ -382,7 +381,7 @@ console.log("Postal Code:", postalCodeInput.value.trim());
           window.location.href = `orderHalfwayCompleted.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
         } else if (paymentMethod.id === 'paypal') {
           // Redirect to a page for PayPal payment with pickup
-         window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
+         window.location.href = `../payment/itemPaypal2.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
         } else {
           alert("Invalid payment method selected.");
         }
