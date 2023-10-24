@@ -426,74 +426,64 @@ if ($result) {
             <div class=" userdetail">
                 <center>
                 <?php
-    $username = $row["username"];
-    
-    if ($conn->connect_error) {
-        die('Connection Failed: ' . $conn->connect_error);
-    }
+              $sessionEmail = $_SESSION['email'];
+              $username = $row["username"];
 
-    $reviewResult = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$username'");
+              $reviewResult = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$username'");
 
-    if ($reviewResult->num_rows > 0) {
-        $reviewRow = $reviewResult->fetch_assoc();
-        $averageRating = $reviewRow['avg_rating'];
-        $totalReviews = $reviewRow['total_reviews'];
+              if ($reviewResult->num_rows > 0) {
+                  $reviewRow = $reviewResult->fetch_assoc();
+                  $averageRating = $reviewRow['avg_rating'] ?? 0;
+                  $totalReviews = $reviewRow['total_reviews'];
 
-        // Function to generate star rating based on the average rating
-        function generateStarRating($rating) {
-            $output = '';
-            for ($i = 1; $i <= 5; $i++) {
-                if (isset($rating) && $i <= ceil($rating)) {
-                    $output .= '<i class="fa fa-star checked"></i>';
-                } else {
-                    $output .= '<i class="fa fa-star"></i>';
-                }
-            }
-            return $output;
-        }
+                  function generateStarRating($rating) {
+                      $output = '';
+                      for ($i = 1; $i <= 5; $i++) {
+                          if ($i <= ceil($rating)) {
+                              $output .= '<i class="fa fa-star checked"></i>';
+                          } else {
+                              $output .= '<i class="fa fa-star"></i>';
+                          }
+                      }
+                      return $output;
+                  }
 
-        echo '<div class="userdetail">';
-        echo '<br>';
+                  $href = ($row["email"] === $sessionEmail) ? '../profile/myProfile.php' : "../profile/usersprofile.php?email={$row["email"]}&username={$row["username"]}";
 
-        $sellerimg = isset($row['profile_image']) ? $row['profile_image'] : null;
-        
-        if (isset($sellerimg) && $sellerimg != null) {
-            echo '<h2 style="font-size:20px;font-weight:thin"><img src="../profile/' . $sellerimg . '" width="60px" height="60px" class="profile rounded-circle" alt="Profile Picture" >' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)' .
-                '<small>' .
-                generateStarRating($averageRating) .
-                '<small></h2>';
-        } else {
-            echo '<h2 style="font-size:20px;font-weight:thin"><img src="../image/profile.png" width="70px" height="auto" class="profile rounded-circle" alt="Profile Picture">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)' .
-                '<small>' .
-                generateStarRating($averageRating) .
-                '<small></h2>';
-        }
+                  echo '<a href="' . $href . '" style="text-decoration: none; color: black;">';
+                  echo '<div class="user">';
 
-        echo '<br>';
-        echo '<h2 style="font-size:20px;font-weight:thin"><img src="img/location-outline.svg" alt="" style="width:60px;height:60px;margin-right:20px">' . $row["location"] . '</h2>';
-        echo '<br>';
+                  echo '<h2 style="font-size:20px;font-weight:thin">';
+                  if (isset($row['profile_image']) && $row['profile_image'] != null) {
+                      echo '<img src="../profile/' . $row['profile_image'] . '" width="60px" height="60px" class="profile rounded-circle" alt="Profile Picture">';
+                  } else {
+                      echo '<img src="../image/profile.png" width="60px" height="60px" class="profile rounded-circle" alt="Profile Picture">';
+                  }
+                  echo ' ' . $row["username"] . ' (' . $totalReviews . ' reviews)' . '<small>' . generateStarRating($averageRating) . '</small></h2>';
 
+                  echo '<br>';
 
-    echo '</a>';
-  } else {
-      echo '- No reviews available.';
-  }
+                  echo '</a>';
 
-  if ($sessionEmail === $row["email"]) {
-    echo '<br>';
-    echo '<br>'; 
-      echo '<a href="../profile/profile_edit_item.php?id=' . $row["id"] . '" class="edit">Edit</a>';
-      echo '<br>'; 
-      echo '<br>'; 
-  } else {
-      echo '<br>';
-      echo '<button type="button" class="btn btn-primary" id="chatButton" onclick="chat()">Chat</button>';
-      echo '<button type="button" class="btn btn-primary" id="buyButton" onclick="buy()">Buy</button>';
-      echo '<br>';
-  }
+                  echo '<center><h2 style="font-size:20px;font-weight:thin"> <img src="img/location-outline.svg" alt="location" style="width:60px;height:60px;margin-right:20px"> ' . $row["location"] . '</h2></center>';
+              } else {
+                  echo '- No reviews available.';
+              }
 
-    echo '</div>';
-?>
+              if ($sessionEmail === $row["email"]) {
+                echo '<br>';
+                echo '<br>'; 
+                  echo '<a href="../profile/profile_edit_item.php?id=' . $row["id"] . '" class="edit">Edit</a>';
+                  echo '<br>'; 
+                  echo '<br>'; 
+              } else {
+                  echo '<br>';
+                  echo '<button type="button" class="btn btn-primary" id="chatButton" onclick="chat()">Chat</button>';
+                  echo '<button type="button" class="btn btn-primary" id="buyButton" onclick="buy()">Buy</button>';
+              }
+              echo '</div>';
+              ?>
+
               </center>
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
