@@ -90,13 +90,6 @@ mysqli_free_result($result);
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
 
-    <!-- Search Bar and Button -->
-    <div>
-        <center>
-            <input class="sidesearchbar" type="text" id="searchInput" placeholder="Search for anything" style="width: 100%; padding: 10px;">
-        </center>
-    </div>
-
     <ul class="list-group list-group-flush" style="background-color: #ffd7d7;">
         <li class="list-group-item" style="background-color: #ffd7d7; border: none;"><a id="property" class="list-group-item list-group-item-action" style="border: none; background-color: #ffd7d7" data-bs-dismiss="offcanvas">
                 <h6><img class="image imagecat" src="../image/property.png" alt="" style="width: 60px;height:60px;margin-bottom:20px;margin-right:90px;"> Property
