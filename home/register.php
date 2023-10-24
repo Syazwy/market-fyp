@@ -81,14 +81,17 @@ if (isset($_POST["register"])) {
         exit;
     }
 
-    // Insert new user into database
-    $currentDateTime = new DateTime();
-    $date = $currentDateTime->format('Y-m-d');
-    $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
-
-    $wishlist_count = 0; // or some other default value
-    $insertSql = "INSERT INTO account(username, email, password, membership, subscriptionDate, date, verification_code, email_verified_at, status, wishlist_count) VALUES (?, ?, ?, 'Basic', ?, ?, ?, NULL, 'Active', ?)";
-    $insertStmt = mysqli_prepare($conn, $insertSql);
+      // Insert new user into the database
+      $currentDateTime = new DateTime();
+      $date = $currentDateTime->format('Y-m-d');
+      $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+  
+      $wishlist_count = 0; // or some other default value
+      $membership = "Basic"; // Define membership
+  
+      $insertSql = "INSERT INTO account(username, email, password, membership, subscriptionDate, date, verification_code, email_verified_at, status, wishlist_count) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, 'Active', ?)";
+      $insertStmt = mysqli_prepare($conn, $insertSql);
+  
     
     if ($insertStmt) {
         mysqli_stmt_bind_param($insertStmt, "sssssssi", $username, $email, $encrypted_password, $membership, $date, $date, $verification_code, $wishlist_count);
