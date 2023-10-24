@@ -86,7 +86,7 @@ try {
     $mailUser->Port = 587;
 
     $mailUser->setFrom('admin.market@gmail.com', 'MarketBN');
-    $mailUser->addAddress();
+    $mailUser->addAddress($usersemail);
 
     // Construct the email body with a different message
     $sellerEmail->Subject = 'New Order Notification';
