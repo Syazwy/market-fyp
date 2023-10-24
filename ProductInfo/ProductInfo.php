@@ -1,6 +1,7 @@
 <?php
   require_once("../session/session.php");
   $sessionEmail = $_SESSION['email'];
+  $myUsername = $_SESSION['username'];
   require '../connection/connection.php';
 
   $query = "SELECT * FROM account WHERE email = '$sessionEmail'";
@@ -281,10 +282,13 @@ if ($result) {
             <div class="collapse navbar-collapse justify-content-center">
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="../wishlist/wishlist.php">Wishlist</a></li>
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php">Sell</a></li>
                 </ul>
             </div>
+
+            <?php echo "Hello,&nbsp<b style=\"text-transform: capitalize;\"> " . $myUsername . "</b>"; ?>
+        
 
             <div class="dropdown">
                 <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
@@ -384,8 +388,9 @@ if ($result) {
                 <h5><?php echo $row["description"]; ?></h5>
                 <div class="wishlist-button-container">
                 <button type="button"
-                    id="wishlistButton" <?php echo ($sessionEmail === $row['email']) ? 'style="display: none;"' : ''; ?>
-                    onclick="wishlist()">Add to wishlist</button></div>
+        id="wishlistButton" <?php echo ($sessionEmail === $row['email']) ? 'style="display: none;"' : ''; ?>
+        onclick="confirmAddToWishlist()">Add to wishlist</button></div>
+
 
                     
             <div class="wishlist-button-container">
@@ -518,7 +523,14 @@ if ($result) {
             </script>
 
             <script>
+  function confirmAddToWishlist() {
+        if (confirm("Are you sure you want to add this item to your wishlist?")) {
+            // Call the wishlist function if the user confirms
+            addToWishlist();
+        }
+    }
                 function wishlist() {
+                   
                     var username = "<?php echo $row['username']; ?>";
                     var id = "<?php echo $row['id']; ?>";
                     var description = "<?php echo $row['description']; ?>";
@@ -536,7 +548,8 @@ if ($result) {
                         '&item_condition=' + encodeURIComponent(condition);
 
                     window.location.href = url;
-                }
+                    }
+                
             </script>
     </div>
 

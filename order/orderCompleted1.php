@@ -12,7 +12,7 @@ require_once("../session/session.php");
 require '../connection/connection.php';
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
-
+$usersemail = $_GET['usersemail'];
 
 $id = $_GET['id'];
 $total = $_GET['price'];
@@ -23,7 +23,7 @@ $sql = "SELECT name FROM itemslisting WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $id); 
 $stmt->execute();
-$stmt->bind_result($name);
+$stmt->bind_result($itemname);
 
 // Fetch the result
 if ($stmt->fetch()) {
@@ -55,6 +55,61 @@ if ($result) {
     $profileimage = $row['profile_image'];
    }
 }
+
+// Generate a random receipt number
+$receiptNumber = mt_rand(100000, 999999);
+
+// ----------------------
+$mailUser = new PHPMailer(true);
+try {
+    // Enable verbose debug output for the $mailUser instance
+    $mailUser->SMTPDebug = 0; // SMTP::DEBUG_SERVER;
+
+    // Send using SMTP
+    $mailUser->isSMTP();
+
+    // Set the SMTP server to send through (e.g., Gmail)
+    $mailUser->Host = 'smtp.gmail.com';
+
+    // Enable SMTP authentication
+    $mailUser->SMTPAuth = true;
+
+    // SMTP username (replace with your Gmail email address)
+    $mailUser->Username = 'market51bn@gmail.com';
+
+    // SMTP password (replace with your Gmail password)
+    $mailUser->Password = 'ixcnouumjkoxtcvs';
+
+    // Enable TLS encryption;
+    $mailUser->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+
+    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+    $mailUser->Port = 587;
+
+    $mailUser->setFrom('admin.market@gmail.com', 'MarketBN');
+    $mailUser->addAddress($usersemail);
+
+    // Construct the email body with a different message
+    $sellerEmail->Subject = 'New Order Notification';
+    $sellerEmail->Body = "You have a new order for your item.<br><br>";
+    $sellerEmail->Body .= "Order details:<br>";
+    $sellerEmail->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
+    $sellerEmail->Body .= "Item Name: <b>" . $itemname . "</b><br>";
+    $sellerEmail->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
+    $sellerEmail->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
+    $sellerEmail->Body .= "Total: $<b>" . $total . "</b><br>";
+
+    $mailUser->isHTML(true);
+
+    // Send the confirmation email to the user
+    $mailUser->send();
+    
+} catch (Exception $e) {
+    echo "Confirmation Email could not be sent to the user. Error: " . $mailUser->ErrorInfo;
+}
+
+// ----------------------------
+
 
 // Send an email using PHPMailer
 $mail = new PHPMailer(true);
@@ -90,15 +145,13 @@ try {
     // Set email format to HTML
     $mail->isHTML(true);
 
-// Generate a random receipt number
-$receiptNumber = mt_rand(100000, 999999);
 
 // Construct the email body with HTML line breaks
 $mail->Subject = 'Receipt Number: ' . $receiptNumber;
 $mail->Body = "Thank you for your order,<br><br>";
 $mail->Body .= "Here is your order details:<br>";
 $mail->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
-$mail->Body .= "Item Name: <b>" . $name . "</b><br>";
+$mail->Body .= "Item Name: <b>" . $itemname . "</b><br>";
 $mail->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
 $mail->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
 $mail->Body .= "Total: $<b>" . $total . "</b><br>";
@@ -106,9 +159,6 @@ $mail->Body .= "Total: $<b>" . $total . "</b><br>";
 // Set the email content type to HTML
 $mail->isHTML(true);
 
-// The rest of your email sending code remains the same
-
-// The rest of your email sending code remains the same
 
     $mail->send();
     

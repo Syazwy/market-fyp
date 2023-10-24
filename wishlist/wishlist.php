@@ -47,6 +47,9 @@ if ($result) {
     </ul>
     </div>
 
+    <?php echo "Hello,&nbsp<b style=\"text-transform: capitalize;\"> " . $username . "</b>"; ?>
+        
+
     <div class="dropdown">
     <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
     <?php 

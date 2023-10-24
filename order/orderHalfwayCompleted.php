@@ -86,18 +86,17 @@ try {
     $mailUser->Port = 587;
 
     $mailUser->setFrom('admin.market@gmail.com', 'MarketBN');
-    $mailUser->addAddress($usersemail);
+    $mailUser->addAddress();
 
     // Construct the email body with a different message
-    $mailUser->Subject = 'Receipt Number: ' . $receiptNumber;
-    $mailUser->Body = "Thank you for your order,<br><br>";
-    $mailUser->Body .= "Here is your order details:<br>";
-    $mailUser->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
-    $mailUser->Body .= "Item Name: <b>" . $itemname . "</b><br>";
-    $mailUser->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
-    $mailUser->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
-    $mailUser->Body .= "Total: $<b>" . $total . "</b><br>";
-    
+    $sellerEmail->Subject = 'New Order Notification';
+    $sellerEmail->Body = "You have a new order for your item.<br><br>";
+    $sellerEmail->Body .= "Order details:<br>";
+    $sellerEmail->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
+    $sellerEmail->Body .= "Item Name: <b>" . $itemname . "</b><br>";
+    $sellerEmail->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
+    $sellerEmail->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
+    $sellerEmail->Body .= "Total: $<b>" . $total . "</b><br>";
 
     $mailUser->isHTML(true);
 
@@ -185,15 +184,16 @@ $mail->isHTML(true);
     <a class="navbar-brand" href="../home/index.php">
       <img src="../image/logo.png" width="80" height="80">
     </a>
-  
-  <div class="collapse navbar-collapse justify-content-center">
-    <ul class="nav nav-pills">
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
-    </ul>
-  </div>
+    <div class="collapse navbar-collapse justify-content-center">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="../wishlist/wishlist.php">Wishlist</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php">Sell</a></li>
+            </ul>
+        </div>
 
+        <?php echo "Hello,&nbsp<b style=\"text-transform: capitalize;\"> " . $username . "</b>"; ?>
+        
   <div class="dropdown">
     <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
     <?php 
