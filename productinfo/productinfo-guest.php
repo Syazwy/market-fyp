@@ -740,30 +740,29 @@ if (isset($_POST["login"])) {
           <br>
 
         <div id="secondhalf">
-          <div class="itemdetail">
-              
+
+            <div class="itemdetail">
+                <br>
                 <h1  style="font: size 60px;font-weight:thin"><?php echo $row["name"]; ?></h1>
-                <h1 style="font: size 20px;font-weight:bolder">$<?php echo $row["price"]; ?></h1>
+                <h2 style="font: size 20px;font-weight:bolder">$<?php echo $row["price"]; ?></h2>
 
                 <br>
-
-                <!-- <h3>Details:</h3>
-                <h6>condition <?php echo $row["item_condition"]; ?></h6>
-                <br> -->
+          
+                <h3>Condition: </h3>
+                  <h5><?php echo $row["item_condition"]; ?></h5>
+                <br>
                 
                 <h3>Description:</h3>
-                <br>
                 <h5><?php echo $row["description"]; ?></h5>
                 <br>
-            </div>
+               </div>
    
      <center>
-     <?php 
-  
+     <?php
     $username = $row["username"];
-
+    
     if ($conn->connect_error) {
-        die('Connection Failed : '.$conn->connect_error);
+        die('Connection Failed: ' . $conn->connect_error);
     }
 
     $reviewResult = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$username'");
@@ -777,41 +776,42 @@ if (isset($_POST["login"])) {
         function generateStarRating($rating) {
             $output = '';
             for ($i = 1; $i <= 5; $i++) {
-              if (isset($rating) && $i <= ceil($rating)) {
-                  $output .= '<i class="fa fa-star checked"></i>';
-              } else {
-                  $output .= '<i class="fa fa-star"></i>';
-              }
-          }
+                if (isset($rating) && $i <= ceil($rating)) {
+                    $output .= '<i class="fa fa-star checked"></i>';
+                } else {
+                    $output .= '<i class="fa fa-star"></i>';
+                }
+            }
             return $output;
         }
 
-        // Determine the href value based on email comparison        
         echo '<div class="userdetail">';
         echo '<br>';
-        if (isset($row['profile_image'])) {
-          echo '';
-          echo '<h2 style="font-size:20px;font-weight:thin">'.' <img src="../profile/profileimage/hotwheels.jpg' .$row['profile_image'] . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)'. 
-          '<small>'.
-          generateStarRating($averageRating)
-          .'<small></h2>';
-      } else {
-        echo '<h2 style="font-size:20px;font-weight:thin">'.' <img src="../profile/profileimage/hotwheels.jpg' .$row['profile_image'] . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)'. 
-        '<small>'.
-        generateStarRating($averageRating)
-        .'<small></h2>';
-      }
+
+        $sellerimg = isset($row['profile_image']) ? $row['profile_image'] : null;
+        
+        if (isset($sellerimg) && $sellerimg != null) {
+            echo '<h2 style="font-size:20px;font-weight:thin"><img src="../profile/' . $sellerimg . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)' .
+                '<small>' .
+                generateStarRating($averageRating) .
+                '<small></h2>';
+        } else {
+            echo '<h2 style="font-size:20px;font-weight:thin"><img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)' .
+                '<small>' .
+                generateStarRating($averageRating) .
+                '<small></h2>';
+        }
 
         echo '<br>';
         echo '<h2><img src="img/location-outline.svg" alt="" width="50" height="50">' . $row["location"] . '</h2>';
-        
+
     } else {
         echo '- No reviews available.';
     }
-    
-    echo '</div>';
 
+    echo '</div>';
 ?>
+
 </center>
 <script>
   $('#myModal').on('shown.bs.modal', function () {
