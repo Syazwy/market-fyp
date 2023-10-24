@@ -23,6 +23,11 @@ if (!$result) {
 $count = 0;
 
 while ($row = $result->fetch_assoc()) {
+    if($item_id == $row['item_id']){
+        echo "<script>alert('you already have this item in your wishlist'); window.location.href = 'ProductInfo.php?&item_id='.$item_id. ''</script>";
+    exit();
+    mysqli_close($conn);
+    }
     $count++;
 }
 // Check if the user's wishlist count is within the limit (e.g., 5 for basic members)

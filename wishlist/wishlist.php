@@ -125,38 +125,47 @@ require '../connection/connection.php';
 
 // Assuming your wishlist table structure contains id, name, and price columns
 // Modify the SQL query to filter by email
-$result = $conn->prepare("SELECT * FROM wishlist WHERE email = ?");
-$result->bind_param("s", $yourEmail);
-$result->execute();
+$wishlistResult = $conn->prepare("SELECT * FROM wishlist WHERE email = ?");
+$wishlistResult->bind_param("s", $yourEmail);
+$wishlistResult->execute();
 
-$result = $result->get_result();
+$wishlistResult = $wishlistResult->get_result();
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        echo '
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h4 class="card-title">' . $row['name'] .'</h4>
-                    <br>
-                    <h5 class="card-text">Price: $' . $row['price'] . '</h5>
-                    <br>
-                    <p class="card-text" style="font-size:20px;">' . $row['category'] . ' - ' . $row['description'] . '</p>
-                    <div class="float-right">
-                    <br>
-                        <button class="btn btn-danger" onclick="removeFromWishlist(' . $row['id'] . ')">Remove</button>
-                        <button class="btn btn-success" onclick="payment(' . $row['item_id'] . ')">Buy</button>
+if ($wishlistResult->num_rows > 0) {
+    while ($row = $wishlistResult->fetch_assoc()) {
+        // Get the item details from the itemslisting table where the status is active
+        $itemResult = $conn->prepare("SELECT * FROM itemslisting WHERE id = ? AND status = 'active'");
+        $itemResult->bind_param("i", $row['item_id']);
+        $itemResult->execute();
+        $item = $itemResult->get_result()->fetch_assoc();
+
+        if ($item) {
+            echo '
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title">' . $item['name'] .'</h4>
+                        <br>
+                        <h5 class="card-text">Price: $' . $item['price'] . '</h5>
+                        <br>
+                        <p class="card-text" style="font-size:20px;">' . $item['category'] . ' - ' . $item['description'] . '</p>
+                        <div class="float-right">
+                        <br>
+                            <button class="btn btn-danger" onclick="removeFromWishlist(' . $row['id'] . ')">Remove</button>
+                            <button class="btn btn-success" onclick="payment(' . $item['id'] . ')">Buy</button>
+                        </div>
                     </div>
-                </div>
-            </div>';
+                </div>';
+        }
     }
 
-    $result->close();
+    $wishlistResult->close();
 } else {
     echo '<p>No items in your wishlist.</p>';
 }
 
 $conn->close();
 ?>
+
 
   <!-- TO REMOVE YOUR WISHLIST ITEM -->
   <script>
