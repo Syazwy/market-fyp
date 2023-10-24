@@ -9,8 +9,13 @@ if (!$conn) {
 
 $id = $_GET['id'];
 $total = $_GET['total'];
+$usersemail = $_GET['usersemail'];
 $deliveryMethod = $_GET['deliveryMethod'];
 $paymentMethod = $_GET['paymentMethod'];
+$District = $_GET['District'];
+$City = $_GET['City'];
+$StreetAddress = $_GET['StreetAddress'];
+$PostalCode = $_GET['PostalCode'];
 $username = $_SESSION['username'];
 
 
@@ -143,11 +148,16 @@ $conn->close();
             // Check for any errors in the capture process
             if (details.status === "COMPLETED") {
                 // Successful capture! Redirect to orderCompleted1.php
+              var usersemail = <?php echo json_encode($_GET['usersemail']); ?>;
+var District = <?php echo json_encode($_GET['District']); ?>;
+var City = <?php echo json_encode($_GET['City']); ?>;
+var StreetAddress = <?php echo json_encode($_GET['StreetAddress']); ?>;
+var PostalCode = <?php echo json_encode($_GET['PostalCode']); ?>;
+var id = <?php echo json_encode($_GET['id']); ?>;
+var deliveryMethod = <?php echo json_encode($_GET['deliveryMethod']); ?>;
+var paymentMethod = <?php echo json_encode($_GET['paymentMethod']); ?>;
 
-                var id = <?php echo json_encode($_GET['id']); ?>;
-                var deliveryMethod = <?php echo json_encode($_GET['deliveryMethod']); ?>;
-                var paymentMethod = <?php echo json_encode($_GET['paymentMethod']); ?>;
-                window.location.href = "../order/orderCompleted1.php?price=" + total + "&id=" + id + "&deliveryMethod=" + deliveryMethod + "&paymentMethod=" + paymentMethod;
+                window.location.href = "../order/orderCompleted1.php?price=" + total + "&id=" + id + "&District=" + District + "&City=" + City + "&StreetAddress=" + StreetAddress + "&PostalCode=" + PostalCode + "&usersemail=" + usersemail +"&deliveryMethod=" + deliveryMethod + "&paymentMethod=" + paymentMethod;
           } else {
                 // Handle capture errors here
                 console.error("Order capture error:", details.status);

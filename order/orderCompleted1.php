@@ -13,7 +13,10 @@ require '../connection/connection.php';
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 $usersemail = $_GET['usersemail'];
-
+$District = $_GET['District'];
+$City = $_GET['City'];
+$StreetAddress = $_GET['StreetAddress'];
+$PostalCode = $_GET['PostalCode'];
 $id = $_GET['id'];
 $total = $_GET['price'];
 $deliveryMethod = $_GET['deliveryMethod'];
@@ -134,6 +137,10 @@ try {
     $sellerEmail->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
     $sellerEmail->Body .= "Item Name: <b>" . $itemname . "</b><br>";
     $sellerEmail->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
+    $sellerEmail->Body .= "District: <b>" . $District. "</b><br>";
+    $sellerEmail->Body .= "City: <b>" . $City . "</b><br>";
+    $sellerEmail->Body .= "Street Address: <b>" . $StreetAddress . "</b><br>";
+    $sellerEmail->Body .= "Postal Code: <b>" . $PostalCode . "</b><br>";
     $sellerEmail->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
     $sellerEmail->Body .= "Total: $<b>" . $total . "</b><br>";
     $sellerEmail->Body .= "Bought by: <b>" . $email . "</b><br>";

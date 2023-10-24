@@ -18,7 +18,6 @@ $id = $_GET['id'];
 $total = $_GET['total'];
 $deliveryMethod = $_GET['deliveryMethod'];
 $paymentMethod = $_GET['paymentMethod'];
-
 $sql = "SELECT name FROM itemslisting WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $id); 
