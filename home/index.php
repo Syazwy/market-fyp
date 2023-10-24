@@ -228,7 +228,7 @@ mysqli_free_result($result);
             <div class="col d-flex align-items-center justify-content-center">
                 <div class="card item h-100">
                     <div class="card-header bg-transparent border border-0">
-                        <div class="row row-cols-1 row-cols-md-2 g-4">
+                        <div class="row row-cols-1 row-cols-md-2 g-4" style="padding-bottom: 10px;">
                             <div class="col col-lg-3">
                                 <a href="">
                                     <?php
@@ -251,7 +251,6 @@ mysqli_free_result($result);
                                 </small>
                             </div>
                         </div>
-                        <br>
                     </div>
                     <a href="../productinfo/productinfo.php?id=<?php echo $row["id"]; ?>">
                         <img src="../sellers/upload/<?php echo $item_image; ?>" class="card-img-top" width="150px" height="150px">
