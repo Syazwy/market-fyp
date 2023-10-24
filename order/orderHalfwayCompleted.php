@@ -111,58 +111,39 @@ try {
 
 
 // Send an email using PHPMailer
-$mail = new PHPMailer(true);
+$sellerEmail = new PHPMailer(true); // Create a PHPMailer instance for seller's email
+
 try {
-    // Enable verbose debug output
-    $mail->SMTPDebug = 0; // SMTP::DEBUG_SERVER;
+    // Similarly, configure the $sellerEmail instance for sending an email to the seller
+    $sellerEmail->SMTPDebug = 0; // SMTP::DEBUG_SERVER;
+    $sellerEmail->isSMTP();
+    $sellerEmail->Host = 'smtp.gmail.com';
+    $sellerEmail->SMTPAuth = true;
+    $sellerEmail->Username = 'market51bn@gmail.com';
+    $sellerEmail->Password = 'ixcnouumjkoxtcvs';
+    $sellerEmail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $sellerEmail->Port = 587;
+    $sellerEmail->setFrom('admin.market@gmail.com', 'MarketBN');
+    $sellerEmail->addAddress($email);
 
-    // Send using SMTP
-    $mail->isSMTP();
-
-    // Set the SMTP server to send through (e.g., Gmail)
-    $mail->Host = 'smtp.gmail.com';
-
-    // Enable SMTP authentication
-    $mail->SMTPAuth = true;
-
-    // SMTP username (replace with your Gmail email address)
-    $mail->Username = 'market51bn@gmail.com';
-
-    // SMTP password (replace with your Gmail password)
-    $mail->Password = 'ixcnouumjkoxtcvs';
-
-    // Enable TLS encryption;
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-
-    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-    $mail->Port = 587;
-
-    // Recipients
-    $mail->setFrom('admin.market@gmail.com', 'MarketBN');
-    $mail->addAddress($email);
-
-    // Set email format to HTML
-    $mail->isHTML(true);
-
-
-// Construct the email body with HTML line breaks
-$mail->Subject = 'Receipt Number: ' . $receiptNumber;
-$mail->Body = "Thank you for your order,<br><br>";
-$mail->Body .= "Here is your order details:<br>";
-$mail->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
-$mail->Body .= "Item Name: <b>" . $itemname . "</b><br>";
-$mail->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
-$mail->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
-$mail->Body .= "Total: $<b>" . $total . "</b><br>";
+    // Construct the email body for the seller
+    $sellerEmail->Subject = 'New Order Notification';
+    $sellerEmail->Body = "You have a new order for your item.<br><br>";
+    $sellerEmail->Body .= "Order details:<br>";
+    $sellerEmail->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
+    $sellerEmail->Body .= "Item Name: <b>" . $itemname . "</b><br>";
+    $sellerEmail->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
+    $sellerEmail->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
+    $sellerEmail->Body .= "Total: $<b>" . $total . "</b><br>";
 
 // Set the email content type to HTML
-$mail->isHTML(true);
+$sellerEmail->isHTML(true);
 
 
-    $mail->send();
+    $sellerEmail->send();
     
 } catch (Exception $e) {
-    echo "Email could not be sent. Error: " . $mail->ErrorInfo;
+    echo "Email could not be sent. Error: " . $sellerEmail->ErrorInfo;
 }
 ?>
 
