@@ -11,7 +11,7 @@ $category = $_GET['category'];
 $item_condition = $_GET['item_condition'];
 
 // Check if the same item_id is already in the wishlist for the same email
-$checkQuery = "SELECT COUNT(*) FROM wishlist WHERE item_id = '$item_id' AND email = '$yourEmail'";
+$checkQuery = "SELECT * FROM wishlist WHERE email = '$yourEmail'";
 $result = mysqli_query($conn, $checkQuery);
 
 if (!$result) {
@@ -20,15 +20,17 @@ if (!$result) {
     exit();
 }
 
-$row = mysqli_fetch_array($result);
+$count = 0;
 
-// Check if the user's wishlist count is within the limit (e.g., 5 for basic members)
-if ($row[0] >= 5) {
-    echo "<script>alert('You have reached the maximum wishlist limit (5 items)');</script>";
-    mysqli_close($conn);
-    header("Location: wishlist.php"); // Redirect to wishlist.php
-    exit();
+while ($row = $result->fetch_assoc()) {
+    $count++;
 }
+// Check if the user's wishlist count is within the limit (e.g., 5 for basic members)
+if ($count >= 5) {
+    echo "<script>alert('You have reached the maximum wishlist limit (5 items)'); window.location.href = 'wishlist.php'</script>";
+    exit();
+    mysqli_close($conn);
+}else{
 
 // If the item is not in the wishlist, insert it
 $insertQuery = "INSERT INTO wishlist (id, name, item_id, description, price, category, item_condition, email)
@@ -52,4 +54,10 @@ mysqli_query($conn, $updateCountQuery);
 mysqli_close($conn);
 header("Location: wishlist.php");
 exit();
+
+
+
+}
+
+
 ?>
