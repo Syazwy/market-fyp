@@ -24,11 +24,122 @@ if (isset($_GET["message"])) {
     <link rel="stylesheet" href="forgot/forgot.css">
     <link rel="stylesheet" href="index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+a.nav-link.active {
+    background-color: #FF5353 !important;
+    margin-right: 20px;
+    border-radius: 18px;
+    width: 150px;
+    text-align: center;
+  }
+
+  button.nav-link.active {
+    background-color: #FF5353 !important;
+    margin-right: 20px;
+    border-radius: 18px;
+    width: 150px;
+    text-align: center;
+    border: none;
+  }
+
+  .imagecat{
+    height: 20px;
+    width: 20px;
+    
+  }
+  .search {
+    margin: auto;
+    width: 80%;
+    padding: 20px;
+  }
+
+  .margin{
+    padding-top: 20px;
+  }
+
+  .searchbar {
+    width: 100%;
+    height: 30px;
+    border-radius: 18px;
+    border: none;
+    background-color: #FFEAEA;
+    margin-right: 15px;
+    margin: auto;
+  }
+  .sidesearchbar {
+    width: 100%;
+    height: 40px;
+    /* border-radius: 18px; */
+    border: none;
+    background-color: #ffffff;
+    /* margin-left: 15px; */
+    margin: auto;
+  }
+
+  .btn.btn-primary {
+    background-color: #FF5353;
+    border-radius: 18px;
+    border: none;
+    width: 200px;
+  }
+
+  h4 {
+    margin: auto;
+    width: 80%;
+    padding: 20px;
+  }
+
+  .card {
+    width: 50px;
+    height: 50px;
+    
+  }
+  
+  img.image {
+    width: 100px;
+    height: 100px;
+    /* display: block; */
+    /* margin-left: auto;
+    margin-right: auto; */
+    margin-top: 15%;
+  }
+
+  div.card {
+    width: 150px;
+    height: 150px;
+    background-color: #FFEAEA;
+    border: none;
+  }
+
+  div.card-header.bg-transparent.border.border-0 {
+    background-color: #FFFFFF !important;
+    padding: 0px;
+    padding-top: 16px;
+  }
+
+  div.card-body {
+    width: 150px;
+    height: 150px;
+    background-color: #FFFFFF !important;
+    padding: 0px;
+    padding-top: 16px;
+  }
+
+  div.text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+
+
+
+</style>
+
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-transparent">
         <div class="container">
-            <a class="navbar-brand" href="index-guest.php">
+            <a class="navbar-brand" href="../home/index-guest.php">
                 <img src="../image/logo.png" width="80" height="80">
             </a>
             <div class="collapse navbar-collapse justify-content-center">
