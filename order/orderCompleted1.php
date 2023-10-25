@@ -93,14 +93,44 @@ try {
     $mailUser->addAddress($email);
 
     // Construct the email body with a different message
-    $mailUser->Subject = 'Receipt Number: ' . $receiptNumber;
-    $mailUser->Body = "Thank you for your order,<br><br>";
-    $mailUser->Body .= "Here is your order details:<br>";
-    $mailUser->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
-    $mailUser->Body .= "Item Name: <b>" . $itemname . "</b><br>";
-    $mailUser->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
-    $mailUser->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
-    $mailUser->Body .= "Total: $<b>" . $total . "</b><br>";
+    // $mailUser->Subject = 'Receipt Number: ' . $receiptNumber;
+    // $mailUser->Body = "Thank you for your order,<br><br>";
+    // $mailUser->Body .= "Here is your order details:<br>";
+    // $mailUser->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
+    // $mailUser->Body .= "Item Name: <b>" . $itemname . "</b><br>";
+    // $mailUser->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
+    // $mailUser->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
+    // $mailUser->Body .= "Total: $<b>" . $total . "</b><br>";
+
+  $mailUser->Subject = 'Receipt Number: ' . $receiptNumber;
+      $mailUser->Body = '<div style="font-family: Arial, sans-serif; width: 300px; margin: 0 auto;">';
+      $mailUser->Body .= '<h1 style="text-align: center;">Receipt</h1>';
+      $mailUser->Body .= '<p>Thank you for your order.</p>';
+      $mailUser->Body .= '<p>Here are your order details:</p>';
+      $mailUser->Body .= '<table style="width: 100%; border-collapse: collapse; margin-top: 10px;">';
+      $mailUser->Body .= '<tr>';
+      $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;">Receipt Number:</td>';
+      $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;"><b>' . $receiptNumber . '</b></td>';
+      $mailUser->Body .= '</tr>';
+      $mailUser->Body .= '<tr>';
+      $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;">Item Name:</td>';
+      $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;"><b>' . $itemname . '</b></td>';
+      $mailUser->Body .= '</tr>';
+      $mailUser->Body .= '<tr>';
+      $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;">Delivery Method:</td>';
+      $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;"><b>' . $deliveryMethod . '</b></td>';
+      $mailUser->Body .= '</tr>';
+      $mailUser->Body .= '<tr>';
+      $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;">Payment Method:</td>';
+      $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;"><b>' . $paymentMethod . '</b></td>';
+      $mailUser->Body .= '</tr>';
+      $mailUser->Body .= '<tr>';
+      $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;">Total:</td>';
+      $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;">$<b>' . $total . '</b></td>';
+      $mailUser->Body .= '</tr>';
+      $mailUser->Body .= '</table>';
+      $mailUser->Body .= '</div>';
+
 
     $mailUser->isHTML(true);
 
