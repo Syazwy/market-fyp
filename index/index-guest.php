@@ -138,7 +138,7 @@ a.nav-link.active {
 <body>
     <nav class="navbar navbar-expand-lg bg-transparent">
         <div class="container">
-            <a class="navbar-brand" href="index-guest.php">
+            <a class="navbar-brand" href="../home/index-guest.php">
                 <img src="../image/logo.png" width="80" height="80">
             </a>
             <div class="collapse navbar-collapse justify-content-center">
