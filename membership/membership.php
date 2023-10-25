@@ -18,7 +18,7 @@ if ($result) {
 
 ?>
 
-    <?php
+<?php
 
     // username to look up
     $username = $_SESSION['username']; // Assuming this is the username you want to retrieve the membership for
@@ -41,9 +41,8 @@ if ($result) {
     // Close the database connection
     $stmt->close();
     $conn->close();
-    ?>
+?>
 <head>
-
 
 <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -17,13 +17,11 @@ if ($result) {
   }
 }
 
-
 ?>
 
 <?php
     $id = $_GET['id'];
-
-  
+    
     // Prepare and execute SQL query to fetch name, price, and location for the given ID
     $sql = "SELECT name, price, location FROM itemslisting WHERE id = ?";
     $stmt = $conn->prepare($sql);
@@ -47,57 +45,56 @@ if ($location === "Brunei Muara") {
   $delivery = 6;
 }
 
-
 $total = $price + $delivery;
     } else {
         echo "No data found for the given ID.";
     }
     
-  ?>
-  <?php
-
-
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      // Get form data
-  
-      $district = $_POST["District"];
-      $city = $_POST["City"];
-      $streetAddress = $_POST["StreetAddress"];
-      $postalCode = $_POST["PostalCode"];
-      
-      // Debugging
-      echo "District: " . $district . "<br>";
-      echo "City: " . $city . "<br>";
-      echo "Street Address: " . $streetAddress . "<br>";
-      echo "Postal Code: " . $postalCode . "<br>";
-      
-  
-      // Update the 'account' table with order details
-      $updateAccountSQL = "UPDATE account SET District = ?, City = ?, StreetAddress = ?, PostalCode = ? WHERE email = ?";
-      $updateStmt = $conn->prepare($updateAccountSQL);
-      $updateStmt->bind_param("sssss", $district, $city, $streetAddress, $postalCode, $email);
-      
-      if ($updateStmt->execute()) {
-          // Handle success
-          print_r($_POST);
-
-          exit();
-      } else {
-          echo "Failed to update the account table." . mysqli_error($conn);
-      }
-  }
-  
-  // Close the database connection
-  
-  $conn->close();
-  ?>
-
-
+?>
 <!DOCTYPE html>
 
 <html>
 <head>
+<script>
+// Function to update the total based on the selected delivery method
+function updateTotal() {
+    const priceElement = document.getElementById('price');
+    const totalElement = document.getElementById('total');
+
+    const price = parseFloat(priceElement.textContent.substring(1)); // Get the item price
+    let deliveryFee = 0;
+
+    const location = "<?php echo $location; ?>"; // Get the location from PHP
+
+    if (location === "Brunei Muara") {
+      deliveryFee = 3;
+    } else if (location === "Tutong") {
+      deliveryFee = 5;
+    } else if (location === "Belait") {
+      deliveryFee = 7;
+    } else if (location === "Temburong") {
+      deliveryFee = 6;
+    }
+
+    const total = price + deliveryFee;
+
+    // Update the total price element on the page
+    totalElement.textContent = "$" + total.toFixed(2);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get references to the input fields and the delivery fee row
+    const deliveryMethodRadioButtons = document.querySelectorAll('input[name="deliveryMethod"]');
+
+    // Attach an event listener to each delivery method radio button
+    deliveryMethodRadioButtons.forEach(function (radioButton) {
+      radioButton.addEventListener('change', updateTotal);
+    });
+
+    // Initial check when the page loads
+    updateTotal();
+  });
+</script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MEMBERSHIP</title>
@@ -139,7 +136,6 @@ $total = $price + $delivery;
                 <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
                 <li><a class="dropdown-item" href="../privatemessage/myChat.php">Messages</a></li>
                 <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
-
     </ul>
   </div>
   </div>
@@ -157,6 +153,45 @@ $total = $price + $delivery;
     }
   });
 </script>
+
+  <?php
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      // Get form data
+  
+      $district = $_POST["District"];
+      $city = $_POST["City"];
+      $streetAddress = $_POST["StreetAddress"];
+      $postalCode = $_POST["PostalCode"];
+      
+      // Debugging
+      echo "District: " . $district . "<br>";
+      echo "City: " . $city . "<br>";
+      echo "Street Address: " . $streetAddress . "<br>";
+      echo "Postal Code: " . $postalCode . "<br>";
+      
+  
+      // Update the 'account' table with order details
+      $updateAccountSQL = "UPDATE account SET District = ?, City = ?, StreetAddress = ?, PostalCode = ? WHERE email = ?";
+      $updateStmt = $conn->prepare($updateAccountSQL);
+      $updateStmt->bind_param("sssss", $district, $city, $streetAddress, $postalCode, $email);
+      
+      if ($updateStmt->execute()) {
+          // Handle success
+          print_r($_POST);
+
+          exit();
+      } else {
+          echo "Failed to update the account table." . mysqli_error($conn);
+      }
+  }
+  
+  // Close the database connection
+  
+  $conn->close();
+  ?>
+
+
 
     <br>
     <div class="container">
@@ -220,18 +255,18 @@ $total = $price + $delivery;
             <th class="col-6">Price:</th>
             <td class="col-4 text-end"><b>$<?php echo $price?><b></td>
         </tr>
-        <tr>
-        <th class="col-6">Delivery fee:</th>
-        <td class="col-4 text-end"><b>$<?php echo $delivery?></b></td>
-        </tr>
-       
+
+        <tr id="deliveryFeeRow">
+    <th class="col-6">Delivery fee:</th>
+    <td class="col-4 text-end"><b>$<?php echo $delivery ?></b></td>
+</tr>
+
         <tr>
             <th class="col-6">Total:</th>
-            <td class="col-4 text-end"><b>$<?php echo $total ?></b></td>
+            <td class="col-4 text-end"><b>$<?php echo $total ?><span id="total"></b></span></td>
         </tr>
     </tbody>
 </table>
-
 
 <br>
 <div class="text-center">
@@ -273,12 +308,44 @@ $total = $price + $delivery;
   </div>
 </div>
 
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
+
 document.addEventListener("DOMContentLoaded", function () {
+  // Get references to the input fields and the delivery fee row
+  const deliveryMethodRadioButtons = document.querySelectorAll('input[name="deliveryMethod"]');
+  const deliveryFeeRow = document.getElementById('deliveryFeeRow');
+  const priceElement = document.getElementById('price');
+  const totalElement = document.getElementById('total');
+
+  // Function to check if the "Pick-up" option is selected
+  function isPickUpSelected() {
+    return document.querySelector('input[name="deliveryMethod"]:checked').id === 'pickUp';
+  }
+
+  // Function to show/hide the delivery fee row based on the selected delivery method
+  function toggleDeliveryFeeRow() {
+    if (isPickUpSelected()) {
+      deliveryFeeRow.style.display = 'none'; // Hide the delivery fee row for Pick-up
+    } else {
+      deliveryFeeRow.style.display = 'table-row'; // Show the delivery fee row for other methods
+    }
+  }
+
+  // Attach an event listener to each delivery method radio button
+  deliveryMethodRadioButtons.forEach(function (radioButton) {
+    radioButton.addEventListener('change', toggleDeliveryFeeRow);
+  });
+
+  // Initial check when the page loads
+  toggleDeliveryFeeRow();
+
+});
+
   // Get references to the input fields
   const districtInput = document.getElementById('District');
   const cityInput = document.getElementById('City');
@@ -370,8 +437,6 @@ console.log("Postal Code:", postalCodeInput.value.trim());
     if (deliveryMethod && paymentMethod) {
       if (deliveryMethod.id === 'delivery') {
 
-        
-
         // Show the delivery address modal
         $('#deliveryModal').modal('show');
       } else {
@@ -397,7 +462,6 @@ console.log("Postal Code:", postalCodeInput.value.trim());
 // Attach the placeOrder function to the button click event
 document.getElementById('placeOrderButton').addEventListener('click', placeOrder);
 
-});
 </script>
 
 </body>

@@ -375,7 +375,7 @@ $result = mysqli_query($conn, $query);
 
 <!-- --------------------------------------------------------------- -->
 
-    <?php if (mysqli_num_rows($result) > 0) : ?>
+<?php if (mysqli_num_rows($result) > 0) : ?>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
             <?php while ($row = mysqli_fetch_assoc($result)) : ?>
                 <div class="card" style="width: 150px; height: 200px; border:none">
