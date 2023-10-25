@@ -1,9 +1,9 @@
 <?php
 session_start();
 require '../connection/connection.php';
-include 'register.php';
-include 'verification.php';
-include 'login.php';
+include '../home/register.php';
+include '../home/verification.php';
+include '../home/login.php';
 // include 'forgot.php';
 
 // Check if a message parameter is present in the URL
