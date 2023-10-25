@@ -40,7 +40,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo '<div class="col d-flex align-items-center justify-content-center">';
     echo '<div class="card item h-100">';
     echo '<div class="card-header bg-transparent border border-0">';
-    echo '<div class="row row-cols-1 row-cols-md-2 g-4">';
+    echo '<div class="row row-cols-1 row-cols-md-2 g-4" style="padding-bottom: 10px;">';
     echo '<div class="col col-lg-3">';
     echo '<a href="">';
     // Update the profile image section to match the updated code

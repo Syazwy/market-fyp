@@ -706,8 +706,8 @@ if (isset($_POST["login"])) {
           
           
       ?>
-<div class="container1">
-        <div class="product-container">
+          <div class="container1">
+            <div class="product-container">
               <div id="carouselExampleIndicators" class="carousel slide w-100" data-bs-ride="carousel" >
                 <div class="carousel-indicators" >
                   <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -734,7 +734,7 @@ if (isset($_POST["login"])) {
                   <span class="" style="color:black;">Next ></span>
                 </button>
               </div>
-          </div>
+            </div>
           </div>
           <br>
           <br>
@@ -791,12 +791,12 @@ if (isset($_POST["login"])) {
         $sellerimg = isset($row['profile_image']) ? $row['profile_image'] : null;
         
         if (isset($sellerimg) && $sellerimg != null) {
-            echo '<h2 style="font-size:20px;font-weight:thin"><img src="../profile/' . $sellerimg . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)' .
+            echo '<h2 style="font-size:20px;font-weight:thin"><img src="../profile/' . $sellerimg . '" width="60px" height="60px" class="profile rounded-circle" alt="Profile Picture">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)' .
                 '<small>' .
                 generateStarRating($averageRating) .
                 '<small></h2>';
         } else {
-            echo '<h2 style="font-size:20px;font-weight:thin"><img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)' .
+            echo '<h2 style="font-size:20px;font-weight:thin"><img src="../image/profile.png" width="60px" height="60px" class="profile rounded-circle" alt="Profile Picture">' . " " . $row["username"] . ' (' . $totalReviews . ' reviews)' .
                 '<small>' .
                 generateStarRating($averageRating) .
                 '<small></h2>';
