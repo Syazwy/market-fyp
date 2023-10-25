@@ -500,7 +500,7 @@ a.nav-link.active {
         $(document).ready(function() {
             // Function to display search results and toggle item visibility
             function displaySearchResults(query) {
-                var url = "search-guest.php";
+                var url = "../home/search-guest.php";
                 var data = {
                     query: query
                 };
@@ -543,7 +543,7 @@ a.nav-link.active {
     $(document).ready(function() {
         // Function to handle category clicks and filter listings
         function handleCategoryClick(category) {
-            var url = "category-guest.php";
+            var url = "../home/category-guest.php";
             var data = { category: category };
 
             $.ajax({
