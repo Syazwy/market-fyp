@@ -85,11 +85,44 @@ $receiptNumber = mt_rand(100000, 999999);
 
 // Construct the email body with HTML line breaks
 $mail->Subject = 'Receipt Number: ' . $receiptNumber;
-$mail->Body = "Thank you for your order,<br><br>";
-$mail->Body .= "Here is your order details:<br>";
-$mail->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
-$mail->Body .= "Selected Plan: <b>" . $selectedPlan . "</b><br>";
-$mail->Body .= "Total: $<b>" . $price . "</b><br>";
+
+// Add CSS styles
+$mail->Body = "<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+    }
+    .receipt {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border: 1px solid #ccc;
+    }
+    .header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+    }
+    .details {
+        margin-top: 20px;
+    }
+    .details b {
+        display: inline-block;
+        width: 50%;
+    }
+</style>";
+
+$mail->Body .= '<div class="receipt">';
+$mail->Body .= '<div class="header">Membership Receipt</div>';
+$mail->Body .= 'Thank you for your order.<br><br>';
+$mail->Body .= '<div class="details"><b>Receipt Number:</b> ' . $receiptNumber . '</div>';
+$mail->Body .= '<div class="details"><b>Selected Plan:</b> ' . $selectedPlan . '</div>';
+$mail->Body .= '<div class="details"><b>Total:</b> $' . $price . '</div>';
+$mail->Body .= '</div>';
+
+
 // Set the email content type to HTML
 $mail->isHTML(true);
 

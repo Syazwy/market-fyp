@@ -160,20 +160,51 @@ try {
     $sellerEmail->setFrom('admin.market@gmail.com', 'MarketBN');
     $sellerEmail->addAddress($usersemail);
 
-    // Construct the email body for the seller
     $sellerEmail->Subject = 'New Order Notification';
-    $sellerEmail->Body = "You have a new order for your item.<br><br>";
-    $sellerEmail->Body .= "Here is your order details:<br>";
-    $sellerEmail->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
-    $sellerEmail->Body .= "Item Name: <b>" . $itemname . "</b><br>";
-    $sellerEmail->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
-    $sellerEmail->Body .= "District: <b>" . $District. "</b><br>";
-    $sellerEmail->Body .= "City: <b>" . $City . "</b><br>";
-    $sellerEmail->Body .= "Street Address: <b>" . $StreetAddress . "</b><br>";
-    $sellerEmail->Body .= "Postal Code: <b>" . $PostalCode . "</b><br>";
-    $sellerEmail->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
-    $sellerEmail->Body .= "Total: $<b>" . $total . "</b><br>";
-    $sellerEmail->Body .= "Bought by: <b>" . $email . "</b><br>";
+
+    // Add CSS styles
+    $sellerEmail->Body = "<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        .receipt {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        .details {
+            margin-top: 20px;
+        }
+        .details b {
+            display: inline-block;
+            width: 50%;
+        }
+    </style>";
+    
+    $sellerEmail->Body .= '<div class="receipt">';
+    $sellerEmail->Body .= '<div class="header">Order Receipt</div>';
+    $sellerEmail->Body .= '<div class="details">You have a new order for your item.</div>';
+    $sellerEmail->Body .= '<div class="details"><b>Receipt Number:</b> ' . $receiptNumber . '</div>';
+    $sellerEmail->Body .= '<div class="details"><b>Item Name:</b> ' . $itemname . '</div>';
+    $sellerEmail->Body .= '<div class="details"><b>Delivery Method:</b> ' . $deliveryMethod . '</div>';
+    $sellerEmail->Body .= '<div class="details"><b>District:</b> ' . $District . '</div>';
+    $sellerEmail->Body .= '<div class="details"><b>City:</b> ' . $City . '</div>';
+    $sellerEmail->Body .= '<div class="details"><b>Street Address:</b> ' . $StreetAddress . '</div>';
+    $sellerEmail->Body .= '<div class="details"><b>Postal Code:</b> ' . $PostalCode . '</div>';
+    $sellerEmail->Body .= '<div class="details"><b>Payment Method:</b> ' . $paymentMethod . '</div>';
+    $sellerEmail->Body .= '<div class="details"><b>Total:</b> $' . $total . '</div>';
+    $sellerEmail->Body .= '<div class="details"><b>Bought by:</b> ' . $email . '</div>';
+    $sellerEmail->Body .= '</div>';
+    
   
 
 // Set the email content type to HTML
