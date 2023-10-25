@@ -89,23 +89,13 @@ try {
 
     // Construct the email body with a different message
     $mailUser->Subject = 'Receipt Number: ' . $receiptNumber;
-    $mailUser->Body = '<div style="font-family: Arial, sans-serif; width: 300px; margin: 0 auto;">';
-    $mailUser->Body .= '<h1 style="text-align: center;">Receipt</h1>';
-    $mailUser->Body .= '<p>Thank you for your order.</p>';
-    $mailUser->Body .= '<p>Here are your order details:</p>';
-    $mailUser->Body .= '<table style="width: 100%; border-collapse: collapse; margin-top: 10px;">';
-    $mailUser->Body .= '<tr>';
-    $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;">Receipt Number:</td>';
-    $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;"><b>' . $receiptNumber . '</b></td>';
-    $mailUser->Body .= '</tr>';
-    $mailUser->Body .= '<tr>';
-    $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;">Item Name:</td>';
-    $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;"><b>' . $itemname . '</b></td>';
-    $mailUser->Body .= '</tr>';
-    $mailUser->Body .= '<tr>';
-    $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;">Delivery Method:</td>';
-    $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;"><b>' . $deliveryMethod . '</b></td>';
-    $mailUser->Body .= '</tr>';
+    $mailUser->Body = '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border: 1px solid #ccc;">';
+    $mailUser->Body .= '<div style="background-color: #333; color: #fff; padding: 10px; text-align: center;">Receipt</div>';
+    $mailUser->Body .= '<div style="margin-top: 20px;">Thank you for your order.</div>';
+    $mailUser->Body .= '<div style="margin-top: 20px;"><b>Receipt Number:</b> ' . $receiptNumber . '</div>';
+    $mailUser->Body .= '<div style="margin-top: 20px;"><b>Item Name:</b> ' . $itemname . '</div>';
+    $mailUser->Body .= '<div style="margin-top: 20px;"><b>Delivery Method:</b> ' . $deliveryMethod . '</div>';
+    $mailUser->Body .= '<table style="width: 100%; border-collapse: collapse; margin-top: 20px;">';
     $mailUser->Body .= '<tr>';
     $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;">Payment Method:</td>';
     $mailUser->Body .= '<td style="border: 1px solid #ccc; padding: 5px;"><b>' . $paymentMethod . '</b></td>';
@@ -116,6 +106,7 @@ try {
     $mailUser->Body .= '</tr>';
     $mailUser->Body .= '</table>';
     $mailUser->Body .= '</div>';
+    
 
     $mailUser->isHTML(true);
 

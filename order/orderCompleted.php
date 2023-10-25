@@ -123,6 +123,7 @@ $mail->Body .= '<div class="details"><b>Total:</b> $' . $price . '</div>';
 $mail->Body .= '</div>';
 
 
+
 // Set the email content type to HTML
 $mail->isHTML(true);
 
@@ -196,7 +197,6 @@ $mail->isHTML(true);
                 <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
                 <li><a class="dropdown-item" href="../privatemessage/myChat.php">Messages</a></li>
                 <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
-
     </ul>
   </div>
   </div>
