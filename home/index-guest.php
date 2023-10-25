@@ -167,7 +167,7 @@ a.nav-link.active {
                 <div class="modal-body">
         <p>Your account has been banned. You can submit an appeal below:</p>
         <p></p>
-        <form id="appealForm" method="post" action="process_appeal.php">
+        <form id="appealForm" method="post" action="../home/process_appeal.php">
           <input type="hidden" name="username" value="<?php echo $user->username; ?>">
           <div class="form-group">
             <label for="appealText">Appeal Message:</label>
@@ -246,7 +246,7 @@ a.nav-link.active {
                     </form>
                 </div>
                 <div style="text-align: center;">
-                    <a id="changeemail" style="text-decoration:none;color: #FF5353; cursor: pointer;" href="index-guest.php?show_register_modal=1">Change Email</a>
+                    <a id="changeemail" style="text-decoration:none;color: #FF5353; cursor: pointer;" href="../home/index-guest.php?show_register_modal=1">Change Email</a>
                 </div>
             </div>
         </div>
@@ -290,7 +290,7 @@ a.nav-link.active {
                         </div>
                         <br>
                         <center>
-                            <p><a class="active" aria-current="page" data-toggle="modal" data-target="#forgotModal" data-whatever="login" href="forgot.php" id="" style="color: rgb(255, 83, 83);">Forgot password?</a></p>
+                            <p><a class="active" aria-current="page" data-toggle="modal" data-target="#forgotModal" data-whatever="login" href="../home/forgot.php" id="" style="color: rgb(255, 83, 83);">Forgot password?</a></p>
                         </center>
                         <input type="submit" name="login" value="Log In" style="background-color: rgb(255, 83, 83); width: 100%; border-radius: 10px; padding: 10px;">
                     </form>

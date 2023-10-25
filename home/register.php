@@ -4,9 +4,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
+require '../home/PHPMailer/src/Exception.php';
+require '../home/PHPMailer/src/PHPMailer.php';
+require '../home/PHPMailer/src/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -45,7 +45,7 @@ if (isset($_POST["register"])) {
             echo "<script>alert('Email already exists. Please choose another email.');</script>";
             echo '<script>
              setTimeout(function(){
-               window.location = "index-guest.php?";
+               window.location = "../home/index-guest.php?";
              }, 500); 
           </script>';
             exit;
@@ -69,7 +69,7 @@ if (isset($_POST["register"])) {
             echo "<script>alert('Username already exists. Please choose another username.');</script>";
             echo '<script>
             setTimeout(function(){
-              window.location = "index-guest.php?";
+              window.location = "../home/index-guest.php?";
             }, 500); 
          </script>';
             exit;
@@ -195,7 +195,7 @@ if (isset($_POST["register"])) {
             
             $mail->send();
 
-            header("Location: index-guest.php?email=" . urlencode($email));
+            header("Location: ../home/index-guest.php?email=" . urlencode($email));
 
             // Now, display the verification modal
             echo '<script>
