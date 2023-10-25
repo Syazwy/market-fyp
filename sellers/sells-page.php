@@ -35,20 +35,20 @@ function getUserMembership($conn, $username) {
 }
 
 
-// Function to get the number of submissions made by the user
-function getUserSubmissions($conn, $username) {
-    $query = "SELECT COUNT(*) FROM itemslisting WHERE username = ?";
+// Function to get the number of active submissions made by the user
+function getUserActiveSubmissions($conn, $username) {
+    $query = "SELECT COUNT(*) FROM itemslisting WHERE username = ? AND status = 'active'";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "s", $username);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $numSubmissions);
+    mysqli_stmt_bind_result($stmt, $numActiveSubmissions);
     mysqli_stmt_fetch($stmt);
     mysqli_stmt_close($stmt);
-    return $numSubmissions;
+    return $numActiveSubmissions;
 }
 
 $membership = getUserMembership($conn, $username);
-$numSubmissions = getUserSubmissions($conn, $username);
+$numSubmissions = getUserActiveSubmissions($conn, $username);
 
 // Define the submission limits for different membership levels
 $minSubmissionsForBasic = 0;

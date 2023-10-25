@@ -393,6 +393,9 @@ $result = mysqli_query($conn, $query);
                           $rows = mysqli_query($conn, "SELECT * from itemslisting  ORDER BY id DESC ");
                           
                     ?>
+
+                    <p>Status: <?php echo $row["status"]; ?></p> <!-- Display status here -->
+
                     
                     <center>
                     <div>
