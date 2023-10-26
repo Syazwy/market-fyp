@@ -132,7 +132,9 @@ a.nav-link.active {
     left: 50%;
   }
 
-
+  .modal-header {
+        border-bottom: none; /* This removes the border between header and body */
+    }
 
 </style>
 
@@ -220,38 +222,40 @@ a.nav-link.active {
         </div>
     </div>
 
-    <!-- Verification Modal -->
-    <div class="modal fade" id="verificationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="verificationModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div style="text-align: center;">
-                        <img src="../image/email.png" alt="mail logo" style="width: 70px;">
-                        <h4>Verify your email address</h4>
-                        <h5 class="modal-title" id="exampleModalLabel">
-                            Please enter the 6-digit code sent to
-                            <span style="color: #FF5353;"><?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?></span>
-                        </h5>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <form method="POST">
-                        <div class="form-group">
-                            <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>" required>
-                            <input type="text" class="form-control" name="verification_code" id="verification_code" placeholder="Enter verification code" required />
-                            <br>
-                            <div style="text-align: center;">
-                                <input type="submit" name="verify_email" value="Verify" style="background-color:#FF5353 ; width: 50%; border-radius: 10px; padding: 5px;">
-                            </div>
-                        </div>
-                    </form>
-                </div>
+<!-- Verification Modal -->
+<div class="modal fade" id="verificationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="verificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
                 <div style="text-align: center;">
-                    <a id="changeemail" style="text-decoration:none;color: #FF5353; cursor: pointer;" href="../home/index-guest.php?show_register_modal=1">Change Email</a>
+                    <img src="../image/email.png" alt="mail logo" style="width: 70px;">
+                    <h4>Verify your email address</h4>
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Please enter the 6-digit code sent to
+                        <span style="color: #FF5353;"><?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?></span>
+                    </h5>
                 </div>
             </div>
+            <div class="modal-body">
+                <form method="POST">
+                    <div class="form-group">
+                        <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>" required>
+                        <input type="text" class="form-control" name="verification_code" id="verification_code" placeholder="Enter verification code" required />
+                        <br>
+                        <div style="text-align: center;">
+                            <input type="submit" name="verify_email" value="Verify" style="background-color:#FF5353 ; width: 50%; border-radius: 10px; padding: 5px;">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div style="text-align: center;">
+                <a id="changeemail" style="text-decoration:none;color: #FF5353; cursor: pointer;" href="../home/index-guest.php?show_register_modal=1">Change Email</a>
+            </div>
+            <br>
         </div>
     </div>
+</div>
+
 
     <!-- Verified modal -->
     <div class="modal fade" id="verifiedModal" tabindex="-1" role="dialog" aria-labelledby="verifiedModalLabel" aria-hidden="true">
