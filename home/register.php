@@ -230,24 +230,24 @@ if (isset($_POST["register"])) {
             return false;
         }
 
-        // if (password === confirmPassword) {
-        //     if (password.length < 8) {
-        //         alert("Password must be at least 8 characters");
-        //         return false;
-        //     }
-        //     if (password.search(/[a-z]/i) < 0) {
-        //         alert("Password must contain at least one letter");
-        //         return false;
-        //     }
-        //     if (password.search(/[0-9]/) < 0) {
-        //         alert("Password must contain at least one digit");
-        //         return false;
-        //     }
-        //     if (password.search(/[!@#$%^&*]/) < 0) {
-        //         alert("Password must contain at least one special character");
-        //         return false;
-        //     }
-        // }
+        if (password === confirmPassword) {
+            if (password.length < 8) {
+                alert("Password must be at least 8 characters");
+                return false;
+            }
+            if (password.search(/[a-z]/i) < 0) {
+                alert("Password must contain at least one letter");
+                return false;
+            }
+            if (password.search(/[0-9]/) < 0) {
+                alert("Password must contain at least one digit");
+                return false;
+            }
+            // if (password.search(/[!@#$%^&*]/) < 0) {
+            //     alert("Password must contain at least one special character");
+            //     return false;
+            // }
+        }
        
         localStorage.setItem("email", email);
 
