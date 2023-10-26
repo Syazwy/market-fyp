@@ -803,7 +803,7 @@ if (isset($_POST["login"])) {
         }
 
         echo '<br>';
-        echo '<h2><img src="img/location-outline.svg" alt="" width="50" height="50">' . $row["location"] . '</h2>';
+        echo '<h2><img src="../image/location-outline.svg" alt="" width="50" height="50">' . $row["location"] . '</h2>';
 
     } else {
         echo '- No reviews available.';
