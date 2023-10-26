@@ -1,56 +1,62 @@
 <?php
-// Start a PHP session and include necessary files
 require_once("../session/session.php");
 require '../connection/connection.php';
-
-// Retrieve user information from the session
 $email = $_SESSION['email'];
 $username = $_SESSION['username'];
 $usersemail = $_GET['email'];
 
-// Query the 'account' table to retrieve user data
 $query = "SELECT * FROM account WHERE username = '$username'";
 $result = mysqli_query($conn, $query);
 
-// Fetch user data from the result
+
 if ($result) {
-    while ($row = $result->fetch_assoc()) {
-        $accountStatus = $row['status'];
-        $name = $row['username'];
-        $profileimage = $row['profile_image'];
-    }
+ while($row = $result->fetch_assoc()){
+   $accountStatus = $row['status'];
+   $name =  $row['username'];
+   $profileimage = $row['profile_image'];
+  }
 }
 
-// Get the item ID from the URL
-$id = $_GET['id'];
 
-// Prepare and execute SQL query to fetch item details
-$sql = "SELECT name, price, location FROM itemslisting WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $id);
-$stmt->execute();
-$stmt->bind_result($name, $price, $location);
-
-// Fetch the result
-if ($stmt->fetch()) {
-    // Set the default delivery fee to 0
-    $delivery = 0;
-    // Calculate the delivery fee based on the location
-    if ($location === "Brunei Muara") {
-        $delivery = 3;
-    } elseif ($location === "Tutong") {
-        $delivery = 5;
-    } elseif ($location === "Belait") {
-        $delivery = 7;
-    } elseif ($location === "Temburong") {
-        $delivery = 6;
-    }
-
-    // Calculate the total price
-    $total = $price + $delivery;
-}
 ?>
-  <?php 
+
+<?php
+    $id = $_GET['id'];
+
+  
+    // Prepare and execute SQL query to fetch name, price, and location for the given ID
+    $sql = "SELECT name, price, location FROM itemslisting WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $id);
+    $stmt->execute();
+    $stmt->bind_result($name, $price, $location);
+
+    // Fetch the result
+    if ($stmt->fetch()) {
+        // Output the fetched values
+
+$delivery = "" ;
+
+if ($location === "Brunei Muara") {
+  $delivery = 3 ;
+} elseif ($location === "Tutong") {
+  $delivery = 5;
+} elseif ($location === "Belait") {
+  $delivery = 7;
+} elseif ($location === "Temburong") {
+  $delivery = 6;
+}
+
+
+$total = $price + $delivery;
+    } else {
+        echo "No data found for the given ID.";
+    }
+    
+  ?>
+  <?php
+
+
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
       // Get form data
@@ -83,53 +89,15 @@ if ($stmt->fetch()) {
   }
   
   // Close the database connection
+  
   $conn->close();
   ?>
+
 
 <!DOCTYPE html>
 
 <html>
 <head>
-<script>
-  
-   function updateTotal() {
-    const priceElement = document.getElementById('price');
-    const totalElement = document.getElementById('total');
-
-    const price = parseFloat(priceElement.textContent.substring(1)); // Get the item price
-    let deliveryFee = 0;
-
-    const location = "<?php echo $location; ?>"; // Get the location from PHP
-
-    if (location === "Brunei Muara") {
-        deliveryFee = 3;
-    } else if (location === "Tutong") {
-        deliveryFee = 5;
-    } else if (location === "Belait") {
-        deliveryFee = 7;
-    } else if (location === "Temburong") {
-        deliveryFee = 6;
-    }
-
-    const selectedDeliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
-
-    if (selectedDeliveryMethod && selectedDeliveryMethod.id === 'pickUp') {
-        // No delivery fee for Pick-up
-        deliveryFee = 0;
-    }
-
-    const total = price + deliveryFee;
-
-    // Debugging: Log the values
-    console.log("Price:", price);
-    console.log("Delivery Fee:", deliveryFee);
-    console.log("Total:", total);
-
-    // Update the total price element on the page
-    totalElement.textContent = "$" + total.toFixed(2);
-}
-</script>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MEMBERSHIP</title>
@@ -171,8 +139,8 @@ if ($stmt->fetch()) {
                 <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
                 <li><a class="dropdown-item" href="../privatemessage/myChat.php">Messages</a></li>
                 <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
-    </ul>
 
+    </ul>
   </div>
   </div>
 </nav>
@@ -252,18 +220,18 @@ if ($stmt->fetch()) {
             <th class="col-6">Price:</th>
             <td class="col-4 text-end"><b>$<?php echo $price?><b></td>
         </tr>
-
-        <tr id="deliveryFeeRow">
-    <th class="col-6">Delivery fee:</th>
-    <td class="col-4 text-end"><b>$<?php echo $delivery ?></b></td>
-</tr>
-
+        <tr>
+        <th class="col-6">Delivery fee:</th>
+        <td class="col-4 text-end"><b>$<?php echo $delivery?></b></td>
+        </tr>
+       
         <tr>
             <th class="col-6">Total:</th>
-            <td class="col-4 text-end"><b>$<?php echo $total ?><span id="total"></b></span></td>
+            <td class="col-4 text-end"><b>$<?php echo $total ?></b></td>
         </tr>
     </tbody>
 </table>
+
 
 <br>
 <div class="text-center">
@@ -308,40 +276,9 @@ if ($stmt->fetch()) {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
-
 document.addEventListener("DOMContentLoaded", function () {
-  // Get references to the input fields and the delivery fee row
-  const deliveryMethodRadioButtons = document.querySelectorAll('input[name="deliveryMethod"]');
-  const deliveryFeeRow = document.getElementById('deliveryFeeRow');
-  const priceElement = document.getElementById('price');
-  const totalElement = document.getElementById('total');
-
-  // Function to check if the "Pick-up" option is selected
-  function isPickUpSelected() {
-    return document.querySelector('input[name="deliveryMethod"]:checked').id === 'pickUp';
-  }
-
-  // Function to show/hide the delivery fee row based on the selected delivery method
-  function toggleDeliveryFeeRow() {
-    if (isPickUpSelected()) {
-      deliveryFeeRow.style.display = 'none'; // Hide the delivery fee row for Pick-up
-    } else {
-      deliveryFeeRow.style.display = 'table-row'; // Show the delivery fee row for other methods
-    }
-  }
-
-  // Attach an event listener to each delivery method radio button
-  deliveryMethodRadioButtons.forEach(function (radioButton) {
-    radioButton.addEventListener('change', toggleDeliveryFeeRow);
-  });
-
-  // Initial check when the page loads
-  toggleDeliveryFeeRow();
-
-  // Rest of your JavaScript code...
-});
-
   // Get references to the input fields
   const districtInput = document.getElementById('District');
   const cityInput = document.getElementById('City');
@@ -433,6 +370,8 @@ console.log("Postal Code:", postalCodeInput.value.trim());
     if (deliveryMethod && paymentMethod) {
       if (deliveryMethod.id === 'delivery') {
 
+        
+
         // Show the delivery address modal
         $('#deliveryModal').modal('show');
       } else {
@@ -458,7 +397,8 @@ console.log("Postal Code:", postalCodeInput.value.trim());
 // Attach the placeOrder function to the button click event
 document.getElementById('placeOrderButton').addEventListener('click', placeOrder);
 
+});
 </script>
 
 </body>
-</html>
+</html

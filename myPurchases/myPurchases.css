@@ -17,18 +17,23 @@
     color: #000;
     cursor: pointer;
 }
-
 .card1 {
     border: 1px solid #ccc;
     padding: 10px;
     margin: 10px;
-    height: 450px;
+    height: auto; /* Change height to auto to allow for dynamic content height */
     width: calc(20% - 20px); /* Adjust the card width and spacing */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     text-align: center;
+}
+
+.card1 img {
+    max-width: 100%; /* Limit the width of the images to 100% of their parent container */
+    max-height: 150px; /* Limit the height of the images to a fixed value */
+    margin-bottom: 10px;
 }
 
 .card-container {
