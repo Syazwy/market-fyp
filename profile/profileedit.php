@@ -2,6 +2,7 @@
 require '../connection/connection.php';
 session_start();
 
+
 // Get the user's ID from the URL
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -50,7 +51,6 @@ if (isset($_FILES['newProfileImage'])) {
 
 }
 
-
 ?>
 <?php
 if(isset($_GET['id'])){
@@ -68,51 +68,78 @@ if(isset($_GET['id'])){
 
 <?php
 require '../connection/connection.php';
+
 if (isset($_POST['submit'])) {
     $Nusername = $_POST['username'];
     $Nemail = $_SESSION['email'];
     $Npassword = $_POST['newPassword']; // Get the new password from the form
     // Hash the new password
     $hashedPassword = password_hash($Npassword, PASSWORD_DEFAULT);
+
+    try {
+        mysqli_begin_transaction($conn);
     
-    // Update the 'account' table
-    if ($Npassword) {
-        $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail', `password` = '$hashedPassword' WHERE `username` = '" . $_SESSION['username'] . "'";
-    } else {
-        $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail' WHERE `username` = '" . $_SESSION['username'] . "'";
-    }
-    $result = mysqli_query($conn, $query);
-    if (!$result) {
-        die("Query Failed: " . mysqli_error($conn));
-    } else {
-        $_SESSION['username'] = $Nusername;
-    }
-
-    mysqli_begin_transaction($conn);
-
-try {
-
-    // Update other tables with username references
-    $tablesToUpdate = ['appeals', 'itemslisting', 'reportbyusers', 'reviews'];
-
-    foreach ($tablesToUpdate as $table) {
-        $query = "UPDATE `$table` SET `username` = '$Nusername' WHERE `username` = '" . $_SESSION['username'] . "'";
+        // Update the 'account' table
+        if ($Npassword) {
+            $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail', `password` = '$hashedPassword' WHERE `username` = '" . $_SESSION['username'] . "'";
+        } else {
+            $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail' WHERE `username` = '" . $_SESSION['username'] . "'";
+        }
         $result = mysqli_query($conn, $query);
         if (!$result) {
-            die("Query Failed: " . mysqli_error($conn));
+            throw new Exception("Query Failed: " . mysqli_error($conn));
         } else {
-            echo "Updated $table with new username: $Nusername<br>";
+            
         }
+    
+        $tablesToUpdate = ['appeals', 'itemslisting', 'reportbyusers', 'reviews', 'chat'];
+        foreach ($tablesToUpdate as $table) {
+            if ($table === 'chat') {
+                // For the 'chat' table, update 'sender' and 'receiver' columns
+                $query = "UPDATE `$table` SET `sender` = '$Nusername' WHERE `sender` = '" . $_SESSION['username'] . "'";
+                $result = mysqli_query($conn, $query);
+                if (!$result) {
+                    throw new Exception("Query Failed: " . mysqli_error($conn));
+                }
+        
+                $query = "UPDATE `$table` SET `receiver` = '$Nusername' WHERE `receiver` = '" . $_SESSION['username'] . "'";
+                $result = mysqli_query($conn, $query);
+                if (!$result) {
+                    throw new Exception("Query Failed: " . mysqli_error($conn));
+                }
+            } else {
+                // For other tables, update the 'username' column
+                $query = "UPDATE `$table` SET `username` = '$Nusername' WHERE `username` = '" . $_SESSION['username'] . "'";
+                $result = mysqli_query($conn, $query);
+                if (!$result) {
+                    throw new Exception("Query Failed: " . mysqli_error($conn));
+                }
+        
+                // For the 'reviews' table, update the 'users' column
+                if ($table === 'reviews') {
+                    $query = "UPDATE `$table` SET `users` = '$Nusername' WHERE `users` = '" . $_SESSION['username'] . "'";
+                    $result = mysqli_query($conn, $query);
+                    if (!$result) {
+                        throw new Exception("Query Failed: " . mysqli_error($conn));
+                    }
+                }
+            }
+        }
+        
+        
+        $_SESSION['username'] = $Nusername;
+        $username =  $_SESSION['username'];
+        echo $username;
+    
+        // Commit the transaction if all queries are successful
+        mysqli_commit($conn);
+    } catch (Exception $e) {
+        // Roll back the transaction if any query fails
+        mysqli_rollback($conn);
+        echo "Transaction failed: " . $e->getMessage();
     }
-    mysqli_commit($conn);
-} catch (Exception $e) {
-    // Roll back the transaction if any query fails
-    mysqli_rollback($conn);
-    echo "Transaction failed: " . $e->getMessage();
-} 
-    // header('location: myprofile.php?update_msg=You have successfully updated the data.');
+    
 }
-
 
 ?>
 
@@ -137,7 +164,7 @@ try {
             <ul class="nav nav-pills">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="../wishlist/wishlist.php">Wishlist</a></li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#changeProfileImageModal">Sell</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
             </ul>
         </div>
 
@@ -188,7 +215,7 @@ try {
         <form action="profileedit.php?id=<?php echo $id; ?>" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" name="username" id="username" value="<?php echo isset($row['username']) ? $row['username'] : ''; ?>">
+                <input type="text" class="form-control" name="username" id="username" value="<?php echo $username ;?>">
             </div>
             <div class="mb-3">
             <label for="newPassword" class="form-label">New Password</label>

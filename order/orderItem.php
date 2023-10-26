@@ -1,63 +1,98 @@
 <?php
+// Start a PHP session and include necessary files
 require_once("../session/session.php");
 require '../connection/connection.php';
+
+// Retrieve user information from the session
 $email = $_SESSION['email'];
 $username = $_SESSION['username'];
 $usersemail = $_GET['email'];
 
+// Query the 'account' table to retrieve user data
 $query = "SELECT * FROM account WHERE username = '$username'";
 $result = mysqli_query($conn, $query);
 
-
+// Fetch user data from the result
 if ($result) {
- while($row = $result->fetch_assoc()){
-   $accountStatus = $row['status'];
-   $name =  $row['username'];
-   $profileimage = $row['profile_image'];
-  }
-}
-
-?>
-
-<?php
-    $id = $_GET['id'];
-    
-    // Prepare and execute SQL query to fetch name, price, and location for the given ID
-    $sql = "SELECT name, price, location FROM itemslisting WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $id);
-    $stmt->execute();
-    $stmt->bind_result($name, $price, $location);
-
-    // Fetch the result
-    if ($stmt->fetch()) {
-        // Output the fetched values
-
-$delivery = "" ;
-
-if ($location === "Brunei Muara") {
-  $delivery = 3 ;
-} elseif ($location === "Tutong") {
-  $delivery = 5;
-} elseif ($location === "Belait") {
-  $delivery = 7;
-} elseif ($location === "Temburong") {
-  $delivery = 6;
-}
-
-$total = $price + $delivery;
-    } else {
-        echo "No data found for the given ID.";
+    while ($row = $result->fetch_assoc()) {
+        $accountStatus = $row['status'];
+        $name = $row['username'];
+        $profileimage = $row['profile_image'];
     }
-    
+}
+
+// Get the item ID from the URL
+$id = $_GET['id'];
+
+// Prepare and execute SQL query to fetch item details
+$sql = "SELECT name, price, location FROM itemslisting WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $id);
+$stmt->execute();
+$stmt->bind_result($name, $price, $location);
+
+// Fetch the result
+if ($stmt->fetch()) {
+    // Set the default delivery fee to 0
+    $delivery = 0;
+    // Calculate the delivery fee based on the location
+    if ($location === "Brunei Muara") {
+        $delivery = 3;
+    } elseif ($location === "Tutong") {
+        $delivery = 5;
+    } elseif ($location === "Belait") {
+        $delivery = 7;
+    } elseif ($location === "Temburong") {
+        $delivery = 6;
+    }
+
+    // Calculate the total price
+    $total = $price + $delivery;
+}
 ?>
+  <?php 
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      // Get form data
+  
+      $district = $_POST["District"];
+      $city = $_POST["City"];
+      $streetAddress = $_POST["StreetAddress"];
+      $postalCode = $_POST["PostalCode"];
+      
+      // Debugging
+      echo "District: " . $district . "<br>";
+      echo "City: " . $city . "<br>";
+      echo "Street Address: " . $streetAddress . "<br>";
+      echo "Postal Code: " . $postalCode . "<br>";
+      
+  
+      // Update the 'account' table with order details
+      $updateAccountSQL = "UPDATE account SET District = ?, City = ?, StreetAddress = ?, PostalCode = ? WHERE email = ?";
+      $updateStmt = $conn->prepare($updateAccountSQL);
+      $updateStmt->bind_param("sssss", $district, $city, $streetAddress, $postalCode, $email);
+      
+      if ($updateStmt->execute()) {
+          // Handle success
+          print_r($_POST);
+
+          exit();
+      } else {
+          echo "Failed to update the account table." . mysqli_error($conn);
+      }
+  }
+  
+  // Close the database connection
+  $conn->close();
+  ?>
+
 <!DOCTYPE html>
 
 <html>
 <head>
 <script>
-// Function to update the total based on the selected delivery method
-function updateTotal() {
+  
+   function updateTotal() {
     const priceElement = document.getElementById('price');
     const totalElement = document.getElementById('total');
 
@@ -67,34 +102,34 @@ function updateTotal() {
     const location = "<?php echo $location; ?>"; // Get the location from PHP
 
     if (location === "Brunei Muara") {
-      deliveryFee = 3;
+        deliveryFee = 3;
     } else if (location === "Tutong") {
-      deliveryFee = 5;
+        deliveryFee = 5;
     } else if (location === "Belait") {
-      deliveryFee = 7;
+        deliveryFee = 7;
     } else if (location === "Temburong") {
-      deliveryFee = 6;
+        deliveryFee = 6;
+    }
+
+    const selectedDeliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
+
+    if (selectedDeliveryMethod && selectedDeliveryMethod.id === 'pickUp') {
+        // No delivery fee for Pick-up
+        deliveryFee = 0;
     }
 
     const total = price + deliveryFee;
 
+    // Debugging: Log the values
+    console.log("Price:", price);
+    console.log("Delivery Fee:", deliveryFee);
+    console.log("Total:", total);
+
     // Update the total price element on the page
     totalElement.textContent = "$" + total.toFixed(2);
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    // Get references to the input fields and the delivery fee row
-    const deliveryMethodRadioButtons = document.querySelectorAll('input[name="deliveryMethod"]');
-
-    // Attach an event listener to each delivery method radio button
-    deliveryMethodRadioButtons.forEach(function (radioButton) {
-      radioButton.addEventListener('change', updateTotal);
-    });
-
-    // Initial check when the page loads
-    updateTotal();
-  });
+}
 </script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MEMBERSHIP</title>
@@ -137,6 +172,7 @@ function updateTotal() {
                 <li><a class="dropdown-item" href="../privatemessage/myChat.php">Messages</a></li>
                 <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
     </ul>
+
   </div>
   </div>
 </nav>
@@ -153,45 +189,6 @@ function updateTotal() {
     }
   });
 </script>
-
-  <?php
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      // Get form data
-  
-      $district = $_POST["District"];
-      $city = $_POST["City"];
-      $streetAddress = $_POST["StreetAddress"];
-      $postalCode = $_POST["PostalCode"];
-      
-      // Debugging
-      echo "District: " . $district . "<br>";
-      echo "City: " . $city . "<br>";
-      echo "Street Address: " . $streetAddress . "<br>";
-      echo "Postal Code: " . $postalCode . "<br>";
-      
-  
-      // Update the 'account' table with order details
-      $updateAccountSQL = "UPDATE account SET District = ?, City = ?, StreetAddress = ?, PostalCode = ? WHERE email = ?";
-      $updateStmt = $conn->prepare($updateAccountSQL);
-      $updateStmt->bind_param("sssss", $district, $city, $streetAddress, $postalCode, $email);
-      
-      if ($updateStmt->execute()) {
-          // Handle success
-          print_r($_POST);
-
-          exit();
-      } else {
-          echo "Failed to update the account table." . mysqli_error($conn);
-      }
-  }
-  
-  // Close the database connection
-  
-  $conn->close();
-  ?>
-
-
 
     <br>
     <div class="container">
@@ -308,8 +305,6 @@ function updateTotal() {
   </div>
 </div>
 
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -344,6 +339,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initial check when the page loads
   toggleDeliveryFeeRow();
 
+  // Rest of your JavaScript code...
 });
 
   // Get references to the input fields
@@ -465,4 +461,4 @@ document.getElementById('placeOrderButton').addEventListener('click', placeOrder
 </script>
 
 </body>
-</html
+</html>
