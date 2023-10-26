@@ -253,7 +253,7 @@ mysqli_free_result($result);
                             </div>
                         </div>
                     </div>
-                    <a href="../../productinfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
+                    <a href="productinfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
                         <img src="../sellers/upload/<?php echo $item_image; ?>" class="card-img-top" width="150px" height="150px">
                     </a>
                     <div class="card-body">
