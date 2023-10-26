@@ -1,6 +1,4 @@
 <?php
-// In your "category.php" script
-
 // Get the selected category from the AJAX request
 $category = $_GET['category'];
 
