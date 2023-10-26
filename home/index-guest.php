@@ -136,6 +136,12 @@ a.nav-link.active {
         border-bottom: none; /* This removes the border between header and body */
     }
 
+    .modal-header .close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
 </style>
 
 </head>
@@ -193,8 +199,8 @@ a.nav-link.active {
                 <div class="modal-header justify-content-center" style="border: none;">
                     <h3 class="modal-title d-flex justify-content-center text-center" id="registerModalLabel">Create Account</h3>
                     <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 </div>
                 <div class="modal-body">
                     <form method="post" onsubmit="return validateForm();">
@@ -280,8 +286,8 @@ a.nav-link.active {
                 <div class="modal-header justify-content-center" style="border: none;">
                     <h3 class="modal-title d-flex justify-content-center text-center" id="loginModalLabel">Login</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border: 1px solid white;background-color:white">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 </div>
                 <div class="modal-body">
                     <form method="POST">
