@@ -122,7 +122,7 @@ if (isset($_POST['send_verification_code'])) {
         </html>';
 
         if ($mail->send()) {
-            $msg = '<p class="error" style="color:red;">A verification code has been sent to your email address.</p>';
+            $msg = '<p class="error" style="color:green;">A verification code has been sent to your email address.</p>';
         } else {
             $msg = '<p class="error" style="color:red;">Failed to send the verification code. Please try again later.</p>';
         }
@@ -171,7 +171,12 @@ if (isset($_POST['verify_code'])) {
         $reset_pwd = mysqli_query($conn, "UPDATE account SET password='$hashedPassword' WHERE email='$email'");
 
         if ($reset_pwd) {
-            $msg = '<p class="error" style="color:red;">Your password has been updated successfully. </p>';
+          $msg = '<p class="success" style="color:green;">Your password has been updated successfully.</p>';
+
+          // Redirect the user to index-guest.php
+          header("Location: index-guest.php");
+          exit(); // Ensure that no other code is executed after the redirect
+      
         } else {
             $msg = '<p class="error" style="color:red;">Error while updating password: ' . mysqli_error($conn).'</p>'; // Debugging
         }
