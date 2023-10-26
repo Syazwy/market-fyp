@@ -78,7 +78,7 @@ mysqli_free_result($result);
                 <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
                 <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
                 <li><a class="dropdown-item" href="../privatemessage/myChat.php">Messages</a></li>
-                <li><a class="dropdown-item" href="index-guest.php" onclick="return confirm('Are you sure you want to logout?')">Log out</a></li>
+                <li><a class="dropdown-item" href="../home/index-guest.php" onclick="return confirm('Are you sure you want to logout?')">Log out</a></li>
             </ul>
         </div>
     </div>
@@ -253,7 +253,7 @@ mysqli_free_result($result);
                             </div>
                         </div>
                     </div>
-                    <a href="../productinfo/productinfo.php?id=<?php echo $row["id"]; ?>">
+                    <a href="../productinfo/ProductInfo.php?id=<?php echo $row["id"]; ?>">
                         <img src="../sellers/upload/<?php echo $item_image; ?>" class="card-img-top" width="150px" height="150px">
                     </a>
                     <div class="card-body">
@@ -283,7 +283,7 @@ mysqli_free_result($result);
     $(document).ready(function () {
         // Function to display search results and toggle item visibility
         function displaySearchResults(query) {
-            var url = "search.php";
+            var url = "../home/search.php";
             var data = {query: query};
 
             $.ajax({
@@ -328,7 +328,7 @@ mysqli_free_result($result);
 $(document).ready(function() {
     // Function to handle category clicks and filter listings
     function handleCategoryClick(category) {
-        var url = "category.php";
+        var url = "../home/category.php";
         var data = { category: category };
 
         $.ajax({
