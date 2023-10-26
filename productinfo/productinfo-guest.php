@@ -716,13 +716,13 @@ if (isset($_POST["login"])) {
                 </div>
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" >
+                    <img src ="../sellers/upload/<?php echo $row['image_filename'];?>" >
                   </div>
                   <div class="carousel-item">
-                  <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" >
+                  <img src ="../sellers/upload/<?php echo $row['image_filename'];?>" >
                   </div>
                   <div class="carousel-item">
-                  <img src ="../sellers/Upload/<?php echo $row['image_filename'];?>" >
+                  <img src ="../sellers/upload/<?php echo $row['image_filename'];?>" >
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -803,7 +803,7 @@ if (isset($_POST["login"])) {
         }
 
         echo '<br>';
-        echo '<h2><img src="img/location-outline.svg" alt="" width="50" height="50">' . $row["location"] . '</h2>';
+        echo '<h2><img src="../image/location-outline.svg" alt="" width="50" height="50">' . $row["location"] . '</h2>';
 
     } else {
         echo '- No reviews available.';
