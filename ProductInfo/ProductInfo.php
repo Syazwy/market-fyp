@@ -33,14 +33,13 @@ if ($result) {
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-  /* Styles from the first <style> section */
 
   .checked {
     color: orange;
   }
 
   .carousel-inner {
-    background: white; /* Make the carousel background clear */
+    background: white; 
   }
 
   .carousel-item img {
@@ -49,7 +48,7 @@ if ($result) {
   }
 
   .product-info.description {
-    background: transparent; /* Make the description box background clear */
+    background: transparent; 
     padding: 20px;
     border-radius: 5px;
     margin-top: 20px;
@@ -161,13 +160,12 @@ if ($result) {
 
   .wishlist-button-container {
     position: absolute;
-    top: 10px; /* Adjust this value to your desired top position */
-    right: 10px; /* Adjust this value to your desired right position */
+    top: 10px; 
+    right: 10px; 
    
     padding: 50px;
   }
 
-  /* Styles from the second <style> section */
 
   body {
     font-family: Arial, sans-serif;
@@ -181,11 +179,11 @@ if ($result) {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
-    font-size: 20px; /* Adjust the font size as needed */
+    font-size: 20px; 
   }
 
   .rating .fa {
-    margin: 0 5px; /* Adjust the spacing between stars */
+    margin: 0 5px; 
   }
 
   label {
@@ -396,9 +394,7 @@ if ($result) {
                     
             <div class="wishlist-button-container">
             <?php
-            // ... (previous code)
 
-            // Assuming you have a table 'wishlist' with columns 'user_id' and 'item_id'
             $wishlistQuery = "SELECT COUNT(*) as wishlist_count FROM wishlist WHERE id = '$sessionEmail'";
             $wishlistResult = mysqli_query($conn, $wishlistQuery);
 
@@ -406,10 +402,9 @@ if ($result) {
                 $wishlistCountRow = mysqli_fetch_assoc($wishlistResult);
                 $wishlistCount = $wishlistCountRow['wishlist_count'];
             } else {
-                $wishlistCount = 0; // Default to 0 if there's an error in the query
+                $wishlistCount = 0; 
             }
 
-            // Check the user's membership and wishlist count
             if ($membership === 'basic' && $wishlistCount >= 5) {
                 echo '<p>You have reached your wishlist limit.</p>';
             } else {
@@ -516,7 +511,6 @@ if ($result) {
             <script>
   function confirmAddToWishlist() {
         if (confirm("Are you sure you want to add this item to your wishlist?")) {
-            // Call the wishlist function if the user confirms
             addToWishlist();
         }
     }
