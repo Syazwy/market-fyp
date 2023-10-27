@@ -155,7 +155,8 @@ mysqli_stmt_close($stmt);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SELLS PAGE</title>
+    <title>Selles Page</title>
+    <link rel="icon" href="../image/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="../home/index.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/flatly/bootstrap.min.css">

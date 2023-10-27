@@ -25,6 +25,7 @@ if ($result) {
 <head>
 <meta charset="UTF-8">
 <title> Message</title>
+<link rel="icon" href="../image/logo.png" type="image/x-icon">
 <link rel="stylesheet" href="chat.css">
 <!-- <script>
 function initMap() {

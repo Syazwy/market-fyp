@@ -25,6 +25,7 @@ if ($result) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Info</title>
+    <link rel="icon" href="../image/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="bootstrap-5.0.2-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../productinfo/ProductInfo.css">
     <link rel="stylesheet" href="../home/index.css">
@@ -448,7 +449,7 @@ if ($result) {
                       return $output;
                   }
 
-                  $href = ($row["email"] === $sessionEmail) ? '../profile/myProfile.php' : "../profile/usersprofile.php?email={$row["email"]}&username={$row["username"]}";
+                  $href = ($row["email"] === $sessionEmail) ? '../profile/myprofile.php' : "../profile/usersprofile.php?email={$row["email"]}&username={$row["username"]}";
 
                   echo '<a href="' . $href . '" style="text-decoration: none; color: black;">';
                   echo '<div class="user">';
