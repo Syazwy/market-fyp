@@ -13,12 +13,11 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header justify-content-center" style="border: none;">
-        <!-- <h3 class="modal-title d-flex justify-content-center text-center" id="forgotModalLabel">Login</h3> -->
+          <!-- close button -->
         <a href="index-guest.php" class="close" data-dismiss="modal" aria-label="Close" style="margin-left:500px;border: 1px solid white; background-color: white; color: black; font-size: 2em; text-decoration: none;"> &times; </a>
       </div>
       <br>
         <div class="modal-body">
-          <!-- Login form content goes here -->
           <form method="POST" >
 
 
@@ -26,10 +25,10 @@
 <?php
 include_once('../connection/connection.php');
 session_start();
-    $msg = ''; // Initialize a message variable
+    $msg = ''; 
 
 if (isset($_POST['send_verification_code'])) {
-    $email = mysqli_real_escape_string($conn, $_POST['email']); // Sanitize the input
+    $email = mysqli_real_escape_string($conn, $_POST['email']); 
 
     $check_email = mysqli_query($conn, "SELECT email FROM account WHERE email='$email'");
     $res = mysqli_num_rows($check_email);
@@ -37,13 +36,10 @@ if (isset($_POST['send_verification_code'])) {
     if ($res > 0) {
         $verification_code = mt_rand(100000, 999999);
 
-        mysqli_query($conn, "UPDATE account SET verification_code = '$verification_code' WHERE email = '$email'");
+        mysqli_query($conn, "UPDATE account SET verification_code = '$verification_code' WHERE email = '$email'");  
 
-        // Send the verification code to the user's email
-        // $message = "Your verification code is: $verification_code";
-
-        include_once("forgot/SMTP/class.phpmailer.php");
-        include_once("forgot/SMTP/class.smtp.php");
+        include_once("SMTP/class.phpmailer.php");
+        include_once("SMTP/class.smtp.php");
 
         $mail = new PHPMailer;
         $mail->IsSMTP();
@@ -55,8 +51,12 @@ if (isset($_POST['send_verification_code'])) {
         $mail->Password = 'ixcnouumjkoxtcvs';
         $mail->setFrom('admin.market@gmail.com', 'admin.market');
         $mail->AddAddress($email);
+
         $mail->Subject = "Verification Code";
-        $mail->isHTML(true); // Send plain text message
+
+       // $mail->isHTML(false); // Send plain text message
+        $mail->isHTML(true); // Send in html format
+
         $mail->Body = '<html>
         <head>
             <style>
@@ -175,7 +175,7 @@ if (isset($_POST['verify_code'])) {
 
           // Redirect the user to index-guest.php
           header("Location: index-guest.php");
-          exit(); // Ensure that no other code is executed after the redirect
+          exit(); 
       
         } else {
             $msg = '<p class="error" style="color:red;">Error while updating password: ' . mysqli_error($conn).'</p>'; // Debugging
@@ -187,10 +187,11 @@ if (isset($_POST['verify_code'])) {
 ?>
 
 
-<!-- HTML content goes here -->
 <div class="container">
 <div class="table-responsive" style="margin:auto;width:600px;padding: 20px; border-radius: 10px; box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1), 0 0 0 2px rgb(255, 83, 83), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);">
 <center>
+
+  <!-- Forgot Password -->
   <div class="container" id="forgot-password-section" style="display: <?php echo $fphidden ?>"> 
       
     <br>
@@ -218,8 +219,7 @@ if (isset($_POST['verify_code'])) {
     </div>
      
 
-  
- 
+    <!-- Verify Code and Reset Password -->
       <div class="container" id="reset-password-section" style="display: <?php echo $show ?> ;margin:auto;">
             <h2 align="center">Verify Code and Reset Password</h2><br/>
 
@@ -247,6 +247,7 @@ if (isset($_POST['verify_code'])) {
             </div>
         </div>
         </center>
+        <!-- error message -->
         <?php echo $noEmail ?>
         
 </div>
