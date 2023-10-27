@@ -335,7 +335,7 @@ mysqli_stmt_close($stmt);
         minlength="10"   
         maxlength="200"  
         pattern=".{10,200}" 
-        title="Description must be between 10 and 200 characters long."> <!-- Add a title attribute with a custom error message -->
+        title="Description must be between 10 and 200 characters long."> 
     </textarea>
 </div>
 
