@@ -20,25 +20,25 @@ if ($result) {
 
 <?php
 
-    // username to look up
-    $username = $_SESSION['username']; // Assuming this is the username you want to retrieve the membership for
+    
+    $username = $_SESSION['username']; 
     $membership = "";
  
-    // Prepare and execute SQL query to fetch membership for the given username
+   
     $sql = "SELECT membership FROM account WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $stmt->bind_result($membership);
 
-    // Fetch the result
+  
     if ($stmt->fetch()) {
-        $membership = $membership; // Assign the membership value to the variable
+        $membership = $membership; 
     } else {
         $membership = "Membership not found for this username.";
     }
 
-    // Close the database connection
+ 
     $stmt->close();
     $conn->close();
 ?>
@@ -104,12 +104,12 @@ if ($result) {
 
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the link from immediately navigating
+    event.preventDefault(); 
 
-    // Display a confirmation dialog
+   
     const confirmLogout = confirm("Are you sure you want to log out?");
 
-    // If the user confirms, navigate to the logout page
+    
     if (confirmLogout) {
       window.location.href = event.target.href;
     }
@@ -141,7 +141,7 @@ if ($result) {
 
     <script>
 function order(plan) {
-    // Redirect to orderMembership.php with the selected plan as a URL parameter
+    
     window.location.href = '../order/orderMembership.php?plan=' + plan;
 }
 </script>
@@ -203,28 +203,27 @@ function order(plan) {
 </div>
 <script>
 function checkMembership() {
-    var membership = "<?php echo $membership; ?>"; // Get the membership value from PHP
+    var membership = "<?php echo $membership; ?>"; 
 
-    // Get all the buttons with the class "membership-button"
+   
     var buttons = document.querySelectorAll('.membership-button');
 
-    // Get the modal's plan name span element
+
     var modalPlanName = document.getElementById('modalPlanName');
 
-    // Loop through each button and add a click event listener
     buttons.forEach(function (button) {
         var dataPlan = button.getAttribute('data-plan');
 
         button.addEventListener('click', function () {
-            // Update the modal's plan name with the clicked data-plan
+           
             modalPlanName.textContent = dataPlan;
         });
 
         if (dataPlan === membership) {
-            // Disable the button if the data-plan matches the membership value
+         
             button.disabled = true;
         } else {
-            // Enable the button if it doesn't match
+          
             button.disabled = false;
         }
     });
@@ -241,33 +240,29 @@ function updateSubscriptionDuration() {
     } else if (modalPlanName === 'Premium Annually') {
         modalSubscriptionDuration.innerText = ' automatically expire after a year';
     } else {
-        modalSubscriptionDuration.innerText = ''; // Handle other cases if needed
+        modalSubscriptionDuration.innerText = ''; 
     }
 }
 </script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // Get all the buttons with the class "membership-button"
     var buttons = document.querySelectorAll('.membership-button');
 
-    // Get the modal's plan name span element
     var modalPlanName = document.getElementById('modalPlanName');
 
-    // Add a click event listener to each membership button
     buttons.forEach(function (button) {
     button.addEventListener('click', function () {
         var dataPlan = button.getAttribute('data-plan');
         modalPlanName.textContent = dataPlan;
-        updateSubscriptionDuration(); // Call the function here
+        updateSubscriptionDuration(); 
     });
 });
 
 
-    // Add a click event listener to the "Confirm" button in the modal
     var confirmButton = document.getElementById('confirmSubscription');
     confirmButton.addEventListener('click', function () {
-        // Redirect to orderMembership.php with the selected plan as a URL parameter
+
         var selectedPlan = modalPlanName.textContent;
         window.location.href = '../order/orderMembership.php?plan=' + selectedPlan;
     });

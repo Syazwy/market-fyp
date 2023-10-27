@@ -28,18 +28,27 @@ $stmt->bind_param("s", $id);
 $stmt->execute();
 $stmt->bind_result($itemname);
 
-// Fetch the result
 if ($stmt->fetch()) {
-    // The $name variable now holds the item's name
-    $stmt->close(); // Close the $stmt result set
+<<<<<<< Updated upstream
+    $stmt->close(); 
   
-    // Update the status to 'sold' and set the 'bought' column to the email
 $updateSql = "UPDATE itemslisting SET status = 'sold', bought = ? WHERE id = ?";
 $updateStmt = $conn->prepare($updateSql);
-$updateStmt->bind_param("ss", $email, $id); // Assuming 'bought' column type is string
+$updateStmt->bind_param("ss", $email, $id);
 
     if ($updateStmt->execute()) {
-        // Status updated successfully
+=======
+  
+    $stmt->close(); 
+  
+   
+$updateSql = "UPDATE itemslisting SET status = 'sold', bought = ? WHERE id = ?";
+$updateStmt = $conn->prepare($updateSql);
+$updateStmt->bind_param("ss", $email, $id); 
+
+    if ($updateStmt->execute()) {
+      
+>>>>>>> Stashed changes
     } else {
         echo "Error updating status: " . $conn->error;
     }
@@ -59,48 +68,54 @@ if ($result) {
    }
 }
 
-// Generate a random receipt number
 $receiptNumber = mt_rand(100000, 999999);
 
-// ----------------------
+
 $mailUser = new PHPMailer(true);
 try {
-    // Enable verbose debug output for the $mailUser instance
-    $mailUser->SMTPDebug = 0; // SMTP::DEBUG_SERVER;
+<<<<<<< Updated upstream
+    $mailUser->SMTPDebug = 0; 
 
-    // Send using SMTP
     $mailUser->isSMTP();
 
-    // Set the SMTP server to send through (e.g., Gmail)
     $mailUser->Host = 'smtp.gmail.com';
 
-    // Enable SMTP authentication
     $mailUser->SMTPAuth = true;
 
-    // SMTP username (replace with your Gmail email address)
     $mailUser->Username = 'market51bn@gmail.com';
 
-    // SMTP password (replace with your Gmail password)
     $mailUser->Password = 'ixcnouumjkoxtcvs';
 
-    // Enable TLS encryption;
     $mailUser->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 
-    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+=======
+    
+    $mailUser->SMTPDebug = 0; 
+
+  
+    $mailUser->isSMTP();
+
+  
+    $mailUser->Host = 'smtp.gmail.com';
+
+   
+    $mailUser->SMTPAuth = true;
+
+   
+    $mailUser->Username = 'market51bn@gmail.com';
+
+   
+    $mailUser->Password = 'ixcnouumjkoxtcvs';
+
+ 
+    $mailUser->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+
+    
+>>>>>>> Stashed changes
     $mailUser->Port = 587;
 
     $mailUser->setFrom('admin.market@gmail.com', 'MarketBN');
     $mailUser->addAddress($email);
-
-    // Construct the email body with a different message
-    // $mailUser->Subject = 'Receipt Number: ' . $receiptNumber;
-    // $mailUser->Body = "Thank you for your order,<br><br>";
-    // $mailUser->Body .= "Here is your order details:<br>";
-    // $mailUser->Body .= 'Receipt Number: <b>' . $receiptNumber . "</b><br>";
-    // $mailUser->Body .= "Item Name: <b>" . $itemname . "</b><br>";
-    // $mailUser->Body .= "Delivery Method: <b>" . $deliveryMethod . "</b><br>";
-    // $mailUser->Body .= "Payment Method: <b>" . $paymentMethod . "</b><br>";
-    // $mailUser->Body .= "Total: $<b>" . $total . "</b><br>";
 
     $mailUser->Subject = 'Receipt Number: ' . $receiptNumber;
     $mailUser->Body = '<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border: 1px solid #ccc;">';
@@ -125,22 +140,25 @@ try {
 
     $mailUser->isHTML(true);
 
-    // Send the confirmation email to the user
     $mailUser->send();
     
 } catch (Exception $e) {
     echo "Confirmation Email could not be sent to the user. Error: " . $mailUser->ErrorInfo;
 }
 
-// ----------------------------
 
 
-// Send an email using PHPMailer
-$sellerEmail = new PHPMailer(true); // Create a PHPMailer instance for seller's email
+<<<<<<< Updated upstream
+$sellerEmail = new PHPMailer(true);
 
 try {
-    // Enable verbose debug output
-    $sellerEmail->SMTPDebug = 0; // SMTP::DEBUG_SERVER;
+=======
+$sellerEmail = new PHPMailer(true); 
+
+try {
+  
+>>>>>>> Stashed changes
+    $sellerEmail->SMTPDebug = 0; 
     $sellerEmail->isSMTP();
     $sellerEmail->Host = 'smtp.gmail.com';
     $sellerEmail->SMTPAuth = true;
@@ -153,7 +171,10 @@ try {
 
     $sellerEmail->Subject = 'New Order Notification';
 
-    // Add CSS styles
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     $sellerEmail->Body = "<style>
         body {
             font-family: Arial, sans-serif;
@@ -196,9 +217,7 @@ try {
     $sellerEmail->Body .= '<div class="details"><b>Bought by:</b> ' . $email . '</div>';
     $sellerEmail->Body .= '</div>';
     
-  
 
-// Set the email content type to HTML
 $sellerEmail->isHTML(true);
 
 
@@ -260,12 +279,10 @@ $sellerEmail->isHTML(true);
 </nav>
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the link from immediately navigating
+    event.preventDefault(); 
 
-    // Display a confirmation dialog
     const confirmLogout = confirm("Are you sure you want to log out?");
 
-    // If the user confirms, navigate to the logout page
     if (confirmLogout) {
       window.location.href = event.target.href;
     }

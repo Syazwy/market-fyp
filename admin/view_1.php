@@ -3,33 +3,26 @@ require '../connection/connection.php';
 
 $email = $_GET['email'];
 
-// Check if the 'email' parameter exists in the URL
 if (isset($_GET['email'])) {
-    // Retrieve the 'email' from the URL and sanitize it
     $desiredEmail = mysqli_real_escape_string($conn, $email);
 
-    // Use prepared statements to safely include the email in the SQL query
     $query = "SELECT * FROM `account` WHERE email = ?";
     $stmt = mysqli_stmt_init($conn);
 
     if (mysqli_stmt_prepare($stmt, $query)) {
-        // Bind the email parameter to the query
         mysqli_stmt_bind_param($stmt, "s", $desiredEmail);
 
-        // Execute the statement
         if (mysqli_stmt_execute($stmt)) {
             $result = mysqli_stmt_get_result($stmt);
 
             if ($row = mysqli_fetch_assoc($result)) {
-                // Your code to display user information
             } else {
-                echo "User not found"; // If the email doesn't match any user
+                echo "User not found"; 
             }
         } else {
             die("Query Failed: " . mysqli_error($conn));
         }
 
-        // Close the statement
         mysqli_stmt_close($stmt);
     } else {
         die("Statement Preparation Failed: " . mysqli_error($conn));

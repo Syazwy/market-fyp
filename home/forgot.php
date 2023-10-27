@@ -7,7 +7,7 @@
   <link rel="icon" href="../image/logo.png" type="image/x-icon">
 </head>
 <body>
-  
+
 <!-- forgot modal -->
 <div class="modal" id="forgotModal" tabindex="-1" role="dialog" aria-labelledby="forgotModalLabel" aria-hidden="true" style="margin-top: 200px;">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -19,8 +19,6 @@
       <br>
         <div class="modal-body">
           <form method="POST" >
-
-
 
 <?php
 include_once('../connection/connection.php');
@@ -173,12 +171,11 @@ if (isset($_POST['verify_code'])) {
         if ($reset_pwd) {
           $msg = '<p class="success" style="color:green;">Your password has been updated successfully.</p>';
 
-          // Redirect the user to index-guest.php
           header("Location: index-guest.php");
           exit(); 
       
         } else {
-            $msg = '<p class="error" style="color:red;">Error while updating password: ' . mysqli_error($conn).'</p>'; // Debugging
+            $msg = '<p class="error" style="color:red;">Error while updating password: ' . mysqli_error($conn).'</p>'; 
         }
     } else {
         $msg = '<p class="error" style="color:red;">Invalid verification code. Please try again.</p>';

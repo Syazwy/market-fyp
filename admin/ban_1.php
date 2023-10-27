@@ -6,8 +6,7 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 }
 
-$newStatus = 'Banned'; // New status you want to set
-
+$newStatus = 'Banned'; 
 $query = "UPDATE `account` SET `status` = '$newStatus' WHERE `id` = '$id'";
 
 $result = mysqli_query($conn, $query);

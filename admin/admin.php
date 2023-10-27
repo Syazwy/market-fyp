@@ -2,7 +2,6 @@
 require_once("../session/session.php");
 require '../connection/connection.php';
 
-// Fetch user data from the database
 $i = 1;
 $rows = mysqli_query($conn, "SELECT * from `account` ORDER BY Id DESC");
 ?>
@@ -69,12 +68,10 @@ $rows = mysqli_query($conn, "SELECT * from `account` ORDER BY Id DESC");
 
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the link from immediately navigating
+    event.preventDefault(); 
 
-    // Display a confirmation dialog
     const confirmLogout = confirm("Are you sure you want to log out?");
 
-    // If the user confirms, navigate to the logout page
     if (confirmLogout) {
       window.location.href = event.target.href;
     }

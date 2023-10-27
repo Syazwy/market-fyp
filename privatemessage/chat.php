@@ -93,12 +93,10 @@ function initMap() {
 </nav>
 <script>
     document.getElementById('logout-link').addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent the link from immediately navigating
+        event.preventDefault(); 
 
-        // Display a confirmation dialog
         const confirmLogout = confirm("Are you sure you want to log out?");
 
-        // If the user confirms, navigate to the logout page
         if (confirmLogout) {
             window.location.href = event.target.href;
         }
@@ -119,33 +117,29 @@ $itemid = $_GET['id'];
         <h2><?php echo $username ?></h2>
 <?php
 require '../connection/connection.php';
-// Get the item ID from the URL
 $itemid = $_GET['id'];
 
-// Fetch data from the database
 $sql = "SELECT * FROM itemslisting WHERE id = $itemid";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    echo '<div class="item-details">'; // Start the div for item details
+    echo '<div class="item-details">'; 
     while ($row = $result->fetch_assoc()) {
         $itemName = $row['name'];
         $price = $row['price'];
         $condition = $row['item_condition'];
         $itemDescription = $row['description'];
 
-        // Output the data in a single row within the div
         echo "<h4> " . $itemName . " </h4><p></p> ";
         echo "<h4> $" . $price . " </h4> <p></p>";
         echo "<h4> " . $condition . " <h4><p></p>";
         echo "<h4> " . $itemDescription . " <h4><p></p>";
     }
-    echo '</div>'; // End the div for item details
+    echo '</div>'; 
 } else {
     echo "<center><h3>Item is no longer available.</h3></center>";
 }
 
-// Close the database connection
 $conn->close();
 ?>
  
@@ -172,23 +166,18 @@ window.addEventListener("load", function() {
   inputElement.focus();
 });
 
-// Get the input element
 var inputElement = document.getElementById("textInput");
 
-// Check if there is a stored value in local storage
 var storedValue = localStorage.getItem("inputValue");
 
-// If there is a stored value, set it as the input's value
 if (storedValue !== null) {
   inputElement.value = storedValue;
 }
 
-// Add an event listener to the input element to save its value in local storage
 inputElement.addEventListener("input", function () {
   localStorage.setItem("inputValue", inputElement.value);
 });
 
-// Add an event listener to the form to clear the stored value when it is submitted
 document.querySelector("form").addEventListener("submit", function () {
   localStorage.removeItem("inputValue");
 });

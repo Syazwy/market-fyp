@@ -1,10 +1,7 @@
  body {
     font-family: Arial, sans-serif;
   }
-  
-  /* h1 {
-    text-align: center;
-  } */
+
   
   div {
     margin: 10px;
@@ -18,7 +15,7 @@
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
-    font-size: 20px; /* Adjust the font size as needed */
+    font-size: 20px; 
   }
   
 .product-container {
@@ -119,10 +116,7 @@
   margin: auto;
 }
 
-/* #contact{
-  position: absolute;
-  right: 0;
-} */
+
 
 #footer1{
   display: flex;
@@ -137,7 +131,7 @@
 #secondhalf{
   
   .rating .fa {
-    margin: 0 5px; /* Adjust the spacing between stars */
+    margin: 0 5px;
   }
 
 }

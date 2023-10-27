@@ -6,7 +6,7 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 }
 
-$newStatus = 'Active'; // New status you want to set
+$newStatus = 'Active';
 
 $query = "UPDATE `account` SET `status` = '$newStatus' WHERE `id` = '$id'";
 

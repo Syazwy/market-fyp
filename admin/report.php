@@ -7,13 +7,11 @@ $id = $_SESSION['id'];
 <?php
 
 if(isset($_POST["submit"])){
-    // Get form data and sanitize
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $item = mysqli_real_escape_string($conn, $_POST["item"]);
     $report = mysqli_real_escape_string($conn, $_POST["report"]);
     $typeofreport = mysqli_real_escape_string($conn, $_POST["typeofreport"]);
 
-    // Insert item data into database
     $query = "INSERT INTO `report` (name, item, report, typeofreport ) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "ssss", $name, $item, $report, $typeofreport);
@@ -75,7 +73,6 @@ if(isset($_POST["submit"])){
                     <div class="input-field">
                         <div class="input-images-2" style="padding-top: .5rem; padding-bottom: .5rem;"></div>
                     </div>
-                    <!-- Uploaded images will be displayed here -->
                 </div>
                 <br>
                 <div class="subcontainer">

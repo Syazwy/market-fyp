@@ -3,9 +3,9 @@
 
 $db_host = 'market-do-user-14433181-0.b.db.ondigitalocean.com';
 $db_user = 'doadmin';
-$db_password = 'AVNS_w_qd5GqeixD_cXzs29n'; // Replace with your actual password
+$db_password = 'AVNS_w_qd5GqeixD_cXzs29n'; 
 $db_name = 'market';
-$db_port = 25060; // Replace with the actual port if different
+$db_port = 25060; 
 
 $conn = new mysqli($db_host, $db_user, $db_password, $db_name, $db_port);
 

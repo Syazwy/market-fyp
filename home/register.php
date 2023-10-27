@@ -18,7 +18,7 @@ if (isset($_POST["register"])) {
     $password = $_POST["password"];
     $confirmPassword = $_POST["confirmPassword"];
 
-    // Validate input
+  
     if (empty($email) || empty($username) || empty($password) || empty($confirmPassword)) {
         echo "All fields are required.";
         exit;
@@ -29,11 +29,11 @@ if (isset($_POST["register"])) {
         exit;
     }
 
-    // Hash password
+    
     $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
-    // $encrypted_password = $password;
+  
 
-    // Check if email exists
+
     $emailCheckSql = "SELECT * FROM account WHERE email = ?";
     $emailCheckStmt = mysqli_prepare($conn, $emailCheckSql);
     if ($emailCheckStmt) {
@@ -57,7 +57,6 @@ if (isset($_POST["register"])) {
         exit;
     }
 
-    // Check if username exists
     $usernameCheckSql = "SELECT * FROM account WHERE username = ?";
     $usernameCheckStmt = mysqli_prepare($conn, $usernameCheckSql);
     if ($usernameCheckStmt) {
@@ -81,13 +80,13 @@ if (isset($_POST["register"])) {
         exit;
     }
 
-      // Insert new user into the database
+    
       $currentDateTime = new DateTime();
       $date = $currentDateTime->format('Y-m-d');
       $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
   
-      $wishlist_count = 0; // or some other default value
-      $membership = "Basic"; // Define membership
+      $wishlist_count = 0; 
+      $membership = "Basic"; 
   
       $insertSql = "INSERT INTO account(username, email, password, membership, subscriptionDate, date, verification_code, email_verified_at, status, wishlist_count) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, 'Active', ?)";
       $insertStmt = mysqli_prepare($conn, $insertSql);
@@ -97,40 +96,40 @@ if (isset($_POST["register"])) {
         mysqli_stmt_bind_param($insertStmt, "sssssssi", $username, $email, $encrypted_password, $membership, $date, $date, $verification_code, $wishlist_count);
         mysqli_stmt_execute($insertStmt);
 
-        // Send verification email
+     
         $mail = new PHPMailer(true);
         try {
-            // Enable verbose debug output
-            $mail->SMTPDebug = 0; // SMTP::DEBUG_SERVER;
+     
+            $mail->SMTPDebug = 0; 
 
-            // Send using SMTP
+      
             $mail->isSMTP();
 
-            // Set the SMTP server to send through
+            
             $mail->Host = 'smtp.gmail.com';
 
-            // Enable SMTP authentication
+            
             $mail->SMTPAuth = true;
 
-            // SMTP username
+        
             $mail->Username = 'market51bn@gmail.com';
 
-            // SMTP password
+           
             $mail->Password = 'ixcnouumjkoxtcvs';
 
-            // Enable TLS encryption;
+           
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 
-            // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+           
             $mail->Port = 587;
 
-            // Recipients
+           
             $mail->setFrom('admin.market@gmail.com', 'MarketBN');
 
-            // Add a recipient
+         
             $mail->addAddress($email);
 
-            // Set email format to HTML
+           
             $mail->isHTML(true);
             $mail->Subject = 'Your Verification Code for Our Online Store';
             $mail->Body = '<html>
@@ -197,9 +196,8 @@ if (isset($_POST["register"])) {
 
             header("Location: ../home/index-guest.php?email=" . urlencode($email));
 
-            // Now, display the verification modal
             echo '<script>
-                $("#verificationModal").modal("show"); // Show the verification modal
+                $("#verificationModal").modal("show"); 
             </script>';
         } catch (Exception $e) {
           echo '<script>alert("Account not registered: ' . $mail->ErrorInfo . '");</script>';

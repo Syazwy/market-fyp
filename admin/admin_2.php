@@ -65,12 +65,12 @@ require '../connection/connection.php';
 
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the link from immediately navigating
+    event.preventDefault(); 
 
-    // Display a confirmation dialog
+    
     const confirmLogout = confirm("Are you sure you want to log out?");
 
-    // If the user confirms, navigate to the logout page
+ 
     if (confirmLogout) {
       window.location.href = event.target.href;
     }
@@ -134,17 +134,17 @@ require '../connection/connection.php';
            echo "<td>";
           
            echo "<form action='ban_2.php' method='POST'>";
-           echo "<input type='hidden' name='action' value='ban'>"; // Set the action to 'ban'
+           echo "<input type='hidden' name='action' value='ban'>"; 
            echo "<input type='hidden' name='userEmail' value='" . $userEmail . "'>";
            if ($userStatus === "Active") {
             echo "<form action='ban_2.php' method='POST'>";
-            echo "<input type='hidden' name='action' value='ban'>"; // Set the action to 'ban'
+            echo "<input type='hidden' name='action' value='ban'>"; 
             echo "<input type='hidden' name='userEmail' value='" . $userEmail . "'>";
             echo "<input type='submit' value='Ban' class='btn btn-danger' onclick='return confirm(\"Are you sure you want to ban this person?\");'>";
             echo "</form>";
         } else {
             echo "<form action='ban_2.php' method='POST'>";
-            echo "<input type='hidden' name='action' value='unban'>"; // Set the action to 'unban'
+            echo "<input type='hidden' name='action' value='unban'>";
             echo "<input type='hidden' name='userEmail' value='" . $userEmail . "'>";
             echo "<input type='submit' value='Unban' class='btn btn-success' onclick='return confirm(\"Are you sure you want to unban this person?\");'>";
             echo "</form>";
@@ -161,7 +161,7 @@ require '../connection/connection.php';
            echo "</tr>";
          }
        } else {
-        //  echo "No rows found in the reportbyusers table.";
+  
        }
      } else {
        echo "Report query failed: " . mysqli_error($conn);

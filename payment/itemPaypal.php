@@ -84,7 +84,6 @@ $conn->close();
 
     <div class="collapse navbar-collapse justify-content-center">
             <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="../wishlist/wishlist.php">Wishlist</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php">Sell</a></li>
             </ul>
@@ -135,20 +134,18 @@ $conn->close();
           return actions.order.create({
             purchase_units: [{
               amount: {
-                value: total.toFixed(2), // Use the 'total' variable here
+                value: total.toFixed(2), 
                 currency_code: 'USD'
               }
             }],
             application_context: {
-              shipping_preference: 'NO_SHIPPING' // Indicate no shipping address is required
+              shipping_preference: 'NO_SHIPPING'
             }
           });
         },
         onApprove: function(data, actions) {
           return actions.order.capture().then(function(details) {
-            // Check for any errors in the capture process
             if (details.status === "COMPLETED") {
-                // Successful capture! Redirect to orderCompleted1.php
               var usersemail = <?php echo json_encode($_GET['usersemail']); ?>;
 var District = <?php echo json_encode($_GET['District']); ?>;
 var City = <?php echo json_encode($_GET['City']); ?>;
@@ -160,7 +157,6 @@ var paymentMethod = <?php echo json_encode($_GET['paymentMethod']); ?>;
 
                 window.location.href = "../order/orderCompleted1.php?price=" + total + "&id=" + id + "&District=" + District + "&City=" + City + "&StreetAddress=" + StreetAddress + "&PostalCode=" + PostalCode + "&usersemail=" + usersemail +"&deliveryMethod=" + deliveryMethod + "&paymentMethod=" + paymentMethod;
           } else {
-                // Handle capture errors here
                 console.error("Order capture error:", details.status);
             }
           });
