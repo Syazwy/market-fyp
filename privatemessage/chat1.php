@@ -13,8 +13,8 @@ $yourEmail = $_SESSION['email'];
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0; /* Reset margin to remove extra space */
-            padding: 0; /* Reset padding to remove extra space */
+            margin: 0; 
+            padding: 0; 
         }
 
         #centered-text-container {
@@ -25,9 +25,8 @@ $yourEmail = $_SESSION['email'];
             text-align: center;
         }
 
-        /* Example in your chat.css file */
         .message-wrapper {
-            max-width: 95%; /* Adjust the maximum width as needed */
+            max-width: 95%;
             margin: 5px auto;
             overflow: hidden;
         }
@@ -35,19 +34,19 @@ $yourEmail = $_SESSION['email'];
         .message {
             clear: both;
             margin: 5px;
-            padding: 5px 10px; /* Adjust padding as needed */
+            padding: 5px 10px;
             border-radius: 10px;
         }
 
         .sender-message {
-            background-color: #3498db; /* Blue color for sender messages */
-            color: #fff; /* Text color for sender messages */
+            background-color: #3498db; 
+            color: #fff; 
             float: left;
         }
 
         .receiver-message {
-            background-color: #e0e0e0; /* Grey color for receiver messages */
-            color: #000; /* Text color for receiver messages */
+            background-color: #e0e0e0;
+            color: #000; 
             float: right;
         }
 
@@ -58,8 +57,8 @@ $yourEmail = $_SESSION['email'];
         }
 
         .message-wrapper {
-            max-height: 400px; /* Set a maximum height for the message container */
-            overflow-y: auto; /* Add vertical scrolling when the content overflows */
+            max-height: 400px;
+            overflow-y: auto; 
         }
 
         .message-time-sender {
@@ -73,9 +72,7 @@ $yourEmail = $_SESSION['email'];
 </head>
 <body>
     <?php
-   // Assuming $yourName is the username of user1
 $yourName = $_SESSION['username'];
-// Remove any parameters you don't want to use in the SQL query
 $username = $_GET['username'];
 $itemid = $_GET['itemid'];
 
@@ -87,25 +84,21 @@ if ($result->num_rows > 0) {
     echo "<br>";
     echo "<br>";
 
-    // Create a wrapper div for the messages with a maximum height
     echo "<div class=\"message-wrapper\" style=\"max-height: 400px; overflow-y: auto;\">";
     while ($row = $result->fetch_assoc()) {
         $message = $row["Message"];
         $time = $row["time"];
         $sender = $row["sender"];
     
-        // Determine the message class and time positioning based on the sender
         $messageClass = ($sender == $yourName) ? 'sender-message' : 'receiver-message';
         $timeClass = ($sender == $yourName) ? 'message-time-sender' : 'message-time-receiver';
     
-        // Apply the message class to the container
         echo "<div class=\"message $messageClass\">";
         echo "<span class=\"$timeClass\">$time</span>";
         echo "<span class=\"message\">$message</span>";
         echo "</div>";
     }
     
-    // Close the message wrapper
     echo "</div>";
 } else {
     echo "<div id=\"centered-text-container\">";

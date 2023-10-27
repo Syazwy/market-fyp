@@ -72,7 +72,7 @@ if ($result) {
     text-align: center;
     padding: 20px;
     font-size: 18px;
-    color: #888; /* You can adjust the color to your preference */
+    color: #888; 
 }
 
     </style>
@@ -121,12 +121,10 @@ if ($result) {
 </nav>
 <script>
     document.getElementById('logout-link').addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent the link from immediately navigating
+        event.preventDefault(); 
 
-        // Display a confirmation dialog
         const confirmLogout = confirm("Are you sure you want to log out?");
 
-        // If the user confirms, navigate to the logout page
         if (confirmLogout) {
             window.location.href = event.target.href;
         }
@@ -154,23 +152,20 @@ if ($result) {
     require '../connection/connection.php';
     $yourUsername = $_SESSION['username'];
 
-    // Step 1: Find the itemids based on yourUsername in the 'chat' table for the receiver
     $sql = "SELECT sender, receiver, itemid FROM chat WHERE receiver = '$yourUsername' OR sender = '$yourUsername'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        $displayedChatIds = []; // An array to keep track of displayed chat records
+        $displayedChatIds = []; 
 
         while ($row = $result->fetch_assoc()) {
             $chatId = $row['itemid'];
             $otherUser = ($row['sender'] === $yourUsername) ? $row['receiver'] : $row['sender'];
 
-            // Check if this chat record has already been displayed
             if (!in_array($chatId, $displayedChatIds)) {
                 echo "<tr class='clickable-row' data-item-id='" . $chatId . "'>";
                 echo "<td>" . $otherUser . "</td>";
 
-                // Fetch and display "itemname" and "price" columns from the 'itemslisting' table
                 $itemDetailsSql = "SELECT name, price FROM itemslisting WHERE id = $chatId";
                 $itemDetailsResult = $conn->query($itemDetailsSql);
 
@@ -184,7 +179,6 @@ if ($result) {
 
                 echo "</tr>";
 
-                // Add the chat record ID to the displayed list
                 $displayedChatIds[] = $chatId;
             }
         }
@@ -200,7 +194,6 @@ if ($result) {
     </div>
 </div>
 <script>
-    // Add a click event listener to the table rows
     document.addEventListener('DOMContentLoaded', function() {
         var rows = document.querySelectorAll('.clickable-row');
         rows.forEach(function(row) {
@@ -208,7 +201,6 @@ if ($result) {
                 var itemId = row.getAttribute('data-item-id');
                 var username = row.querySelector('td:nth-child(1)').textContent;
 
-                // Redirect to 'chat.php' with 'username' and 'id' as query parameters
                 window.location.href = 'chat.php?id=' + itemId + '&username=' + encodeURIComponent(username);
             });
         });

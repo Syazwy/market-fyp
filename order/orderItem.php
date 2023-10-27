@@ -24,16 +24,13 @@ if ($result) {
     $id = $_GET['id'];
 
   
-    // Prepare and execute SQL query to fetch name, price, and location for the given ID
     $sql = "SELECT name, price, location FROM itemslisting WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $id);
     $stmt->execute();
     $stmt->bind_result($name, $price, $location);
 
-    // Fetch the result
     if ($stmt->fetch()) {
-        // Output the fetched values
 
 $delivery = "" ;
 
@@ -59,27 +56,23 @@ $total = $price + $delivery;
 
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      // Get form data
   
       $district = $_POST["District"];
       $city = $_POST["City"];
       $streetAddress = $_POST["StreetAddress"];
       $postalCode = $_POST["PostalCode"];
       
-      // Debugging
       echo "District: " . $district . "<br>";
       echo "City: " . $city . "<br>";
       echo "Street Address: " . $streetAddress . "<br>";
       echo "Postal Code: " . $postalCode . "<br>";
       
   
-      // Update the 'account' table with order details
       $updateAccountSQL = "UPDATE account SET District = ?, City = ?, StreetAddress = ?, PostalCode = ? WHERE email = ?";
       $updateStmt = $conn->prepare($updateAccountSQL);
       $updateStmt->bind_param("sssss", $district, $city, $streetAddress, $postalCode, $email);
       
       if ($updateStmt->execute()) {
-          // Handle success
           print_r($_POST);
 
           exit();
@@ -88,7 +81,6 @@ $total = $price + $delivery;
       }
   }
   
-  // Close the database connection
   
   $conn->close();
   ?>
@@ -147,12 +139,10 @@ $total = $price + $delivery;
 </nav>
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the link from immediately navigating
+    event.preventDefault(); 
 
-    // Display a confirmation dialog
     const confirmLogout = confirm("Are you sure you want to log out?");
 
-    // If the user confirms, navigate to the logout page
     if (confirmLogout) {
       window.location.href = event.target.href;
     }
@@ -280,14 +270,12 @@ $total = $price + $delivery;
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  // Get references to the input fields
   const districtInput = document.getElementById('District');
   const cityInput = document.getElementById('City');
   const streetAddressInput = document.getElementById('StreetAddress');
   const postalCodeInput = document.getElementById('PostalCode');
   const confirmDeliveryButton = document.getElementById('confirmDelivery');
 
-  // Function to check if all fields are filled
   function areAllFieldsFilled() {
     return districtInput.value.trim() !== '' &&
       cityInput.value.trim() !== '' &&
@@ -300,10 +288,8 @@ console.log("Postal Code:", postalCodeInput.value.trim());
 
   }
 
-  // Function to handle the Confirm button click
   function confirmDelivery() {
 
-        // Collect form data
   const formData = new FormData(document.getElementById('deliveryForm'));
   const params = new URLSearchParams(formData);
   console.log("District:", districtInput.value.trim());
@@ -313,17 +299,14 @@ console.log("Postal Code:", postalCodeInput.value.trim());
 
   
   document.getElementById('deliveryForm').submit();
-  // Check the payment method
   const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
   const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
 
   if (paymentMethod && deliveryMethod) {
   const id = <?php echo $id; ?>;
   if (paymentMethod.id === 'paypal') {
-    // Redirect to PayPal payment page with all parameters
     window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}&District=${districtInput.value}&City=${cityInput.value}&StreetAddress=${streetAddressInput.value}&PostalCode=${postalCodeInput.value}`;
   } else if (paymentMethod.id === 'cash') {
-    // Redirect to Cash payment page with all parameters
     window.location.href = `orderCompleted1.php?id=${id}&price=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}&District=${districtInput.value}&City=${cityInput.value}&StreetAddress=${streetAddressInput.value}&PostalCode=${postalCodeInput.value}`;
   }
 } else {
@@ -332,7 +315,6 @@ console.log("Postal Code:", postalCodeInput.value.trim());
 
 }
 
-  // Attach an event listener to each input field to enable/disable the Confirm button
   districtInput.addEventListener('input', function () {
     confirmDeliveryButton.disabled = !areAllFieldsFilled();
   });
@@ -349,22 +331,18 @@ console.log("Postal Code:", postalCodeInput.value.trim());
     confirmDeliveryButton.disabled = !areAllFieldsFilled();
   });
 
-  // Attach the confirmDelivery function to the button click event
   confirmDeliveryButton.addEventListener('click', confirmDelivery);
 
-  // Function to check if both payment and delivery methods are selected
   function isPaymentAndDeliverySelected() {
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
     const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
     return paymentMethod !== null && deliveryMethod !== null;
   }
 
-  // Function to place the order and show the modal for delivery address
   function placeOrder() {
   if (isPaymentAndDeliverySelected()) {
     const id = <?php echo $id; ?>;
     
-    // Check if the delivery method and payment method are selected
     const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
 
@@ -373,15 +351,11 @@ console.log("Postal Code:", postalCodeInput.value.trim());
 
         
 
-        // Show the delivery address modal
         $('#deliveryModal').modal('show');
       } else {
-        // Check payment method and redirect accordingly
         if (paymentMethod.id === 'cash') {
-          // Redirect to a page for cash payment with pickup
           window.location.href = `orderHalfwayCompleted.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
         } else if (paymentMethod.id === 'paypal') {
-          // Redirect to a page for PayPal payment with pickup
          window.location.href = `../payment/itemPaypal2.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
         } else {
           alert("Invalid payment method selected.");
@@ -395,7 +369,6 @@ console.log("Postal Code:", postalCodeInput.value.trim());
   }
 }
 
-// Attach the placeOrder function to the button click event
 document.getElementById('placeOrderButton').addEventListener('click', placeOrder);
 
 });

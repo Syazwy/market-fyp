@@ -13,10 +13,9 @@ require '../connection/connection.php';
 $username = $_SESSION['username'];
 $email = $_SESSION['email'];
 
-// Get the plan carried from the URL
 $selectedPlan = $_GET['plan'];
 
-$price = 0; // Default price
+$price = 0; 
 if ($selectedPlan === "Basic") {
     $price = 0;
 } elseif ($selectedPlan === "Premium Monthly") {
@@ -37,7 +36,6 @@ if ($result) {
   }
 }
 
-// Update the membership plan for the user
 $sql = "UPDATE account SET membership = ? WHERE username = ?";
 $stmt = $conn->prepare($sql);
 
@@ -46,47 +44,33 @@ if ($stmt) {
     $stmt->execute();
     $stmt->close();
 }
-// Send an email using PHPMailer
 $mail = new PHPMailer(true);
 try {
-    // Enable verbose debug output
-    $mail->SMTPDebug = 0; // SMTP::DEBUG_SERVER;
+    $mail->SMTPDebug = 0;
 
-    // Send using SMTP
     $mail->isSMTP();
 
-    // Set the SMTP server to send through (e.g., Gmail)
     $mail->Host = 'smtp.gmail.com';
 
-    // Enable SMTP authentication
     $mail->SMTPAuth = true;
 
-    // SMTP username (replace with your Gmail email address)
     $mail->Username = 'market51bn@gmail.com';
 
-    // SMTP password (replace with your Gmail password)
     $mail->Password = 'ixcnouumjkoxtcvs';
 
-    // Enable TLS encryption;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 
-    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
     $mail->Port = 587;
 
-    // Recipients
     $mail->setFrom('admin.market@gmail.com', 'MarketBN');
     $mail->addAddress($email);
 
-    // Set email format to HTML
     $mail->isHTML(true);
 
-// Generate a random receipt number
 $receiptNumber = mt_rand(100000, 999999);
 
-// Construct the email body with HTML line breaks
 $mail->Subject = 'Receipt Number: ' . $receiptNumber;
 
-// Add CSS styles
 $mail->Body = "<style>
     body {
         font-family: Arial, sans-serif;
@@ -124,15 +108,11 @@ $mail->Body .= '</div>';
 
 
 
-// Set the email content type to HTML
 $mail->isHTML(true);
 
-// The rest of your email sending code remains the same
 
-// The rest of your email sending code remains the same
 
     $mail->send();
- // Update subscriptionDate for the user in the account table
  $sqlUpdateSubscriptionDate = "UPDATE account SET subscriptionDate = NOW() WHERE email = ?";
  $stmtUpdateSubscriptionDate = $conn->prepare($sqlUpdateSubscriptionDate);
 
@@ -141,11 +121,9 @@ $mail->isHTML(true);
      $stmtUpdateSubscriptionDate->execute();
      $stmtUpdateSubscriptionDate->close();
  } else {
-     // Handle the case where the SQL statement preparation fails
      echo "Failed to prepare the SQL statement for updating subscriptionDate.";
  }
 
- // ... (the rest of your code)
 } catch (Exception $e) {
  echo "Email could not be sent. Error: " . $mail->ErrorInfo;
 }
@@ -203,12 +181,10 @@ $mail->isHTML(true);
 </nav>
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the link from immediately navigating
+    event.preventDefault(); 
 
-    // Display a confirmation dialog
     const confirmLogout = confirm("Are you sure you want to log out?");
 
-    // If the user confirms, navigate to the logout page
     if (confirmLogout) {
       window.location.href = event.target.href;
     }

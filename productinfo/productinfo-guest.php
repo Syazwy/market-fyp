@@ -267,30 +267,25 @@
 <body>
 <script>
 $(document).ready(function() {
-    // Check if the email parameter is present in the URL
     var emailParam = "<?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?>";
     console.log("Email parameter from URL: " + emailParam);
 
-    // Check if emailParam is not empty before showing the modal
     if (emailParam) {
-        $("#verificationModal").modal("show"); // Show the verification modal
+        $("#verificationModal").modal("show");
     }
 });
 </script>
 
-<!-- Add this script to your productinfo-guest.php file -->
 <script>
-    // Function to check the URL parameters
     function getURLParameter(name) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(name);
     }
 
-    // Check if the 'verified' parameter is set to 1
     const verifiedParam = getURLParameter('verified');
     if (verifiedParam === '1') {
         $(document).ready(function() {
-            $("#verifiedModal").modal("show"); // Show the 'verifiedModal'
+            $("#verifiedModal").modal("show"); 
         });
     }
 </script>
@@ -300,13 +295,11 @@ if (isset($_POST["verify_email"])) {
   $email = $_POST["email"];
   $verification_code = $_POST["verification_code"];
 
-  // Prepare and execute the SQL query with parameter binding
   $sql = "UPDATE account SET email_verified_at = NOW() WHERE email = ? AND verification_code = ?";
   $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "ss", $email, $verification_code);
   mysqli_stmt_execute($stmt);
 
-  // Check the affected rows and handle accordingly
   if (mysqli_affected_rows($conn) > 0) {
     header("Location: productinfo-guest.php?verified=1");
     exit();
@@ -319,14 +312,12 @@ if (isset($_POST["verify_email"])) {
           </script>';
   }
 
-  // Close the database connection
   mysqli_close($conn);
 
   exit();
 }
 ?>
 
-<!-- Register Database --> 
 
 <?php
 error_reporting(E_ALL);
@@ -346,7 +337,6 @@ if (isset($_POST["register"])) {
     $password = $_POST["password"];
     $confirmPassword = $_POST["confirmPassword"];
 
-    // Validate input
     if (empty($email) || empty($username) || empty($password) || empty($confirmPassword)) {
         echo "All fields are required.";
         exit;
@@ -357,11 +347,8 @@ if (isset($_POST["register"])) {
         exit;
     }
 
-    // Hash password
     $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
-    // $encrypted_password = $password;
 
-    // Check if email exists
     $emailCheckSql = "SELECT * FROM account WHERE email = ?";
     $emailCheckStmt = mysqli_prepare($conn, $emailCheckSql);
     if ($emailCheckStmt) {
@@ -385,7 +372,6 @@ if (isset($_POST["register"])) {
         exit;
     }
 
-    // Check if username exists
     $usernameCheckSql = "SELECT * FROM account WHERE username = ?";
     $usernameCheckStmt = mysqli_prepare($conn, $usernameCheckSql);
     if ($usernameCheckStmt) {
@@ -409,7 +395,6 @@ if (isset($_POST["register"])) {
         exit;
     }
 
-    // Insert new user into database
     $currentDateTime = new DateTime();
     $date = $currentDateTime->format('Y-m-d');
     $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
@@ -418,44 +403,32 @@ if (isset($_POST["register"])) {
 $insertStmt = mysqli_prepare($conn, $insertSql);
 
 if ($insertStmt) {
-    $membership = "Basic"; // Note: removed the extra space before "Basic"
+    $membership = "Basic"; 
     mysqli_stmt_bind_param($insertStmt, "ssssss", $username, $email, $encrypted_password, $membership, $date, $verification_code);
     mysqli_stmt_execute($insertStmt);
 
-        // Send verification email
         $mail = new PHPMailer(true);
         try {
-            // Enable verbose debug output
-            $mail->SMTPDebug = 0; // SMTP::DEBUG_SERVER;
+            $mail->SMTPDebug = 0; 
 
-            // Send using SMTP
             $mail->isSMTP();
 
-            // Set the SMTP server to send through
             $mail->Host = 'smtp.gmail.com';
 
-            // Enable SMTP authentication
             $mail->SMTPAuth = true;
 
-            // SMTP username
             $mail->Username = 'market51bn@gmail.com';
 
-            // SMTP password
             $mail->Password = 'ixcnouumjkoxtcvs';
 
-            // Enable TLS encryption;
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 
-            // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
             $mail->Port = 587;
 
-            // Recipients
             $mail->setFrom('admin.market@gmail.com', 'MarketBN');
 
-            // Add a recipient
             $mail->addAddress($email);
 
-            // Set email format to HTML
             $mail->isHTML(true);
             $mail->Subject = 'Your Verification Code for Our Online Store';
             $mail->Body = '<html>
@@ -524,7 +497,6 @@ if ($insertStmt) {
 
             header("Location: productinfo-guest.php?email=" . urlencode($email));
 
-            // Now, display the verification modal
             echo '<script>
                 $("#verificationModal").modal("show"); // Show the verification modal
             </script>';
@@ -543,19 +515,16 @@ if ($insertStmt) {
 
 <?php
 
-$errorMessage = ""; // Initialize an empty error message
+$errorMessage = ""; 
 
 if (isset($_POST["login"])) {
     $emailOrUsername = $_POST["emailOrUsername"];
     $password = $_POST["password"];
 
-    // Check if the input name is "admin"
     if ($emailOrUsername === "admin") {
-        // Verify the admin password
         if ($password === "123") {
-            // Set session variables to indicate the user is logged in as admin
             $_SESSION['member'] = true;
-            $_SESSION['email'] = ""; // Set as needed
+            $_SESSION['email'] = ""; 
             $_SESSION['username'] = "admin";
 
             header("Location: ../admin/admin.php");
@@ -564,7 +533,6 @@ if (isset($_POST["login"])) {
             $errorMessage = "Password is not correct";
         }
     } else {
-        // Use prepared statements to prevent SQL injection
         $sql = "SELECT * FROM account WHERE email = ? OR username = ?";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "ss", $emailOrUsername, $emailOrUsername);
@@ -581,7 +549,6 @@ if (isset($_POST["login"])) {
                 header("Location: productinfo-guest.php?email=" . urlencode($user->email));
                 exit();
             } else {
-                // Set session variables for a regular user
                 $_SESSION['member'] = true;
                 $_SESSION['email'] = $user->email;
                 $_SESSION['username'] = $user->username;
@@ -603,7 +570,6 @@ if (isset($_POST["login"])) {
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <!-- Remove the button to close the modal -->
         <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button> -->
@@ -628,7 +594,6 @@ if (isset($_POST["login"])) {
           </div>
         </form>
       </div>
-      <!-- Move the "Change Email" link outside the form -->
       <div style="text-align: center;">
       <a id="changeemail" style="text-decoration:none;color: #FF5353; cursor: pointer;" href="productinfo-guest.php?show_register_modal=1">Change Email</a>
 
@@ -690,18 +655,15 @@ if (isset($_POST["login"])) {
       <main>
         <?php
 
-        // Check if the 'id' query parameter is set in the URL
         if (isset($_GET['id'])) {
             $itemId = $_GET['id'];
             
-            // Fetch the specific product based on the 'id' parameter
             $query = "SELECT itemslisting.*, item_images.image_filename 
                       FROM itemslisting 
                       JOIN item_images ON itemslisting.id = item_images.item_id 
-                      WHERE itemslisting.id = $itemId"; // Make sure to sanitize and validate the input
+                      WHERE itemslisting.id = $itemId"; 
             $result = mysqli_query($conn, $query);
             
-            // Check if a product with the specified 'id' exists
             if ($row = mysqli_fetch_assoc($result)) {
           
           
@@ -773,7 +735,6 @@ if (isset($_POST["login"])) {
         $averageRating = $reviewRow['avg_rating'];
         $totalReviews = $reviewRow['total_reviews'];
 
-        // Function to generate star rating based on the average rating
         function generateStarRating($rating) {
             $output = '';
             for ($i = 1; $i <= 5; $i++) {
@@ -819,10 +780,8 @@ if (isset($_POST["login"])) {
   $('#myInput').trigger('focus')
 })
   $('#exampleModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = button.data('whatever') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var button = $(event.relatedTarget) 
+  var recipient = button.data('whatever')
   var modal = $(this)
   modal.find('.modal-title').text('New message to ' + recipient)
   modal.find('.modal-body input').val(recipient)
@@ -914,7 +873,6 @@ if (isset($_POST["login"])) {
 
 <?php
 
-$msg = ''; // Initialize a message variable
 
 if (isset($_POST['send_verification_code'])) {
   $email = $_POST['email'];
@@ -922,13 +880,10 @@ if (isset($_POST['send_verification_code'])) {
   $res = mysqli_num_rows($check_email);
 
   if ($res > 0) {
-    // Generate a verification code
     $verification_code = mt_rand(100000, 999999);
 
-    // Store the verification code in the database (you need to have a column for this)
     mysqli_query($connection, "UPDATE account SET verification_code = $verification_code WHERE email = '$email'");
 
-    // Send the verification code to the user's email
     $message = "Your verification code is: $verification_code";
 
     include_once("forgot/SMTP/class.phpmailer.php");
@@ -936,7 +891,6 @@ if (isset($_POST['send_verification_code'])) {
 
     $email = $email;
 
-    // Send verification email
     $mail = new PHPMailer;
     $mail->IsSMTP();
     $mail->SMTPAuth = true;
@@ -948,7 +902,7 @@ if (isset($_POST['send_verification_code'])) {
     $mail->setFrom('admin.market@gmail.com', 'admin.market');
     $mail->AddAddress($email);
     $mail->Subject = "Verification Code";
-    $mail->isHTML(false); // Send plain text message
+    $mail->isHTML(false); 
     $mail->Body = $message;
 
     if($mail->send()) {
@@ -965,17 +919,13 @@ if (isset($_POST['verify_code'])) {
   $email = $_POST['email'];
   $user_code = $_POST['verification_code'];
 
-  // Retrieve the stored verification code from the database
   $result = mysqli_query($connection, "SELECT verification_code FROM account WHERE email='$email'");
   $row = mysqli_fetch_assoc($result);
 
   if ($row['verification_code'] == $user_code) {
-    // Verification code matches, allow the user to reset their password
-    $newPassword = $_POST['pwd']; // Get the new password
+    $newPassword = $_POST['pwd']; 
 
-    // Hash the new password securely
      $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
-    //$hashedPassword = $newPassword;
 
     $reset_pwd = mysqli_query($connection, "UPDATE account SET password='$hashedPassword' WHERE email='$email'");
 
@@ -1052,11 +1002,10 @@ if (isset($_POST['verify_code'])) {
 </script>
 
 <script>
-  // Check if the 'show_register_modal' parameter is set to 1
   const showRegisterModalParam = getURLParameter('show_register_modal');
   if (showRegisterModalParam === '1') {
     $(document).ready(function() {
-      $("#registerModal").modal("show"); // Show the register modal
+      $("#registerModal").modal("show");
     });
   }
 </script>
@@ -1111,8 +1060,8 @@ if (isset($_POST['verify_code'])) {
     });
 
     $('#exampleModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget); // Button that triggered the modal
-      var recipient = button.data('whatever'); // Extract info from data-* attributes
+      var button = $(event.relatedTarget); 
+      var recipient = button.data('whatever'); 
       
     });
   });
@@ -1132,14 +1081,12 @@ session_destroy();
 ?>
 
 <script>
-    // Check if the session email is the same as the email retrieved from the database
     if (sessionEmail === '<?php echo $row["email"]; ?>') {
         document.getElementById('chatButton').style.display = 'none';
         document.getElementById('buyButton').style.display = 'none';
     }
     
     function buy() {
-        // Redirect to buyMembership.php with the selected plan as a URL parameter
         window.location.href = '../order/orderItem.php?id=<?php echo $row["id"]; ?>';
     }
     function chat() {
@@ -1169,11 +1116,9 @@ window.location.href = url;
       <?php
 
             } else {
-                // Handle the case where the specified product doesn't exist
                 echo "Product not found.";
             }
         } else {
-            // Handle the case where the 'id' parameter is not set
             echo "Product ID not specified.";
         }
       ?>
@@ -1184,7 +1129,6 @@ window.location.href = url;
       
       <script>
         function buy(id) {
-    // Redirect to buyMembership.php with the selected plan as a URL parameter
     window.location.href = '../order/orderItem.php?id=' + <?php echo $row["id"]; ?>
 }
       </script>

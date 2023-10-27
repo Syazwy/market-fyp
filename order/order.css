@@ -1,11 +1,11 @@
 .payment-container {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   max-width: 600px;
-  max-height: 600px; /* Set a maximum height for the container */
+  max-height: 600px; 
   margin: 0 auto;
   padding: 40px;
   border-radius: 20px;
-  overflow: auto; /* Make it scrollable if content exceeds the max height */
+  overflow: auto; 
 }
 
 
@@ -50,7 +50,7 @@ a.nav-link.active {
     width: 350px;
     height: 40px;
     border: none;
-    color: white; /* Add this line to set the text color to white */
+    color: white;
 }
 
 a{

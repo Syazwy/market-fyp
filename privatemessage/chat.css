@@ -19,7 +19,7 @@ font-family: Arial, sans-serif;
   padding: 10px;
   margin: 10px 0;
   width: 600px;
-  text-align: center; /* Center-align the content */
+  text-align: center; 
 }
 
 .item-details h3 {
@@ -40,17 +40,17 @@ font-family: Arial, sans-serif;
 
 .messageContainer {
 
-  border-radius: 5px; /* Rounded corners */
+  border-radius: 5px; 
  
 }
 
 .Message1 {
-  display: inline-block; /* Make the div inline-block to wrap around the content */
-  padding: 10px 15px; /* Adjust the padding to your liking */
-  background-color: #A174FF; /* Background color for user messages */
-  border-radius: 5px; /* Rounded corners */
-  margin: 5px; /* Add some margin to separate messages */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+  display: inline-block; 
+  padding: 10px 15px; 
+  background-color: #A174FF; 
+  border-radius: 5px; 
+  margin: 5px; 
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
   color: white;
 }
 
@@ -73,10 +73,10 @@ box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   width: 60%;
-  height: 60vh; /* Adjust the height as needed */
-  overflow-y: auto; /* Add vertical scrolling */
-  margin: 0; /* Remove any margin to reduce the gap */
-  padding: 0; /* Remove any padding to reduce the gap */
+  height: 60vh;
+  overflow-y: auto; 
+  margin: 0; 
+  padding: 0; 
 }
 
 
@@ -90,7 +90,6 @@ box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   width:45%;
 }
 
-/* home css */
 a.nav-link.active {
     background-color: #FF5353 !important;
     margin-right: 20px;
