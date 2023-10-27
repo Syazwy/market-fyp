@@ -197,7 +197,6 @@ mysqli_stmt_close($stmt);
   
   <div class="collapse navbar-collapse justify-content-center">
     <ul class="nav nav-pills">
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../wishlist/wishlist.php">Wishlist</a></li>
 
     </ul>

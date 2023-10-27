@@ -173,7 +173,6 @@ $mail->isHTML(true);
   
     <div class="collapse navbar-collapse justify-content-center">
             <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="../wishlist/wishlist.php">Wishlist</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php">Sell</a></li>
             </ul>

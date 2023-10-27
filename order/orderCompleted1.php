@@ -214,6 +214,7 @@ $sellerEmail->isHTML(true);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order is Complete</title>
+    <link rel="icon" href="../image/logo.png" type="image/x-icon">
     <style>
  
     </style>
@@ -230,7 +231,6 @@ $sellerEmail->isHTML(true);
   
   <div class="collapse navbar-collapse justify-content-center">
     <ul class="nav nav-pills">
-      <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="">Wishlist</a></li>
       <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
     </ul>
