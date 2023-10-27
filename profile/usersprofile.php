@@ -35,20 +35,20 @@ require_once("../session/session.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content']) && isset($_POST['rating'])) {
     $content = $_POST['content'];
     $rating = $_POST['rating'];
-    $users = $_POST['username']; // Retrieve username from the form
+    $users = $_POST['username']; 
     $usersemail = $_POST['email'];
-    $myusername = $_SESSION['username']; // Assuming the username comes from a session
+    $myusername = $_SESSION['username']; 
     $currentDateTime = new DateTime();
     $timedate = $currentDateTime->format('Y-m-d H:i:s');
 
-    // Use a prepared statement to insert the review into the database
+
     $stmt = $conn->prepare("INSERT INTO reviews (username, content, rating, time, users) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("ssdss", $myusername, $content, $rating, $timedate, $users);
     
     if ($stmt->execute()) {
-        // Review submitted successfully
+     
     } else {
-        // Error occurred while inserting the review
+    
         echo "Error: " . $stmt->error;
     }
 
@@ -67,11 +67,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $typeReport = $_POST['typeReport'];
     $report_reason = $_POST['report_reason'];
     
-    // Define the SQL query to insert data into the reportbyusers table
+   
     $sql = "INSERT INTO reportbyusers (typeReport, reason, usersemail, username ) VALUES ('$typeReport', '$report_reason', '$usersemail ', '$user')";
     
     if ($conn->query($sql) === TRUE) {
-        // The report has been successfully submitted, now we trigger the success modal
+      
         echo '<script type="text/javascript">
             $(document).ready(function(){
                 $("#successModal").modal("show");
@@ -81,10 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     
-    // Close the database connection
+
     $conn->close();
-   
-// Redirect to usersprofile.php with email and username as query parameters
+
 header("Location: usersprofile.php?email=" . $usersemail . "&username=" . $user);
 exit; 
 }
@@ -143,12 +142,12 @@ exit;
 </nav>
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the link from immediately navigating
+    event.preventDefault(); 
 
-    // Display a confirmation dialog
+
     const confirmLogout = confirm("Are you sure you want to log out?");
 
-    // If the user confirms, navigate to the logout page
+ 
     if (confirmLogout) {
       window.location.href = event.target.href;
     }
@@ -188,11 +187,11 @@ exit;
           $averageRating = $row['avg_rating'];
           $totalReviews = $row['total_reviews'];
           
-          // Function to generate star rating based on the average rating
+      
           function generateStarRating($rating) {
             $output = '';
             for ($i = 1; $i <= 5; $i++) {
-                if ($i <= ceil($rating)) { // Use ceil to round up decimal ratings
+                if ($i <= ceil($rating)) { 
                     $output .= '<i class="fa fa-star checked"></i>';
                 } else {
                     $output .= '<i class="fa fa-star"></i>';
@@ -213,7 +212,7 @@ exit;
         <p></p>  
     <?php
         
-        // Query to get the account creation date for the user
+
         $stmt = $conn->prepare("SELECT date FROM account WHERE username = ?");
         
         if ($stmt) {
@@ -227,7 +226,7 @@ exit;
                 $currentDate = new DateTime();
                 $interval = $accountCreatedDate->diff($currentDate);
         
-                // Function to format the interval in days ago
+
                 function formatDaysAgo($interval) {
                     if ($interval->d > 0) {
                         return $interval->format('%ad ago');
@@ -238,7 +237,7 @@ exit;
         
                 echo 'Joined ' . formatDaysAgo($interval);
         
-                // Close the database connection
+
                 $stmt->close();
             } else {
                 echo '- No account information available.';
@@ -318,23 +317,21 @@ exit;
 
 <script>
     function openReportModal(itemId) {
-    // Set the item_id in the hidden input field of the modal form
+
     document.getElementById('reportItemID').value = itemId;
-    
-    // Show the report modal
+
     $('#reportModal').modal('show');
 }
 
-// Function to validate the form before submission
 function validateForm() {
         var typeReport = document.getElementById("type_of_report").value;
         var reportReason = document.getElementById("report_reason").value;
 
-        // Check if both fields are empty
+
         if (typeReport === "" || reportReason === "") {
-            // Display a warning message in the modal
+  
             alert("Please fill out both fields before submitting the report.");
-            return false; // Prevent form submission
+            return false; 
         }
     }
 
@@ -440,7 +437,6 @@ $result = mysqli_query($conn, $query);
 require '../connection/connection.php';
 
 
-// Fetch and display reviews
 $result = $conn->query("SELECT * FROM reviews WHERE users = '$user' ORDER BY time DESC");
 
 if ($result->num_rows > 0) {
@@ -451,18 +447,18 @@ if ($result->num_rows > 0) {
             <div class="card mb-4">
                 <div class="card-body"><center>
                     <h5 class="card-title">' . $row['username'] . '</h5>
-                    <p class="rating">'; // Open the rating container
+                    <p class="rating">';
 
         for ($i = 1; $i <= 5; $i++) {
             echo '<span class="fa fa-star ' . ($i <= $row['rating'] ? 'checked' : '') . '"></span>';
         }
 
-        echo '</p>'; // Close the rating container
+        echo '</p>'; 
 
         echo '<p class="card-text">' . $row['content'] . '</p>
                 <p class="time">Posted on ' . $reviewDate . '</p>
                     </center></div>
-            </div>'; // Close the card
+            </div>'; 
     }
 } else {
     echo '<h4>No reviews available.</h4>';
@@ -476,13 +472,13 @@ $conn->close();
 
 <script>
     function showListings() {
-        document.getElementById("box2").style.display = "block"; // Show box2
-        document.getElementById("box3").style.display = "none"; // Hide box3
+        document.getElementById("box2").style.display = "block"; 
+        document.getElementById("box3").style.display = "none"; 
     }
 
     function showReviews() {
-        document.getElementById("box2").style.display = "none"; // Hide box2
-        document.getElementById("box3").style.display = "block"; // Show box3
+        document.getElementById("box2").style.display = "none"; 
+        document.getElementById("box3").style.display = "block"; 
     }
 </script>
 
