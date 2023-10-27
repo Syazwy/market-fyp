@@ -330,9 +330,15 @@ mysqli_stmt_close($stmt);
                     <input type="number" class="form-control" name="price" id="price" placeholder="" required>
                 </div>
                 <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" name="description" id="description" rows="3" required></textarea>
-                </div>
+    <label for="description" class="form-label">Description</label>
+    <textarea class="form-control" name="description" id="description" rows="3" required
+        minlength="10"   
+        maxlength="200"  
+        pattern=".{10,200}" 
+        title="Description must be between 10 and 200 characters long."> <!-- Add a title attribute with a custom error message -->
+    </textarea>
+</div>
+
                 <div class="mb-3">
                     <label>Select Your District</label>
                     <select class="form-select form-select-sm" aria-label="Small select example" name="location" required>
