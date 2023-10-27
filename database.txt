@@ -1,0 +1,1 @@
+http://139.59.226.177/phpmyadmin/index.php?route=/database/structure&db=market&server=2
