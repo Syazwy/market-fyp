@@ -445,7 +445,7 @@ a.nav-link.active {
               $profileimage = $profileResult->fetch_assoc();
               $sellerimg = isset($profileimage['profile_image']) ? $profileimage['profile_image'] : NULL;
 
-              // Calculate time difference in human-readable format
+             
               if ($timeDiff < 60) {
                   $timeAgo = $timeDiff . " seconds ago";
               } elseif ($timeDiff < 3600) {
@@ -509,7 +509,7 @@ a.nav-link.active {
     <!-- JavaScript for handling the search -->
     <script>
         $(document).ready(function() {
-            // Function to display search results and toggle item visibility
+           
             function displaySearchResults(query) {
                 var url = "../home/search-guest.php";
                 var data = {
@@ -520,31 +520,30 @@ a.nav-link.active {
                     url: url,
                     data: data,
                     success: function(response) {
-                        // Hide newly listed items
+                     
                         $(".card.item.h-100").hide();
-                        // Display search results
+                   
                         $("#searchResults").html(response).show();
-                        // Update the section title
+                  
                         $("#sectionTitle").text("Searched Item");
                     }
                 });
             }
 
-            // Function to handle input changes and trigger search
+
             function handleSearchInput() {
                 var query = $("#searchInput").val();
                 if (query) {
                     displaySearchResults(query);
                 } else {
-                    // Show all newly listed items when the search input is empty
+                  
                     $(".card.item.h-100").show();
                     $("#searchResults").hide();
-                    // Restore the section title
+                
                     $("#sectionTitle").text("Newly Listed");
                 }
             }
 
-            // Automatically update search results as the user types
             $("#searchInput").on("input", handleSearchInput);
         });
     </script>
@@ -552,7 +551,7 @@ a.nav-link.active {
     <!-- JavaScript for handling the category clicks -->
     <script>
     $(document).ready(function() {
-        // Function to handle category clicks and filter listings
+      
         function handleCategoryClick(category) {
             var url = "../home/category-guest.php";
             var data = { category: category };
@@ -562,19 +561,18 @@ a.nav-link.active {
                 url: url,
                 data: data,
                 success: function(response) {
-                    // Hide newly listed items
+                   
                     $(".card.item.h-100").hide();
 
-                    // Display category-specific results
+                    
                     $("#searchResults").html(response).show();
 
-                    // Update the section title
+                 
                     $("#sectionTitle").text("Category: " + category);
                 }
             });
         }
 
-        // Event handler for category clicks
         $("#property").click(function() {
             handleCategoryClick("Property");
         });
@@ -605,39 +603,39 @@ a.nav-link.active {
 
 <script>
 $(document).ready(function() {
-    // Check if the email parameter is present in the URL
+    
     var emailParam = "<?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?>";
     console.log("Email parameter from URL: " + emailParam);
 
-    // Check if emailParam is not empty before showing the modal
+
     if (emailParam) {
-        $("#verificationModal").modal("show"); // Show the verification modal
+        $("#verificationModal").modal("show"); 
     }
 });
 </script>
 
 <script>
-    // Function to check the URL parameters
+  
     function getURLParameter(name) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(name);
     }
 
-    // Check if the 'verified' parameter is set to 1
+    
     const verifiedParam = getURLParameter('verified');
     if (verifiedParam === '1') {
         $(document).ready(function() {
-            $("#verifiedModal").modal("show"); // Show the 'verifiedModal'
+            $("#verifiedModal").modal("show"); 
         });
     }
 </script>
 
     <script type="text/javascript">
-        // Check if a message parameter is present in the URL
+      
         if (window.location.search.indexOf('message') > -1) {
             var message = decodeURIComponent(window.location.search.split('message=')[1].replace(/\+/g, ' '));
             alert(message);
-            // Clear the message parameter from the URL
+          
             var newURL = window.location.href.replace(/\?message=.*$/, "");
             history.replaceState(null, document.title, newURL);
         }
@@ -645,10 +643,10 @@ $(document).ready(function() {
 
     <script>
         $(document).ready(function() {
-            // Handle the click event on the "Sell" link
+           
             $("#sellLink").click(function(e) {
                 e.preventDefault();
-                // Show the "sellModal" modal
+                
                 $("#sellModal").modal("show");
             });
         });

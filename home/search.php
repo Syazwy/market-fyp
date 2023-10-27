@@ -1,10 +1,8 @@
 <?php
 require '../connection/connection.php';
 
-// Get the search query from the Ajax request
 $query = $_GET['query'];
 
-// Perform the search query and retrieve the image filename
 $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename
           FROM itemslisting
           JOIN item_images ON itemslisting.id = item_images.item_id
@@ -15,13 +13,11 @@ $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filena
 
 $result = mysqli_query($conn, $query);
 
-// Process the search results
 while ($row = mysqli_fetch_assoc($result)) {
-    $uploadedAt = strtotime($row["uploaded_at"]); // Convert uploaded_at datetime to a timestamp
-    $currentTime = time(); // Current time timestamp
+    $uploadedAt = strtotime($row["uploaded_at"]); 
+    $currentTime = time(); 
     $timeDiff = $currentTime - $uploadedAt;
 
-    // Calculate time difference in human-readable format
     if ($timeDiff < 60) {
         $timeAgo = $timeDiff . " seconds ago";
     } elseif ($timeDiff < 3600) {
@@ -35,14 +31,13 @@ while ($row = mysqli_fetch_assoc($result)) {
         $timeAgo = $days . " days ago";
     }
 
-    // Output the search results in the same format as newly listed items
     echo '<div class="col d-flex align-items-center justify-content-center">';
     echo '<div class="card item h-100">';
     echo '<div class="card-header bg-transparent border border-0">';
     echo '<div class="row row-cols-1 row-cols-md-2 g-4" style="padding-bottom: 10px;">';
     echo '<div class="col col-lg-3">';
     echo '<a href="">';
-    // Update the profile image section to match the updated code
+
     if (isset($row['profile_image']) && $row['profile_image'] != null) {
         echo '<img src="../profile/' . $row['profile_image'] . '" width="40" height="40" class="profile rounded-circle" alt="Profile Picture">';
     } else {
@@ -62,12 +57,11 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo '</div>';
     echo '<a href="../productinfo/productinfo.php?id=' . $row["id"] . '">';
 
-    // Check if the "image_filename" key exists in the $row array
+  
     if (isset($row["image_filename"])) {
         echo '<img src="../sellers/upload/' . $row['image_filename'] . '" class="card-img-top" width="150px" height="150px">';
     } else {
-        // Handle the case where "image_filename" doesn't exist
-        // You can show a default image or leave it empty, depending on your requirements
+       
         echo '<img src="path_to_default_image.jpg" class="card-img-top" width="150px" height="150px">';
     }
 

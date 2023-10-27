@@ -18,27 +18,19 @@ if ($result) {
 
 <?php
 
-
-// Check if a POST request has been made and if the "complete-button" has been set
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['complete-button'])) {
-    // Get the item ID from the button's data-status attribute
+  
     $itemId = $_POST['complete-button'];
     
-    // Update the item status in your PHP script
-    // You can use an SQL UPDATE query to change the status from 'sold' to 'completed'
     $updateQuery = "UPDATE itemslisting SET status = 'completed' WHERE id = $itemId";
     
-    // Execute the query
     if (mysqli_query($conn, $updateQuery)) {
-        // Item status has been updated successfully
-        // You can add any additional logic or messages here if needed
+   
     } else {
-        // Error occurred while updating the item status
-        // You can handle errors as needed
+      
         echo "Error updating item status: " . mysqli_error($conn);
     }
-    
-    // Redirect back to the same page
+  
     header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }
@@ -98,12 +90,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['complete-button'])) {
 </nav>
 <script>
     document.getElementById('logout-link').addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent the link from immediately navigating
+        event.preventDefault(); 
 
-        // Display a confirmation dialog
         const confirmLogout = confirm("Are you sure you want to log out?");
 
-        // If the user confirms, navigate to the logout page
         if (confirmLogout) {
             window.location.href = event.target.href;
         }
@@ -118,25 +108,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['complete-button'])) {
 <div id="div1" class="content active">
     <div class="card-container">
         <?php
-        // Query to select rows with status 'sold' and bought by the user from the itemslisting table
-        $email = $_SESSION['email']; // Get the user's email from the session
+        $email = $_SESSION['email']; 
         $query = "SELECT itemslisting.id, itemslisting.username, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, item_images.image_filename 
                   FROM itemslisting 
                   LEFT JOIN item_images ON itemslisting.id = item_images.item_id 
                   WHERE itemslisting.status = 'sold' AND itemslisting.bought = ?";
 
-        // Prepare the statement
         $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $email);
         $stmt->execute();
 
-        // Get the result
+
         $result = $stmt->get_result();
 
-        // Check if there are rows with 'sold' status
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                // Get the item ID
+            
                 $itemId = $row['id'];
                 $username = $row['username'];
                 echo '<div class="card">';
@@ -146,22 +133,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['complete-button'])) {
                 echo '<p>Price: $' . $row['price'] . '</p>';
                 echo '<p>Condition: ' . $row['item_condition'] . '</p>';
 
-                // Add the "Chat" button/link
+               
                 echo '<a href="../privatemessage/chat.php?id=' . $itemId . '&username=' . urlencode($row['username']) . '&name=' . urlencode($row['name']) . '&description=' . urlencode($row['description']) . '&price=' . urlencode($row['price']) . '" class="btn btn-primary">Chat</a>';
 
-                // Display the "Complete" button with an onclick event to trigger the JavaScript function
+    
                 echo '<br><form method="POST" id="complete-form-' . $itemId . '">';
                 echo '<button class="complete-button" style="width:300px; color:white;" onclick="confirmMarkCompleted(' . $itemId . ')" name="complete-button" value="' . $itemId . '">Complete</button>';
                 echo '</form>';
-                echo '</div>'; // Close the card
+                echo '</div>'; 
             }
         } else {
             echo '<p>You have not made any purchases that are currently in progress.</p>';
         }
         ?>
-    </div> <!-- Close the card-container -->
+    </div> 
 </div>
-
 
 
     <!-- closing -->
@@ -190,22 +176,22 @@ window.location.href = url;
 <div id="div2" class="content">
     <div class="card-container">
         <?php
-        // Query to select rows with status 'completed' and bought by the user from the itemslisting table
-        $email = $_SESSION['email']; // Get the user's email from the session
+       
+        $email = $_SESSION['email']; 
         $query = "SELECT itemslisting.id, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, item_images.image_filename 
                   FROM itemslisting 
                   LEFT JOIN item_images ON itemslisting.id = item_images.item_id 
                   WHERE itemslisting.status = 'completed' AND itemslisting.bought = ?";
 
-        // Prepare the statement
+     
         $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $email);
         $stmt->execute();
 
-        // Get the result
+     
         $result = $stmt->get_result();
 
-        // Check if there are rows with 'completed' status
+   
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 echo '<div class="card1">';
@@ -214,7 +200,7 @@ window.location.href = url;
                 echo '<p>Description: ' . $row['description'] . '</p>';
                 echo '<p>Price: $' . $row['price'] . '</p>';
                 echo '<p>Condition: ' . $row['item_condition'] . '</p>';
-                echo '</div>'; // Close the card1
+                echo '</div>'; 
             }
         } else {
             echo '<p>You have not made any completed purchases.</p>';
@@ -244,10 +230,10 @@ window.location.href = url;
     function confirmMarkCompleted(itemId) {
     var confirmed = confirm("Are you sure you want to mark this item as completed?");
     if (confirmed) {
-        // User clicked "OK," so we'll submit the form
+      
         document.getElementById('complete-form-' + itemId).submit();
     } else {
-        // User clicked "Cancel," so we prevent the default form submission
+    
         event.preventDefault();
     }
 }

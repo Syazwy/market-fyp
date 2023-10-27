@@ -29,6 +29,7 @@ $stmt->execute();
 $stmt->bind_result($itemname);
 
 if ($stmt->fetch()) {
+<<<<<<< Updated upstream
     $stmt->close(); 
   
 $updateSql = "UPDATE itemslisting SET status = 'sold', bought = ? WHERE id = ?";
@@ -36,6 +37,18 @@ $updateStmt = $conn->prepare($updateSql);
 $updateStmt->bind_param("ss", $email, $id);
 
     if ($updateStmt->execute()) {
+=======
+  
+    $stmt->close(); 
+  
+   
+$updateSql = "UPDATE itemslisting SET status = 'sold', bought = ? WHERE id = ?";
+$updateStmt = $conn->prepare($updateSql);
+$updateStmt->bind_param("ss", $email, $id); 
+
+    if ($updateStmt->execute()) {
+      
+>>>>>>> Stashed changes
     } else {
         echo "Error updating status: " . $conn->error;
     }
@@ -57,9 +70,10 @@ if ($result) {
 
 $receiptNumber = mt_rand(100000, 999999);
 
-// ----------------------
+
 $mailUser = new PHPMailer(true);
 try {
+<<<<<<< Updated upstream
     $mailUser->SMTPDebug = 0; 
 
     $mailUser->isSMTP();
@@ -74,6 +88,30 @@ try {
 
     $mailUser->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 
+=======
+    
+    $mailUser->SMTPDebug = 0; 
+
+  
+    $mailUser->isSMTP();
+
+  
+    $mailUser->Host = 'smtp.gmail.com';
+
+   
+    $mailUser->SMTPAuth = true;
+
+   
+    $mailUser->Username = 'market51bn@gmail.com';
+
+   
+    $mailUser->Password = 'ixcnouumjkoxtcvs';
+
+ 
+    $mailUser->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+
+    
+>>>>>>> Stashed changes
     $mailUser->Port = 587;
 
     $mailUser->setFrom('admin.market@gmail.com', 'MarketBN');
@@ -108,12 +146,18 @@ try {
     echo "Confirmation Email could not be sent to the user. Error: " . $mailUser->ErrorInfo;
 }
 
-// ----------------------------
 
 
+<<<<<<< Updated upstream
 $sellerEmail = new PHPMailer(true);
 
 try {
+=======
+$sellerEmail = new PHPMailer(true); 
+
+try {
+  
+>>>>>>> Stashed changes
     $sellerEmail->SMTPDebug = 0; 
     $sellerEmail->isSMTP();
     $sellerEmail->Host = 'smtp.gmail.com';
@@ -127,6 +171,10 @@ try {
 
     $sellerEmail->Subject = 'New Order Notification';
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     $sellerEmail->Body = "<style>
         body {
             font-family: Arial, sans-serif;
@@ -169,7 +217,6 @@ try {
     $sellerEmail->Body .= '<div class="details"><b>Bought by:</b> ' . $email . '</div>';
     $sellerEmail->Body .= '</div>';
     
-  
 
 $sellerEmail->isHTML(true);
 

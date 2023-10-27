@@ -1,4 +1,3 @@
-/* Style for the divs */
 .content {
     display: none;
     padding: 20px;
@@ -6,7 +5,6 @@
     height: 750px;
 }
 
-/* Style for the active div */
 .active {
     display: block;
 }
@@ -21,8 +19,8 @@
     border: 1px solid #ccc;
     padding: 10px;
     margin: 10px;
-    height: auto; /* Change height to auto to allow for dynamic content height */
-    width: calc(20% - 20px); /* Adjust the card width and spacing */
+    height: auto; 
+    width: calc(20% - 20px); 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -31,8 +29,8 @@
 }
 
 .card1 img {
-    max-width: 100%; /* Limit the width of the images to 100% of their parent container */
-    max-height: 150px; /* Limit the height of the images to a fixed value */
+    max-width: 100%; 
+    max-height: 150px; 
     margin-bottom: 10px;
 }
 
@@ -47,12 +45,12 @@
     padding: 10px;
     margin: 10px;
     height: 645px;
-    width: calc(20% - 20px); /* Four cards side by side with some spacing */
+    width: calc(20% - 20px); 
     display: flex;
-    flex-direction: column; /* Stack the elements vertically inside the card */
-    justify-content: space-between; /* Space elements evenly vertically */
-    align-items: center; /* Center elements horizontally */
-    text-align: center; /* Center text horizontally */
+    flex-direction: column; 
+    justify-content: space-between; 
+    align-items: center; 
+    text-align: center; 
 }
 
 .card img {
@@ -84,7 +82,6 @@
     margin-bottom: 20px;
 }
 
-/* Add a CSS class for the active button */
 .active-button {
     border-bottom: 1px solid black;
 }

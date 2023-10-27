@@ -16,7 +16,6 @@ if ($result) {
     die("Query Failed: " . mysqli_error($conn));
 }
 
-// Close the result and database connection
 mysqli_free_result($result);
 ?>
 
@@ -201,8 +200,8 @@ mysqli_free_result($result);
         $result = mysqli_query($conn, $query);
 
         while ($row = mysqli_fetch_assoc($result)) :
-            $uploadedAt = strtotime($row["uploaded_at"]); // Convert uploaded_at datetime to a timestamp
-            $currentTime = time(); // Current time timestamp
+            $uploadedAt = strtotime($row["uploaded_at"]); 
+            $currentTime = time(); 
             $timeDiff = $currentTime - $uploadedAt;
             $sellerid = $row['id'];
             $item_image = $row['image_filename'];
@@ -212,7 +211,6 @@ mysqli_free_result($result);
             $profileimage = $profileResult->fetch_assoc();
             $sellerimg = isset($profileimage['profile_image']) ? $profileimage['profile_image'] : NULL;
 
-            // Calculate time difference in human-readable format
             if ($timeDiff < 60) {
                 $timeAgo = $timeDiff . " seconds ago";
             } elseif ($timeDiff < 3600) {
@@ -281,7 +279,7 @@ mysqli_free_result($result);
 <!-- JavaScript for handling the search -->
 <script>
     $(document).ready(function () {
-        // Function to display search results and toggle item visibility
+     
         function displaySearchResults(query) {
             var url = "search.php";
             var data = {query: query};
@@ -291,34 +289,29 @@ mysqli_free_result($result);
                 url: url,
                 data: data,
                 success: function (response) {
-                    // Hide newly listed items
+                
                     $(".card.item.h-100").hide();
 
-                    // Display search results
                     $("#searchResults").html(response).show();
 
-                    // Update the section title
                     $("#sectionTitle").text("Searched Item");
                 }
             });
         }
 
-        // Function to handle input changes and trigger search
         function handleSearchInput() {
             var query = $("#searchInput").val();
             if (query) {
                 displaySearchResults(query);
             } else {
-                // Show all newly listed items when the search input is empty
+
                 $(".card.item.h-100").show();
                 $("#searchResults").hide();
 
-                // Restore the section title
                 $("#sectionTitle").text("Newly Listed");
             }
         }
 
-        // Automatically update search results as the user types
         $("#searchInput").on("input", handleSearchInput);
     });
 </script>
@@ -326,7 +319,7 @@ mysqli_free_result($result);
 <!-- JavaScript for handling the category clicks -->
 <script>
 $(document).ready(function() {
-    // Function to handle category clicks and filter listings
+
     function handleCategoryClick(category) {
         var url = "category.php";
         var data = { category: category };
@@ -336,19 +329,16 @@ $(document).ready(function() {
             url: url,
             data: data,
             success: function(response) {
-                // Hide newly listed items
+              
                 $(".card.item.h-100").hide();
 
-                // Display category-specific results
                 $("#searchResults").html(response).show();
 
-                // Update the section title
                 $("#sectionTitle").text("Category: " + category);
             }
         });
     }
 
-    // Event handler for category clicks
     $("#property").click(function() {
         handleCategoryClick("Property");
     });
@@ -369,7 +359,6 @@ $(document).ready(function() {
         handleCategoryClick("Clothing");
     });
 
-    // Event handler for category clicks
     $("a[data-category]").click(function() {
         var category = $(this).data("category");
         handleCategoryClick(category);

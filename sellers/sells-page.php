@@ -3,7 +3,6 @@
     require '../connection/connection.php';
     $username = $_SESSION['username'];
 
-    // Check the user's account status
  $query = "SELECT * FROM account WHERE username = '$username'";
  $result = mysqli_query($conn, $query);
 
@@ -15,14 +14,14 @@ if ($result) {
     $profileimage = $row['profile_image'];
    }
 } else {
-    // Handle the query error
+
     die("Query Failed: " . mysqli_error($conn));
 }
 
 
 ?>
 <?php
-// Function to get the user's membership level
+
 function getUserMembership($conn, $username) {
     $query = "SELECT TRIM(membership) FROM account WHERE username = ?";
     $stmt = mysqli_prepare($conn, $query);
@@ -35,7 +34,6 @@ function getUserMembership($conn, $username) {
 }
 
 
-// Function to get the number of active submissions made by the user
 function getUserActiveSubmissions($conn, $username) {
     $query = "SELECT COUNT(*) FROM itemslisting WHERE username = ? AND status = 'active'";
     $stmt = mysqli_prepare($conn, $query);
@@ -50,51 +48,45 @@ function getUserActiveSubmissions($conn, $username) {
 $membership = getUserMembership($conn, $username);
 $numSubmissions = getUserActiveSubmissions($conn, $username);
 
-// Define the submission limits for different membership levels
 $minSubmissionsForBasic = 0;
 $maxSubmissionsForBasic = 2;
-$minSubmissionsForPremium = 0; // Both Premium Monthly and Premium Annually
-$maxSubmissionsForPremium = PHP_INT_MAX; // Unlimited submissions for Premium
+$minSubmissionsForPremium = 0; 
+$maxSubmissionsForPremium = PHP_INT_MAX; 
 
-// Check the user's membership level and submission limit
 if ($membership === 'Basic') {
     if ($numSubmissions >= $minSubmissionsForBasic && $numSubmissions <= $maxSubmissionsForBasic) {
-        // Basic members are allowed to submit within the defined limit
-        $submissionLimitReached = false; // Reset the flag
+       
+        $submissionLimitReached = false; 
     } else {
-        // Basic members have exceeded the submission limit
+       
         $submissionLimitReached = true;
     }
 } elseif ($membership === 'Premium Monthly' || $membership === 'Premium Annually') {
-    // Premium members (both Monthly and Annually) can submit unlimited times
-    // Proceed with the item creation logic
-    $submissionLimitReached = false; // Reset the flag
+ 
+    $submissionLimitReached = false; 
 } else {
-    // Handle other cases or errors as needed
+    
     echo "Unknown membership level or an error occurred.";
-    $submissionLimitReached = false; // Reset the flag
+    $submissionLimitReached = false; 
 }
 
-// Check if the user is a basic member and has reached the submission limit
 $submissionLimitReached = ($membership == 'Basic' && $numSubmissions >= $maxSubmissionsForBasic);
 
 
 
 if(isset($_POST["submit"])){
-    // Get form data and sanitize
-// Get the email from the session
+  
 $email = $_SESSION["email"];
 
-// Your existing code
 $category = mysqli_real_escape_string($conn, $_POST["category"]);
 $item_condition = mysqli_real_escape_string($conn, $_POST["item_condition"]);
 $name = mysqli_real_escape_string($conn, $_POST["name"]);
 
 $price = floatval($_POST["price"]);
 $priceInput = $_POST["price"];
-// Extract the numerical part of the price (excluding "$" and any other non-numeric characters)
+
 $priceValue = preg_replace("/[^0-9.]/", "", $priceInput);
-// Convert the numerical part to a float
+
 $price = floatval($priceValue);
 
 $description = mysqli_real_escape_string($conn, $_POST["description"]);
@@ -103,16 +95,13 @@ $username = mysqli_real_escape_string($conn, $_POST["username"]);
 $currentDateTime = new DateTime();
 $timedate = $currentDateTime->format('Y-m-d H:i:s');
 
-// Insert item data into the database
 $query = "INSERT INTO itemslisting (category, item_condition, name, price, description, location, username, time, uploaded_at, status, email, profile_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'active',?,?)";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "sssdsssssss", $category, $item_condition, $name, $price, $description, $location, $username, $timedate, $timedate, $email, $profileimage);
 mysqli_stmt_execute($stmt);
-$itemId = mysqli_insert_id($conn); // Get the last inserted item ID
+$itemId = mysqli_insert_id($conn); 
 mysqli_stmt_close($stmt);
 
-
-    // Handle uploaded images
     $uploadedImages = $_FILES['photos'];
     $imageNames = [];
 
@@ -127,7 +116,6 @@ mysqli_stmt_close($stmt);
         }
     }
 
-    // Insert image filenames into the database
     foreach ($imageNames as $imageName) {
         $imageQuery = "INSERT INTO item_images (item_id, image_filename) VALUES (?, ?)";
         $stmt = mysqli_prepare($conn, $imageQuery);
@@ -142,9 +130,8 @@ mysqli_stmt_close($stmt);
         mysqli_stmt_close($stmt);
     }
 
-    // Redirect to data.php
     header("Location: ../home/index.php");
-    exit(); // Make sure to exit after sending the header
+    exit(); 
     
 }
 ?>
@@ -234,12 +221,10 @@ mysqli_stmt_close($stmt);
 </nav>
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the link from immediately navigating
+    event.preventDefault(); 
 
-    // Display a confirmation dialog
     const confirmLogout = confirm("Are you sure you want to log out?");
 
-    // If the user confirms, navigate to the logout page
     if (confirmLogout) {
       window.location.href = event.target.href;
     }
@@ -358,19 +343,19 @@ mysqli_stmt_close($stmt);
         <script src="dist/image-uploader.min.js"></script>
         <script>
     $(document).ready(function() {
-        // Check if the submission limit has been reached for basic members
+     
         if (<?php echo json_encode($submissionLimitReached); ?>) {
-            // Use JavaScript to trigger the modal
+          
             $('#submissionLimitModal').modal('show');
         }
 
         $('.input-images-2').imageUploader({
             maxFiles: 6,
-            imagesInputName: 'photos', // This should match the name attribute of the file input
+            imagesInputName: 'photos', 
             preloadedInputName: 'old'
         });
 
-        // Input and label handler
+
         $('input').on('focus', function() {
             $(this).parent().find('label').addClass('active');
         }).on('blur', function() {
@@ -380,10 +365,8 @@ mysqli_stmt_close($stmt);
         });
     });
 
-     // JavaScript function to validate the form
     function validateForm() {
     
-    // Image validation - Check if at least one image is uploaded
     const imageInput = document.querySelector('.input-images-2');
     if (imageInput.children.length === 0 || imageInput.children.length > 6) {
         document.getElementById('imageUploadError').style.display = 'block';
@@ -392,36 +375,34 @@ mysqli_stmt_close($stmt);
         document.getElementById('imageUploadError').style.display = 'none';
     }
 
-    // Price validation
     const priceInput = document.getElementById('price');
     priceInput.addEventListener('input', validatePrice);
 
     function validatePrice() {
         const priceValue = priceInput.value.trim();
 
-        // Remove any commas and dollar signs and then validate
         const numericPrice = parseFloat(priceValue.replace(/,/g, '').replace('$', ''));
 
         if (isNaN(numericPrice) || numericPrice < 0 || numericPrice > 100000) {
             alert('Price must be a valid number between $0 and $100,000.');
-            priceInput.value = ''; // Clear the input field if the input is invalid
+            priceInput.value = ''; 
         } else {
-            // Restrict to 2 decimal places
+      
             priceInput.value = numericPrice.toFixed(2);
         }
     }
 
 
-    return true;// Allow form submission
+    return true;
     }
 
     function closeModal() {
-        // Redirect to index.php when closing the modal
+     
         window.location.href = "../home/index.php";
     }
     
     function upgradeMembership() {
-        // Redirect to the membership upgrade page
+       
         window.location.href = "../membership/membership.php";
     }
 </script>
