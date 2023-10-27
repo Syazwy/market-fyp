@@ -75,12 +75,10 @@ if ($result) {
 
 <script>
   document.getElementById('logout-link').addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent the link from immediately navigating
+    event.preventDefault();
 
-    // Display a confirmation dialog
     const confirmLogout = confirm("Are you sure you want to log out?");
 
-    // If the user confirms, navigate to the logout page
     if (confirmLogout) {
       window.location.href = event.target.href;
     }
@@ -116,18 +114,13 @@ if ($result) {
 <!-- WISHLIST -->
 
 <div class="box" id="wishlistbox" style="display: block;">
-
-<br>
-<br>  
-  <h2>My Wishlist</h2>
   <br>
-      <!-- to show the wishlist items in database  -->
+  <br>  
+<h2>My Wishlist</h2>
+  <br>
 
-      <?php
-require '../connection/connection.php';
+<?php require '../connection/connection.php';
 
-// Assuming your wishlist table structure contains id, name, and price columns
-// Modify the SQL query to filter by email
 $wishlistResult = $conn->prepare("SELECT * FROM wishlist WHERE email = ?");
 $wishlistResult->bind_param("s", $yourEmail);
 $wishlistResult->execute();
@@ -169,34 +162,27 @@ if ($wishlistResult->num_rows > 0) {
 $conn->close();
 ?>
 
-
   <!-- TO REMOVE YOUR WISHLIST ITEM -->
   <script>
     function removeFromWishlist(id) {
         if (confirm("Are you sure you want to remove this item from your wishlist?")) {
-            // Send an AJAX request to the PHP script to remove the item
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "remove_from_wishlist.php", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    // Handle the response (e.g., display a message)
+                    
                     alert(xhr.responseText);
-                    // Reload the page or update the wishlist content as needed
-                    location.reload(); // Refresh the page after removing the item
+                    location.reload();
                 }
             };
-
-            // Send the 'id' parameter in the request
             xhr.send("id=" + id);
         }
     }
 
             function payment(id) {
-                // Display a confirmation dialog
                 if (confirm("Are you sure you want to proceed to payment?")) {
-                    // Redirect to the payment page with the selected item's ID
                     window.location.href = '../order/orderItem.php?id=' + id;
                 }
             }
@@ -215,7 +201,6 @@ $conn->close();
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <!-- <h5 class="modal-title" id="addReviewModalLabel">Add New Review</h5> -->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -226,7 +211,7 @@ $conn->close();
       <input type="text" class="form-control" id="username" name="username" value="<?php echo $username ?>"  autocomplete="off" hidden >
     </div>
     <div class="form-group">
-      <label for="content">Content</label> <!-- Change the label text here -->
+      <label for="content">Content</label>
       <textarea class="form-control" id="content"name="content" rows="3" required></textarea>
     </div>
     <div class="form-group">
@@ -253,7 +238,6 @@ $conn->close();
 </div>
 
 <script>
-// Function to show the Wishlists box content
 function showWishlists() {
     document.getElementById("wishlistbox").style.display = "block"; 
 }

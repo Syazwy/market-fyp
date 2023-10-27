@@ -15,7 +15,7 @@ if (isset($_POST['id'])) {
         // Item removed successfully, now update the wishlist count in the 'account' table
         $updateCountQuery = "UPDATE account SET wishlist_count = wishlist_count - 1 WHERE email = ?";
         $updateCountStmt = $conn->prepare($updateCountQuery);
-        $updateCountStmt->bind_param('s', $yourEmail); // You need to retrieve the user's email from the database
+        $updateCountStmt->bind_param('s', $yourEmail);
 
         if ($updateCountStmt->execute()) {
             echo "Item removed successfully, and wishlist count updated.";
