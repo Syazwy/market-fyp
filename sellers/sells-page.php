@@ -312,7 +312,7 @@ mysqli_stmt_close($stmt);
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
-                    <input type="number" class="form-control" name="price" id="price" placeholder="" required>
+                    <input type="number" step="0.01" class="form-control" name="price" id="price" placeholder="" required>
                 </div>
                 <div class="mb-3">
     <label for="description" class="form-label">Description</label>
@@ -357,26 +357,22 @@ mysqli_stmt_close($stmt);
         });
 
         function validatePrice() {
-    const priceInput = document.getElementById('price');
-    const priceValue = priceInput.value.trim();
+            const priceInput = document.getElementById('price');
+            const priceValue = priceInput.value.trim();
+            // Remove any non-numeric characters except the dot (for cents)
+            const numericPrice = parseFloat(priceValue.replace(/[^0-9.]/g, ''));
 
-    // Use a regular expression to validate the price format with two decimal places
-    const priceRegex = /^\d+(\.\d{2})?$/;
+            if (isNaN(numericPrice) || numericPrice <= 1 || numericPrice > 999999) {
+                return false;
+            }
 
-    if (priceRegex.test(priceValue)) {
-        // Price format is valid
-        return true;
-    } else {
-        alert('Price must be a valid number with two decimal places (e.g., 10.99).');
-        return false;
-    }
-}
-
+            return true;
+        }
 
         function validateForm() {
             const priceIsValid = validatePrice();
 
-            if (priceIsValid && priceIsValid > 0 && priceIsValid <= 999999) {
+            if (priceIsValid) {
                 return true;
             } else {
                 alert('Price must be a valid number in between $0 and $999,999.');
@@ -385,8 +381,8 @@ mysqli_stmt_close($stmt);
         }
 
         $('form').submit(validateForm);
-        });
-
+    });
+    
         function closeModal() {
             window.location.href = "../home/index.php";
         }

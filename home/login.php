@@ -7,7 +7,7 @@ if (isset($_POST["login"])) {
  
     if ($emailOrUsername === "admin") {
        
-        if ($password === "123") {
+        if ($password === "marketbn2023") {
            
             $_SESSION['member'] = true;
             $_SESSION['email'] = ""; 

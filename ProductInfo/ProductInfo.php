@@ -317,54 +317,66 @@ if ($result) {
     </nav>
 
     <main>
-        <?php
-        if (isset($_GET['id'])) {
-            $itemId = $_GET['id'];
+    <?php
+if (isset($_GET['id'])) {
+    $itemId = $_GET['id'];
 
-            $query = "SELECT itemslisting.*, item_images.image_filename 
-                      FROM itemslisting 
-                      JOIN item_images ON itemslisting.id = item_images.item_id 
-                      WHERE itemslisting.id = $itemId";
-            $result = mysqli_query($conn, $query);
+    $query = "SELECT itemslisting.*, item_images.image_filename 
+              FROM itemslisting 
+              JOIN item_images ON itemslisting.id = item_images.item_id 
+              WHERE itemslisting.id = $itemId";
+    $result = mysqli_query($conn, $query);
 
-            if ($row = mysqli_fetch_assoc($result)) {
-        ?>
-        <div class="container1">
-        <center><h6>Category - <?php echo $row["category"]; ?></h6></center>
-            <div class="product-container">
-                <div id="carouselExampleIndicators" class="carousel slide w-100" data-bs-ride="carousel">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                            class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                            aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                            aria-label="Slide 3"></button>
-                    </div>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="../sellers/upload/<?php echo $row['image_filename']; ?>">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="../sellers/upload/<?php echo $row['image_filename']; ?>">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="../sellers/upload/<?php echo $row['image_filename']; ?>">
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button"
-                        data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="" style="color:black;">< Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button"
-                        data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" ariahidden="true"></span>
-                        <span class="" style="color:black;">Next ></span>
-                    </button>
-                </div>
+    if ($row = mysqli_fetch_assoc($result)) {
+?>
+<div class="container1">
+    <center><h6>Category - <?php echo $row["category"]; ?></h6></center>
+    <div class="product-container">
+        <div id="carouselExampleIndicators" class="carousel slide w-100" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <?php
+                // Fetch all associated images for this item
+                $imageQuery = "SELECT image_filename FROM item_images WHERE item_id = $itemId";
+                $imageResult = mysqli_query($conn, $imageQuery);
+                $numSlides = mysqli_num_rows($imageResult);
+                
+                for ($i = 0; $i < $numSlides; $i++) {
+                ?>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<?php echo $i; ?>"
+                        <?php echo $i == 0 ? 'class="active" aria-current="true"' : ''; ?>
+                        aria-label="Slide <?php echo $i + 1; ?>"></button>
+                <?php
+                }
+                ?>
             </div>
+            <div class="carousel-inner">
+                <?php
+                $first = true;
+                while ($imageRow = mysqli_fetch_assoc($imageResult)) {
+                ?>
+                    <div class="carousel-item <?php echo $first ? 'active' : ''; ?>">
+                        <img src="../sellers/upload/<?php echo $imageRow['image_filename']; ?>">
+                    </div>
+                <?php
+                    $first = false;
+                }
+                ?>
+            </div>
+            <button class="carousel-control-prev" type="button"
+                data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="" style="color: black;">&lt; Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button"
+                data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="" style="color: black;">Next &gt;</span>
+            </button>
         </div>
+    </div>
+</div>
+
+
  
         <!-- ------------------------------------------------------------------------------------ -->
 
@@ -469,7 +481,7 @@ if ($result) {
               if ($sessionEmail === $row["email"]) {
                 echo '<br>';
                 echo '<br>'; 
-                  echo '<a href="../profile/profile_edit_item.php?id=' . $row["id"] . '" class="edit">Edit</a>';
+                  echo '<a href="../profile/profile_edit_item.php?id=' . $row["id"] . '" class="edit" style="text-decoration: none;">Edit</a>';
                   echo '<br>'; 
                   echo '<br>'; 
               } else {

@@ -23,10 +23,6 @@ if ($result) {
 <?php
     $id = $_GET['id'];
 
-<<<<<<< Updated upstream
-  
-=======
->>>>>>> Stashed changes
     $sql = "SELECT name, price, location FROM itemslisting WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $id);
@@ -34,10 +30,6 @@ if ($result) {
     $stmt->bind_result($name, $price, $location);
 
     if ($stmt->fetch()) {
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
 $delivery = "" ;
 
@@ -63,11 +55,6 @@ $total = $price + $delivery;
 
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-<<<<<<< Updated upstream
-  
-=======
-
->>>>>>> Stashed changes
       $district = $_POST["District"];
       $city = $_POST["City"];
       $streetAddress = $_POST["StreetAddress"];
@@ -78,19 +65,11 @@ $total = $price + $delivery;
       echo "Street Address: " . $streetAddress . "<br>";
       echo "Postal Code: " . $postalCode . "<br>";
       
-<<<<<<< Updated upstream
-  
-=======
->>>>>>> Stashed changes
       $updateAccountSQL = "UPDATE account SET District = ?, City = ?, StreetAddress = ?, PostalCode = ? WHERE email = ?";
       $updateStmt = $conn->prepare($updateAccountSQL);
       $updateStmt->bind_param("sssss", $district, $city, $streetAddress, $postalCode, $email);
       
       if ($updateStmt->execute()) {
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
           print_r($_POST);
 
           exit();
@@ -99,10 +78,6 @@ $total = $price + $delivery;
       }
   }
   
-<<<<<<< Updated upstream
-  
-=======
->>>>>>> Stashed changes
   $conn->close();
   ?>
 
@@ -291,10 +266,6 @@ $total = $price + $delivery;
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
   const districtInput = document.getElementById('District');
   const cityInput = document.getElementById('City');
   const streetAddressInput = document.getElementById('StreetAddress');
@@ -324,25 +295,16 @@ console.log("Postal Code:", postalCodeInput.value.trim());
 
   
   document.getElementById('deliveryForm').submit();
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
   const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
   const deliveryMethod = document.querySelector('input[name="deliveryMethod"]:checked');
 
   if (paymentMethod && deliveryMethod) {
   const id = <?php echo $id; ?>;
   if (paymentMethod.id === 'paypal') {
-<<<<<<< Updated upstream
-    window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}&District=${districtInput.value}&City=${cityInput.value}&StreetAddress=${streetAddressInput.value}&PostalCode=${postalCodeInput.value}`;
-  } else if (paymentMethod.id === 'cash') {
-=======
 
     window.location.href = `../payment/itemPaypal.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}&District=${districtInput.value}&City=${cityInput.value}&StreetAddress=${streetAddressInput.value}&PostalCode=${postalCodeInput.value}`;
   } else if (paymentMethod.id === 'cash') {
 
->>>>>>> Stashed changes
     window.location.href = `orderCompleted1.php?id=${id}&price=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}&District=${districtInput.value}&City=${cityInput.value}&StreetAddress=${streetAddressInput.value}&PostalCode=${postalCodeInput.value}`;
   }
 } else {
@@ -389,13 +351,9 @@ console.log("Postal Code:", postalCodeInput.value.trim());
 
         $('#deliveryModal').modal('show');
       } else {
-<<<<<<< Updated upstream
-        if (paymentMethod.id === 'cash') {
-=======
        
         if (paymentMethod.id === 'cash') {
        
->>>>>>> Stashed changes
           window.location.href = `orderHalfwayCompleted.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;
         } else if (paymentMethod.id === 'paypal') {
          window.location.href = `../payment/itemPaypal2.php?id=${id}&total=<?php echo $total; ?>&usersemail=<?php echo $usersemail;?>&deliveryMethod=${deliveryMethod.id}&paymentMethod=${paymentMethod.id}`;

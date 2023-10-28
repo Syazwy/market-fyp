@@ -25,10 +25,7 @@ $stmt->execute();
 $stmt->bind_result($itemname);
 
 if ($stmt->fetch()) {
-<<<<<<< Updated upstream
-=======
    
->>>>>>> Stashed changes
     $stmt->close(); 
   
 $updateSql = "UPDATE itemslisting SET status = 'sold', bought = ? WHERE id = ?";
@@ -36,10 +33,7 @@ $updateStmt = $conn->prepare($updateSql);
 $updateStmt->bind_param("ss", $email, $id); 
 
     if ($updateStmt->execute()) {
-<<<<<<< Updated upstream
-=======
        
->>>>>>> Stashed changes
     } else {
         echo "Error updating status: " . $conn->error;
     }
@@ -65,25 +59,12 @@ try {
     
     $mailUser->SMTPDebug = 0; 
 
-<<<<<<< Updated upstream
-   
-    $mailUser->isSMTP();
-
-
-    $mailUser->Host = 'smtp.gmail.com';
-
-   
-    $mailUser->SMTPAuth = true;
-
-   
-=======
     $mailUser->isSMTP();
 
     $mailUser->Host = 'smtp.gmail.com';
 
     $mailUser->SMTPAuth = true;
 
->>>>>>> Stashed changes
     $mailUser->Username = 'market51bn@gmail.com';
 
     $mailUser->Password = 'ixcnouumjkoxtcvs';
@@ -123,19 +104,10 @@ try {
     echo "Confirmation Email could not be sent to the user. Error: " . $mailUser->ErrorInfo;
 }
 
-<<<<<<< Updated upstream
-// ----------------------------
-
-
-$sellerEmail = new PHPMailer(true); 
-
-try {
-=======
 $sellerEmail = new PHPMailer(true); 
 
 try {
 
->>>>>>> Stashed changes
     $sellerEmail->SMTPDebug = 0; 
     $sellerEmail->isSMTP();
     $sellerEmail->Host = 'smtp.gmail.com';
@@ -157,10 +129,6 @@ try {
     $sellerEmail->Body .= "Total: $<b>" . $total . "</b><br>";
     $sellerEmail->Body .= "Bought by: <b>" . $email . "</b><br>";
   
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 $sellerEmail->isHTML(true);
 
 
