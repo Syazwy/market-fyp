@@ -3,14 +3,11 @@ session_start();
 require '../connection/connection.php';
 include '../home/register.php';
 include '../home/verification.php';
-include '../home/login.php';
+// include '../home/login.php';
 // include 'forgot.php';
 
-// Check if a message parameter is present in the URL
 if (isset($_GET["message"])) {
     $message = urldecode($_GET["message"]);
-    // Use JavaScript to display the message as an alert
- 
 }
 ?>
 
@@ -133,7 +130,7 @@ a.nav-link.active {
   }
 
   .modal-header {
-        border-bottom: none; /* This removes the border between header and body */
+        border-bottom: none;
     }
 
     .modal-header .close {
@@ -163,6 +160,86 @@ a.nav-link.active {
             </div>
         </div>
     </nav>
+
+        <!-- Login Database -->
+        <?php
+            $errorMessage = ""; 
+            if (isset($_POST["login"])) {
+                $emailOrUsername = $_POST["emailOrUsername"];
+                $password = $_POST["password"];
+            
+                if ($emailOrUsername === "admin") {
+                
+                    if ($password === "marketbn2023") {
+                    
+                        $_SESSION['member'] = true;
+                        $_SESSION['email'] = ""; 
+                        $_SESSION['username'] = "admin";
+                        echo '<script type="text/javascript">window.location = "../admin/admin.php";</script>';
+                        exit();
+                    } else {
+                        $errorMessage = "Password is not correct";
+                    }
+                } else {
+                
+                    $sql = "SELECT * FROM account WHERE email = ? OR username = ?";
+                    $stmt = mysqli_prepare($conn, $sql);
+                    mysqli_stmt_bind_param($stmt, "ss", $emailOrUsername, $emailOrUsername);
+                    mysqli_stmt_execute($stmt);
+                    $result = mysqli_stmt_get_result($stmt);
+                    if (mysqli_num_rows($result) == 0) {
+                        $errorMessage = "Email or username not found.";
+                    } else {
+                        $user = mysqli_fetch_object($result);
+                        if ($user->status === 'Banned') {
+                            echo '<script>
+                            $(document).ready(function() {
+                                $("#bannedModal").modal("show");
+                            });
+                        </script>';
+                        } elseif (!password_verify($password, $user->password)) {
+                            $errorMessage = "Password is not correct";
+                        } elseif ($user->email_verified_at == null) {
+                            echo '<script type="text/javascript">window.location = "index-guest.php?email=' . urlencode($user->email) . '";</script>';
+                            exit();
+                        } else {
+            
+            if ($user->membership === 'Premium Monthly') {
+            
+            $thirtyDaysAgo = date('Y-m-d', strtotime('-30 days'));
+            
+            if (strtotime($user->subscriptionDate) <= strtotime($thirtyDaysAgo)) {
+                
+                $updateSql = "UPDATE account SET membership = 'Basic' WHERE email = ?";
+                $updateStmt = mysqli_prepare($conn, $updateSql);
+                mysqli_stmt_bind_param($updateStmt, "s", $user->email);
+                mysqli_stmt_execute($updateStmt);
+            }
+            }
+
+            if ($user->membership === 'Premium Annually') {
+
+            $threeHundredSixtyFiveDaysAgo = date('Y-m-d', strtotime('-365 days'));
+
+            if (strtotime($user->subscriptionDate) <= strtotime($threeHundredSixtyFiveDaysAgo)) {
+                
+                $updateSql = "UPDATE account SET membership = 'Basic' WHERE email = ?";
+                $updateStmt = mysqli_prepare($conn, $updateSql);
+                mysqli_stmt_bind_param($updateStmt, "s", $user->email);
+                mysqli_stmt_execute($updateStmt);
+            }
+            }
+                $_SESSION['member'] = true;
+                $_SESSION['email'] = $user->email;
+                $_SESSION['username'] = $user->username;
+                $_SESSION['id'] = $user->id;
+                echo '<script type="text/javascript">window.location.href = "../home/index.php";</script>';
+                exit();
+            }
+        }
+    }
+}
+?>
 
     <!-- The Bootstrap Modal for Banned Users -->
     <div class="modal fade" id="bannedModal" tabindex="-1" role="dialog" aria-labelledby="bannedModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -423,7 +500,7 @@ a.nav-link.active {
         <div class="row row-cols-1 row-cols-md-5 g-4">
           <?php
           $i = 1;
-          $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename 
+          $query = "SELECT itemslisting.*, MIN(item_images.image_filename) AS image_filename
           FROM itemslisting
           JOIN item_images ON itemslisting.id = item_images.item_id
           JOIN account ON itemslisting.username = account.username

@@ -11,9 +11,7 @@ mysqli_stmt_bind_param($stmt, "i", $id);
 if (mysqli_stmt_execute($stmt)) {
     echo '<script>alert("Item deleted successfully.");</script>';
     echo '<script>
-        setTimeout(function(){
-            window.location = "myprofile.php";
-        }, 500); 
+    window.location = "myprofile.php";
     </script>';
 } else {
     echo "Error: " . mysqli_error($conn);

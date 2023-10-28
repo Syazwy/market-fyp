@@ -189,7 +189,7 @@ mysqli_free_result($result);
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <?php
         $i = 1;
-        $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename
+        $query = "SELECT itemslisting.*, MIN(item_images.image_filename) AS image_filename
         FROM itemslisting
         JOIN item_images ON itemslisting.id = item_images.item_id
         JOIN account ON itemslisting.username = account.username

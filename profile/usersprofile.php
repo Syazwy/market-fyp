@@ -386,7 +386,7 @@ function validateForm() {
     <?php
 require '../connection/connection.php';
 $i = 1;
-$query = "SELECT itemslisting.*, MAX (item_images.image_filename) AS image_filename
+$query = "SELECT itemslisting.*, MIN (item_images.image_filename) AS image_filename
           FROM itemslisting 
           JOIN item_images ON itemslisting.id = item_images.item_id 
           WHERE itemslisting.username = '$user' 

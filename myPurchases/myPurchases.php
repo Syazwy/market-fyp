@@ -108,11 +108,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['complete-button'])) {
 <div id="div1" class="content active">
     <div class="card-container">
         <?php
-        $email = $_SESSION['email']; 
-        $query = "SELECT itemslisting.id, itemslisting.username, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, item_images.image_filename 
-                  FROM itemslisting 
-                  LEFT JOIN item_images ON itemslisting.id = item_images.item_id 
-                  WHERE itemslisting.status = 'sold' AND itemslisting.bought = ?";
+       $email = $_SESSION['email']; 
+       $query = "SELECT itemslisting.*, MIN(item_images.image_filename) AS image_filename 
+                 FROM itemslisting 
+                 LEFT JOIN item_images ON itemslisting.id = item_images.item_id 
+                 WHERE itemslisting.status = 'sold' AND itemslisting.bought = ?
+                 GROUP BY itemslisting.id, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition";
+       
 
         $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $email);
@@ -177,11 +179,13 @@ window.location.href = url;
     <div class="card-container">
         <?php
        
-        $email = $_SESSION['email']; 
-        $query = "SELECT itemslisting.id, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, item_images.image_filename 
-                  FROM itemslisting 
-                  LEFT JOIN item_images ON itemslisting.id = item_images.item_id 
-                  WHERE itemslisting.status = 'completed' AND itemslisting.bought = ?";
+       $email = $_SESSION['email']; 
+       $query = "SELECT itemslisting.id, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition, MIN(item_images.image_filename) AS image_filename 
+                 FROM itemslisting 
+                 LEFT JOIN item_images ON itemslisting.id = item_images.item_id 
+                 WHERE itemslisting.status = 'completed' AND itemslisting.bought = ?
+                 GROUP BY itemslisting.id, itemslisting.name, itemslisting.description, itemslisting.price, itemslisting.item_condition";
+       
 
      
         $stmt = $conn->prepare($query);
