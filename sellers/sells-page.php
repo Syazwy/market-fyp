@@ -316,12 +316,7 @@ mysqli_stmt_close($stmt);
                 </div>
                 <div class="mb-3">
     <label for="description" class="form-label">Description</label>
-    <textarea class="form-control" name="description" id="description" rows="3" required
-        minlength="10"   
-        maxlength="200"  
-        pattern=".{10,200}" 
-        title="Description must be between 10 and 200 characters long."> 
-    </textarea>
+    <textarea class="form-control" name="description" id="description" rows="3" required minlength="4" maxlength="200" pattern=".{10,200}" title="Description must be between 10 and 200 characters long."></textarea>
 </div>
 
                 <div class="mb-3">
@@ -362,37 +357,33 @@ mysqli_stmt_close($stmt);
         });
 
         function validatePrice() {
-            const priceInput = document.getElementById('price');
-            const priceValue = priceInput.value.trim();
+    const priceInput = document.getElementById('price');
+    const priceValue = priceInput.value.trim();
 
-            const numericPrice = parseFloat(priceValue.replace(/,/g, '').replace('$', ''));
+    // Use a regular expression to validate the price format with two decimal places
+    const priceRegex = /^\d+(\.\d{2})?$/;
 
-            if (isNaN(numericPrice) || numericPrice <= 0 || numericPrice > 999999) {
-                alert('Price must be a valid number between $0 and $999,999.');
-                priceInput.value = '';
-                return false;
-            } else {
-                priceInput.value = numericPrice.toFixed(2);
-                return true; // Price is valid, allow form submission
-            }
-        }
+    if (priceRegex.test(priceValue)) {
+        // Price format is valid
+        return true;
+    } else {
+        alert('Price must be a valid number with two decimal places (e.g., 10.99).');
+        return false;
+    }
+}
 
 
-        // Function to validate the entire form before submission
         function validateForm() {
             const priceIsValid = validatePrice();
 
             if (priceIsValid && priceIsValid > 0 && priceIsValid <= 999999) {
-                // Add other form validation logic here if needed
-                return true; // Form is valid, allow submission
+                return true;
             } else {
-                alert('Price must be a valid number between $0 and $999,999.');
-                return false; // Prevent form submission
+                alert('Price must be a valid number in between $0 and $999,999.');
+                return false;
             }
         }
 
-
-        // Attach the form submission validation function to the form
         $('form').submit(validateForm);
         });
 
