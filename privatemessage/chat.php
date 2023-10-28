@@ -163,7 +163,7 @@ $conn->close();
   document.querySelector("form").addEventListener("submit", function (event) {
     var inputElement = document.getElementById("textInput");
     if (inputElement.value.trim() === "") {
-      event.preventDefault(); // Prevent the form from submitting
+      event.preventDefault(); 
       alert("Please enter a message before sending.");
     }
   });
