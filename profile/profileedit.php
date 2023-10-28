@@ -2,13 +2,11 @@
 require '../connection/connection.php';
 session_start();
 
-
-// Get the user's ID from the URL
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 }
 
-// Retrieve the user's profile image from the database
+
 $query = "SELECT * FROM `account` WHERE `id` = '$id'";
 $result = mysqli_query($conn, $query);
 if ($result) {
@@ -17,9 +15,9 @@ if ($result) {
     }
 }
 
-// Handle the image upload and database update here
+
 if (isset($_FILES['newProfileImage'])) {
-    // Define the folder where uploaded images will be stored
+
     $uploadDir = 'profileimage/';
 
     // Create the folder if it doesn't exist
@@ -27,12 +25,12 @@ if (isset($_FILES['newProfileImage'])) {
         mkdir($uploadDir, 0755, true);
     }
 
-    // Generate a unique filename for the uploaded image
+
     $newProfileImage = $uploadDir . uniqid() . '_' . $_FILES['newProfileImage']['name'];
 
-    // Move the uploaded image to the folder
+
     if (move_uploaded_file($_FILES['newProfileImage']['tmp_name'], $newProfileImage)) {
-        // Update the user's profile image in the database
+     
         $query = "UPDATE `account` SET `profile_image` = '$newProfileImage' WHERE `id` = '$id'";
         $result = mysqli_query($conn, $query);
         $query2 = "UPDATE `itemslisting` SET `profile_image` = '$newProfileImage' WHERE `username` = '$username'";
@@ -41,11 +39,9 @@ if (isset($_FILES['newProfileImage'])) {
             die("Query Failed: " . mysqli_error($conn));
         }
         
-        // Call the JavaScript function to update the profile image on the page
         echo '<script>updateProfileImage("' . $newProfileImage . '");</script>';
     }
 
-    // Redirect back to the same URL with the ID retained
     header('Location: profileedit.php?id=' . $id);
     exit();
 
@@ -71,14 +67,14 @@ require '../connection/connection.php';
 if (isset($_POST['submit'])) {
     $Nusername = $_POST['username'];
     $Nemail = $_SESSION['email'];
-    $Npassword = $_POST['newPassword']; // Get the new password from the form
-    // Hash the new password
+    $Npassword = $_POST['newPassword']; 
+
     $hashedPassword = password_hash($Npassword, PASSWORD_DEFAULT);
 
     try {
         mysqli_begin_transaction($conn);
     
-        // Update the 'account' table
+  
         if ($Npassword) {
             $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail', `password` = '$hashedPassword' WHERE `username` = '" . $_SESSION['username'] . "'";
         } else {
@@ -94,7 +90,7 @@ if (isset($_POST['submit'])) {
         $tablesToUpdate = ['appeals', 'itemslisting', 'reportbyusers', 'reviews', 'chat'];
         foreach ($tablesToUpdate as $table) {
             if ($table === 'chat') {
-                // For the 'chat' table, update 'sender' and 'receiver' columns
+  
                 $query = "UPDATE `$table` SET `sender` = '$Nusername' WHERE `sender` = '" . $_SESSION['username'] . "'";
                 $result = mysqli_query($conn, $query);
                 if (!$result) {
@@ -107,14 +103,14 @@ if (isset($_POST['submit'])) {
                     throw new Exception("Query Failed: " . mysqli_error($conn));
                 }
             } else {
-                // For other tables, update the 'username' column
+              
                 $query = "UPDATE `$table` SET `username` = '$Nusername' WHERE `username` = '" . $_SESSION['username'] . "'";
                 $result = mysqli_query($conn, $query);
                 if (!$result) {
                     throw new Exception("Query Failed: " . mysqli_error($conn));
                 }
         
-                // For the 'reviews' table, update the 'users' column
+        
                 if ($table === 'reviews') {
                     $query = "UPDATE `$table` SET `users` = '$Nusername' WHERE `users` = '" . $_SESSION['username'] . "'";
                     $result = mysqli_query($conn, $query);
@@ -128,13 +124,13 @@ if (isset($_POST['submit'])) {
         
         $_SESSION['username'] = $Nusername;
         $username =  $_SESSION['username'];
-        // echo $username;
+     
     
-        // Commit the transaction if all queries are successful
+  
         mysqli_commit($conn);
-   // After the profile information is successfully updated, show the modal
+  
 } catch (Exception $e) {
-    // Roll back the transaction if any query fails
+  
     mysqli_rollback($conn);
     echo "Transaction failed: " . $e->getMessage();
 }
@@ -143,7 +139,6 @@ if (isset($_POST['submit'])) {
 }
 
 ?>
-
 
 
 <!DOCTYPE html>

@@ -4,7 +4,7 @@
  $username = $_SESSION['username'];
  
 
- // Check the user's account status
+
  $query = "SELECT * FROM account WHERE username = '$username'";
  $result = mysqli_query($conn, $query);
 
@@ -18,38 +18,38 @@ if ($result) {
     die("Query Failed: " . mysqli_error($conn));
 }
 
-// Close the result and database connection
+
 mysqli_free_result($result);
 
 
 ?>
 
 <?php
-// Retrieve the user's profile image from the database
+
 $query = "SELECT profile_image FROM `account` WHERE `id` = '$id'";
 $result = mysqli_query($conn, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
 }
-// Handle the image upload and database update here
+
 if (isset($_FILES['newProfileImage'])) {
-  // Define the folder where uploaded images will be stored
+ 
   $uploadDir = 'profileimage/';
-  // Create the folder if it doesn't exist
+ 
   if (!is_dir($uploadDir)) {
       mkdir($uploadDir, 0755, true);
   }
-  // Generate a unique filename for the uploaded image
+
   $newProfileImage = $uploadDir . uniqid() . '_' . $_FILES['newProfileImage']['name'];
-  // Move the uploaded image to the folder
+ 
   if (move_uploaded_file($_FILES['newProfileImage']['tmp_name'], $newProfileImage)) {
-      // Update the user's profile image in the database
+     
       $query = "UPDATE `account` SET `profile_image` = '$newProfileImage' WHERE `id` = '$id'";
       $result = mysqli_query($conn, $query);
       if (!$result) {
           die("Query Failed: " . mysqli_error($conn));
       }
-      // Call the JavaScript function to update the profile image on the page
+      
       echo '<script>updateProfileImage("' . $newProfileImage . '");</script>';
   }
   exit();
@@ -111,7 +111,7 @@ if (isset($_FILES['newProfileImage'])) {
   </div>
 </nav>
 <script>
-  var accountStatus = "<?php echo $accountStatus; ?>"; // Get the account status from PHP
+  var accountStatus = "<?php echo $accountStatus; ?>"; 
 
   window.onload = function displayContentBasedOnStatus() {
   var box2 = document.getElementById("box2");
@@ -120,23 +120,22 @@ if (isset($_FILES['newProfileImage'])) {
   var sellButton = document.getElementById("sellButton");
 
   if (accountStatus == "Banned") {
-    // Hide the item listing and "Add New Listing" button
+    
     box2.style.display = "none";
-    // display the banned message and "Appeal" button
+    
     bannedMessage.style.display = "block";
     appealButton.style.display = "block";
     sellButton.style.display = "none";
   } else {
-    // Show the item listing and "Add New Listing" button
+  
     box2.style.display = "block";
-    // Hide the banned message and "Appeal" button
+   
     bannedMessage.style.display = "none";
     appealButton.style.display = "none";
     sellButton.style.display = "block";
   }
 }
 
-// Call the function to initially display the content based on the account status
 displayContentBasedOnStatus();
 
 </script>
@@ -177,11 +176,11 @@ displayContentBasedOnStatus();
           $averageRating = $row['avg_rating'];
           $totalReviews = $row['total_reviews'];
           
-          // Function to generate star rating based on the average rating
+
           function generateStarRating($rating) {
             $output = '';
             for ($i = 1; $i <= 5; $i++) {
-                if ($i <= ceil($rating)) { // Use ceil to round up decimal ratings
+                if ($i <= ceil($rating)) { 
                     $output .= '<i class="fa fa-star checked"></i>';
                 } else {
                     $output .= '<i class="fa fa-star"></i>';
@@ -205,8 +204,7 @@ displayContentBasedOnStatus();
     <?php
   
   require '../connection/connection.php';
-        
-        // Query to get the account creation date for the user
+      
         $stmt = $conn->prepare("SELECT date FROM account WHERE username = ?");
         
         if ($stmt) {
@@ -220,7 +218,7 @@ displayContentBasedOnStatus();
                 $currentDate = new DateTime();
                 $interval = $accountCreatedDate->diff($currentDate);
         
-                // Function to format the interval in days ago
+         
                 function formatDaysAgo($interval) {
                     if ($interval->d > 0) {
                         return $interval->format('%ad ago');
@@ -231,7 +229,7 @@ displayContentBasedOnStatus();
         
                 echo 'Joined ' . formatDaysAgo($interval);
         
-                // Close the database connection
+       
                 $stmt->close();
             } else {
                 echo '- No account information available.';
@@ -273,7 +271,6 @@ if ($result) {
 <?php
 require '../connection/connection.php';
 
-// Check the user's account status
 $query = "SELECT * FROM account WHERE username = '$username'";
 $result = mysqli_query($conn, $query);
 
@@ -285,25 +282,25 @@ if ($result) {
         $subscriptionDate = $row['subscriptionDate'];
     }
 } else {
-    // Handle the query error
+    
     die("Query Failed: " . mysqli_error($conn));
 }
 
-// Close the result and database connection
+
 mysqli_free_result($result);
 mysqli_close($conn);
 
-// Calculate the difference in days between the current date and the subscription date
+
 $currentDate = new DateTime();
 $subscriptionDate = new DateTime($subscriptionDate);
 $daysRemaining = $currentDate->diff($subscriptionDate)->days;
 
-// Check membership type and days remaining
+
 if ($membership === "Premium Monthly" && $daysRemaining <= 30 && $daysRemaining >= 1) {
-    // Calculate the number of days until the subscription expires
+   
     $daysUntilExpiry = 30 - $daysRemaining;
 
-    // Define the message based on the number of days
+   
     if ($daysUntilExpiry >= 5) {
         $message = "Your Premium Monthly subscription will expire in $daysUntilExpiry days.";
     } else if ($daysUntilExpiry == 4) {
@@ -318,10 +315,10 @@ if ($membership === "Premium Monthly" && $daysRemaining <= 30 && $daysRemaining 
         $message = "Your Premium Monthly subscription will expire today.";
     }
 } elseif ($membership === "Premium Annually" && $daysRemaining <= 365 && $daysRemaining >= 1) {
-    // Calculate the number of days until the subscription expires
+   
     $daysUntilExpiry = 365 - $daysRemaining;
 
-    // Define the message based on the number of days
+ 
     if ($daysUntilExpiry >= 30) {
         $message = "Your Premium Annually subscription will expire in " . ceil($daysUntilExpiry / 30) . " months.";
     } else if ($daysUntilExpiry >= 5) {
@@ -338,10 +335,10 @@ if ($membership === "Premium Monthly" && $daysRemaining <= 30 && $daysRemaining 
         $message = "Your Premium Annually subscription will expire today.";
     }
 } else {
-    $message = ""; // No special message
+    $message = ""; 
 }
 
-// Display the message in your HTML, where appropriate
+
 if (!empty($message)) {
     echo '<div class="alert alert-warning">' . $message . '</div>';
 }
@@ -362,7 +359,7 @@ if (!empty($message)) {
 require '../connection/connection.php';
 
 $i = 1;
-$username = $_SESSION['username']; // Get the logged-in user's username
+$username = $_SESSION['username']; 
 $query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename
           FROM itemslisting 
           JOIN item_images ON itemslisting.id = item_images.item_id 
@@ -471,18 +468,18 @@ $result = mysqli_query($conn, $query);
                   <div class="card mb-4">
                       <div class="card-body"><center>
                           <h5 class="card-title">' . $row['username'] . '</h5>
-                          <p class="rating">'; // Open the rating container
+                          <p class="rating">'; 
           
               for ($i = 1; $i <= 5; $i++) {
                   echo '<span class="fa fa-star ' . ($i <= $row['rating'] ? 'checked' : '') . '"></span>';
               }
           
-              echo '</p>'; // Close the rating container
+              echo '</p>'; 
               
               echo '<p class="card-text">' . $row['content'] . '</p>
                     <p class="time">Posted on ' . $reviewDate . '</p>
                       </center></div>
-                  </div>'; // Close the card
+                  </div>'; 
           }
           
           
@@ -538,15 +535,15 @@ $result = mysqli_query($conn, $query);
 </div>
 
 <script>
- var box2Content = document.getElementById("box2").innerHTML; // Store the initial content of box2
+ var box2Content = document.getElementById("box2").innerHTML; 
  function showListings() {
-  document.getElementById("box2").style.display = "block"; // Show box2
-  document.getElementById("box3").style.display = "none"; // Hide box3
+  document.getElementById("box2").style.display = "block"; 
+  document.getElementById("box3").style.display = "none"; 
 }
 
 function showReviews() {
-  document.getElementById("box2").style.display = "none"; // Hide box2
-  document.getElementById("box3").style.display = "block"; // Show box3
+  document.getElementById("box2").style.display = "none"; 
+  document.getElementById("box3").style.display = "block"; 
 }
 
   </script>

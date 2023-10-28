@@ -12,14 +12,14 @@
     <link rel="stylesheet" href="bootstrap-5.0.2-dist/css/bootstrap.min.css">
    
    <style>
-  /* Styles from the first <style> section */
+
 
   .checked {
     color: orange;
   }
 
   .carousel-inner {
-    background: white; /* Make the carousel background clear */
+    background: white; 
   }
 
   .carousel-item img {
@@ -28,7 +28,7 @@
   }
 
   .product-info.description {
-    background: transparent; /* Make the description box background clear */
+    background: transparent; 
     padding: 20px;
     border-radius: 5px;
     margin-top: 20px;
@@ -138,11 +138,10 @@
 
   .wishlist-button-container {
     position: absolute;
-    top: 10px; /* Adjust this value to your desired top position */
-    right: 10px; /* Adjust this value to your desired right position */
+    top: 10px; 
+    right: 10px; 
   }
 
-  /* Styles from the second <style> section */
 
   body {
     font-family: Arial, sans-serif;
@@ -156,11 +155,11 @@
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
-    font-size: 20px; /* Adjust the font size as needed */
+    font-size: 20px; 
   }
 
   .rating .fa {
-    margin: 0 5px; /* Adjust the spacing between stars */
+    margin: 0 5px; 
   }
 
   label {
@@ -940,7 +939,6 @@ if (isset($_POST['verify_code'])) {
 }
 ?>
 
-<!-- HTML content goes here -->
 <div class="container">
   <div class="table-responsive" style="padding: 20px; border-radius: 10px; box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1), 0 0 0 2px rgb(255, 83, 83), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);">
     <br>
@@ -1028,24 +1026,24 @@ if (isset($_POST['verify_code'])) {
             return false;
         }
 
-        // if (password === confirmPassword) {
-        //     if (password.length < 8) {
-        //         alert("Password must be at least 8 characters");
-        //         return false;
-        //     }
-        //     if (password.search(/[a-z]/i) < 0) {
-        //         alert("Password must contain at least one letter");
-        //         return false;
-        //     }
-        //     if (password.search(/[0-9]/) < 0) {
-        //         alert("Password must contain at least one digit");
-        //         return false;
-        //     }
-        //     if (password.search(/[!@#$%^&*]/) < 0) {
-        //         alert("Password must contain at least one special character");
-        //         return false;
-        //     }
-        // }
+        if (password === confirmPassword) {
+            if (password.length < 8) {
+                alert("Password must be at least 8 characters");
+                return false;
+            }
+            if (password.search(/[a-z]/i) < 0) {
+                alert("Password must contain at least one letter");
+                return false;
+            }
+            if (password.search(/[0-9]/) < 0) {
+                alert("Password must contain at least one digit");
+                return false;
+            }
+            // if (password.search(/[!@#$%^&*]/) < 0) {
+            //     alert("Password must contain at least one special character");
+            //     return false;
+            // }
+        }
        
         localStorage.setItem("email", email);
 
