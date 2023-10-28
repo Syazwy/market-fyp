@@ -363,7 +363,7 @@ require '../connection/connection.php';
 
 $i = 1;
 $username = $_SESSION['username']; // Get the logged-in user's username
-$query = "SELECT itemslisting.*, MAX (item_images.image_filename) AS image_filename
+$query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename
           FROM itemslisting 
           JOIN item_images ON itemslisting.id = item_images.item_id 
           WHERE itemslisting.username = '$username' 
@@ -376,33 +376,35 @@ $result = mysqli_query($conn, $query);
 <!-- --------------------------------------------------------------- -->
 
 <?php if (mysqli_num_rows($result) > 0) : ?>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
-            <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                <div class="card" style="width: 150px; height: 200px; border:none">
-                    <div class="image-container" style="height: 50%;">
-                        <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" alt="Product Image" style="max-height: 100%;">
-                    </div>
-                    <div class="card-content">
-                        <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?php echo $row["name"]; ?></p>
-                        <h5><b>$<?php echo $row["price"]; ?></b></h5>
-                        <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
-                    </div>
-
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-6 g-4">
+        <?php while ($row = mysqli_fetch_assoc($result)) : ?>
+            <div class="card" style="width: 150px; height: 200px; border: none">
+                <div class="image-container" style="height: 50%;">
+                    <img src="../sellers/upload/<?php echo $row['image_filename']; ?>" alt="Product Image" style="max-height: 100%;">
+                </div>
+                <div class="card-content">
+                    <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?php echo $row["name"]; ?></p>
                     <?php
-                          $i = 1;
-                          $rows = mysqli_query($conn, "SELECT * from itemslisting  ORDER BY id DESC ");
-                          
+                    // Check if price is within the valid range (1-999,999)
+                    $price = floatval($row["price"]);
+                    if ($price >= 1 && $price <= 999999) {
+                        echo "<h5><b>$" . number_format($price, 2) . "</b></h5>";
+                    } else {
+                        echo "<h5><b>Invalid Price</b></h5>";
+                    }
                     ?>
+                    <p style="text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><small class="text-body-secondary"><?php echo $row["item_condition"]; ?></small></p>
+                </div>
 
-                    <p>Status: <?php echo $row["status"]; ?></p> <!-- Display status here -->
+                <p>Status: <?php echo $row["status"]; ?></p> <!-- Display status here -->
 
-                    
-                    <center>
+                <center>
                     <div>
-                          <a href="profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary edit"> Edit </a>
-                          <a href="profile_delete_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary delete" onclick='return confirm("Are you sure you want to delete this item?");'><img style="height: 20px;" src="../image/trash.png"></img></a>
+                        <a href="profile_edit_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary edit"> Edit </a>
+                        <a href="profile_delete_item.php?id=<?php echo $row["id"]; ?>" class="btn btn-primary delete" onclick='return confirm("Are you sure you want to delete this item?");'><img style="height: 20px;" src="../image/trash.png"></a>
                     </div>
-                    </center>
+                </center>     
+
 <!-- --------------------------------------------------------------- -->
 
                 </div>                             
