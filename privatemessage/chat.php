@@ -21,7 +21,7 @@ if ($result) {
 <!DOCTYPE html>
 <html lang="en">
 
-<meta http-equiv="refresh" content="10" >
+<meta http-equiv="refresh" content="5" >
 <head>
 <meta charset="UTF-8">
 <title> Message</title>
@@ -158,6 +158,17 @@ $conn->close();
 </form>
 </div>
 </center>
+
+<script>
+  document.querySelector("form").addEventListener("submit", function (event) {
+    var inputElement = document.getElementById("textInput");
+    if (inputElement.value.trim() === "") {
+      event.preventDefault(); // Prevent the form from submitting
+      alert("Please enter a message before sending.");
+    }
+  });
+</script>
+
 
 <script>
 window.addEventListener("load", function() {
