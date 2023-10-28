@@ -44,7 +44,6 @@ if ($stmt) {
     $stmt->execute();
     $stmt->close();
 }
-<<<<<<< Updated upstream
 $mail = new PHPMailer(true);
 try {
     $mail->SMTPDebug = 0;
@@ -72,49 +71,6 @@ $receiptNumber = mt_rand(100000, 999999);
 
 $mail->Subject = 'Receipt Number: ' . $receiptNumber;
 
-=======
-
-$mail = new PHPMailer(true);
-try {
-   
-    $mail->SMTPDebug = 0; 
-
-   
-    $mail->isSMTP();
-
-  
-    $mail->Host = 'smtp.gmail.com';
-
-    
-    $mail->SMTPAuth = true;
-
- 
-    $mail->Username = 'market51bn@gmail.com';
-
-    
-    $mail->Password = 'ixcnouumjkoxtcvs';
-
-   
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-
-   
-    $mail->Port = 587;
-
-   
-    $mail->setFrom('admin.market@gmail.com', 'MarketBN');
-    $mail->addAddress($email);
-
-   
-    $mail->isHTML(true);
-
-
-$receiptNumber = mt_rand(100000, 999999);
-
-
-$mail->Subject = 'Receipt Number: ' . $receiptNumber;
-
-
->>>>>>> Stashed changes
 $mail->Body = "<style>
     body {
         font-family: Arial, sans-serif;
@@ -152,20 +108,11 @@ $mail->Body .= '</div>';
 
 
 
-<<<<<<< Updated upstream
 $mail->isHTML(true);
 
 
 
     $mail->send();
-=======
-
-$mail->isHTML(true);
-
-
-    $mail->send();
-
->>>>>>> Stashed changes
  $sqlUpdateSubscriptionDate = "UPDATE account SET subscriptionDate = NOW() WHERE email = ?";
  $stmtUpdateSubscriptionDate = $conn->prepare($sqlUpdateSubscriptionDate);
 
@@ -174,10 +121,6 @@ $mail->isHTML(true);
      $stmtUpdateSubscriptionDate->execute();
      $stmtUpdateSubscriptionDate->close();
  } else {
-<<<<<<< Updated upstream
-=======
-    
->>>>>>> Stashed changes
      echo "Failed to prepare the SQL statement for updating subscriptionDate.";
  }
 
