@@ -343,18 +343,15 @@ mysqli_stmt_close($stmt);
         <script src="dist/image-uploader.min.js"></script>
         <script>
     $(document).ready(function() {
-     
         if (<?php echo json_encode($submissionLimitReached); ?>) {
-          
             $('#submissionLimitModal').modal('show');
         }
 
         $('.input-images-2').imageUploader({
             maxFiles: 6,
-            imagesInputName: 'photos', 
+            imagesInputName: 'photos',
             preloadedInputName: 'old'
         });
-
 
         $('input').on('focus', function() {
             $(this).parent().find('label').addClass('active');
@@ -363,48 +360,50 @@ mysqli_stmt_close($stmt);
                 $(this).parent().find('label').removeClass('active');
             }
         });
-    });
 
-    function validateForm() {
-    
-    const imageInput = document.querySelector('.input-images-2');
-    if (imageInput.children.length === 0 || imageInput.children.length > 6) {
-        document.getElementById('imageUploadError').style.display = 'block';
-        return false;
-    } else {
-        document.getElementById('imageUploadError').style.display = 'none';
-    }
+        function validatePrice() {
+            const priceInput = document.getElementById('price');
+            const priceValue = priceInput.value.trim();
 
-    const priceInput = document.getElementById('price');
-    priceInput.addEventListener('input', validatePrice);
+            const numericPrice = parseFloat(priceValue.replace(/,/g, '').replace('$', ''));
 
-    function validatePrice() {
-        const priceValue = priceInput.value.trim();
-
-        const numericPrice = parseFloat(priceValue.replace(/,/g, '').replace('$', ''));
-
-        if (isNaN(numericPrice) || numericPrice < 0 || numericPrice > 100000) {
-            alert('Price must be a valid number between $0 and $100,000.');
-            priceInput.value = ''; 
-        } else {
-      
-            priceInput.value = numericPrice.toFixed(2);
+            if (isNaN(numericPrice) || numericPrice <= 0 || numericPrice > 999999) {
+                alert('Price must be a valid number between $0 and $999,999.');
+                priceInput.value = '';
+                return false;
+            } else {
+                priceInput.value = numericPrice.toFixed(2);
+                return true; // Price is valid, allow form submission
+            }
         }
-    }
 
 
-    return true;
-    }
+        // Function to validate the entire form before submission
+        function validateForm() {
+            const priceIsValid = validatePrice();
 
-    function closeModal() {
-     
-        window.location.href = "../home/index.php";
-    }
-    
-    function upgradeMembership() {
-       
-        window.location.href = "../membership/membership.php";
-    }
+            if (priceIsValid && priceIsValid > 0 && priceIsValid <= 999999) {
+                // Add other form validation logic here if needed
+                return true; // Form is valid, allow submission
+            } else {
+                alert('Price must be a valid number between $0 and $999,999.');
+                return false; // Prevent form submission
+            }
+        }
+
+
+        // Attach the form submission validation function to the form
+        $('form').submit(validateForm);
+        });
+
+        function closeModal() {
+            window.location.href = "../home/index.php";
+        }
+
+        function upgradeMembership() {
+            window.location.href = "../membership/membership.php";
+        }
 </script>
+
 </body>
 </html>
