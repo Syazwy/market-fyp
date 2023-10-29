@@ -4,6 +4,24 @@ require_once("../session/session.php");
 
 $username = $_SESSION['username'];
 
+if (isset($_POST['submit'])) {
+    // Existing code...
+
+    $Ncategory = $_POST['category'];
+    $Nname = $_POST['name'];
+    $Nprice = $_POST['price'];
+    $Ndescription = $_POST['description'];
+    $Nlocation = $_POST['location'];
+
+    if ($Ncategory !== $_POST['originalCategory']) {
+        // Update the category in the database
+        $query = "UPDATE `itemslisting` SET `category` = '$Ncategory' WHERE `id` = '$id'";
+        $result = mysqli_query($conn, $query);
+        if (!$result) {
+            die("Query Failed: " . mysqli_error($conn));
+        }
+    }
+
  $query = "SELECT * FROM account WHERE username = '$username'";
  $result = mysqli_query($conn, $query);
 
@@ -14,6 +32,7 @@ if ($result) {
     $name =  $row['username'];
     $profileimage = $row['profile_image'];
    }
+}
 }
 ?>
 
@@ -148,26 +167,26 @@ if(isset($_POST['submit'])){
     
     <div class="subcontainer">
         <label>Select Item Category</label>
-        <select class="form-select form-select-sm" name="category" id="category" aria-label="Small select example" >
-            <option value="null"> </option>
-            <option value="property" <?php if ($row['category'] === 'property') echo 'selected'; ?>>Property</option>
-            <option value="vehicles" <?php if ($row['category'] === 'vehicles') echo 'selected'; ?>>Vehicles</option>
-            <option value="electronics" <?php if ($row['category'] === 'electronics') echo 'selected'; ?>>Electronics</option>
-            <option value="clothing" <?php if ($row['category'] === 'clothing') echo 'selected'; ?>>Clothing</option>
-            <option value="furniture" <?php if ($row['category'] === 'furniture') echo 'selected'; ?>>Furniture</option>
-            <?php echo isset($row['category']) ? $row['category'] : ''; ?>
-        </select>
-        
+        <select class="form-select form-select-sm" name="category" id="category" aria-label="Small select example">
+    <option value="property" <?php if ($row['category'] === 'property') echo 'selected'; ?>>Property</option>
+    <option value="vehicles" <?php if ($row['category'] === 'vehicles') echo 'selected'; ?>>Vehicles</option>
+    <option value="electronics" <?php if ($row['category'] === 'electronics') echo 'selected'; ?>>Electronics</option>
+    <option value="clothing" <?php if ($row['category'] === 'clothing') echo 'selected'; ?>>Clothing</option>
+    <option value="furniture" <?php if ($row['category'] === 'furniture') echo 'selected'; ?>>Furniture</option>
+</select>
+<input type="hidden" name="originalCategory" value="<?php echo $row['category']; ?>">
+
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control" name="name" id="name" placeholder="<?php echo isset($row['name']) ? $row['name'] : ''; ?>" value="<?php echo isset($row['name']) ? $row['name'] : ''; ?>">
         </div>
         </div>
-    <div class="mb-3">
-        <label for="price" class="form-label">Price</label>
-        <input type="text" class="form-control" name="price" id="price" placeholder="<?php echo isset($row['price']) ? $row['price'] : ''; ?>" value="<?php echo isset($row['price']) ? $row['price'] : ''; ?>" >
-    </div>
-    
+        <div class="mb-3">
+    <label for="price" class="form-label">Price</label>
+    <input type="text" class="form-control" name="price" id="price" placeholder="<?php echo isset($row['price']) ? $row['price'] : ''; ?>" value="<?php echo isset($row['price']) ? $row['price'] : ''; ?>" required pattern="^(?!0+$)\d{1,6}(\.\d{1,2})?$">
+</div>
+
+
     <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea class="form-control" name="description" id="description" rows="3"><?php echo isset($row['description']) ? $row['description'] : ''; ?></textarea>
@@ -187,6 +206,37 @@ if(isset($_POST['submit'])){
 
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const priceInput = document.getElementById("price");
+    const submitButton = document.querySelector("button[name='submit']");
+
+    priceInput.addEventListener("input", function () {
+        const price = parseFloat(priceInput.value);
+
+        if (price < 1 || price > 999999) {
+            priceInput.setCustomValidity("Price must be between 1 and 999,999");
+        } else {
+            priceInput.setCustomValidity("");
+        }
+    });
+
+    submitButton.addEventListener("click", function (event) {
+        if (priceInput.checkValidity() === false) {
+            event.preventDefault();
+        }
+    });
+});
+</script>
+
+
+<script>
+function updateCategory(selectElement) {
+    const originalCategoryInput = document.querySelector("input[name='originalCategory']");
+    originalCategoryInput.value = originalCategoryInput.value || selectElement.value;
+}
+</script>
+
 
 </body>
 </html>
