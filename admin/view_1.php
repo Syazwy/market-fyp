@@ -93,7 +93,19 @@ if (isset($_GET['email'])) {
     </div>
   </div>
 </nav>
+<script>
+  document.getElementById('logout-link').addEventListener('click', function (event) {
+    event.preventDefault(); 
 
+    
+    const confirmLogout = confirm("Are you sure you want to log out?");
+
+ 
+    if (confirmLogout) {
+      window.location.href = event.target.href;
+    }
+  });
+</script>
 
 <div class="profile-container">
         <div class="profile-picture">

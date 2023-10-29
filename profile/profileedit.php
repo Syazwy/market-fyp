@@ -67,76 +67,55 @@ require '../connection/connection.php';
 if (isset($_POST['submit'])) {
     $Nusername = $_POST['username'];
     $Nemail = $_SESSION['email'];
-    $Npassword = $_POST['newPassword']; 
+    $Npassword = $_POST['newPassword'];
 
-    $hashedPassword = password_hash($Npassword, PASSWORD_DEFAULT);
+    // Check if the new username already exists in the database
+    $usernameCheckSql = "SELECT * FROM account WHERE username = ?";
+    $usernameCheckStmt = mysqli_prepare($conn, $usernameCheckSql);
+    
+    if ($usernameCheckStmt) {
+        mysqli_stmt_bind_param($usernameCheckStmt, "s", $Nusername);
+        mysqli_stmt_execute($usernameCheckStmt);
+        $usernameResult = mysqli_stmt_get_result($usernameCheckStmt);
 
-    try {
-        mysqli_begin_transaction($conn);
-    
-  
-        if ($Npassword) {
-            $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail', `password` = '$hashedPassword' WHERE `username` = '" . $_SESSION['username'] . "'";
+        if (mysqli_num_rows($usernameResult) > 0) {
+            echo "<script>alert('Username already exists. Please choose another username.');</script>";
         } else {
-            $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail' WHERE `username` = '" . $_SESSION['username'] . "'";
-        }
-        $result = mysqli_query($conn, $query);
-        if (!$result) {
-            throw new Exception("Query Failed: " . mysqli_error($conn));
-        } else {
-            
-        }
-    
-        $tablesToUpdate = ['appeals', 'itemslisting', 'reportbyusers', 'reviews', 'chat'];
-        foreach ($tablesToUpdate as $table) {
-            if ($table === 'chat') {
-  
-                $query = "UPDATE `$table` SET `sender` = '$Nusername' WHERE `sender` = '" . $_SESSION['username'] . "'";
+            // The new username is unique; proceed with the updates
+            $hashedPassword = password_hash($Npassword, PASSWORD_DEFAULT);
+
+            try {
+                mysqli_begin_transaction($conn);
+
+                if ($Npassword) {
+                    $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail', `password` = '$hashedPassword' WHERE `username` = '" . $_SESSION['username'] . "'";
+                } else {
+                    $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail' WHERE `username` = '" . $_SESSION['username'] . "'";
+                }
                 $result = mysqli_query($conn, $query);
                 if (!$result) {
                     throw new Exception("Query Failed: " . mysqli_error($conn));
                 }
+
         
-                $query = "UPDATE `$table` SET `receiver` = '$Nusername' WHERE `receiver` = '" . $_SESSION['username'] . "'";
-                $result = mysqli_query($conn, $query);
-                if (!$result) {
-                    throw new Exception("Query Failed: " . mysqli_error($conn));
-                }
-            } else {
-              
-                $query = "UPDATE `$table` SET `username` = '$Nusername' WHERE `username` = '" . $_SESSION['username'] . "'";
-                $result = mysqli_query($conn, $query);
-                if (!$result) {
-                    throw new Exception("Query Failed: " . mysqli_error($conn));
-                }
-        
-        
-                if ($table === 'reviews') {
-                    $query = "UPDATE `$table` SET `users` = '$Nusername' WHERE `users` = '" . $_SESSION['username'] . "'";
-                    $result = mysqli_query($conn, $query);
-                    if (!$result) {
-                        throw new Exception("Query Failed: " . mysqli_error($conn));
-                    }
-                }
+
+                $_SESSION['username'] = $Nusername;
+                $username = $_SESSION['username'];
+
+                mysqli_commit($conn);
+                echo "<script>alert('Profile has been updated');</script>";
+            } catch (Exception $e) {
+                mysqli_rollback($conn);
+                echo "Transaction failed: " . $e->getMessage();
             }
         }
-        
-        
-        $_SESSION['username'] = $Nusername;
-        $username =  $_SESSION['username'];
-     
-    
-  
-        mysqli_commit($conn);
-  
-} catch (Exception $e) {
-  
-    mysqli_rollback($conn);
-    echo "Transaction failed: " . $e->getMessage();
+
+        mysqli_stmt_close($usernameCheckStmt);
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
 }
 
-
-}
 
 ?>
 
@@ -152,29 +131,9 @@ if (isset($_POST['submit'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
-
 </head>
 
 <body>
-
-
-
-
-    <!-- Profile Information Updated Modal -->
-
-    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" id="profileUpdatedModal">
-  <div class="modal-dialog modal-dialog-centered"">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Updated</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
-      </div>
-      <div class="modal-body">
-        <p>Your profile information has been updated.</p>
-      </div>     
-    </div>
-  </div>
-</div>
 
 
 
@@ -223,7 +182,7 @@ if (isset($_POST['submit'])) {
             if (isset($row['profile_image'])) {
                 echo '<img id="profileImage" src="' . $row['profile_image'] . '" alt="Profile Picture">';
             } else {
-                echo '<img id="profileImage" src="../image/profile.png" alt="Profile Picture">';
+                echo '<img id="profileImage" src="../image/add-user.png" alt="Profile Picture">';
             }
             ?>
         </a>
@@ -235,7 +194,7 @@ if (isset($_POST['submit'])) {
 <div class="container">
     <div class="row row-cols-1 row-cols-md-1 g-4">
         <div class="col border1">
-        <form action="profileedit.php?id=<?php echo $id; ?>" method="post" enctype="multipart/form-data">
+        <form action="profileedit.php?id=<?php echo $id; ?>" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" name="username" id="username" value="<?php echo $username ;?>">
@@ -281,22 +240,49 @@ if (isset($_POST['submit'])) {
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+<script>
+function validatePassword(password) {
+    if (password.length < 8) {
+        alert("Password must be at least 8 characters");
+        return false;
+    }
+    if (!/[a-zA-Z]/.test(password)) {
+        alert("Password must contain at least one letter");
+        return false;
+    }
+    if (!/\d/.test(password)) {
+        alert("Password must contain at least one digit");
+        return false;
+    }
+    return true; 
+}
+</script>
+
+<script>
+function validateForm() {
+    const newPassword = document.getElementById('newPassword').value;
+    if (newPassword !== "" && !validatePassword(newPassword)) {
+        return false; 
+    }
+    return true; 
+}
+</script>
+<script>
+function showProfileUpdatedModal() {
+    $('#profileUpdatedModal').modal('show');
+}
+</script>
+
 
 <script>
 function togglePasswordVisibility(inputId) {
     const passwordInput = document.getElementById(inputId);
     if (passwordInput.type === "password") {
-        passwordInput.type = "text"; // Change to text to reveal the password
+        passwordInput.type = "text"; 
     } else {
-        passwordInput.type = "password"; // Change back to password to hide the password
+        passwordInput.type = "password"; 
     }
 }
-</script>
-<script>
-   function modalUpdated() {
-    jQuery("#profileUpdatedModal").modal("show");
-}
-
 </script>
 
 <script>
@@ -306,7 +292,8 @@ function updateProfileImage(newImageSrc) {
 }
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

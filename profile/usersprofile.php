@@ -29,65 +29,58 @@ if ($result2) {
 ?>
 
 <?php
-
-require_once("../session/session.php");
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['content']) && isset($_POST['rating'])) {
-    $content = $_POST['content'];
-    $rating = $_POST['rating'];
-    $users = $_POST['username']; 
-    $usersemail = $_POST['email'];
-    $myusername = $_SESSION['username']; 
-    $currentDateTime = new DateTime();
-    $timedate = $currentDateTime->format('Y-m-d H:i:s');
-
-
-    $stmt = $conn->prepare("INSERT INTO reviews (username, content, rating, time, users) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssdss", $myusername, $content, $rating, $timedate, $users);
-    
-    if ($stmt->execute()) {
-     
-    } else {
-    
-        echo "Error: " . $stmt->error;
-    }
-
-    $stmt->close();
-    
-}
-?>
-
-<?php
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    $user = $_POST['username'];
-    $usersemail = $_POST['usersemail'];
-    $item_id = $_POST['item_id'];
-    $typeReport = $_POST['typeReport'];
-    $report_reason = $_POST['report_reason'];
-    
-   
-    $sql = "INSERT INTO reportbyusers (typeReport, reason, usersemail, username ) VALUES ('$typeReport', '$report_reason', '$usersemail ', '$user')";
-    
-    if ($conn->query($sql) === TRUE) {
-      
-        echo '<script type="text/javascript">
-            $(document).ready(function(){
-                $("#successModal").modal("show");
-            });
-        </script>';
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+    if (isset($_POST['form_type'])) {
+        $form_type = $_POST['form_type'];
+
+        if ($form_type === "review" && isset($_POST['content']) && isset($_POST['rating'])) {
+            // Handle review submission
+            $content = $_POST['content'];
+            $rating = $_POST['rating'];
+            $usersemail = $_POST['usersemail']; // Set the email from the form
+            $user = $_POST['username']; // Set the username from the form
+            $myusername = $_SESSION['username'];
+            $currentDateTime = new DateTime();
+            $timedate = $currentDateTime->format('Y-m-d H:i:s');
+
+            $stmt = $conn->prepare("INSERT INTO reviews (username, content, rating, time, users) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssdss", $myusername, $content, $rating, $timedate, $user);
+
+            if ($stmt->execute()) {
+                header("Location: usersprofile.php?email=" . $usersemail . "&username=" . $user);
+            } else {
+                // Handle the error
+                echo "Error: " . $stmt->error;
+            }
+
+            $stmt->close();
+        } elseif ($form_type === "report") {
+            // Handle report submission
+            $user = $_POST['username'];
+            $usersemail = $_POST['usersemail'];
+            $item_id = $_POST['item_id'];
+            $typeReport = $_POST['typeReport'];
+            $report_reason = $_POST['report_reason'];
+
+            $sql = "INSERT INTO reportbyusers (typeReport, reason, usersemail, username) VALUES ('$typeReport', '$report_reason', '$usersemail ', '$user')";
+
+            if ($conn->query($sql) === TRUE) {
+                // Report was successfully inserted
+                // You can redirect or show a success message if needed
+            } else {
+                // Handle the error
+                echo "Error: " . $sql . "<br>" . $conn->error;
+            }
+
+            $conn->close();
+
+            header("Location: usersprofile.php?email=" . $usersemail . "&username=" . $user);
+            exit;
+        }
     }
-    
-
-    $conn->close();
-
-header("Location: usersprofile.php?email=" . $usersemail . "&username=" . $user);
-exit; 
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -100,7 +93,7 @@ exit;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/flatly/bootstrap.min.css">
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-transparent">
@@ -273,6 +266,7 @@ if ($result->num_rows > 0) {
             <div class="modal-body">
                 <!-- Add a form for reporting the item here -->
                 <form id="reportForm" method="post" action="usersprofile.php" onsubmit="return validateForm();">
+                <input type="hidden" name="form_type" value="report">
                     <input type="hidden" name="item_id" id="reportItemID">
                     <div class="form-group">
                         <label for="type_of_report" name="typeReport" required>Type of Report</label>
@@ -355,6 +349,7 @@ function validateForm() {
       </div>
       <div class="modal-body">
       <form method="post" action="usersprofile.php">
+      <input type="hidden" name="form_type" value="review">
       <input type="hidden" name="usersemail" value="<?php echo $usersemail; ?>">
     <input type="hidden" name="username" value="<?php echo $user; ?>">
        
