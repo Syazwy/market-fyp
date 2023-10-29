@@ -177,37 +177,41 @@ exit;
   <div  id="box1">
     <div class="user-info"> 
         
-      <?php 
-      echo "<h3>" . $user . "</h3><br>";
+    <?php
+echo "<h3>" . $user . "</h3><br>";
 
-      $result = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$user'");
-    
-      if ($result->num_rows > 0) {
-          $row = $result->fetch_assoc();
-          $averageRating = $row['avg_rating'];
-          $totalReviews = $row['total_reviews'];
-          
-      
-          function generateStarRating($rating) {
-            $output = '';
-            for ($i = 1; $i <= 5; $i++) {
-                if ($i <= ceil($rating)) { 
-                    $output .= '<i class="fa fa-star checked"></i>';
-                } else {
-                    $output .= '<i class="fa fa-star"></i>';
-                }
+$result = $conn->query("SELECT AVG(rating) as avg_rating, COUNT(*) as total_reviews FROM reviews WHERE users = '$user'");
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $averageRating = $row['avg_rating'];
+    $totalReviews = $row['total_reviews'];
+
+    function generateStarRating($rating) {
+        $output = '';
+        // Calculate the number of full stars
+        $fullStars = floor($rating);
+        // Calculate the remaining fraction
+        $fraction = $rating - $fullStars;
+
+        for ($i = 1; $i <= 5; $i++) {
+            if ($i <= $fullStars) {
+                $output .= '<i class="fa fa-star checked"></i>';
+            } elseif ($i == $fullStars + 1 && $fraction >= 0.5) {
+                $output .= '<i class="fa fa-star checked"></i>';
+            } else {
+                $output .= '<i class="fa fa-star"></i>';
             }
-            return $output;
         }
-        
-          
-        echo generateStarRating($averageRating) . ' (' . $totalReviews . ' reviews)';
+        return $output;
+    }
 
-        } else {
-          echo '- No reviews available.';
-      }
-       
-      ?> 
+    echo generateStarRating($averageRating) . ' (' . $totalReviews . ' reviews)';
+} else {
+    echo '- No reviews available.';
+}
+?>
+
       <br>
         <p></p>  
     <?php
@@ -351,7 +355,7 @@ function validateForm() {
       </div>
       <div class="modal-body">
       <form method="post" action="usersprofile.php">
-      <input type="hidden" name="email" value="<?php echo $usersemail; ?>">
+      <input type="hidden" name="usersemail" value="<?php echo $usersemail; ?>">
     <input type="hidden" name="username" value="<?php echo $user; ?>">
        
     <div class="modal-body">
