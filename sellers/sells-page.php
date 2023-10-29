@@ -266,9 +266,7 @@ mysqli_stmt_close($stmt);
         <div class="container">
             <br>
                 <div id="imagePreview" class="subcontainer" style="background: #FFEAEA; width: 550px;">
-                <div id="imageUploadError" class="alert alert-danger" style="display: none;">
-                    Please upload at least one image.
-                </div>
+                
 
                 <form action="" method="post" autocomplete="off" enctype="multipart/form-data" onsubmit="return validateForm()">
                     <div class="input-images">
@@ -277,14 +275,16 @@ mysqli_stmt_close($stmt);
                         </center>
                     </div>
                     <div class="input-field">
-                        <div class="input-images-2" style="padding-top: .5rem; padding-bottom: .5rem;"></div>
+                        <div class="input-images-2" style="padding-top: .5rem; padding-bottom: .5rem;" required>
+                    </div>
+                     <!-- Add the error message div -->
+                     <div id="imageUploadError" class="alert alert-danger" style="display: none;">
+                        Please upload at least one image.
+                    </div>
                     </div>
                     <!-- Uploaded images will be displayed here -->
                     
-                    <!-- Add the error message div -->
-                    <div id="imageUploadError" class="alert alert-danger" style="display: none;">
-                        Please upload at least one image.
-                    </div>
+                   
                     <!-- Uploaded images will be displayed here -->
                 </div>
                 <br>
@@ -311,9 +311,10 @@ mysqli_stmt_close($stmt);
                     <input type="text" class="form-control" name="name" id="name" placeholder="" required>
                 </div>
                 <div class="mb-3">
-                    <label for="price" class="form-label">Price</label>
-                    <input type="number" step="0.01" class="form-control" name="price" id="price" placeholder="" required>
-                </div>
+    <label for="price" class="form-label">Price</label>
+    <input type="number" step="0.01" class="form-control" name="price" id="price" placeholder="" required>
+</div>
+
                 <div class="mb-3">
     <label for="description" class="form-label">Description</label>
     <textarea class="form-control" name="description" id="description" rows="3" required minlength="4" maxlength="200" pattern=".{10,200}" title="Description must be between 10 and 200 characters long."></textarea>
@@ -337,59 +338,70 @@ mysqli_stmt_close($stmt);
         <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
         <script src="dist/image-uploader.min.js"></script>
         <script>
-    $(document).ready(function() {
-        if (<?php echo json_encode($submissionLimitReached); ?>) {
-            $('#submissionLimitModal').modal('show');
-        }
+   $(document).ready(function () {
+    if (<?php echo json_encode($submissionLimitReached); ?>) {
+        $('#submissionLimitModal').modal('show');
+    }
 
-        $('.input-images-2').imageUploader({
-            maxFiles: 6,
-            imagesInputName: 'photos',
-            preloadedInputName: 'old'
-        });
-
-        $('input').on('focus', function() {
-            $(this).parent().find('label').addClass('active');
-        }).on('blur', function() {
-            if ($(this).val() == '') {
-                $(this).parent().find('label').removeClass('active');
-            }
-        });
-
-        function validatePrice() {
-            const priceInput = document.getElementById('price');
-            const priceValue = priceInput.value.trim();
-            // Remove any non-numeric characters except the dot (for cents)
-            const numericPrice = parseFloat(priceValue.replace(/[^0-9.]/g, ''));
-
-            if (isNaN(numericPrice) || numericPrice <= 1 || numericPrice > 999999) {
-                return false;
-            }
-
-            return true;
-        }
-
-        function validateForm() {
-            const priceIsValid = validatePrice();
-
-            if (priceIsValid) {
-                return true;
-            } else {
-                alert('Price must be a valid number in between $0 and $999,999.');
-                return false;
-            }
-        }
-
-        $('form').submit(validateForm);
+    $('.input-images-2').imageUploader({
+        maxFiles: 6,
+        imagesInputName: 'photos',
+        preloadedInputName: 'old'
     });
-    
-        function closeModal() {
-            window.location.href = "../home/index.php";
-        }
 
-        function upgradeMembership() {
-            window.location.href = "../membership/membership.php";
+    $('input').on('focus', function () {
+        $(this).parent().find('label').addClass('active');
+    }).on('blur', function () {
+        if ($(this).val() == '') {
+            $(this).parent().find('label').removeClass('active');
         }
+    });
+    function validatePrice() {
+    const priceInput = document.getElementById('price');
+    const priceValue = parseFloat(priceInput.value);
+
+    if (isNaN(priceValue) || priceValue < 1 || priceValue > 999999) {
+        return false;
+    }
+
+    if (!/^\d+(\.\d{1,2})?$/.test(priceInput.value)) {
+        return false;
+    }
+
+    return true;
+}
+
+function validateForm() {
+    const priceIsValid = validatePrice();
+
+    // Check if at least one image is uploaded
+    const uploadedImages = document.querySelectorAll('.input-images-2 img');
+    if (uploadedImages.length === 0) {
+        document.getElementById('imageUploadError').style.display = 'block';
+        return false;
+    } else {
+        document.getElementById('imageUploadError').style.display = 'none';
+    }
+
+    if (priceIsValid) {
+        return true;
+    } else {
+        alert('Price must be a valid number from $1 - $999,999');
+        return false;
+    }
+}
+
+    $('form').submit(validateForm);
+});
+
+function closeModal() {
+    window.location.href = "../home/index.php";
+}
+
+function upgradeMembership() {
+    window.location.href = "../membership/membership.php";
+}
+
 </script>
 
 </body>

@@ -8,8 +8,6 @@
   overflow: auto; 
 }
 
-
-
 .order-request {
     position: absolute;
     background-color: white;
@@ -50,7 +48,7 @@ a.nav-link.active {
     width: 350px;
     height: 40px;
     border: none;
-    color: white;
+    color: white; 
 }
 
 a{
