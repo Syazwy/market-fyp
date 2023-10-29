@@ -137,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['complete-button'])) {
                 echo '<p>Seller: ' . $row['username'] . '</p>';
                
                 echo '<a href="../privatemessage/chat.php?id=' . $itemId . '&username=' . urlencode($row['username']) . '&name=' . urlencode($row['name']) . '&description=' . urlencode($row['description']) . '&price=' . urlencode($row['price']) . '" class="btn btn-primary">Chat</a>';
-                echo '<br><a href="../profile/usersprofile.php?username=' . urlencode($row['username']) . '&email=' . urlencode($row['email']) . '" class="btn btn-secondary">Check Seller</a>';
+                echo '<br><a href="../profile/usersprofile.php?username=' . urlencode($row['username']) . '&email=' . urlencode($row['email']) . '" class="btn btn-secondary">View Seller</a>';
                 echo '<br><form method="POST" id="complete-form-' . $itemId . '">';
                 echo '<button class="complete-button" style="width:300px; color:white;" onclick="confirmMarkCompleted(' . $itemId . ')" name="complete-button" value="' . $itemId . '">Complete</button>';
                 echo '</form>';
@@ -204,7 +204,7 @@ window.location.href = url;
                 echo '<p>Price: $' . $row['price'] . '</p>';
                 echo '<p>Condition: ' . $row['item_condition'] . '</p>';
                 echo '<p>Seller: ' . $row['username'] . '</p>';
-                echo '<a href="../profile/usersprofile.php?username=' . urlencode($row['username']) . '&email=' . urlencode($row['email']) . '" class="btn btn-secondary">Check Seller</a>';
+                echo '<a href="../profile/usersprofile.php?username=' . urlencode($row['username']) . '&email=' . urlencode($row['email']) . '" class="btn btn-secondary">View Seller</a>';
                 echo '</div>'; 
             }
         } else {
