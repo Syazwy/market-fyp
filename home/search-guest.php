@@ -55,7 +55,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo '</div>';
     echo '</div>';
     echo '</div>';
-    echo '<a href="../ProductInfo/ProductInfo-guest.php?id=' . $row["id"] . '">';
+    echo '<a href="../productinfo/productinfo-guest.php?id=' . $row["id"] . '">';
 
     if (isset($row["image_filename"])) {
         echo '<img src="../sellers/upload/' . $row['image_filename'] . '" class="card-img-top" width="150px" height="150px">';
