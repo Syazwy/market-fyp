@@ -18,9 +18,9 @@ if (isset($_POST['id'])) {
         $updateCountStmt->bind_param('s', $yourEmail);
 
         if ($updateCountStmt->execute()) {
-            echo "Item removed successfully, and wishlist count updated.";
+            echo "Item removed successfully";
         } else {
-            echo "Item removed successfully, but there was an error updating the wishlist count: " . $conn->error;
+            echo "there was an error updating on the wishlist" . $conn->error;
         }
 
         $updateCountStmt->close();
