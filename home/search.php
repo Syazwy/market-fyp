@@ -55,7 +55,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo '</div>';
     echo '</div>';
     echo '</div>';
-    echo '<a href="../productinfo/productinfo.php?id=' . $row["id"] . '">';
+    echo '<a href="../ProductInfo/ProductInfo.php?id=' . $row["id"] . '">';
 
   
     if (isset($row["image_filename"])) {
