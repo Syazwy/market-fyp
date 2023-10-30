@@ -4,11 +4,14 @@ require '../connection/connection.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && isset($_POST['userEmail'])) {
         $userEmail = $_POST['userEmail'];
+        $userEmail = trim($userEmail);
         echo "Action: " . $_POST['action'] . "<br>";
         echo "User Email: " . $userEmail . "<br>";
         if ($_POST['action'] === 'ban') {
+            echo "Banning user: $userEmail<br>";
             $updateQuery = "UPDATE `account` SET status = 'Banned' WHERE email = '$userEmail'";
         } elseif ($_POST['action'] === 'unban') {
+            echo "Unbanning user: $userEmail<br>";
             $updateQuery = "UPDATE `account` SET status = 'Active' WHERE email = '$userEmail'";
         }
         

@@ -102,6 +102,8 @@ require '../connection/connection.php';
       <div class="col border1">
 
       <?php
+
+      require '../connection/connection.php';
      echo "<table cellspacing='0' cellpadding='20'>";
      echo "<tr><td><h1>Report</h1></td></tr>";
      echo "<tr><td>#</td><td>Name</td><td>Status</td><td>Reason</td><td>Type of report</td><td>Action</td><td>Remove</td></tr>";
@@ -131,27 +133,23 @@ require '../connection/connection.php';
            echo '<td><strong style="color: ' . ($userStatus === "Banned" ? 'red' : 'green') . ';">' . $userStatus . '</strong></td>';
            echo "<td style='max-width: 300px; overflow: auto;'>" . $row["reason"] . "</td>";
            echo "<td>" . $row["typeReport"] . "</td>";
+      
            echo "<td>";
-          
-           echo "<form action='ban_2.php' method='POST'>";
-           echo "<input type='hidden' name='action' value='ban'>"; 
-           echo "<input type='hidden' name='userEmail' value='" . $userEmail . "'>";
            if ($userStatus === "Active") {
-            echo "<form action='ban_2.php' method='POST'>";
-            echo "<input type='hidden' name='action' value='ban'>"; 
-            echo "<input type='hidden' name='userEmail' value='" . $userEmail . "'>";
-            echo "<input type='submit' value='Ban' class='btn btn-danger' onclick='return confirm(\"Are you sure you want to ban this person?\");'>";
-            echo "</form>";
-        } else {
-            echo "<form action='ban_2.php' method='POST'>";
-            echo "<input type='hidden' name='action' value='unban'>";
-            echo "<input type='hidden' name='userEmail' value='" . $userEmail . "'>";
-            echo "<input type='submit' value='Unban' class='btn btn-success' onclick='return confirm(\"Are you sure you want to unban this person?\");'>";
-            echo "</form>";
-        }
-
+               echo "<form action='ban_2.php' method='POST'>";
+               echo "<input type='hidden' name='action' value='ban'>"; 
+               echo "<input type='hidden' name='userEmail' value='" . $userEmail . "'>";
+               echo "<input type='submit' value='Ban' class='btn btn-danger' onclick='return confirm(\"Are you sure you want to ban this person?\");'>";
+               echo "</form>";
+           } else {
+               echo "<form action='ban_2.php' method='POST'>";
+               echo "<input type='hidden' name='action' value='unban'>";
+               echo "<input type='hidden' name='userEmail' value='" . $userEmail . "'>";
+               echo "<input type='submit' value='Unban' class='btn btn-success' onclick='return confirm(\"Are you sure you want to unban this person?\");'>";
+               echo "</form>";
+           }
            echo "</td>";
-     
+         
            echo "<td>";
            echo "<form action='remove_1.php' method='POST'>           ";
            echo "<input type='hidden' name='rowId' value='" . $row['id'] . "'>";
