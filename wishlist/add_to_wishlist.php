@@ -22,7 +22,7 @@ if (!$result) {
 
 if (mysqli_num_rows($result) > 0) {
     
-    echo "<script>alert('You already have this item in your wishlist'); window.location.href = '../ProductInfo/productInfo.php?id=$item_id';</script>";
+    echo "<script>alert('You already have this item in your wishlist'); window.location.href = '../ProductInfo/ProductInfo.php?id=$item_id';</script>";
     mysqli_close($conn);
     exit();
 }
