@@ -192,8 +192,8 @@ if (isset($_POST['submit'])) {
 <div class="container">
     <div class="row row-cols-1 row-cols-md-1 g-4">
         <div class="col border1">
-        <form action="profileedit.php?id=<?php echo $id; ?>" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
+        <form action="profileedit.php?id=<?php echo $id; ?>" method="post" enctype="multipart/form-data" onsubmit="return modalUpdated()">
+ <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" name="username" id="username" value="<?php echo $username ;?>">
             </div>
@@ -206,8 +206,8 @@ if (isset($_POST['submit'])) {
                 </button>
             </div>
         </div>
-            <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px; color: white ;" onclick="modalUpdated()">Confirm</button>
-        </form>
+        <button type="submit" name="submit" style="background-color: #FF5353; width: 100%; border-radius: 10px; padding: 5px; color: white;">Confirm</button>
+ </form>
         </div>
     </div>
 </div>
@@ -245,6 +245,41 @@ function togglePasswordVisibility(inputId) {
     } else {
         passwordInput.type = "password"; // Change back to password to hide the password
     }
+}
+</script>
+<script>
+function modalUpdated() {
+    // Get the new password from the form
+    var newPassword = document.getElementById('newPassword').value;
+
+    // Validate the password
+    if (newPassword && !validatePassword(newPassword)) {
+        // Password is invalid, prevent form submission
+        // alert("Password is invalid. Please fix the issues.");
+        return false;
+    }
+
+    // Continue with form submission if the password is valid
+    return true;
+}
+</script>
+
+
+<script>
+function validatePassword(password) {
+    if (password.length < 8) {
+        alert("Password must be at least 8 characters");
+        return false;
+    }
+    if (password.search(/[a-z]/i) < 0) {
+        alert("Password must contain at least one letter");
+        return false;
+    }
+    if (password.search(/[0-9]/) < 0) {
+        alert("Password must contain at least one digit");
+        return false;
+    }
+    return true;
 }
 </script>
 
