@@ -1,6 +1,18 @@
 <?php
 require '../connection/connection.php';
 session_start();
+
+
+function isUsernameExists($conn, $username) {
+    $query = "SELECT COUNT(*) as count FROM `account` WHERE `username` = '$username'";
+    $result = mysqli_query($conn, $query);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['count'] > 0;
+    }
+    return false;
+}
+
 // Get the user's ID from the URL
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -57,10 +69,15 @@ if(isset($_GET['id'])){
 ?>
 <?php
 require '../connection/connection.php';
+
 if (isset($_POST['submit'])) {
     $Nusername = $_POST['username'];
     $Nemail = $_SESSION['email'];
-    $Npassword = $_POST['newPassword']; // Get the new password from the form
+    $Npassword = $_POST['newPassword'];
+
+    if (isUsernameExists($conn, $Nusername)) {
+        echo '<script>alert("Username already exists. Please choose a different username.");</script>';
+    } else {
     // Hash the new password
     $hashedPassword = password_hash($Npassword, PASSWORD_DEFAULT);
     try {
@@ -111,13 +128,11 @@ if (isset($_POST['submit'])) {
                     }
                 }
             }
-        }
-        
+        }       
         
         $_SESSION['username'] = $Nusername;
         $username =  $_SESSION['username'];
-        // echo $username;
-    
+
         echo '<script>alert("Profile information has been updated.");</script>';
         mysqli_commit($conn);
    // After the profile information is successfully updated, show the modal
@@ -125,6 +140,7 @@ if (isset($_POST['submit'])) {
     // Roll back the transaction if any query fails
     mysqli_rollback($conn);
     echo "Transaction failed: " . $e->getMessage();
+}
 }
 }
 ?>
@@ -246,8 +262,6 @@ function togglePasswordVisibility(inputId) {
         passwordInput.type = "password"; // Change back to password to hide the password
     }
 }
-</script>
-<script>
 function modalUpdated() {
     // Get the new password from the form
     var newPassword = document.getElementById('newPassword').value;
@@ -255,17 +269,13 @@ function modalUpdated() {
     // Validate the password
     if (newPassword && !validatePassword(newPassword)) {
         // Password is invalid, prevent form submission
-        // alert("Password is invalid. Please fix the issues.");
+
         return false;
     }
 
     // Continue with form submission if the password is valid
     return true;
 }
-</script>
-
-
-<script>
 function validatePassword(password) {
     if (password.length < 8) {
         alert("Password must be at least 8 characters");
@@ -281,13 +291,22 @@ function validatePassword(password) {
     }
     return true;
 }
-</script>
 
-<script>
 function updateProfileImage(newImageSrc) {
     var profileImage = document.getElementById('profileImage');
     profileImage.src = newImageSrc;
 }
+
+function isUsernameExists($conn, $username) {
+    $query = "SELECT COUNT(*) as count FROM `account` WHERE `username` = '$username'";
+    $result = mysqli_query($conn, $query);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['count'] > 0;
+    }
+    return false;
+}
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
