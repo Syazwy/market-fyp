@@ -193,8 +193,8 @@ if(isset($_POST['submit'])){
     </div>
     
     <div class="mb-3">
-    <label for="location" class="form-label">Location</label>
-    <select class="form-control" name="location" id="location" aria-label="Small select example">
+    <label for="location" class="form-label">District</label>
+    <select class="form-select form-select-sm" name="location" id="location" aria-label="Small select example">
     
         <option value="Brunei Muara" <?php if(isset($row['location']) && $row['location'] === 'Brunei Muara') echo 'selected'; ?>>Brunei Muara</option>
         <option value="Tutong" <?php if(isset($row['location']) && $row['location'] === 'Tutong') echo 'selected'; ?>>Tutong</option>

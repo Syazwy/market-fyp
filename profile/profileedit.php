@@ -6,18 +6,15 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 }
 
-
 $query = "SELECT * FROM `account` WHERE `id` = '$id'";
 $result = mysqli_query($conn, $query);
 if ($result) {
-    while($row = $result -> fetch_assoc()){
+    while ($row = $result->fetch_assoc()) {
         $username = $row['username'];
     }
 }
 
-
 if (isset($_FILES['newProfileImage'])) {
-
     $uploadDir = 'profileimage/';
 
     // Create the folder if it doesn't exist
@@ -25,12 +22,10 @@ if (isset($_FILES['newProfileImage'])) {
         mkdir($uploadDir, 0755, true);
     }
 
-
     $newProfileImage = $uploadDir . uniqid() . '_' . $_FILES['newProfileImage']['name'];
 
-
     if (move_uploaded_file($_FILES['newProfileImage']['tmp_name'], $newProfileImage)) {
-     
+
         $query = "UPDATE `account` SET `profile_image` = '$newProfileImage' WHERE `id` = '$id'";
         $result = mysqli_query($conn, $query);
         $query2 = "UPDATE `itemslisting` SET `profile_image` = '$newProfileImage' WHERE `username` = '$username'";
@@ -38,25 +33,23 @@ if (isset($_FILES['newProfileImage'])) {
         if (!$result) {
             die("Query Failed: " . mysqli_error($conn));
         }
-        
+
         echo '<script>updateProfileImage("' . $newProfileImage . '");</script>';
     }
 
     header('Location: profileedit.php?id=' . $id);
     exit();
-
 }
-
 ?>
 <?php
-if(isset($_GET['id'])){
+if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    
+
     $query = "SELECT * FROM `account` WHERE `id` = '$id'";
     $result = mysqli_query($conn, $query);
-    if(!$result){
+    if (!$result) {
         die("Query Failed: " . mysqli_error($conn));
-    }else{
+    } else {
         $row = mysqli_fetch_assoc($result);
     }
 }
@@ -69,10 +62,11 @@ if (isset($_POST['submit'])) {
     $Nemail = $_SESSION['email'];
     $Npassword = $_POST['newPassword'];
 
-    // Check if the new username already exists in the database
+    // Check if the new username already exists in the database (commented out for now)
+    /*
     $usernameCheckSql = "SELECT * FROM account WHERE username = ?";
     $usernameCheckStmt = mysqli_prepare($conn, $usernameCheckSql);
-    
+
     if ($usernameCheckStmt) {
         mysqli_stmt_bind_param($usernameCheckStmt, "s", $Nusername);
         mysqli_stmt_execute($usernameCheckStmt);
@@ -81,44 +75,41 @@ if (isset($_POST['submit'])) {
         if (mysqli_num_rows($usernameResult) > 0) {
             echo "<script>alert('Username already exists. Please choose another username.');</script>";
         } else {
-            // The new username is unique; proceed with the updates
-            $hashedPassword = password_hash($Npassword, PASSWORD_DEFAULT);
+    */
+    // The new username is unique; proceed with the updates
+    $hashedPassword = password_hash($Npassword, PASSWORD_DEFAULT);
 
-            try {
-                mysqli_begin_transaction($conn);
+    try {
+        mysqli_begin_transaction($conn);
 
-                if ($Npassword) {
-                    $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail', `password` = '$hashedPassword' WHERE `username` = '" . $_SESSION['username'] . "'";
-                } else {
-                    $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail' WHERE `username` = '" . $_SESSION['username'] . "'";
-                }
-                $result = mysqli_query($conn, $query);
-                if (!$result) {
-                    throw new Exception("Query Failed: " . mysqli_error($conn));
-                }
-
-        
-
-                $_SESSION['username'] = $Nusername;
-                $username = $_SESSION['username'];
-
-                mysqli_commit($conn);
-                echo "<script>alert('Profile has been updated');</script>";
-            } catch (Exception $e) {
-                mysqli_rollback($conn);
-                echo "Transaction failed: " . $e->getMessage();
-            }
+        if ($Npassword) {
+            $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail', `password` = '$hashedPassword' WHERE `username` = '" . $_SESSION['username'] . "'";
+        } else {
+            $query = "UPDATE `account` SET `username` = '$Nusername', `email` = '$Nemail' WHERE `username` = '" . $_SESSION['username'] . "'";
+        }
+        $result = mysqli_query($conn, $query);
+        if (!$result) {
+            throw new Exception("Query Failed: " . mysqli_error($conn));
         }
 
-        mysqli_stmt_close($usernameCheckStmt);
+        $_SESSION['username'] = $Nusername;
+        $username = $_SESSION['username'];
+
+        mysqli_commit($conn);
+        echo "<script>alert('Profile has been updated');</script>";
+    } catch (Exception $e) {
+        mysqli_rollback($conn);
+        echo "Transaction failed: " . $e->getMessage();
+    }
+    // }
+    // mysqli_stmt_close($usernameCheckStmt);
+    /*
     } else {
         echo "Error: " . mysqli_error($conn);
     }
+    */
 }
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
