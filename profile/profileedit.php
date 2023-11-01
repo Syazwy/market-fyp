@@ -129,8 +129,7 @@ if (isset($_POST['submit'])) {
     <link rel="icon" href="../image/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="profilecss_1.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
@@ -149,30 +148,33 @@ if (isset($_POST['submit'])) {
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
             </ul>
         </div>
-
         <?php echo "Hello,&nbsp<b style=\"text-transform: capitalize;\"> " . $username . "</b>"; ?>
         
         <div class="dropdown">
-    <a href="#" class="btn" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-        <?php
-        if (isset($row['profile_image'])) {
-            echo '<img src="' . $row['profile_image'] . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
-        } else {
-            echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
-        }
-        ?>
-    </a>
-
-    <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
-        <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
-        <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
-        <li><a class="dropdown-item" href="../privatemessage/myChat.php">Messages</a></li>
-        <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
-    </ul>
-</div>
-
-    </div>
+          <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
+          <?php 
+            $profileimage = "SELECT * FROM account WHERE id = '$id'";
+            $result = $conn-> query($profileimage);
+            while ($profileimage = $result->fetch_assoc()) {
+              $pimage = $profileimage['profile_image'];
+          }    
+              if (isset($pimage)) {
+                  echo '<img src="' .$pimage . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+              } else {
+                  echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+              }
+              ?>
+          </a>
+      
+          <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
+                      <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
+                      <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
+                      <li><a class="dropdown-item" href="../privatemessage/myChat.php">Messages</a></li>
+                      <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
+          </ul>
+        </div>
+        </div>
 </nav>
 
 <div class="profile-container">
@@ -293,7 +295,7 @@ function updateProfileImage(newImageSrc) {
 </script>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
