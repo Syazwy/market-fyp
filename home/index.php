@@ -84,7 +84,7 @@ mysqli_free_result($result);
 </nav>
 
 <!-- Categories -->
-<div class="offcanvas offcanvas-end catcol" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="background-color: #ffd7d7; padding: 20px;">
+<div class="offcanvas offcanvas-end catcol" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="background-color: #ffd7d7; padding: 20px; overflow-y: auto;">
     <div class="offcanvas-header">
         <h4 class="offcanvas-title" id="offcanvasRightLabel"><b>All Categories</b></h4>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
