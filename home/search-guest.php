@@ -3,7 +3,7 @@ require '../connection/connection.php';
 
 $query = $_GET['query'];
 
-$query = "SELECT itemslisting.*, MAX(item_images.image_filename) AS image_filename
+$query = "SELECT itemslisting.*, MIN(item_images.image_filename) AS image_filename
           FROM itemslisting
           JOIN item_images ON itemslisting.id = item_images.item_id
           JOIN account ON itemslisting.username = account.username
