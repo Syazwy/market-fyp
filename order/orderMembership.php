@@ -120,7 +120,7 @@ if ($result) {
 
     <div>
         <input type="checkbox" class="btn-check" id="btn-check-3-outlined" autocomplete="off" disabled>
-        <label class="btn btn-outline-secondary" for="btn-check-3-outlined">Cash</label>
+        <label class="btn btn-outline-primary" for="btn-check-3-outlined">Cash</label>
     </div>
     <p style="color:#8F8F8F">Pay using cash in person</p>
 

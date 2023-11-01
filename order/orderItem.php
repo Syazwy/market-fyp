@@ -179,13 +179,13 @@ $total = $price + $delivery;
         <div>
             <h4>Payment Method</h4>
             <input type="radio" class="btn-check" name="paymentMethod" id="paypal" autocomplete="off">
-            <label class="btn btn-outline-secondary" for="paypal">Paypal</label>
+            <label class="btn btn-outline-primary" for="paypal">Paypal</label>
         </div>
         <p style="color:#8F8F8F">Pay using PayPal directly to user</p>
 
         <div>
             <input type="radio" class="btn-check" name="paymentMethod" id="cash" autocomplete="off" >
-            <label class="btn btn-outline-secondary" for="cash">Cash</label>
+            <label class="btn btn-outline-primary" for="cash">Cash</label>
         </div>
         <p style="color:#8F8F8F">Pay using cash in person</p>
     </div>
