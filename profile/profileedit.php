@@ -158,38 +158,44 @@ if (isset($_POST['submit'])) {
 <body>
    
 <nav class="navbar navbar-expand-lg bg-transparent">
-    <div class="container">
-        <a class="navbar-brand" href="../home/index.php">
-            <img src="../image/logo.png" width="80" height="80">
-        </a>
-        <div class="collapse navbar-collapse justify-content-center">
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Categories</a></li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="../wishlist/wishlist.php">Wishlist</a></li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
-            </ul>
-        </div>
-        <?php echo "Hello,&nbsp<b style=\"text-transform: capitalize;\"> " . $username . "</b>"; ?>
+  <div class="container">
+    <a class="navbar-brand" href="../home/index.php">
+      <img src="../image/logo.png" width="80" height="80">
+    </a>
+  
+  <div class="collapse navbar-collapse justify-content-center">
+    <ul class="nav nav-pills">
+      <li class="nav-item"><a class="nav-link active" aria-current="page" href="../wishlist/wishlist.php">Wishlist</a></li>
+      <li class="nav-item" id="sellButton"><a class="nav-link active" aria-current="page" href="../sellers/sells-page.php" >Sell</a></li>
+    </ul>
+  </div>
+  <?php echo "Hello,&nbsp<b style=\"text-transform: capitalize;\"> " . $username . "</b>"; ?>
         
-        <div class="dropdown">
-    <a href="#" class="btn" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
-        <?php
-        if (isset($row['profile_image'])) {
-            echo '<img src="' . $row['profile_image'] . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
+  <div class="dropdown">
+    <a href="#" class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none;">
+    <?php 
+      $profileimage = "SELECT * FROM account WHERE id = '$id'";
+      $result = $conn-> query($profileimage);
+      while ($profileimage = $result->fetch_assoc()) {
+        $pimage = $profileimage['profile_image'];
+    }    
+        if (isset($pimage)) {
+            echo '<img src="' .$pimage . '" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
         } else {
             echo '<img src="../image/profile.png" width="50" height="50" class="profile rounded-circle" alt="Profile Picture">';
         }
         ?>
     </a>
+
     <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
-        <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
-        <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
-        <li><a class="dropdown-item" href="../privatemessage/myChat.php">Messages</a></li>
-        <li><a class="dropdown-item" href="../home/index-guest.php" id="logout-link">Log out</a></li>
+    <li><a class="dropdown-item" href="../profile/myprofile.php">My Profile</a></li>
+                <li><a class="dropdown-item" href="../myPurchases/myPurchases.php">My Purchases</a></li>
+                <li><a class="dropdown-item" href="../membership/membership.php">Membership</a></li>
+                <li><a class="dropdown-item" href="../privatemessage/myChat.php">Messages</a></li>
+                <li><a class="dropdown-item" href="../home/index-guest.php" onclick="return confirm('Are you sure you want to logout?')">Log out</a></li>
     </ul>
-</div>
-    </div>
+  </div>
+  </div>
 </nav>
 <div class="profile-container">
     <div class="profile-picture">
