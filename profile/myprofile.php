@@ -111,6 +111,19 @@ if (isset($_FILES['newProfileImage'])) {
   </div>
 </nav>
 <script>
+  document.getElementById('logout-link').addEventListener('click', function (event) {
+    event.preventDefault(); 
+
+
+    const confirmLogout = confirm("Are you sure you want to log out?");
+
+ 
+    if (confirmLogout) {
+      window.location.href = event.target.href;
+    }
+  });
+</script>
+<script>
   var accountStatus = "<?php echo $accountStatus; ?>"; 
 
   window.onload = function displayContentBasedOnStatus() {
